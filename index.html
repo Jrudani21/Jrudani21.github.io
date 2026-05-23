@@ -277,6 +277,8 @@
     transition: background 0.2s, border-color 0.2s;
   }
   .hobby-card:hover { background: var(--bg3); border-color: rgba(200,240,96,0.15); }
+  .hobby-card--featured { grid-column: span 2; }
+  .hobby-card--wide { grid-column: span 2; }
   .hobby-icon {
     width: 48px; height: 48px;
     background: rgba(200,240,96,0.08);
@@ -289,6 +291,47 @@
     font-size: 1.15rem; font-weight: 400; color: var(--text);
   }
   .hobby-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .hobby-photos {
+    display: flex; gap: 0.625rem;
+    overflow-x: auto; width: 100%;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+    margin-top: 0.25rem;
+  }
+  .hobby-photos::-webkit-scrollbar { display: none; }
+  .hobby-photos img {
+    width: 130px; height: 98px;
+    object-fit: cover; border-radius: 7px;
+    flex-shrink: 0; cursor: pointer;
+    border: 1px solid var(--border);
+    transition: opacity 0.2s, transform 0.2s, border-color 0.2s;
+  }
+  .hobby-photos img:hover {
+    opacity: 0.85; transform: scale(1.03);
+    border-color: rgba(200,240,96,0.35);
+  }
+
+  /* LIGHTBOX */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 500;
+    background: rgba(0,0,0,0.93);
+    display: flex; align-items: center; justify-content: center;
+    cursor: zoom-out;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.22s ease;
+  }
+  .lightbox.active { opacity: 1; pointer-events: all; }
+  .lightbox img {
+    max-width: 90vw; max-height: 88vh;
+    object-fit: contain; border-radius: 6px;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.6);
+  }
+  .lightbox-close {
+    position: absolute; top: 1.5rem; right: 2rem;
+    font-family: 'DM Mono', monospace; font-size: 12px;
+    color: rgba(255,255,255,0.45); letter-spacing: 0.1em;
+    pointer-events: none;
+  }
 
   /* ABOUT */
   .about-grid {
@@ -357,6 +400,7 @@
     .hero-inner { flex-direction: column-reverse; gap: 2rem; }
     .avatar-wrap { width: 160px; height: 160px; }
     .hobbies-grid { grid-template-columns: repeat(2, 1fr); }
+    .hobby-card--featured, .hobby-card--wide { grid-column: span 2; }
   }
   @media (max-width: 900px) {
     nav { padding: 1rem 2rem; }
@@ -371,6 +415,7 @@
   }
   @media (max-width: 600px) {
     .hobbies-grid { grid-template-columns: 1fr; }
+    .hobby-card--featured, .hobby-card--wide { grid-column: span 1; }
   }
 </style>
 </head>
@@ -626,7 +671,7 @@
   <h2 class="section-title">Interests &amp; Hobbies</h2>
   <div class="hobbies-grid fade-in">
 
-    <div class="hobby-card">
+    <div class="hobby-card hobby-card--featured">
       <div class="hobby-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c8f060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <rect x="4" y="6" width="16" height="10" rx="2"/>
@@ -637,9 +682,14 @@
       </div>
       <h3 class="hobby-title">PC Building</h3>
       <p class="hobby-desc">Designing and assembling custom rigs — from selecting components to cable management and overclocking. The hardware side of computing is as satisfying as the software.</p>
+      <div class="hobby-photos">
+        <img src="assets/hobbies/pc-internals.jpg" alt="Custom white PC build — ASUS RTX GPU and AIO liquid cooling inside">
+        <img src="assets/hobbies/pc-case-exterior.jpg" alt="White PC case with blue RGB lighting">
+        <img src="assets/hobbies/pc-desk-setup.jpg" alt="Gaming desk setup with monitor, keyboard, and headset">
+      </div>
     </div>
 
-    <div class="hobby-card">
+    <div class="hobby-card hobby-card--featured">
       <div class="hobby-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c8f060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/>
@@ -650,6 +700,11 @@
       </div>
       <h3 class="hobby-title">Circuits &amp; Electronics</h3>
       <p class="hobby-desc">Hands-on work with breadboards, microcontrollers, and circuit design. There's something deeply satisfying about making physical things respond to logic.</p>
+      <div class="hobby-photos">
+        <img src="assets/hobbies/circuits-electronics-desk.jpg" alt="Electronics desk with breadboard, microcontroller, and multimeter">
+        <img src="assets/hobbies/circuits-cloud-chamber.jpg" alt="Cloud chamber particle physics experiment with LEDs">
+        <img src="assets/hobbies/circuits-microcontroller.jpg" alt="Breadboard and microcontroller project with colorful jumper wires">
+      </div>
     </div>
 
     <div class="hobby-card">
@@ -676,7 +731,7 @@
       <p class="hobby-desc">Playing across genres — strategy, RPGs, and competitive titles. Gaming honed my instinct for systems thinking and pattern recognition long before stats did.</p>
     </div>
 
-    <div class="hobby-card" style="grid-column: span 1;">
+    <div class="hobby-card hobby-card--wide">
       <div class="hobby-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c8f060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
@@ -756,7 +811,7 @@
   <p style="color: var(--muted); font-size: 15px; max-width: 400px; margin: 0 auto 2.5rem;">
     Open to data analyst internships and entry-level roles. Feel free to reach out.
   </p>
-  <a href="Janak25rudani@Icloud.com" class="contact-email">Janak25rudani@Icloud.com</a>
+  <a href="mailto:rudanijay3@gmail.com" class="contact-email">rudanijay3@gmail.com</a>
   <div class="social-links">
     <a href="https://github.com/Jrudani21" target="_blank" class="social-link">↗ GitHub</a>
   </div>
@@ -767,11 +822,31 @@
   <span>Winnipeg, MB · Data Analyst</span>
 </footer>
 
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <span class="lightbox-close">ESC / click to close</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
 <script>
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.1 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  document.querySelectorAll('.hobby-photos img').forEach(img => {
+    img.addEventListener('click', () => {
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightbox.classList.add('active');
+    });
+  });
+  lightbox.addEventListener('click', () => lightbox.classList.remove('active'));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') lightbox.classList.remove('active');
+  });
 </script>
 </body>
 </html>
