@@ -9,15 +9,15 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0e0f0e;
-    --bg2: #161714;
-    --bg3: #1e1f1c;
-    --accent: #c8f060;
-    --accent2: #7fe89a;
-    --text: #e8e6df;
-    --muted: #888880;
+    --bg: #0f0c0c;
+    --bg2: #140e0e;
+    --bg3: #1c1414;
+    --accent: #d9615a;
+    --accent2: #e08880;
+    --text: #ede6e0;
+    --muted: #847470;
     --border: rgba(255,255,255,0.08);
-    --card-bg: #181916;
+    --card-bg: #160e0e;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -35,7 +35,7 @@
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; justify-content: space-between; align-items: center;
     padding: 1.25rem 4rem;
-    background: rgba(14,15,14,0.88);
+    background: rgba(15,12,12,0.88);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
   }
@@ -45,6 +45,7 @@
     color: var(--accent);
     letter-spacing: 0.1em;
     text-decoration: none;
+    text-shadow: 0 0 10px rgba(217,97,90,0.5);
   }
   .nav-links { display: flex; gap: 2.5rem; list-style: none; }
   .nav-links a {
@@ -64,7 +65,7 @@
     content: '';
     position: absolute; top: -200px; right: -200px;
     width: 700px; height: 700px;
-    background: radial-gradient(circle, rgba(200,240,96,0.06) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(217,97,90,0.07) 0%, transparent 70%);
     pointer-events: none;
   }
   .hero-inner { display: flex; align-items: center; gap: 4rem; }
@@ -103,6 +104,7 @@
     font-size: 12px; color: var(--accent);
     letter-spacing: 0.2em; text-transform: uppercase;
     margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(217,97,90,0.5);
   }
   .hero-name {
     font-family: 'DM Serif Display', serif;
@@ -110,7 +112,7 @@
     line-height: 1.0; font-weight: 400; color: var(--text);
     margin-bottom: 0.25rem;
   }
-  .hero-name em { font-style: italic; color: var(--accent); }
+  .hero-name em { font-style: italic; color: var(--accent); text-shadow: 0 0 20px rgba(217,97,90,0.5), 0 0 40px rgba(217,97,90,0.2); }
   .hero-title {
     font-family: 'DM Serif Display', serif;
     font-size: clamp(1rem, 2.5vw, 1.6rem);
@@ -124,12 +126,13 @@
   .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
   .btn-primary {
     display: inline-flex; align-items: center; gap: 8px;
-    background: var(--accent); color: #0e0f0e;
+    background: var(--accent); color: #fff;
     padding: 0.75rem 2rem; border-radius: 4px;
     font-size: 13px; font-weight: 500; letter-spacing: 0.05em;
-    text-decoration: none; transition: opacity 0.2s, transform 0.2s;
+    text-decoration: none; transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 14px rgba(217,97,90,0.45), 0 0 28px rgba(217,97,90,0.18);
   }
-  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); box-shadow: 0 0 20px rgba(217,97,90,0.6), 0 0 40px rgba(217,97,90,0.28); }
   .btn-ghost {
     display: inline-flex; align-items: center; gap: 8px;
     border: 1px solid var(--border); color: var(--text);
@@ -148,6 +151,7 @@
     font-family: 'DM Serif Display', serif;
     font-size: 2.2rem; color: var(--accent);
     line-height: 1; margin-bottom: 0.25rem;
+    text-shadow: 0 0 14px rgba(217,97,90,0.5);
   }
   .stat-label {
     font-size: 11px; color: var(--muted);
@@ -183,6 +187,7 @@
     letter-spacing: 0.2em; text-transform: uppercase;
     margin-bottom: 1rem;
     display: flex; align-items: center; gap: 1rem;
+    text-shadow: 0 0 8px rgba(217,97,90,0.4);
   }
   .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
   .section-title {
@@ -227,7 +232,7 @@
   }
   .tag.r  { border-color: rgba(100,180,255,0.3); color: #70b8ff; }
   .tag.py { border-color: rgba(255,220,100,0.3); color: #f0c84a; }
-  .tag.hl { border-color: rgba(200,240,96,0.3);  color: var(--accent); }
+  .tag.hl { border-color: rgba(217,97,90,0.3);  color: var(--accent); }
   .project-result {
     font-size: 13px; color: var(--accent2);
     display: flex; align-items: center; gap: 0.5rem;
@@ -255,6 +260,7 @@
     font-family: 'DM Mono', monospace; font-size: 11px;
     color: var(--accent); letter-spacing: 0.15em;
     text-transform: uppercase; margin-bottom: 1.25rem;
+    text-shadow: 0 0 8px rgba(217,97,90,0.4);
   }
   .skill-list { display: flex; flex-direction: column; gap: 0.6rem; }
   .skill-item {
@@ -276,15 +282,16 @@
     display: flex; flex-direction: column; align-items: flex-start; gap: 1rem;
     transition: background 0.2s, border-color 0.2s;
   }
-  .hobby-card:hover { background: var(--bg3); border-color: rgba(200,240,96,0.15); }
+  .hobby-card:hover { background: var(--bg3); border-color: rgba(217,97,90,0.2); }
   .hobby-card--featured { grid-column: span 2; }
   .hobby-card--wide { grid-column: span 2; }
   .hobby-icon {
     width: 48px; height: 48px;
-    background: rgba(200,240,96,0.08);
-    border: 1px solid rgba(200,240,96,0.15);
+    background: rgba(217,97,90,0.08);
+    border: 1px solid rgba(217,97,90,0.18);
     border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 10px rgba(217,97,90,0.1);
   }
   .hobby-title {
     font-family: 'DM Serif Display', serif;
@@ -308,7 +315,7 @@
   }
   .hobby-photos img:hover {
     opacity: 0.85; transform: scale(1.03);
-    border-color: rgba(200,240,96,0.35);
+    border-color: rgba(217,97,90,0.4);
   }
 
   /* LIGHTBOX */
@@ -423,7 +430,7 @@
     .nav-links {
       display: none;
       position: fixed; top: 57px; left: 0; right: 0;
-      background: rgba(14,15,14,0.97);
+      background: rgba(15,12,12,0.97);
       backdrop-filter: blur(12px);
       flex-direction: column; gap: 0;
       border-bottom: 1px solid var(--border);
@@ -509,12 +516,12 @@
         <svg viewBox="0 0 220 220" width="220" height="220" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#1e1f1c"/>
-              <stop offset="100%" stop-color="#0e0f0e"/>
+              <stop offset="0%" stop-color="#1c1414"/>
+              <stop offset="100%" stop-color="#0f0c0c"/>
             </radialGradient>
             <radialGradient id="glowGrad" cx="50%" cy="40%" r="60%">
-              <stop offset="0%" stop-color="#c8f060" stop-opacity="0.12"/>
-              <stop offset="100%" stop-color="#c8f060" stop-opacity="0"/>
+              <stop offset="0%" stop-color="#d9615a" stop-opacity="0.14"/>
+              <stop offset="100%" stop-color="#d9615a" stop-opacity="0"/>
             </radialGradient>
             <clipPath id="circle"><circle cx="110" cy="110" r="108"/></clipPath>
           </defs>
@@ -522,7 +529,7 @@
           <circle cx="110" cy="110" r="110" fill="url(#bgGrad)"/>
           <circle cx="110" cy="110" r="110" fill="url(#glowGrad)"/>
           <!-- circuit board grid lines -->
-          <g clip-path="url(#circle)" stroke="#c8f060" stroke-opacity="0.07" stroke-width="1">
+          <g clip-path="url(#circle)" stroke="#d9615a" stroke-opacity="0.07" stroke-width="1">
             <line x1="0" y1="40" x2="220" y2="40"/>
             <line x1="0" y1="80" x2="220" y2="80"/>
             <line x1="0" y1="120" x2="220" y2="120"/>
@@ -535,14 +542,14 @@
             <line x1="200" y1="0" x2="200" y2="220"/>
           </g>
           <!-- circuit trace paths -->
-          <g clip-path="url(#circle)" stroke="#c8f060" stroke-opacity="0.18" stroke-width="1.5" fill="none">
+          <g clip-path="url(#circle)" stroke="#d9615a" stroke-opacity="0.18" stroke-width="1.5" fill="none">
             <polyline points="40,160 40,120 80,120 80,80 120,80"/>
             <polyline points="160,40 160,80 120,80 120,120 160,120 160,160 120,160"/>
             <polyline points="80,160 80,200"/>
             <polyline points="40,40 80,40 80,80"/>
           </g>
           <!-- circuit nodes -->
-          <g fill="#c8f060" opacity="0.5">
+          <g fill="#d9615a" opacity="0.5">
             <circle cx="80" cy="120" r="3"/>
             <circle cx="120" cy="80" r="3"/>
             <circle cx="160" cy="120" r="3"/>
@@ -553,32 +560,32 @@
           </g>
           <!-- person silhouette — stylised, original -->
           <!-- head -->
-          <circle cx="110" cy="78" r="26" fill="#c8f060" opacity="0.9"/>
+          <circle cx="110" cy="78" r="26" fill="#d9615a" opacity="0.9"/>
           <!-- visor / screen-style face detail -->
-          <rect x="93" y="70" width="34" height="14" rx="4" fill="#0e0f0e" opacity="0.85"/>
+          <rect x="93" y="70" width="34" height="14" rx="4" fill="#0f0c0c" opacity="0.85"/>
           <!-- eye glows -->
-          <circle cx="103" cy="77" r="4" fill="#c8f060" opacity="0.9"/>
-          <circle cx="117" cy="77" r="4" fill="#c8f060" opacity="0.9"/>
+          <circle cx="103" cy="77" r="4" fill="#d9615a" opacity="0.9"/>
+          <circle cx="117" cy="77" r="4" fill="#d9615a" opacity="0.9"/>
           <circle cx="103" cy="77" r="2" fill="#fff" opacity="0.6"/>
           <circle cx="117" cy="77" r="2" fill="#fff" opacity="0.6"/>
           <!-- body / jacket -->
-          <path d="M75 108 Q75 103 80 101 L96 96 Q103 94 110 94 Q117 94 124 96 L140 101 Q145 103 145 108 L148 155 Q148 160 143 160 L77 160 Q72 160 72 155 Z" fill="#c8f060" opacity="0.12"/>
-          <path d="M75 108 Q75 103 80 101 L96 96 Q103 94 110 94 Q117 94 124 96 L140 101 Q145 103 145 108 L148 155 Q148 160 143 160 L77 160 Q72 160 72 155 Z" fill="none" stroke="#c8f060" stroke-width="1.5" opacity="0.4"/>
+          <path d="M75 108 Q75 103 80 101 L96 96 Q103 94 110 94 Q117 94 124 96 L140 101 Q145 103 145 108 L148 155 Q148 160 143 160 L77 160 Q72 160 72 155 Z" fill="#d9615a" opacity="0.12"/>
+          <path d="M75 108 Q75 103 80 101 L96 96 Q103 94 110 94 Q117 94 124 96 L140 101 Q145 103 145 108 L148 155 Q148 160 143 160 L77 160 Q72 160 72 155 Z" fill="none" stroke="#d9615a" stroke-width="1.5" opacity="0.4"/>
           <!-- collar / shirt detail -->
-          <path d="M96 96 L104 115 L110 108 L116 115 L124 96" fill="none" stroke="#c8f060" stroke-width="1" opacity="0.3"/>
+          <path d="M96 96 L104 115 L110 108 L116 115 L124 96" fill="none" stroke="#d9615a" stroke-width="1" opacity="0.3"/>
           <!-- small cpu chip badge on chest -->
-          <rect x="100" y="122" width="20" height="14" rx="2" fill="#0e0f0e" stroke="#c8f060" stroke-width="1" opacity="0.7"/>
-          <line x1="103" y1="122" x2="103" y2="120" stroke="#c8f060" stroke-width="0.8" opacity="0.6"/>
-          <line x1="107" y1="122" x2="107" y2="120" stroke="#c8f060" stroke-width="0.8" opacity="0.6"/>
-          <line x1="113" y1="122" x2="113" y2="120" stroke="#c8f060" stroke-width="0.8" opacity="0.6"/>
-          <line x1="117" y1="122" x2="117" y2="120" stroke="#c8f060" stroke-width="0.8" opacity="0.6"/>
-          <line x1="103" y1="136" x2="103" y2="138" stroke="#c8f060" stroke-width="0.8" opacity="0.6"/>
-          <line x1="107" y1="136" x2="107" y2="138" stroke="#c8f060" stroke-width="0.8" opacity="0.6"/>
-          <line x1="113" y1="136" x2="113" y2="138" stroke="#c8f060" stroke-width="0.8" opacity="0.6"/>
-          <line x1="117" y1="136" x2="117" y2="138" stroke="#c8f060" stroke-width="0.8" opacity="0.6"/>
-          <text x="110" y="132" text-anchor="middle" fill="#c8f060" font-size="5" font-family="monospace" opacity="0.8">JR</text>
+          <rect x="100" y="122" width="20" height="14" rx="2" fill="#0f0c0c" stroke="#d9615a" stroke-width="1" opacity="0.7"/>
+          <line x1="103" y1="122" x2="103" y2="120" stroke="#d9615a" stroke-width="0.8" opacity="0.6"/>
+          <line x1="107" y1="122" x2="107" y2="120" stroke="#d9615a" stroke-width="0.8" opacity="0.6"/>
+          <line x1="113" y1="122" x2="113" y2="120" stroke="#d9615a" stroke-width="0.8" opacity="0.6"/>
+          <line x1="117" y1="122" x2="117" y2="120" stroke="#d9615a" stroke-width="0.8" opacity="0.6"/>
+          <line x1="103" y1="136" x2="103" y2="138" stroke="#d9615a" stroke-width="0.8" opacity="0.6"/>
+          <line x1="107" y1="136" x2="107" y2="138" stroke="#d9615a" stroke-width="0.8" opacity="0.6"/>
+          <line x1="113" y1="136" x2="113" y2="138" stroke="#d9615a" stroke-width="0.8" opacity="0.6"/>
+          <line x1="117" y1="136" x2="117" y2="138" stroke="#d9615a" stroke-width="0.8" opacity="0.6"/>
+          <text x="110" y="132" text-anchor="middle" fill="#d9615a" font-size="5" font-family="monospace" opacity="0.8">JR</text>
           <!-- initials label below -->
-          <text x="110" y="185" text-anchor="middle" fill="#c8f060" font-size="11" font-family="'DM Mono', monospace" letter-spacing="0.15em" opacity="0.7">JANAK.R</text>
+          <text x="110" y="185" text-anchor="middle" fill="#d9615a" font-size="11" font-family="'DM Mono', monospace" letter-spacing="0.15em" opacity="0.7">JANAK.R</text>
         </svg>
       </div>
     </div>
@@ -725,11 +732,11 @@
 
     <div class="hobby-card hobby-card--featured">
       <div class="hobby-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c8f060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d9615a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <rect x="4" y="6" width="16" height="10" rx="2"/>
           <path d="M8 6V4M16 6V4M4 10h16"/>
-          <circle cx="9" cy="13" r="1" fill="#c8f060"/>
-          <circle cx="15" cy="13" r="1" fill="#c8f060"/>
+          <circle cx="9" cy="13" r="1" fill="#d9615a"/>
+          <circle cx="15" cy="13" r="1" fill="#d9615a"/>
         </svg>
       </div>
       <h3 class="hobby-title">PC Building</h3>
@@ -743,11 +750,11 @@
 
     <div class="hobby-card hobby-card--featured">
       <div class="hobby-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c8f060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d9615a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/>
-          <circle cx="12" cy="12" r="1" fill="#c8f060"/>
-          <circle cx="7" cy="12" r="1" fill="#c8f060"/>
-          <circle cx="17" cy="12" r="1" fill="#c8f060"/>
+          <circle cx="12" cy="12" r="1" fill="#d9615a"/>
+          <circle cx="7" cy="12" r="1" fill="#d9615a"/>
+          <circle cx="17" cy="12" r="1" fill="#d9615a"/>
         </svg>
       </div>
       <h3 class="hobby-title">Circuits &amp; Electronics</h3>
@@ -761,7 +768,7 @@
 
     <div class="hobby-card">
       <div class="hobby-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c8f060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d9615a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 18V5l12-2v13"/>
           <circle cx="6" cy="18" r="3"/>
           <circle cx="18" cy="16" r="3"/>
@@ -773,7 +780,7 @@
 
     <div class="hobby-card">
       <div class="hobby-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c8f060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d9615a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M6 3h12l3 9H3L6 3z"/>
           <path d="M3 12v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
           <path d="M10 17h4"/>
@@ -785,7 +792,7 @@
 
     <div class="hobby-card hobby-card--wide">
       <div class="hobby-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c8f060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d9615a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
           <path d="M12 8v4l3 3"/>
           <path d="M8 12h.01M16 12h.01"/>
@@ -834,7 +841,7 @@
       </div>
       <div class="highlight-item">
         <p class="highlight-label">Education</p>
-        <p class="highlight-value">University of Manitoba — Statistics</p>
+        <p class="highlight-value">University of Manitoba — Statistics and Mathematics</p>
       </div>
       <div class="highlight-item">
         <p class="highlight-label">Location</p>
