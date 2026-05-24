@@ -396,6 +396,21 @@
   }
   .fade-in.visible { opacity: 1; transform: translateY(0); }
 
+  /* HAMBURGER */
+  .nav-toggle {
+    display: none;
+    flex-direction: column; gap: 5px;
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  .nav-toggle span {
+    display: block; width: 22px; height: 2px;
+    background: var(--text); border-radius: 2px;
+    transition: all 0.25s ease;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
   @media (max-width: 1000px) {
     .hero-inner { flex-direction: column-reverse; gap: 2rem; }
     .avatar-wrap { width: 160px; height: 160px; }
@@ -403,19 +418,53 @@
     .hobby-card--featured, .hobby-card--wide { grid-column: span 2; }
   }
   @media (max-width: 900px) {
-    nav { padding: 1rem 2rem; }
-    .hero { padding: 7rem 2rem 3rem; }
-    section { padding: 4rem 2rem; }
-    .hero-stats { gap: 2rem; flex-wrap: wrap; }
+    nav { padding: 1rem 1.5rem; }
+    .nav-toggle { display: flex; }
+    .nav-links {
+      display: none;
+      position: fixed; top: 57px; left: 0; right: 0;
+      background: rgba(14,15,14,0.97);
+      backdrop-filter: blur(12px);
+      flex-direction: column; gap: 0;
+      border-bottom: 1px solid var(--border);
+      z-index: 99;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links li { border-top: 1px solid var(--border); }
+    .nav-links a {
+      display: block; padding: 1rem 1.5rem;
+      font-size: 14px; letter-spacing: 0.08em;
+    }
+    .hero { padding: 6rem 1.5rem 3rem; }
+    section { padding: 3.5rem 1.5rem; }
+    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+    .hero-stats > div { min-width: 100px; }
+    .stat-num { font-size: 1.8rem; }
     .projects-grid { grid-template-columns: 1fr; }
     .skills-grid { grid-template-columns: 1fr; }
     .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem; }
-    .nav-links { display: none; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
   }
   @media (max-width: 600px) {
+    .hero-inner { gap: 1.5rem; }
+    .avatar-wrap { width: 130px; height: 130px; }
+    .hero-stats { gap: 1rem; }
+    .hero-stats > div { min-width: 80px; }
+    .stat-num { font-size: 1.5rem; }
     .hobbies-grid { grid-template-columns: 1fr; }
     .hobby-card--featured, .hobby-card--wide { grid-column: span 1; }
+    .hobby-photos img { width: 110px; height: 82px; }
+    .project-card { padding: 1.75rem; }
+    .skill-group { padding: 1.5rem; }
+    .contact-section .section-title { font-size: 1.6rem; }
+  }
+  @media (max-width: 400px) {
+    nav { padding: 1rem; }
+    .hero { padding: 5.5rem 1rem 2.5rem; }
+    section { padding: 3rem 1rem; }
+    .hero-desc { font-size: 14px; }
+    .hero-cta { flex-direction: column; }
+    .btn-primary, .btn-ghost { justify-content: center; }
   }
 </style>
 </head>
@@ -423,13 +472,16 @@
 
 <nav>
   <a href="#" class="nav-logo">JR</a>
-  <ul class="nav-links">
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#hobbies">Hobbies</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#contact">Contact</a></li>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#projects" class="nav-close">Projects</a></li>
+    <li><a href="#skills" class="nav-close">Skills</a></li>
+    <li><a href="#hobbies" class="nav-close">Hobbies</a></li>
+    <li><a href="#about" class="nav-close">About</a></li>
+    <li><a href="#contact" class="nav-close">Contact</a></li>
   </ul>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -832,6 +884,20 @@
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.1 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Hamburger menu
+  const navToggle = document.getElementById('nav-toggle');
+  const navLinks = document.getElementById('nav-links');
+  navToggle.addEventListener('click', () => {
+    navToggle.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+  document.querySelectorAll('.nav-close').forEach(link => {
+    link.addEventListener('click', () => {
+      navToggle.classList.remove('open');
+      navLinks.classList.remove('open');
+    });
+  });
 
   // Lightbox
   const lightbox = document.getElementById('lightbox');
