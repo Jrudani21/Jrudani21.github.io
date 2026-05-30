@@ -277,32 +277,66 @@
 
   /* HOBBIES */
   .hobbies-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;
   }
   .hobby-card {
-    background: var(--card-bg); border: 1px solid var(--border);
-    border-radius: 12px; padding: 2rem 1.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px; padding: 2rem 1.75rem;
     display: flex; flex-direction: column; align-items: flex-start; gap: 1rem;
-    transition: background 0.2s, border-color 0.2s;
+    position: relative; overflow: hidden;
+    transition: background 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.25s;
   }
-  .hobby-card:hover { background: var(--bg3); border-color: rgba(217,97,90,0.2); }
+  .hobby-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 14px;
+    background: radial-gradient(ellipse at top left, rgba(217,97,90,0.06) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .hobby-card:hover {
+    background: var(--bg3);
+    border-color: rgba(217,97,90,0.3);
+    box-shadow: 0 0 0 1px rgba(217,97,90,0.08), 0 8px 32px rgba(0,0,0,0.4);
+    transform: translateY(-2px);
+  }
+  .hobby-card:hover::before { opacity: 1; }
   .hobby-card--featured { grid-column: span 2; }
   .hobby-card--wide { grid-column: span 2; }
+
+  .hobby-card-header { display: flex; align-items: center; gap: 1rem; width: 100%; }
   .hobby-icon {
-    width: 48px; height: 48px;
+    width: 44px; height: 44px; flex-shrink: 0;
     background: rgba(217,97,90,0.08);
-    border: 1px solid rgba(217,97,90,0.18);
+    border: 1px solid rgba(217,97,90,0.2);
     border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 0 10px rgba(217,97,90,0.1);
+    box-shadow: 0 0 12px rgba(217,97,90,0.12);
+    transition: box-shadow 0.25s, border-color 0.25s;
+  }
+  .hobby-card:hover .hobby-icon {
+    border-color: rgba(217,97,90,0.45);
+    box-shadow: 0 0 18px rgba(217,97,90,0.25);
   }
   .hobby-title {
     font-family: 'DM Serif Display', serif;
-    font-size: 1.15rem; font-weight: 400; color: var(--text);
+    font-size: 1.2rem; font-weight: 400; color: var(--text);
+    line-height: 1.2;
   }
-  .hobby-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .hobby-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+  .hobby-tag-row { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: auto; padding-top: 0.25rem; }
+  .hobby-tag {
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 100px;
+    border: 1px solid rgba(217,97,90,0.2); color: var(--muted);
+    background: rgba(217,97,90,0.04);
+  }
+
   .hobby-photos {
-    display: flex; gap: 0.625rem;
+    display: flex; gap: 0.5rem;
     overflow-x: auto; width: 100%;
     padding-bottom: 4px;
     scrollbar-width: none;
@@ -310,15 +344,16 @@
   }
   .hobby-photos::-webkit-scrollbar { display: none; }
   .hobby-photos img {
-    width: 130px; height: 98px;
-    object-fit: cover; border-radius: 7px;
+    width: 140px; height: 104px;
+    object-fit: cover; border-radius: 8px;
     flex-shrink: 0; cursor: pointer;
     border: 1px solid var(--border);
-    transition: opacity 0.2s, transform 0.2s, border-color 0.2s;
+    transition: opacity 0.2s, transform 0.22s, border-color 0.2s, box-shadow 0.2s;
   }
   .hobby-photos img:hover {
-    opacity: 0.85; transform: scale(1.03);
-    border-color: rgba(217,97,90,0.4);
+    opacity: 0.9; transform: scale(1.04);
+    border-color: rgba(217,97,90,0.5);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
   }
 
   /* LIGHTBOX */
@@ -691,76 +726,107 @@
   <div class="hobbies-grid fade-in">
 
     <div class="hobby-card hobby-card--featured">
-      <div class="hobby-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d9615a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="4" y="6" width="16" height="10" rx="2"/>
-          <path d="M8 6V4M16 6V4M4 10h16"/>
-          <circle cx="9" cy="13" r="1" fill="#d9615a"/>
-          <circle cx="15" cy="13" r="1" fill="#d9615a"/>
-        </svg>
+      <div class="hobby-card-header">
+        <div class="hobby-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d9615a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="6" width="16" height="10" rx="2"/>
+            <path d="M8 6V4M16 6V4M4 10h16"/>
+            <circle cx="9" cy="13" r="1" fill="#d9615a"/>
+            <circle cx="15" cy="13" r="1" fill="#d9615a"/>
+          </svg>
+        </div>
+        <h3 class="hobby-title">PC Building</h3>
       </div>
-      <h3 class="hobby-title">PC Building</h3>
-      <p class="hobby-desc">Designing and assembling custom rigs   from selecting components to cable management and overclocking. The hardware side of computing is as satisfying as the software.</p>
+      <p class="hobby-desc">Designing and assembling custom rigs — from component selection to cable management and overclocking. The hardware side of computing is as satisfying as the software.</p>
       <div class="hobby-photos">
-        <img src="assets/images/pc-internals.jpg" alt="Custom white PC build   ASUS RTX GPU and AIO liquid cooling inside">
+        <img src="assets/images/pc-internals.jpg" alt="Custom white PC build — ASUS RTX GPU and AIO liquid cooling inside">
         <img src="assets/images/pc-case-exterior.jpg" alt="White PC case with blue RGB lighting">
         <img src="assets/images/pc-desk-setup.jpg" alt="Gaming desk setup with monitor, keyboard, and headset">
+      </div>
+      <div class="hobby-tag-row">
+        <span class="hobby-tag">Custom Rigs</span>
+        <span class="hobby-tag">Overclocking</span>
+        <span class="hobby-tag">Cable Mgmt</span>
       </div>
     </div>
 
     <div class="hobby-card hobby-card--featured">
-      <div class="hobby-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d9615a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/>
-          <circle cx="12" cy="12" r="1" fill="#d9615a"/>
-          <circle cx="7" cy="12" r="1" fill="#d9615a"/>
-          <circle cx="17" cy="12" r="1" fill="#d9615a"/>
-        </svg>
+      <div class="hobby-card-header">
+        <div class="hobby-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d9615a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/>
+            <circle cx="12" cy="12" r="1" fill="#d9615a"/>
+            <circle cx="7" cy="12" r="1" fill="#d9615a"/>
+            <circle cx="17" cy="12" r="1" fill="#d9615a"/>
+          </svg>
+        </div>
+        <h3 class="hobby-title">Circuits &amp; Electronics</h3>
       </div>
-      <h3 class="hobby-title">Circuits &amp; Electronics</h3>
       <p class="hobby-desc">Hands-on work with breadboards, microcontrollers, and circuit design. There's something deeply satisfying about making physical things respond to logic.</p>
       <div class="hobby-photos">
         <img src="assets/images/circuits-electronics-desk.jpg" alt="Electronics desk with breadboard, microcontroller, and multimeter">
         <img src="assets/images/circuits-cloud-chamber.jpg" alt="Cloud chamber particle physics experiment with LEDs">
         <img src="assets/images/circuits-microcontroller.jpg" alt="Breadboard and microcontroller project with colorful jumper wires">
       </div>
+      <div class="hobby-tag-row">
+        <span class="hobby-tag">Arduino</span>
+        <span class="hobby-tag">Breadboards</span>
+        <span class="hobby-tag">Circuit Design</span>
+      </div>
     </div>
 
     <div class="hobby-card">
-      <div class="hobby-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d9615a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 18V5l12-2v13"/>
-          <circle cx="6" cy="18" r="3"/>
-          <circle cx="18" cy="16" r="3"/>
-        </svg>
+      <div class="hobby-card-header">
+        <div class="hobby-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d9615a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18V5l12-2v13"/>
+            <circle cx="6" cy="18" r="3"/>
+            <circle cx="18" cy="16" r="3"/>
+          </svg>
+        </div>
+        <h3 class="hobby-title">Jazz</h3>
       </div>
-      <h3 class="hobby-title">Jazz</h3>
-      <p class="hobby-desc">Listening to and exploring jazz   from classic Miles Davis to modern fusion. The improvisational structure of jazz feels a lot like exploratory data analysis.</p>
+      <p class="hobby-desc">From classic Miles Davis to modern fusion — the improvisational structure of jazz feels a lot like exploratory data analysis.</p>
+      <div class="hobby-tag-row">
+        <span class="hobby-tag">Miles Davis</span>
+        <span class="hobby-tag">Fusion</span>
+      </div>
     </div>
 
     <div class="hobby-card">
-      <div class="hobby-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d9615a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M6 3h12l3 9H3L6 3z"/>
-          <path d="M3 12v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-          <path d="M10 17h4"/>
-        </svg>
+      <div class="hobby-card-header">
+        <div class="hobby-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d9615a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 3h12l3 9H3L6 3z"/>
+            <path d="M3 12v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M10 17h4"/>
+          </svg>
+        </div>
+        <h3 class="hobby-title">Gaming</h3>
       </div>
-      <h3 class="hobby-title">Gaming</h3>
-      <p class="hobby-desc">Playing across genres   strategy, RPGs, and competitive titles. Gaming honed my instinct for systems thinking and pattern recognition long before stats did.</p>
+      <p class="hobby-desc">Strategy, RPGs, and competitive titles. Gaming honed my instinct for systems thinking and pattern recognition long before stats did.</p>
+      <div class="hobby-tag-row">
+        <span class="hobby-tag">Strategy</span>
+        <span class="hobby-tag">RPG</span>
+      </div>
     </div>
 
     <div class="hobby-card hobby-card--wide">
-      <div class="hobby-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d9615a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-          <path d="M12 8v4l3 3"/>
-          <path d="M8 12h.01M16 12h.01"/>
-          <path d="M9 9l6 6M15 9l-6 6" stroke-width="1" opacity="0.5"/>
-        </svg>
+      <div class="hobby-card-header">
+        <div class="hobby-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d9615a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            <path d="M11 8v3M11 14h.01"/>
+          </svg>
+        </div>
+        <h3 class="hobby-title">Bug Testing</h3>
       </div>
-      <h3 class="hobby-title">Bug Testing</h3>
-      <p class="hobby-desc">Finding edge cases and breaking things before others do. QA thinking comes naturally   if a model or program can fail, I want to find out how.</p>
+      <p class="hobby-desc">Finding edge cases and breaking things before others do. QA thinking comes naturally — if a model or program can fail, I want to find out how.</p>
+      <div class="hobby-tag-row">
+        <span class="hobby-tag">QA</span>
+        <span class="hobby-tag">Edge Cases</span>
+        <span class="hobby-tag">Debugging</span>
+      </div>
     </div>
 
   </div>
