@@ -67,6 +67,7 @@
     width: 700px; height: 700px;
     background: radial-gradient(circle, rgba(217,97,90,0.07) 0%, transparent 70%);
     pointer-events: none;
+    transform: translateY(var(--parallax-y, 0px));
   }
   .hero-inner { display: flex; align-items: center; gap: 4rem; }
   .hero-text { flex: 1; }
@@ -434,12 +435,42 @@
     font-size: 11px; color: var(--muted); letter-spacing: 0.08em;
   }
 
-  /* FADE IN */
-  .fade-in {
-    opacity: 0; transform: translateY(20px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+  /* FADE IN + 3D SCROLL REVEAL */
+  .reveal-3d {
+    perspective: 1400px;
   }
-  .fade-in.visible { opacity: 1; transform: translateY(0); }
+  .fade-in {
+    opacity: 0; transform: translateY(40px) rotateX(-12deg) scale(0.96);
+    transform-origin: center bottom;
+    transition: opacity 0.8s cubic-bezier(0.2,0.7,0.3,1), transform 0.8s cubic-bezier(0.2,0.7,0.3,1);
+    will-change: transform, opacity;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0) rotateX(0deg) scale(1); }
+
+  /* per-card stagger + tilt-on-hover depth */
+  .projects-grid.fade-in { transition-delay: 0s; }
+  .project-card, .hobby-card {
+    transform-style: preserve-3d;
+    transition: background 0.2s, transform 0.35s ease, box-shadow 0.35s ease;
+  }
+
+  /* HERO PARALLAX LAYERS */
+  .hero { perspective: 1200px; }
+  .hero::before { will-change: transform; }
+  .avatar-wrap { will-change: transform; transition: transform 0.1s linear; cursor: pointer; }
+
+  /* EASTER EGG TOAST */
+  .easter-egg {
+    position: fixed; bottom: 2rem; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--card-bg); border: 1px solid var(--accent);
+    color: var(--text); font-family: 'DM Mono', monospace; font-size: 13px;
+    padding: 0.9rem 1.5rem; border-radius: 8px; max-width: 90vw;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 20px rgba(217,97,90,0.2);
+    opacity: 0; pointer-events: none; z-index: 400;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .easter-egg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
   /* HAMBURGER */
   .nav-toggle {
@@ -537,10 +568,11 @@
       <h1 class="hero-name">Janak <em>Rudani</em></h1>
       <p class="hero-title">Turning data into decisions</p>
       <p class="hero-desc">
-        Statistics student at the University of Manitoba. I build end-to-end 
-        analytical pipelines in R and Python   regression, time series, 
-        classification   and spend my free time building PCs, chasing bugs, 
-        and listening to jazz.
+        Statistics student at the University of Manitoba who treats every dataset
+        like a plot twist waiting to happen. I build R and Python pipelines
+        regression, time series, classification   then spend the rest of my time
+        building PCs, hunting bugs on purpose, and rewatching movies until I know
+        the score by heart.
       </p>
       <div class="hero-cta">
         <a href="#projects" class="btn-primary">View Projects ↓</a>
@@ -549,14 +581,15 @@
     </div>
 
     <!-- AVATAR   photo -->
-    <div class="avatar-wrap">
+    <div class="avatar-wrap" id="avatar-wrap" title="psst, click me">
       <div class="avatar-svg" role="img" aria-label="Janak Rudani"></div>
     </div>
+    <div class="easter-egg" id="easter-egg"></div>
   </div>
 
   <div class="hero-stats">
     <div>
-      <div class="stat-num">6</div>
+      <div class="stat-num">8</div>
       <div class="stat-label">Portfolio Projects</div>
     </div>
     <div>
@@ -579,6 +612,7 @@
     <span class="ticker-item"><span class="ticker-dot"></span>Streamlit · Plotly · Interactive Dashboards</span>
     <span class="ticker-item"><span class="ticker-dot"></span>Linear · Logistic · Poisson GLM · SARIMA</span>
     <span class="ticker-item"><span class="ticker-dot"></span>ANOVA · ANCOVA · AUC · AIC · Hypothesis Testing</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Ollama · QLoRA · Unsloth · Local LLM Fine-Tuning</span>
     <span class="ticker-item"><span class="ticker-dot"></span>R · tidyverse · ggplot2 · forecast · caret</span>
     <span class="ticker-item"><span class="ticker-dot"></span>Python · pandas · scikit-learn · statsmodels · pmdarima</span>
     <span class="ticker-item"><span class="ticker-dot"></span>SQL · Window Functions · Self-Joins · CTEs</span>
@@ -589,13 +623,13 @@
 </div>
 
 <!-- PROJECTS -->
-<section id="projects">
+<section id="projects" class="reveal-3d">
   <p class="section-label">Featured Work</p>
   <h2 class="section-title">Projects</h2>
   <div class="projects-grid fade-in">
 
     <a href="https://github.com/Jrudani21/telco-churn-logistic-regression" target="_blank" class="project-card">
-      <p class="project-number">01 / 06</p>
+      <p class="project-number">01 / 08</p>
       <h3 class="project-title">Telco Customer Churn<br>Logistic Regression</h3>
       <p class="project-desc">Binary classification on 7,043 telecom customers to predict churn and quantify its drivers. Odds ratios reveal month-to-month contracts and fiber optic service as the strongest risk factors   backed by Type II likelihood-ratio tests.</p>
       <p class="project-result">AUC ≈ 0.84 in both R and Python</p>
@@ -608,7 +642,7 @@
     </a>
 
     <a href="https://github.com/Jrudani21/bike-share-demand-count-regression" target="_blank" class="project-card">
-      <p class="project-number">02 / 06</p>
+      <p class="project-number">02 / 08</p>
       <h3 class="project-title">DC Bike Share Demand<br>Count Regression</h3>
       <p class="project-desc">Modelled 731 days of Capital Bikeshare data using Poisson and Negative Binomial GLMs. Detected severe overdispersion (variance/mean = 357×) and used IRRs to quantify weather and seasonal effects on daily rentals.</p>
       <p class="project-result">NB model AIC ~1,200 better than Poisson</p>
@@ -621,7 +655,7 @@
     </a>
 
     <a href="https://github.com/Jrudani21/air-passengers-timeseries" target="_blank" class="project-card">
-      <p class="project-number">03 / 06</p>
+      <p class="project-number">03 / 08</p>
       <h3 class="project-title">Air Passengers<br>Time Series Forecasting</h3>
       <p class="project-desc">Full Box-Jenkins SARIMA pipeline   log transform, stationarity testing (ADF/KPSS), ACF/PACF analysis, 36-month forecast with prediction intervals, and head-to-head comparison against Facebook Prophet.</p>
       <p class="project-result">SARIMA MAPE ~3–5% vs Prophet ~4–6%</p>
@@ -634,7 +668,7 @@
     </a>
 
     <a href="https://github.com/Jrudani21/palmer-penguins-linear-models" target="_blank" class="project-card">
-      <p class="project-number">04 / 06</p>
+      <p class="project-number">04 / 08</p>
       <h3 class="project-title">Palmer Penguins<br>Linear Modeling Field Guide</h3>
       <p class="project-desc">A comprehensive linear modeling showcase   simple linear regression, one-way ANOVA with Tukey post-hoc, two-way ANOVA with interaction, and ANCOVA with adjusted means. R² improves from 0.759 to 0.869 by adding species after flipper length.</p>
       <p class="project-result">ANCOVA adjusted R² = 0.869</p>
@@ -647,7 +681,7 @@
     </a>
 
     <a href="https://github.com/Jrudani21/medicare-fraud-detector" target="_blank" class="project-card">
-      <p class="project-number">05 / 06</p>
+      <p class="project-number">05 / 08</p>
       <h3 class="project-title">Medicare Cross-Country<br>Fraud Detector</h3>
       <p class="project-desc">Detects providers (NPIs) submitting Medicare claims from a US address and a foreign country simultaneously   a documented CMS OIG phantom billing scheme. Five SQL queries (self-join date-overlap detection, risk scoring, country aggregation, specialty benchmarking) plus an interactive Streamlit dashboard with 5 analysis tabs. Built on the CMS Medicare Physician &amp; Other Practitioners PUF schema with 9,976 synthetic claims across 2,000 NPIs.</p>
       <p class="project-result">18 flagged NPIs · $46K+ Medicare payments at risk · HIGH/MEDIUM/LOW risk tiers</p>
@@ -664,7 +698,7 @@
     </a>
 
     <a href="https://github.com/Jrudani21/covid-dashboard" target="_blank" class="project-card">
-      <p class="project-number">06 / 06</p>
+      <p class="project-number">06 / 08</p>
       <h3 class="project-title">COVID-19 Global<br>Dashboard</h3>
       <p class="project-desc">Real-time pandemic statistics application connecting to the disease.sh public API across five interactive views: global KPIs (cases, recoveries, deaths, CFR), 180-day trend analysis, top-15 country rankings, a choropleth map normalised by cases per million, and a searchable data explorer. Data refreshes every 10 minutes via a built-in cache to balance responsiveness with minimal network overhead.</p>
       <p class="project-result">Live data from 200+ countries · sub-second rendering · 180-day historical window</p>
@@ -679,11 +713,42 @@
       <p class="project-link">github.com/Jrudani21/covid-dashboard ↗</p>
     </a>
 
+    <a href="https://github.com/Jrudani21/personal-assistant" target="_blank" class="project-card">
+      <p class="project-number">07 / 08</p>
+      <h3 class="project-title">Local AI Personal Assistant<br>Ollama + Tool-Calling</h3>
+      <p class="project-desc">A $0-cost personal assistant running entirely on local hardware via Ollama — no API fees. Streamlit UI wraps a full tool-calling loop: sandboxed Python execution with a persistent REPL, hybrid BM25+cosine RAG over uploaded documents with numbered citations, memory/to-do/reminder tools, and long-chat compaction so context never overflows.</p>
+      <p class="project-result">Runs fully offline · 10+ callable tools · persistent Python session across calls</p>
+      <div class="project-meta">
+        <span class="tag py">Python</span>
+        <span class="tag hl">Streamlit</span>
+        <span class="tag">Ollama</span>
+        <span class="tag">RAG</span>
+        <span class="tag">Tool-Calling</span>
+        <span class="tag">Local LLM</span>
+      </div>
+      <p class="project-link">github.com/Jrudani21/personal-assistant ↗</p>
+    </a>
+
+    <a href="https://github.com/Jrudani21/llm-finetune" target="_blank" class="project-card">
+      <p class="project-number">08 / 08</p>
+      <h3 class="project-title">QLoRA Fine-Tuning<br>on Consumer GPU</h3>
+      <p class="project-desc">Domain-specific instruction fine-tuning pipeline built for an 8GB VRAM RTX 4060. Generates a seed statistics/data-science instruction dataset locally via a 30B model (zero API cost), covering topics — fraud detection, count regression, time-series diagnostics — that general instruction datasets don't. Built for QLoRA training with Unsloth to keep memory footprint low.</p>
+      <p class="project-result">Full pipeline runs on 8GB VRAM · $0 dataset generation cost</p>
+      <div class="project-meta">
+        <span class="tag py">Python</span>
+        <span class="tag hl">QLoRA</span>
+        <span class="tag">Unsloth</span>
+        <span class="tag">Ollama</span>
+        <span class="tag">Fine-Tuning</span>
+      </div>
+      <p class="project-link">github.com/Jrudani21/llm-finetune ↗</p>
+    </a>
+
   </div>
 </section>
 
 <!-- SKILLS -->
-<section id="skills" style="background: var(--bg2);">
+<section id="skills" class="reveal-3d" style="background: var(--bg2);">
   <p class="section-label">Capabilities</p>
   <h2 class="section-title">Technical Skills</h2>
   <div class="skills-grid fade-in">
@@ -736,7 +801,7 @@
 </section>
 
 <!-- HOBBIES -->
-<section id="hobbies">
+<section id="hobbies" class="reveal-3d">
   <p class="section-label">Beyond the Data</p>
   <h2 class="section-title">Interests &amp; Hobbies</h2>
   <div class="hobbies-grid fade-in">
@@ -827,7 +892,7 @@
       </div>
     </div>
 
-    <div class="hobby-card hobby-card--wide">
+    <div class="hobby-card">
       <div class="hobby-card-header">
         <div class="hobby-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d9615a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -845,11 +910,29 @@
       </div>
     </div>
 
+    <div class="hobby-card">
+      <div class="hobby-card-header">
+        <div class="hobby-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d9615a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2.5" y="5" width="19" height="14" rx="2"/>
+            <path d="M7 5v14M17 5v14M2.5 10h4.5M2.5 14h4.5M17 10h4.5M17 14h4.5"/>
+          </svg>
+        </div>
+        <h3 class="hobby-title">Movies</h3>
+      </div>
+      <p class="hobby-desc">I will absolutely rewatch a favorite until I've got the score memorized and can quote the editing choices. Equal parts entertainment and a study in pacing.</p>
+      <div class="hobby-tag-row">
+        <span class="hobby-tag">Rewatches</span>
+        <span class="hobby-tag">Scores</span>
+        <span class="hobby-tag">Plot Twists</span>
+      </div>
+    </div>
+
   </div>
 </section>
 
 <!-- ABOUT -->
-<section id="about" style="background: var(--bg2);">
+<section id="about" class="reveal-3d" style="background: var(--bg2);">
   <p class="section-label">Background</p>
   <h2 class="section-title">About</h2>
   <div class="about-grid fade-in">
@@ -866,9 +949,9 @@
         interpretation   the same pipeline expected in a professional data analyst role.
       </p>
       <p>
-        Outside of data, I build PCs, tinker with circuits, play and listen to jazz, 
-        game competitively, and enjoy breaking software through bug testing. 
-        The same curiosity that drives those hobbies drives my work with data.
+        Outside of data, I build PCs, tinker with circuits, play and listen to jazz,
+        game competitively, rewatch movies until I've memorized the score, and enjoy
+        breaking software through bug testing. Same curiosity, different keyboard shortcuts.
       </p>
       <p>
         I'm actively looking for <strong>data analyst internships and entry-level roles</strong> 
@@ -962,6 +1045,84 @@
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') lightbox.classList.remove('active');
   });
+
+  // Scroll-driven 3D parallax (hero blob + avatar depth)
+  const heroBlob = document.querySelector('.hero');
+  const avatarWrap = document.querySelector('.avatar-wrap');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let ticking = false;
+  let scrollY = 0;
+  let mouseTiltX = 0, mouseTiltY = 0;
+  function applyAvatarTransform() {
+    if (!avatarWrap) return;
+    avatarWrap.style.transform =
+      `translateY(${scrollY * 0.12}px) translateZ(${-scrollY * 0.08}px) rotateY(${scrollY * 0.02 + mouseTiltY}deg) rotateX(${mouseTiltX}deg)`;
+  }
+  function updateParallax() {
+    scrollY = window.scrollY;
+    if (heroBlob) heroBlob.style.setProperty('--parallax-y', `${scrollY * 0.15}px`);
+    if (scrollY < window.innerHeight) applyAvatarTransform();
+    ticking = false;
+  }
+  if (!reduceMotion) {
+    window.addEventListener('scroll', () => {
+      if (!ticking) { requestAnimationFrame(updateParallax); ticking = true; }
+    }, { passive: true });
+
+    // Mouse-move 3D tilt on avatar
+    const heroSection = document.querySelector('.hero');
+    if (heroSection && avatarWrap) {
+      heroSection.addEventListener('mousemove', (e) => {
+        const rect = heroSection.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width - 0.5;
+        const py = (e.clientY - rect.top) / rect.height - 0.5;
+        mouseTiltY = px * 10;
+        mouseTiltX = py * -10;
+        applyAvatarTransform();
+      });
+      heroSection.addEventListener('mouseleave', () => {
+        mouseTiltX = 0; mouseTiltY = 0;
+        applyAvatarTransform();
+      });
+    }
+
+    // 3D tilt-on-hover for project & hobby cards, based on cursor position
+    document.querySelectorAll('.project-card, .hobby-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width - 0.5;
+        const py = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform = `perspective(800px) rotateX(${py * -6}deg) rotateY(${px * 6}deg) translateZ(6px)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+  }
+
+  // Easter egg: click the avatar
+  console.log('%cHey, techie.', 'font-size:16px;color:#d9615a;font-weight:bold;');
+  console.log('Since you\'re here in devtools anyway — I probably rewatched a movie enough times to reverse-engineer its score by ear. Same energy as reading this console.');
+  const eggMessages = [
+    "Hey.",
+    "Okay, twice. I see you.",
+    "This is the 'Beautiful Mind' of buttons — nothing's actually here.",
+    "There's no prize. Just like every plot twist I've already seen coming.",
+    "Alright, you win. Achievement unlocked: mildly annoying to a stats major.",
+  ];
+  let eggClicks = 0;
+  const eggEl = document.getElementById('easter-egg');
+  const avatarEl = document.getElementById('avatar-wrap');
+  let eggTimer = null;
+  if (avatarEl && eggEl) {
+    avatarEl.addEventListener('click', () => {
+      eggEl.textContent = eggMessages[Math.min(eggClicks, eggMessages.length - 1)];
+      eggEl.classList.add('show');
+      eggClicks++;
+      clearTimeout(eggTimer);
+      eggTimer = setTimeout(() => eggEl.classList.remove('show'), 2600);
+    });
+  }
 </script>
 </body>
 </html>
