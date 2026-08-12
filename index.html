@@ -675,6 +675,67 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
 .meme-result { font-size:1rem; }
 .btn-b { background: var(--violet); color: var(--void); }
 .btn-b:hover { box-shadow: 0 0 20px rgba(89,217,255,0.4); }
+/* ===== CIRCUIT BUILDER GAME ===== */
+.circuit-section { text-align: center; }
+.circuit-wrap {
+  display: grid; grid-template-columns: 1fr 260px;
+  gap: 1.5rem; align-items: start; max-width: 900px; margin: 0 auto;
+}
+.circuit-board {
+  position: relative; border: 1px solid var(--border); border-radius: 16px;
+  background: #0c0c14; min-height: 420px; overflow: hidden;
+  touch-action: none; user-select: none; cursor: crosshair;
+}
+.circuit-board::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 24px 24px; pointer-events: none;
+}
+.circuit-node {
+  position: absolute; width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; border: 2px solid var(--border);
+  background: var(--panel); cursor: grab; z-index: 3;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+.circuit-node:hover { border-color: var(--accent); transform: scale(1.08); }
+.circuit-node.dragging { cursor: grabbing; transform: scale(1.15); box-shadow: 0 0 24px var(--ring); }
+.circuit-node.wired { border-color: var(--accent); box-shadow: 0 0 14px var(--ring); }
+.circuit-node.battery { color: var(--amber); border-color: var(--amber); }
+.circuit-node.resistor { color: var(--violet); border-color: var(--violet); }
+.circuit-node.led { color: var(--red); border-color: var(--red); }
+.circuit-wire {
+  position: absolute; height: 3px; border-radius: 2px;
+  transform-origin: left center; z-index: 2;
+  background: var(--accent); box-shadow: 0 0 8px rgba(0,229,160,0.6);
+  pointer-events: none;
+}
+.circuit-wire.lit { background: var(--amber); box-shadow: 0 0 12px rgba(255,209,102,0.8); }
+.circuit-side { text-align: left; display: flex; flex-direction: column; gap: 1rem; }
+.circuit-info {
+  border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.2rem;
+  background: var(--surface); font-family: 'VT323', monospace; font-size: 1rem; line-height: 1.7;
+}
+.circuit-info .stat { color: var(--dim); }
+.circuit-info .val { color: var(--accent); }
+.circuit-tip { font-size: 0.8rem; color: var(--muted); font-family: 'VT323', monospace; }
+.circuit-btn {
+  background: var(--accent); color: var(--void); border: none;
+  padding: 0.7rem 1.4rem; border-radius: 40px; font-weight: 700;
+  font-size: 13px; cursor: pointer; font-family: 'Space Grotesk', sans-serif;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.circuit-btn:hover { transform: scale(1.04); box-shadow: var(--glow); }
+.circuit-btn.secondary { background: transparent; border: 1px solid var(--border); color: var(--dim); }
+.circuit-msg { font-size: 0.9rem; color: var(--amber); font-family: 'VT323', monospace; min-height: 1.5em; }
+@media (max-width: 768px) { .circuit-wrap { grid-template-columns: 1fr; } .circuit-board { min-height: 340px; } }
+.egg-shake { animation: eggShake 0.5s ease; }
+@keyframes eggShake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-8px); } 40%,80% { transform: translateX(8px); } }
+.rainbow-text { animation: rainbowShift 2s linear infinite; }
+@keyframes rainbowShift { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
+.egg-scan { position: fixed; left: 0; right: 0; height: 2px; z-index: 9998; pointer-events: none; background: var(--accent); box-shadow: 0 0 20px var(--accent); opacity: 0; }
+.egg-scan.active { animation: scanFall 2.5s linear forwards; }
+@keyframes scanFall { 0% { top: -10px; opacity: 1; } 100% { top: 110vh; opacity: 0; } }
 </style>
 </head>
 <body>
@@ -696,6 +757,7 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
     <a href="#skills">skills</a>
     <a href="#memes">memes</a>
     <a href="#game">game</a>
+    <a href="#circuits">circuits</a>
     <a href="#about">about</a>
     <a href="#contact">say hi</a>
   </div>
@@ -777,9 +839,9 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
     <a href="https://github.com/Jrudani21/telco-churn-logistic-regression" target="_blank" class="project">
       <div>
         <p class="project-num">01</p>
-        <h3>Telco Customer Churn - Logistic Regression</h3>
-        <p>Binary classification on 7,043 customers. Spoiler: month-to-month contracts are the red flag factory. <span class="stat-joke">My AUC is higher than my credit score.</span></p>
-        <div class="tags"><span class="tag hl">Logistic Regression</span><span class="tag">R</span><span class="tag">ROC / AUC</span></div>
+        <h3>Telco Churn Prediction - Logistic Regression</h3>
+        <p>Binary classification on 7,043 telecom customers. Built in R with full EDA, correlation analysis, and Type II likelihood-ratio tests to quantify churn drivers. <span class="stat-joke">My AUC is higher than my credit score.</span></p>
+        <div class="tags"><span class="tag hl">Logistic Regression</span><span class="tag">R</span><span class="tag">ROC / AUC</span><span class="tag">EDA</span><span class="tag">LRT</span></div>
       </div>
       <div class="project-side"><div class="project-score">AUC 0.84</div><div class="project-link">github ↗</div></div>
     </a>
@@ -787,9 +849,9 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
     <a href="https://github.com/Jrudani21/bike-share-demand-count-regression" target="_blank" class="project">
       <div>
         <p class="project-num">02</p>
-        <h3>DC Bike Share - Count Regression</h3>
-        <p>731 days of Capital Bikeshare data. Variance was 357× the mean - statistician for <span class="stat-joke">"Poisson, you're fired."</span> Negative Binomial saved the day. Hero arc.</p>
-        <div class="tags"><span class="tag hl">Poisson / NB GLM</span><span class="tag">R</span><span class="tag">IRR</span></div>
+        <h3>Bike Share Demand - Count Regression (R + Python)</h3>
+        <p>731 days of Capital Bikeshare demand modelled with Poisson and Negative Binomial GLMs in R, cross-validated in Python. Diagnosed severe overdispersion and quantified weather/seasonal effects with IRRs. <span class="stat-joke">Variance was 357× the mean - "Poisson, you're fired."</span></p>
+        <div class="tags"><span class="tag hl">Poisson / NB GLM</span><span class="tag">R</span><span class="tag">Python</span><span class="tag">IRR</span><span class="tag">Overdispersion</span></div>
       </div>
       <div class="project-side"><div class="project-score">ΔAIC 1,200</div><div class="project-link">github ↗</div></div>
     </a>
@@ -797,9 +859,9 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
     <a href="https://github.com/Jrudani21/air-passengers-timeseries" target="_blank" class="project">
       <div>
         <p class="project-num">03</p>
-        <h3>Air Passengers - SARIMA Forecasting</h3>
-        <p>Full Box-Jenkins pipeline, 36-month forecast. <span class="stat-joke">If only I could SARIMA my deadlines.</span> Went head-to-head with Facebook Prophet and won.</p>
-        <div class="tags"><span class="tag hl">SARIMA</span><span class="tag">R</span><span class="tag">Prophet</span></div>
+        <h3>Airline Forecasting - Full SARIMA Pipeline (R + Python)</h3>
+        <p>Complete Box-Jenkins workflow: log-transform, ADF/KPSS stationarity testing, ACF/PACF model identification, 36-month forecast with prediction intervals, benchmarked against Facebook Prophet. <span class="stat-joke">If only I could SARIMA my deadlines.</span></p>
+        <div class="tags"><span class="tag hl">SARIMA</span><span class="tag">R</span><span class="tag">Python</span><span class="tag">Prophet</span><span class="tag">ADF / KPSS</span></div>
       </div>
       <div class="project-side"><div class="project-score">MAPE ~3%</div><div class="project-link">github ↗</div></div>
     </a>
@@ -807,9 +869,9 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
     <a href="https://github.com/Jrudani21/palmer-penguins-linear-models" target="_blank" class="project">
       <div>
         <p class="project-num">04</p>
-        <h3>Palmer Penguins - Linear Models Field Guide</h3>
-        <p>Regression, ANOVA, ANCOVA - the full tour. <span class="stat-joke">Penguins are surprisingly cooperative research subjects. No IRB approval needed.</span></p>
-        <div class="tags"><span class="tag hl">ANCOVA</span><span class="tag">ANOVA</span><span class="tag">Tukey HSD</span></div>
+        <h3>Palmer Penguins - Complete Linear Models Guide</h3>
+        <p>A comprehensive linear modeling showcase: simple/multiple regression, one-way ANOVA with Tukey post-hoc, two-way ANOVA with interaction, and ANCOVA with adjusted means. <span class="stat-joke">Penguins are surprisingly cooperative. No IRB approval needed.</span></p>
+        <div class="tags"><span class="tag hl">ANCOVA</span><span class="tag">ANOVA</span><span class="tag">Tukey HSD</span><span class="tag">R</span></div>
       </div>
       <div class="project-side"><div class="project-score">R² = 0.87</div><div class="project-link">github ↗</div></div>
     </a>
@@ -817,9 +879,9 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
     <a href="https://github.com/Jrudani21/medicare-fraud-detector" target="_blank" class="project">
       <div>
         <p class="project-num">05</p>
-        <h3>Medicare Fraud Detector</h3>
-        <p>Phantom billing across 9,976 synthetic claims via SQL CTEs + interactive Streamlit dashboard. <span class="stat-joke">I find fraud for fun. Your expense reports are safe. Probably.</span></p>
-        <div class="tags"><span class="tag hl">SQL</span><span class="tag">Streamlit</span><span class="tag">CTEs</span></div>
+        <h3>Medicare Fraud Detection - SQL + Dashboard</h3>
+        <p>Detects phantom billing - providers claiming from US + foreign addresses simultaneously (a documented CMS OIG scheme). Five SQL queries using CTEs and window functions over 9,976 synthetic claims, surfaced in an interactive Streamlit dashboard. <span class="stat-joke">I find fraud for fun. Your expense reports are safe. Probably.</span></p>
+        <div class="tags"><span class="tag hl">SQL</span><span class="tag">Streamlit</span><span class="tag">CTEs</span><span class="tag">Window Functions</span><span class="tag">Fraud</span></div>
       </div>
       <div class="project-side"><div class="project-score">18 flagged</div><div class="project-link">github ↗</div></div>
     </a>
@@ -827,9 +889,9 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
     <a href="https://github.com/Jrudani21/covid-dashboard" target="_blank" class="project">
       <div>
         <p class="project-num">06</p>
-        <h3>COVID-19 Global Dashboard</h3>
-        <p>Live pandemic stats, choropleth maps, 200+ countries. <span class="stat-joke">Built when "going viral" wasn't a marketing strategy.</span></p>
-        <div class="tags"><span class="tag hl">Streamlit</span><span class="tag">Plotly</span><span class="tag">REST API</span></div>
+        <h3>COVID-19 Global Dashboard - Live Data App</h3>
+        <p>Real-time pandemic statistics app: global KPIs, 180-day trends, top-15 country rankings, per-capita choropleth map, searchable explorer. Live REST API (disease.sh) with Plotly visualizations. <span class="stat-joke">Built when "going viral" wasn't a marketing strategy.</span></p>
+        <div class="tags"><span class="tag hl">Streamlit</span><span class="tag">Plotly</span><span class="tag">REST API</span><span class="tag">Choropleth</span></div>
       </div>
       <div class="project-side"><div class="project-score">200+ countries</div><div class="project-link">github ↗</div></div>
     </a>
@@ -837,9 +899,9 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
     <a href="https://github.com/Jrudani21/personal-assistant" target="_blank" class="project">
       <div>
         <p class="project-num">07</p>
-        <h3>Local AI Assistant - Ollama + RAG</h3>
-        <p>$0/month, fully offline, 253 tests. <span class="stat-joke">It's not sentient (yet), but it remembers my coffee order better than I do.</span> Streamlit + CrewAI + Graphiti.</p>
-        <div class="tags"><span class="tag hl">Ollama</span><span class="tag">RAG</span><span class="tag">CrewAI</span></div>
+        <h3>Local AI Assistant - Ollama, RAG, CrewAI</h3>
+        <p>$0-cost assistant running fully offline on local hardware. Streamlit UI wrapping a complete tool-calling loop: sandboxed Python REPL, hybrid BM25+cosine RAG with numbered citations, structured memory, reminders, long-chat compaction. 253 tests, CrewAI multi-agent + Graphiti knowledge graph. <span class="stat-joke">It's not sentient (yet), but it remembers my coffee order better than I do.</span></p>
+        <div class="tags"><span class="tag hl">Ollama</span><span class="tag">RAG</span><span class="tag">CrewAI</span><span class="tag">Graphiti</span><span class="tag">253 Tests</span></div>
       </div>
       <div class="project-side"><div class="project-score">253 tests</div><div class="project-link">github ↗</div></div>
     </a>
@@ -847,9 +909,9 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
     <a href="https://github.com/Jrudani21/llm-finetune" target="_blank" class="project">
       <div>
         <p class="project-num">08</p>
-        <h3>QLoRA Fine-Tuning on 8GB VRAM</h3>
-        <p>Domain-specific instruction fine-tuning on a consumer GPU. <span class="stat-joke">Some people game on their RTX 4060. I teach language models statistics. We are not the same.</span></p>
-        <div class="tags"><span class="tag hl">QLoRA</span><span class="tag">Unsloth</span><span class="tag">Ollama</span></div>
+        <h3>QLoRA Fine-Tuning - Consumer GPU (8GB)</h3>
+        <p>Domain-specific instruction fine-tuning pipeline built for an 8GB VRAM RTX 4060. Generates a seed stats/data-science dataset locally via a 30B model - fraud detection, count regression, time-series diagnostics - at zero API cost, using Unsloth + QLoRA. <span class="stat-joke">Some people game on their RTX 4060. I teach language models statistics. We are not the same.</span></p>
+        <div class="tags"><span class="tag hl">QLoRA</span><span class="tag">Unsloth</span><span class="tag">Ollama</span><span class="tag">8GB VRAM</span><span class="tag">Synthetic Data</span></div>
       </div>
       <div class="project-side"><div class="project-score">8GB VRAM</div><div class="project-link">github ↗</div></div>
     </a>
@@ -1124,6 +1186,41 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
   <div class="game-score">bugs squashed: <b id="bugScore">0</b></div>
   <button class="game-btn" id="gameStart" onclick="startGame()">⚔️ Start rebel hunt</button>
   <div class="game-tip" id="gameTip">Rebel bugs pop up for 1.5s. Squash them. The Emperor is watching.</div>
+</div></section>
+
+<!-- ================= CIRCUIT BUILDER ================= -->
+<section id="circuits" class="circuit-section band-dark"><div class="band-inner">
+  <div class="section-header fade-in">
+    <p class="section-num">07 - build something real</p>
+    <h2 class="section-title">Circuit Builder</h2>
+    <p class="section-subtitle">An actual mini electronics lesson. <b>Drag</b> the parts, wire them up, learn how a circuit works. The bug-hunting hobby, applied to physics.</p>
+  </div>
+  <div class="circuit-wrap fade-in">
+    <div class="circuit-board" id="circuitBoard"></div>
+    <div class="circuit-side">
+      <div class="circuit-info">
+        <div><span class="stat">voltage:</span> <span class="val" id="cVolt">0 V</span></div>
+        <div><span class="stat">current:</span> <span class="val" id="cCur">0 mA</span></div>
+        <div><span class="stat">resistance:</span> <span class="val" id="cRes">0 Ω</span></div>
+        <div><span class="stat">state:</span> <span class="val" id="cState">disconnected</span></div>
+      </div>
+      <div class="circuit-info">
+        <div style="font-weight:700; color:var(--text); margin-bottom:0.4rem;">HOW IT WORKS</div>
+        <div class="circuit-tip">1. Drag a battery ⚡ into the board.</div>
+        <div class="circuit-tip">2. Drag a resistor 〰️ between battery and LED.</div>
+        <div class="circuit-tip">3. Drag an LED 💡 and connect the chain: <b style="color:var(--accent);">+ → R → LED → -</b></div>
+        <div class="circuit-tip">4. When the loop closes, the LED lights up and you read the values!</div>
+        <div class="circuit-tip" style="color:var(--amber);">5. Resistors protect the LED. Too many = dim. None = <span style="color:var(--red);">poof.</span></div>
+      </div>
+      <div class="circuit-msg" id="circuitMsg">drag a battery in to start...</div>
+      <div style="display:flex; gap:0.7rem; flex-wrap:wrap;">
+        <button class="circuit-btn" onclick="spawnComponent('battery')">⚡ add battery</button>
+        <button class="circuit-btn" onclick="spawnComponent('resistor')">〰️ add resistor</button>
+        <button class="circuit-btn" onclick="spawnComponent('led')">💡 add LED</button>
+        <button class="circuit-btn secondary" onclick="resetCircuit()">↺ reset</button>
+      </div>
+    </div>
+  </div>
 </div></section>
 
 <!-- ================= HOBBIES ================= -->
@@ -1756,6 +1853,7 @@ document.addEventListener('keydown', (e) => {
       spawnConfetti(70, ['🦄','✨','🎉','🎊','⚔️']);
       chord([523, 659, 784, 1046, 1318], 0.8);
       vaderBreathe();
+      triggerEmpireMode();
       konamiIdx = 0;
     }
   } else { konamiIdx = 0; }
@@ -1870,6 +1968,7 @@ function handleCommand(raw) {
     termOut('☕ brewing... [██████████] 100%', 'warn');
     termOut('your virtual coffee is ready. productivity +25%. sleep -1h.', 'ok');
     blip(400, 0.1, 'sine', 0.04);
+    coffeeEgg();
     return;
   }
   if (cmd === 'exit' || cmd === 'quit' || cmd === 'q') {
@@ -1925,6 +2024,8 @@ function handleCommand(raw) {
   if (cmd === 'deathstar') { termOut("that's no moon... it's a 2TB dataframe.", 'warn'); return; }
   if (cmd === 'empire') { termOut('the empire did nothing wrong. (except the database schema.)', 'warn'); return; }
   if (cmd === 'pill') { termOut('red pill: p<0.05, reality crumbles. blue pill: accept the null, stay comfortable. your move.', 'violet'); return; }
+  if (cmd === 'circuit' || cmd === 'electronics') { termOut('head to /circuits - drag a battery, resistor, and LED into a loop. learn Ohm\'s law. the LED will thank you.', 'ok'); return; }
+  if (cmd === 'empire') { triggerEmpireMode(); termOut('the dark side awakens...', 'violet'); return; }
   if (cmd === '') return;
   termOut('command not found: ' + cmd + '. try "help". (or accept that i don\'t know everything)', 'err');
   blip(180, 0.15, 'sawtooth', 0.03);
@@ -1945,6 +2046,293 @@ function scrollToTerminal() {
   setTimeout(() => termInput.focus(), 600);
 }
 termInput.addEventListener('click', () => termInput.focus());
+
+/* ================= CIRCUIT BUILDER GAME ================= */
+const CIRCUIT = {
+  board: null, nodes: [], wires: [], connected: {}, dragging: null, offset: {x:0,y:0}
+};
+function spawnComponent(type) {
+  const board = document.getElementById('circuitBoard');
+  const rect = board.getBoundingClientRect();
+  const el = document.createElement('div');
+  el.className = 'circuit-node ' + type;
+  el.dataset.type = type;
+  el.dataset.id = 'n' + (CIRCUIT.nodes.length + 1);
+  const icons = { battery: '⚡', resistor: '〰️', led: '💡' };
+  el.textContent = icons[type];
+  el.style.left = (20 + Math.random() * (rect.width - 90)) + 'px';
+  el.style.top = (20 + Math.random() * (rect.height - 90)) + 'px';
+  board.appendChild(el);
+  CIRCUIT.nodes.push(el);
+  setupNode(el);
+  setMsg(type === 'battery' ? 'battery added! now add a resistor between + and the LED' : type === 'resistor' ? 'resistor added! connect: + → R → LED → -' : 'LED added! close the loop: + → R → LED → -');
+  blip(600, 0.08, 'square', 0.03);
+}
+function setupNode(el) {
+  el.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    CIRCUIT.dragging = el;
+    const rect = el.getBoundingClientRect();
+    CIRCUIT.offset.x = e.clientX - rect.left;
+    CIRCUIT.offset.y = e.clientY - rect.top;
+    el.classList.add('dragging');
+  });
+}
+document.addEventListener('mousemove', (e) => {
+  if (!CIRCUIT.dragging) return;
+  const board = document.getElementById('circuitBoard');
+  const brect = board.getBoundingClientRect();
+  let x = e.clientX - brect.left - CIRCUIT.offset.x;
+  let y = e.clientY - brect.top - CIRCUIT.offset.y;
+  x = Math.max(0, Math.min(brect.width - 50, x));
+  y = Math.max(0, Math.min(brect.height - 50, y));
+  CIRCUIT.dragging.style.left = x + 'px';
+  CIRCUIT.dragging.style.top = y + 'px';
+  updateCircuit();
+});
+document.addEventListener('mouseup', () => {
+  if (CIRCUIT.dragging) {
+    CIRCUIT.dragging.classList.remove('dragging');
+    CIRCUIT.dragging = null;
+  }
+});
+function wireExists(a, b) {
+  return CIRCUIT.wires.some(w => (w.a === a && w.b === b) || (w.a === b && w.b === a));
+}
+function connectNodes(a, b) {
+  if (a === b || wireExists(a, b)) return;
+  const w = { a, b, el: null };
+  const el = document.createElement('div');
+  el.className = 'circuit-wire';
+  document.getElementById('circuitBoard').appendChild(el);
+  w.el = el;
+  CIRCUIT.wires.push(w);
+  a.classList.add('wired');
+  b.classList.add('wired');
+  blip(500, 0.1, 'triangle', 0.03);
+}
+function drawWires() {
+  const board = document.getElementById('circuitBoard');
+  const brect = board.getBoundingClientRect();
+  CIRCUIT.wires.forEach(w => {
+    const aRect = w.a.getBoundingClientRect();
+    const bRect = w.b.getBoundingClientRect();
+    const ax = aRect.left - brect.left + aRect.width / 2;
+    const ay = aRect.top - brect.top + aRect.height / 2;
+    const bx = bRect.left - brect.left + bRect.width / 2;
+    const by = bRect.top - brect.top + bRect.height / 2;
+    const len = Math.sqrt((bx - ax) ** 2 + (by - ay) ** 2);
+    const ang = Math.atan2(by - ay, bx - ax) * 180 / Math.PI;
+    w.el.style.left = ax + 'px';
+    w.el.style.top = ay + 'px';
+    w.el.style.width = len + 'px';
+    w.el.style.transform = 'rotate(' + ang + 'deg)';
+  });
+}
+function updateCircuit() {
+  // auto-connect nearby nodes (snap wiring)
+  for (let i = 0; i < CIRCUIT.nodes.length; i++) {
+    for (let j = i + 1; j < CIRCUIT.nodes.length; j++) {
+      const a = CIRCUIT.nodes[i], b = CIRCUIT.nodes[j];
+      const ar = a.getBoundingClientRect(), br = b.getBoundingClientRect();
+      const dx = (ar.left + ar.width/2) - (br.left + br.width/2);
+      const dy = (ar.top + ar.height/2) - (br.top + br.height/2);
+      if (Math.sqrt(dx*dx + dy*dy) < 95 && !wireExists(a, b)) {
+        connectNodes(a, b);
+      }
+    }
+  }
+  drawWires();
+  evaluateCircuit();
+}
+function evaluateCircuit() {
+  const board = document.getElementById('circuitBoard');
+  const brect = board.getBoundingClientRect();
+  const types = CIRCUIT.nodes.map(n => n.dataset.type);
+  const battery = CIRCUIT.nodes.find(n => n.dataset.type === 'battery');
+  const resistor = CIRCUIT.nodes.find(n => n.dataset.type === 'resistor');
+  const led = CIRCUIT.nodes.find(n => n.dataset.type === 'led');
+  const vEl = document.getElementById('cVolt');
+  const iEl = document.getElementById('cCur');
+  const rEl = document.getElementById('cRes');
+  const sEl = document.getElementById('cState');
+  const lit = [];
+  CIRCUIT.wires.forEach(w => {
+    w.el.classList.remove('lit');
+    lit.push(w);
+  });
+  if (!battery || !resistor || !led) {
+    vEl.textContent = '0 V'; iEl.textContent = '0 mA'; rEl.textContent = '0 Ω';
+    sEl.textContent = 'missing parts';
+    return;
+  }
+  // topology check: battery must touch resistor (directly or via chain), resistor touches LED
+  const adjacency = {};
+  CIRCUIT.nodes.forEach(n => adjacency[n.dataset.id] = new Set());
+  CIRCUIT.wires.forEach(w => {
+    adjacency[w.a.dataset.id].add(w.b.dataset.id);
+    adjacency[w.b.dataset.id].add(w.a.dataset.id);
+  });
+  function reachable(startId, targetId) {
+    const seen = new Set([startId]);
+    const q = [startId];
+    while (q.length) {
+      const cur = q.shift();
+      if (cur === targetId) return true;
+      adjacency[cur].forEach(nb => {
+        if (!seen.has(nb)) { seen.add(nb); q.push(nb); }
+      });
+    }
+    return false;
+  }
+  const closed = reachable(battery.dataset.id, led.dataset.id) &&
+                 reachable(resistor.dataset.id, led.dataset.id) &&
+                 reachable(battery.dataset.id, resistor.dataset.id);
+  if (!closed) {
+    vEl.textContent = '9 V'; iEl.textContent = '0 mA'; rEl.textContent = '∞ Ω';
+    sEl.textContent = 'open circuit';
+    return;
+  }
+  // count resistors in path (simple: 1 = bright, 2 = dim, 3+ = barely)
+  const rCount = CIRCUIT.nodes.filter(n => n.dataset.type === 'resistor').length;
+  const ledBright = rCount === 1 ? 1 : rCount === 2 ? 0.6 : 0.3;
+  led.style.opacity = '0.4';
+  led.style.transition = 'opacity 0.3s';
+  if (rCount === 0) {
+    vEl.textContent = '9 V'; iEl.textContent = '900 mA'; rEl.textContent = '10 Ω';
+    sEl.textContent = 'OVERLOAD! 🔥 no resistor!';
+    setMsg('🔥 NO RESISTOR! the LED is toast. always protect with 220Ω-1kΩ.');
+    led.style.opacity = '0.15';
+    CIRCUIT.wires.forEach(w => w.el.classList.add('lit'));
+    return;
+  }
+  const ohms = rCount * 330;
+  const mA = Math.round(9000 / ohms * 10) / 10;
+  vEl.textContent = '9 V'; iEl.textContent = mA + ' mA'; rEl.textContent = ohms + ' Ω';
+  sEl.textContent = 'closed circuit ✓';
+  CIRCUIT.wires.forEach(w => w.el.classList.add('lit'));
+  led.style.opacity = ledBright;
+  if (!CIRCUIT.done) {
+    CIRCUIT.done = true;
+    setMsg('⚡ IT LIGHTS UP! current = ' + mA + ' mA through ' + ohms + 'Ω. that\'s Ohm\'s law, baby.');
+    spawnConfetti(20, ['💡','⚡','✨']);
+    chord([523, 659, 784], 0.4);
+  }
+}
+function setMsg(t) { const el = document.getElementById('circuitMsg'); if (el) el.textContent = t; }
+function resetCircuit() {
+  const board = document.getElementById('circuitBoard');
+  board.querySelectorAll('.circuit-node, .circuit-wire').forEach(el => el.remove());
+  CIRCUIT.nodes = []; CIRCUIT.wires = []; CIRCUIT.done = false;
+  document.getElementById('cVolt').textContent = '0 V';
+  document.getElementById('cCur').textContent = '0 mA';
+  document.getElementById('cRes').textContent = '0 Ω';
+  document.getElementById('cState').textContent = 'disconnected';
+  setMsg('reset! drag a battery in to start...');
+}
+window.addEventListener('resize', drawWires);
+
+/* ================= SURPRISE EASTER EGGS ================= */
+// EGG 1: secret word "empire" (or "vader", "force") - site goes dark-side rainbow
+let eggWordBuffer = '';
+const EGG_WORDS = ['empire', 'vader', 'force'];
+document.addEventListener('keydown', (e) => {
+  if (e.key.length !== 1) return;
+  eggWordBuffer = (eggWordBuffer + e.key.toLowerCase()).slice(-12);
+  if (EGG_WORDS.some(w => eggWordBuffer.includes(w))) {
+    triggerEmpireMode();
+    eggWordBuffer = '';
+  }
+});
+let empireMode = false;
+function triggerEmpireMode() {
+  if (empireMode) return;
+  empireMode = true;
+  // scanline sweep + hue-rotate the whole site for 8 seconds
+  const scan = document.createElement('div');
+  scan.className = 'egg-scan active';
+  document.body.appendChild(scan);
+  document.body.classList.add('rainbow-text');
+  spawnConfetti(40, ['⚔️','🌌','⭐','🪐']);
+  sweep(200, 1200, 0.8);
+  vaderBreathe();
+  setTimeout(() => {
+    document.body.classList.remove('rainbow-text');
+    scan.remove();
+    empireMode = false;
+    setMsg && setMsg('the force was with you for a moment there.');
+  }, 8000);
+}
+
+// EGG 2: triple-click hero name - meteor shower
+let nameClicks = 0, nameTimer = null;
+const heroName = document.getElementById('heroName');
+if (heroName) {
+  heroName.addEventListener('click', () => {
+    nameClicks++;
+    clearTimeout(nameTimer);
+    nameTimer = setTimeout(() => nameClicks = 0, 1200);
+    if (nameClicks >= 3) {
+      nameClicks = 0;
+      meteorShower();
+    }
+  });
+}
+function meteorShower() {
+  for (let i = 0; i < 25; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'confetti';
+      el.textContent = ['☄️','💫','🌟','🪐'][Math.floor(Math.random()*4)];
+      el.style.left = Math.random() * 100 + '%';
+      el.style.top = '0%';
+      el.style.fontSize = (1 + Math.random() * 1.6) + 'rem';
+      el.style.animationDuration = (1.2 + Math.random()) + 's';
+      el.style.animation = 'fall ' + (1.2 + Math.random()) + 's ease-out forwards';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 2500);
+    }, i * 90);
+  }
+  sweep(1400, 200, 1);
+}
+
+// EGG 3: type "coffee" 3x fast - total caffeine overload screen
+let coffeeCount = 0, coffeeTimer = null;
+function coffeeEgg() {
+  coffeeCount++;
+  clearTimeout(coffeeTimer);
+  coffeeTimer = setTimeout(() => coffeeCount = 0, 3000);
+  if (coffeeCount >= 3) {
+    coffeeCount = 0;
+    const t = document.getElementById('toast');
+    if (t) {
+      t.textContent = '☕☕☕ CAFFEINE OVERLOAD. productivity +9000%. sleep -100%. the force is jittery.';
+      t.classList.add('show');
+      spawnConfetti(30, ['☕','⚡','😵']);
+      chord([659, 784, 1046, 1318], 0.5);
+      setTimeout(() => t.classList.remove('show'), 5000);
+    }
+  }
+}
+
+// EGG 4: mouse trail - lightsaber sparks
+let lastSpark = 0;
+document.addEventListener('mousemove', (e) => {
+  const now = Date.now();
+  if (now - lastSpark < 140) return;
+  lastSpark = now;
+  const el = document.createElement('div');
+  el.className = 'confetti';
+  el.textContent = ['✨','⚡','·'][Math.floor(Math.random()*3)];
+  el.style.left = (e.clientX + (Math.random()-0.5)*30) + 'px';
+  el.style.top = (e.clientY + (Math.random()-0.5)*30) + 'px';
+  el.style.fontSize = '0.8rem';
+  el.style.animationDuration = '0.6s';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 700);
+});
+
+// EGG 5: konami = empire mode + confetti + breathe (wired below)
 
 /* ================= CONSOLE SECRETS ================= */
 console.log('%c👋 Hey! You found the console. %cYou must be a developer. %cWe should be friends.',
