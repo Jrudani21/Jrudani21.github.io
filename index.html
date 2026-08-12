@@ -3,15 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Janak Rudani — This is not a boring portfolio</title>
+<title>Janak Rudani — Statistics with sass</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 /* ================================================================
-   JANAK RUDANI — PORTFOLIO V2
-   Interactive + Humorous + Dark
-   "Statistics with sass. Data with jokes. Resume with personality."
+   JANAK RUDANI — PORTFOLIO V3
+   Interactive + Humorous + Memes
    ================================================================ */
 :root {
   --void: #000000;
@@ -21,10 +20,10 @@
   --text: #f7f7f7;
   --dim: #999;
   --muted: #555;
-  --accent: #00cc88;         /* terminal green meets data science */
-  --accent2: #ff6b6b;        /* warm red for highlights */
-  --accent3: #ffd93d;        /* yellow for jokes */
-  --accent4: #6c5ce7;        /* purple for surprises */
+  --accent: #00cc88;
+  --accent2: #ff6b6b;
+  --accent3: #ffd93d;
+  --accent4: #6c5ce7;
   --border: rgba(255,255,255,0.06);
   --ring: rgba(0,204,136,0.15);
 }
@@ -38,6 +37,14 @@ body {
   font-weight: 400;
   line-height: 1.6;
   overflow-x: hidden;
+}
+
+/* ---------- SCROLL PROGRESS BAR ---------- */
+#progress {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 1000;
+  background: linear-gradient(90deg, var(--accent), var(--accent4));
+  width: 0%;
+  transition: width 0.1s linear;
 }
 
 /* ---------- NAV ---------- */
@@ -63,32 +70,49 @@ nav.scrolled { background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); mix-bl
 }
 .nav-links a:hover { color: var(--accent); }
 
-/* ---------- PANIC BUTTON ---------- */
-.panic-btn {
+/* ---------- FLOATING BUTTONS ---------- */
+.float-btns {
   position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 999;
+  display: flex; flex-direction: column; gap: 0.7rem; align-items: flex-end;
+}
+.float-btn {
   background: var(--surface); border: 1px solid var(--border);
   color: var(--dim); font-family: 'JetBrains Mono', monospace;
   font-size: 11px; padding: 0.6rem 1rem; border-radius: 40px;
   cursor: pointer; transition: all 0.3s;
 }
-.panic-btn:hover { border-color: var(--accent2); color: var(--accent2); }
-.panic-modal {
+.float-btn:hover { transform: scale(1.05); }
+#panicBtn:hover { border-color: var(--accent2); color: var(--accent2); }
+#complimentBtn:hover { border-color: var(--accent3); color: var(--accent3); }
+
+/* ---------- MODALS ---------- */
+.modal {
   position: fixed; inset: 0; z-index: 998;
   background: rgba(0,0,0,0.92); display: flex;
   align-items: center; justify-content: center; flex-direction: column;
   opacity: 0; pointer-events: none; transition: opacity 0.3s;
 }
-.panic-modal.active { opacity: 1; pointer-events: all; }
-.panic-modal h2 {
-  font-size: clamp(2rem, 6vw, 5rem); font-weight: 900;
-  margin-bottom: 1rem;
-}
-.panic-modal p { color: var(--dim); font-size: 1.1rem; margin-bottom: 2rem; }
-.panic-close {
+.modal.active { opacity: 1; pointer-events: all; }
+.modal h2 { font-size: clamp(2rem, 6vw, 5rem); font-weight: 900; margin-bottom: 1rem; text-align: center; }
+.modal p { color: var(--dim); font-size: 1.1rem; margin-bottom: 2rem; text-align: center; max-width: 500px; }
+.modal-close {
   background: var(--accent); color: var(--void); border: none;
   padding: 0.8rem 2rem; border-radius: 40px; font-weight: 700;
   font-size: 14px; cursor: pointer; font-family: inherit;
 }
+
+/* ---------- COMPLIMENT TOAST ---------- */
+#toast {
+  position: fixed; bottom: 6rem; right: 1.5rem; z-index: 997;
+  background: var(--accent3); color: var(--void);
+  padding: 1rem 1.5rem; border-radius: 12px;
+  font-weight: 700; font-size: 14px; max-width: 300px;
+  opacity: 0; transform: translateY(20px) scale(0.9);
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 12px 40px rgba(255,217,61,0.3);
+  font-family: 'Inter', sans-serif;
+}
+#toast.show { opacity: 1; transform: translateY(0) scale(1); }
 
 /* ---------- HERO ---------- */
 .hero {
@@ -99,7 +123,7 @@ nav.scrolled { background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); mix-bl
 .terminal-greeting {
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px; color: var(--muted); margin-bottom: 1.5rem;
-  display: flex; align-items: center; gap: 0.5rem;
+  display: flex; align-items: center; gap: 0.5rem; min-height: 20px;
 }
 .terminal-greeting .cursor {
   display: inline-block; width: 8px; height: 16px;
@@ -112,29 +136,33 @@ nav.scrolled { background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); mix-bl
   letter-spacing: -0.03em; margin-bottom: 1.5rem;
 }
 .hero-name .highlight { color: var(--accent); }
+.hero-name .funny-flip {
+  display: inline-block; cursor: pointer; transition: transform 0.3s;
+}
+.hero-name .funny-flip:hover { transform: rotate(6deg) scale(1.1); display: inline-block; }
 .hero-tagline {
   font-size: clamp(1.1rem, 2.5vw, 1.4rem);
   color: var(--dim); max-width: 600px; margin-bottom: 3rem;
   line-height: 1.5;
 }
-.hero-tagline .pun { color: var(--accent3); font-weight: 600; }
+.hero-tagline .pun { color: var(--accent3); font-weight: 600; cursor: pointer; }
+.hero-tagline .pun:hover { text-decoration: underline wavy; }
 .hero-cta {
   display: inline-flex; align-items: center; gap: 0.5rem;
   background: var(--accent); color: var(--void);
   padding: 0.9rem 2rem; border-radius: 100px;
   font-weight: 700; font-size: 15px; text-decoration: none;
   transition: transform 0.2s, box-shadow 0.2s;
+  width: fit-content;
 }
 .hero-cta:hover { transform: scale(1.03); box-shadow: 0 0 40px var(--ring); }
-.hero-stats {
-  display: flex; gap: 2rem; margin-top: 4rem;
-  flex-wrap: wrap;
-}
+.hero-stats { display: flex; gap: 2rem; margin-top: 4rem; flex-wrap: wrap; }
 .hero-stat {
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px; color: var(--muted);
 }
 .hero-stat b { color: var(--accent); font-size: 1.3rem; display: block; margin-bottom: 0.2rem; }
+.hero-stat .countup { display: inline-block; }
 
 /* ---------- TICKER ---------- */
 .ticker-wrap {
@@ -175,6 +203,7 @@ section { padding: 6rem 2rem; max-width: 1000px; margin: 0 auto; }
   cursor: pointer; transition: all 0.3s;
   position: relative; overflow: hidden;
   text-decoration: none; color: inherit;
+  transform-style: preserve-3d;
 }
 .project::before {
   content: ''; position: absolute; inset: 0;
@@ -182,7 +211,7 @@ section { padding: 6rem 2rem; max-width: 1000px; margin: 0 auto; }
   opacity: 0; transition: opacity 0.4s;
 }
 .project:hover::before { opacity: 1; }
-.project:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
+.project:hover { border-color: var(--accent); }
 .project:hover .project-num { color: var(--accent); }
 .project-num {
   font-family: 'JetBrains Mono', monospace;
@@ -228,9 +257,9 @@ section { padding: 6rem 2rem; max-width: 1000px; margin: 0 auto; }
 .skill-chip {
   padding: 0.4rem 1rem; border-radius: 20px;
   font-size: 13px; border: 1px solid var(--border);
-  color: var(--text); transition: all 0.2s; cursor: default;
+  color: var(--text); transition: all 0.2s; cursor: pointer;
 }
-.skill-chip:hover { border-color: var(--accent); background: var(--ring); transform: scale(1.05); }
+.skill-chip:hover { border-color: var(--accent); background: var(--ring); transform: scale(1.05) rotate(-2deg); }
 
 /* ---------- HOBBIES ---------- */
 .hobbies-grid {
@@ -242,7 +271,7 @@ section { padding: 6rem 2rem; max-width: 1000px; margin: 0 auto; }
   padding: 1.5rem; background: var(--surface);
   cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;
 }
-.hobby-card:hover { border-color: var(--accent2); transform: translateY(-3px); }
+.hobby-card:hover { border-color: var(--accent2); transform: translateY(-3px) rotate(-1deg); }
 .hobby-card h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; }
 .hobby-card .hobby-emoji { font-size: 1.8rem; margin-bottom: 0.5rem; display: block; }
 .hobby-card p { font-size: 0.85rem; color: var(--dim); line-height: 1.6; }
@@ -254,6 +283,148 @@ section { padding: 6rem 2rem; max-width: 1000px; margin: 0 auto; }
   text-align: center;
 }
 .hobby-card:hover .hover-joke { transform: translateY(0); }
+
+/* ---------- MEME GALLERY ---------- */
+.meme-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+.meme-card {
+  border: 1px solid var(--border); border-radius: 12px;
+  overflow: hidden; background: var(--surface);
+  transition: transform 0.3s, border-color 0.3s;
+}
+.meme-card:hover { transform: translateY(-4px) rotate(1deg); border-color: var(--accent3); }
+.meme-card h4 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  padding: 0.8rem 1.2rem; border-bottom: 1px solid var(--border);
+  letter-spacing: 0.05em;
+}
+.meme-body { padding: 1.5rem; }
+
+/* Drake meme */
+.drake { display: flex; flex-direction: column; gap: 2px; }
+.drake-row {
+  display: flex; align-items: center; gap: 1rem;
+  background: var(--panel); border-radius: 8px; padding: 0.8rem 1rem;
+  transition: transform 0.2s;
+}
+.drake-row:hover { transform: translateX(4px); }
+.drake-row .face { font-size: 2.5rem; width: 60px; text-align: center; flex-shrink: 0; }
+.drake-row .label { font-size: 0.85rem; color: var(--text); font-weight: 600; }
+.drake-row .label small { display: block; color: var(--muted); font-weight: 400; font-size: 0.75rem; }
+
+/* This is fine */
+.this-is-fine { position: relative; text-align: center; }
+.this-is-fine .dog {
+  font-size: 4rem; display: block; position: relative; z-index: 2;
+  animation: dog-shake 3s ease-in-out infinite;
+}
+@keyframes dog-shake {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(3deg); }
+  75% { transform: rotate(-3deg); }
+}
+.this-is-fine .flames {
+  font-size: 2.2rem; display: block; margin-top: -0.6rem; z-index: 1;
+  animation: flame-flicker 0.8s ease-in-out infinite alternate;
+}
+@keyframes flame-flicker {
+  from { transform: scale(1) rotate(-2deg); opacity: 0.8; }
+  to { transform: scale(1.15) rotate(2deg); opacity: 1; }
+}
+.this-is-fine .caption {
+  font-size: 1rem; font-weight: 800; color: var(--accent3);
+  margin-top: 1rem; text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+/* Expanding brain */
+.brain-scale { display: flex; flex-direction: column; gap: 0.6rem; }
+.brain-level {
+  display: flex; align-items: center; gap: 0.8rem;
+  opacity: 0.5; transition: opacity 0.3s, transform 0.3s;
+  cursor: pointer;
+}
+.brain-level:hover { opacity: 1; transform: scale(1.02); }
+.brain-level.active { opacity: 1; }
+.brain-level .brain { font-size: calc(1rem + var(--s) * 0.5rem); width: 70px; text-align: center; flex-shrink: 0; }
+.brain-level .text { font-size: 0.8rem; color: var(--dim); }
+.brain-level.active .text { color: var(--text); }
+
+/* Two buttons */
+.two-btns { position: relative; text-align: center; padding: 1.5rem 0; }
+.two-btns .guy { font-size: 3rem; display: block; margin-bottom: 1rem; animation: guy-sweat 2s ease-in-out infinite; }
+@keyframes guy-sweat {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(3px); }
+}
+.two-btns .btn-pair { display: flex; gap: 1rem; justify-content: center; }
+.two-btns .meme-btn {
+  padding: 0.8rem 1.5rem; border-radius: 8px;
+  font-weight: 700; font-size: 0.9rem; border: none; cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-family: inherit;
+}
+.two-btns .meme-btn:hover { transform: scale(1.08); }
+.two-btns .btn-a { background: var(--accent); color: var(--void); }
+.two-btns .btn-b { background: var(--accent2); color: var(--void); }
+.two-btns .meme-result {
+  margin-top: 1rem; font-size: 0.85rem; color: var(--accent3);
+  font-family: 'JetBrains Mono', monospace; min-height: 1.5em;
+}
+
+/* Spongebob mocking */
+.mocking {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem; line-height: 1.8; text-align: center;
+  cursor: pointer; transition: color 0.2s;
+}
+.mocking:hover { color: var(--accent3); }
+.mocking .mock { text-transform: lowercase; }
+.mocking .mock::first-letter { text-transform: uppercase; }
+
+/* ---------- WHACK-A-BUG GAME ---------- */
+.game-section { text-align: center; }
+.game-arena {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1rem; max-width: 400px; margin: 0 auto;
+}
+.hole {
+  aspect-ratio: 1; background: var(--panel);
+  border: 1px solid var(--border); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.2rem; cursor: pointer; position: relative;
+  overflow: hidden; transition: background 0.2s;
+}
+.hole:hover { background: var(--elevated); }
+.hole .bug {
+  font-size: 2.5rem; animation: bug-pop 0.3s ease-out;
+  user-select: none;
+}
+@keyframes bug-pop {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+.hole.hit { animation: hit-flash 0.3s; }
+@keyframes hit-flash {
+  0% { background: var(--accent2); }
+  100% { background: var(--panel); }
+}
+.game-score {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.2rem; color: var(--accent);
+  margin: 1.5rem 0;
+}
+.game-score b { font-size: 2rem; }
+.game-btn {
+  background: var(--accent); color: var(--void);
+  border: none; padding: 0.8rem 2rem; border-radius: 40px;
+  font-weight: 700; font-size: 14px; cursor: pointer;
+  font-family: inherit; transition: transform 0.2s;
+}
+.game-btn:hover { transform: scale(1.05); }
+.game-tip { font-size: 0.8rem; color: var(--muted); margin-top: 1rem; font-family: 'JetBrains Mono', monospace; }
 
 /* ---------- ABOUT ---------- */
 .about-text {
@@ -267,7 +438,9 @@ section { padding: 6rem 2rem; max-width: 1000px; margin: 0 auto; }
 .fact {
   flex: 1 1 180px; border: 1px solid var(--border);
   border-radius: 12px; padding: 1.2rem; background: var(--surface);
+  transition: transform 0.2s, border-color 0.2s;
 }
+.fact:hover { transform: translateY(-3px); border-color: var(--accent); }
 .fact-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px; color: var(--muted); text-transform: uppercase;
@@ -278,10 +451,6 @@ section { padding: 6rem 2rem; max-width: 1000px; margin: 0 auto; }
 
 /* ---------- CONTACT ---------- */
 .contact-section { text-align: center; }
-.contact-prompt {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px; color: var(--muted); margin-bottom: 1rem;
-}
 .contact-email {
   font-size: clamp(1.5rem, 4vw, 3rem);
   font-weight: 900; color: var(--accent); text-decoration: none;
@@ -318,14 +487,22 @@ footer {
 }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-/* Confetti */
 .confetti {
-  position: fixed; z-index: 999; pointer-events: none;
+  position: fixed; z-index: 9999; pointer-events: none;
   font-size: 1.5rem; animation: fall 1s ease-out forwards;
 }
 @keyframes fall {
   0% { transform: translateY(0) rotate(0deg); opacity: 1; }
   100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* Cursor glow */
+#cursor-glow {
+  position: fixed; width: 300px; height: 300px;
+  border-radius: 50%; pointer-events: none; z-index: 0;
+  background: radial-gradient(circle, rgba(0,204,136,0.06) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s;
 }
 
 /* Responsive */
@@ -335,29 +512,43 @@ footer {
   nav { padding: 1rem 1.2rem; }
   .nav-links { gap: 0.8rem; }
   .hero-stats { gap: 1rem; }
+  .game-arena { max-width: 300px; }
 }
 </style>
 </head>
 <body>
+
+<div id="progress"></div>
+<div id="cursor-glow"></div>
 
 <nav id="nav">
   <a href="#" class="nav-logo">&gt; jr._</a>
   <div class="nav-links">
     <a href="#projects">work</a>
     <a href="#skills">skills</a>
+    <a href="#memes">memes</a>
+    <a href="#game">game</a>
     <a href="#hobbies">hobbies</a>
     <a href="#about">about</a>
     <a href="#contact">say hi</a>
   </div>
 </nav>
 
-<!-- PANIC BUTTON -->
-<button class="panic-btn" id="panicBtn" title="Click if you're overwhelmed">🚨 panic</button>
-<div class="panic-modal" id="panicModal">
-  <h2>🎉</h2>
-  <p>You found the panic button. Everything is fine. Take a deep breath. This is just a portfolio — nobody's grading it.</p>
-  <button class="panic-close" onclick="document.getElementById('panicModal').classList.remove('active')">I'm calm now, thanks</button>
+<!-- FLOATING BUTTONS -->
+<div class="float-btns">
+  <button class="float-btn" id="complimentBtn" title="You deserve this">💬 compliment me</button>
+  <button class="float-btn" id="panicBtn" title="Click if you're overwhelmed">🚨 panic</button>
 </div>
+
+<!-- PANIC MODAL -->
+<div class="modal" id="panicModal">
+  <h2>🎉</h2>
+  <p>You found the panic button. Everything is fine. Take a deep breath. This is just a portfolio — nobody's grading it. Except recruiters. Okay, maybe panic a little.</p>
+  <button class="modal-close" onclick="document.getElementById('panicModal').classList.remove('active')">I'm calm now, thanks</button>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
 
 <!-- HERO -->
 <section class="hero">
@@ -366,27 +557,19 @@ footer {
     <span class="cursor"></span>
   </div>
   <h1 class="hero-name">
-    Janak<br><span class="highlight">Rudani</span>
+    Janak<br><span class="highlight funny-flip">Rudani</span>
   </h1>
   <p class="hero-tagline">
     Statistics student who treats datasets like mystery novels — 
-    <span class="pun">every variable is a suspect.</span> I build models, break assumptions, 
-    and occasionally remember to set a seed.
+    <span class="pun" onclick="this.textContent='every variable is a suspect 🔍'">every variable is a suspect.</span> 
+    I build models, break assumptions, and occasionally remember to set a seed.
   </p>
   <a href="#projects" class="hero-cta">↓ See the receipts</a>
   <div class="hero-stats">
-    <div class="hero-stat">
-      <b>8</b> projects shipped
-    </div>
-    <div class="hero-stat">
-      <b>253</b> tests passing
-    </div>
-    <div class="hero-stat">
-      <b>0.84</b> best AUC
-    </div>
-    <div class="hero-stat">
-      <b>∞</b> times I've said "just one more tweak"
-    </div>
+    <div class="hero-stat"><b><span class="countup" data-target="8">0</span></b> projects shipped</div>
+    <div class="hero-stat"><b><span class="countup" data-target="253">0</span></b> tests passing</div>
+    <div class="hero-stat"><b><span class="countup" data-target="0.84" data-decimal="2">0</span></b> best AUC</div>
+    <div class="hero-stat"><b>∞</b> times I've said "just one more tweak"</div>
   </div>
 </section>
 
@@ -441,7 +624,7 @@ footer {
     <div>
       <p class="project-num">02</p>
       <h3>DC Bike Share — Count Regression</h3>
-      <p>731 days of Capital Bikeshare data. Discovered the variance was 357× the mean, which is statistician-speak for "Poisson, you're fired." <span class="stat-joke">Negative Binomial saved the day. Hero arc.</span></p>
+      <p>731 days of Capital Bikeshare data. Discovered the variance was 357× the mean, which is statistician-speak for <span class="stat-joke">"Poisson, you're fired."</span> Negative Binomial saved the day. Hero arc.</p>
       <div class="tags"><span class="tag hl">Poisson / NB GLM</span><span class="tag">R</span><span class="tag">IRR</span></div>
     </div>
     <div class="project-side">
@@ -534,7 +717,7 @@ footer {
   <div class="section-header" style="max-width: 1000px; margin-left: auto; margin-right: auto;">
     <p class="section-num">02 — The toolkit</p>
     <h2 class="section-title">Skills</h2>
-    <p class="section-subtitle">Things I'm good at, things I'm learning, and things I pretend to understand.</p>
+    <p class="section-subtitle">Things I'm good at, things I'm learning, and things I pretend to understand. <b style="color:var(--accent3)">Click a chip — it's not a trap.</b></p>
   </div>
   <div class="skills-grid fade-in" style="max-width: 1000px; margin: 0 auto;">
     <div class="skill-group">
@@ -575,10 +758,148 @@ footer {
   </div>
 </section>
 
+<!-- MEMES -->
+<section id="memes">
+  <div class="section-header">
+    <p class="section-num">03 — Certified memes</p>
+    <h2 class="section-title">A Data Scientist's Memes</h2>
+    <p class="section-subtitle">Hand-crafted, 100% organic, gluten-free. Hover them. Click them. Judge me.</p>
+  </div>
+  <div class="meme-grid fade-in">
+
+    <!-- DRAKE -->
+    <div class="meme-card">
+      <h4>drake_meme.v2</h4>
+      <div class="meme-body">
+        <div class="drake">
+          <div class="drake-row">
+            <div class="face">😤</div>
+            <div class="label">Using p &lt; 0.05 blindly<small>because someone on Twitter said so</small></div>
+          </div>
+          <div class="drake-row">
+            <div class="face">😎</div>
+            <div class="label">Checking assumptions first<small>normality, homoscedasticity, my sanity</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THIS IS FINE -->
+    <div class="meme-card">
+      <h4>this_is_fine.png</h4>
+      <div class="meme-body">
+        <div class="this-is-fine">
+          <span class="dog">🐶</span>
+          <span class="flames">🔥🔥🔥</span>
+          <div class="caption">The model is overfitting<br>but it's fine</div>
+          <div style="margin-top:1rem; font-size:0.8rem; color:var(--muted); font-family:'JetBrains Mono',monospace;">
+            train: 99.9% · test: 51% · vibes: immaculate
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPANDING BRAIN -->
+    <div class="meme-card">
+      <h4>expanding_brain.png</h4>
+      <div class="meme-body">
+        <div class="brain-scale" id="brainScale">
+          <div class="brain-level active" data-level="0">
+            <div class="brain" style="--s:1">🧠</div>
+            <div class="text">"I'll just use Excel"</div>
+          </div>
+          <div class="brain-level" data-level="1">
+            <div class="brain" style="--s:2">🧠</div>
+            <div class="text">"Linear regression solves everything"</div>
+          </div>
+          <div class="brain-level" data-level="2">
+            <div class="brain" style="--s:3">🧠</div>
+            <div class="text">"Wait... I need to check for overdispersion"</div>
+          </div>
+          <div class="brain-level" data-level="3">
+            <div class="brain" style="--s:4">🧠</div>
+            <div class="text">"Negative Binomial GLM with mixed effects and a Bayesian prior because why not"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TWO BUTTONS -->
+    <div class="meme-card">
+      <h4>two_buttons.png</h4>
+      <div class="meme-body">
+        <div class="two-btns">
+          <span class="guy">😰</span>
+          <div class="btn-pair">
+            <button class="meme-btn btn-a" onclick="twoButtons('ship')">🚀 Ship it</button>
+            <button class="meme-btn btn-b" onclick="twoButtons('test')">🧪 One more test</button>
+          </div>
+          <div class="meme-result" id="twoBtnsResult">choose wisely...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPONGEBOB MOCKING -->
+    <div class="meme-card">
+      <h4>mock.text</h4>
+      <div class="meme-body">
+        <div class="mocking" id="mocking" onclick="mockFlip()">
+          <span class="mock">yOu CoMmItTeD aNd PuShEd WiThOuT rUnNiNg ThE tEsTs</span>
+        </div>
+        <div style="margin-top:1rem; font-size:0.8rem; color:var(--muted); font-family:'JetBrains Mono',monospace; text-align:center;">
+          click to cycle the roast
+        </div>
+      </div>
+    </div>
+
+    <!-- CHANGE MY MIND -->
+    <div class="meme-card">
+      <h4>change_my_mind.jpg</h4>
+      <div class="meme-body" style="text-align:center;">
+        <div style="border:3px solid var(--accent3); border-radius:8px; padding:2rem 1rem; background:var(--panel);">
+          <div style="font-size:1.4rem; font-weight:900; color:var(--text); line-height:1.4;">
+            R Markdown<br>
+            <span style="color:var(--muted); font-weight:500; font-size:1rem;">is just a very opinionated<br>way to suffer</span>
+          </div>
+        </div>
+        <div style="margin-top:1rem; font-size:0.8rem; color:var(--muted); font-family:'JetBrains Mono',monospace;">
+          i'm willing to be wrong (no i'm not)
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHACK-A-BUG -->
+<section id="game" class="game-section" style="background: var(--panel); max-width: none; padding: 6rem calc((100vw - 1000px) / 2);">
+  <div style="max-width: 600px; margin: 0 auto;">
+    <div class="section-header">
+      <p class="section-num">04 — Productivity</p>
+      <h2 class="section-title">Whack-a-Bug</h2>
+      <p class="section-subtitle">The bug hunting hobby, gamified. Squash the bugs before they commit changes.</p>
+    </div>
+    <div class="game-arena" id="gameArena">
+      <div class="hole" data-idx="0"></div>
+      <div class="hole" data-idx="1"></div>
+      <div class="hole" data-idx="2"></div>
+      <div class="hole" data-idx="3"></div>
+      <div class="hole" data-idx="4"></div>
+      <div class="hole" data-idx="5"></div>
+      <div class="hole" data-idx="6"></div>
+      <div class="hole" data-idx="7"></div>
+      <div class="hole" data-idx="8"></div>
+    </div>
+    <div class="game-score">Bugs squashed: <b id="bugScore">0</b></div>
+    <button class="game-btn" id="gameStart" onclick="startGame()">🐛 Start bug hunt</button>
+    <div class="game-tip" id="gameTip">Bugs pop up for 1.5s. Click them. That's it. That's the job.</div>
+  </div>
+</section>
+
 <!-- HOBBIES -->
 <section id="hobbies">
   <div class="section-header">
-    <p class="section-num">03 — The human side</p>
+    <p class="section-num">05 — The human side</p>
     <h2 class="section-title">Hobbies</h2>
     <p class="section-subtitle">Proof that I exist outside of a terminal. Hover for the real story.</p>
   </div>
@@ -626,7 +947,7 @@ footer {
 <section id="about" style="background: var(--panel); max-width: none; padding: 6rem calc((100vw - 1000px) / 2);">
   <div style="max-width: 1000px; margin: 0 auto;">
     <div class="section-header">
-      <p class="section-num">04 — The origin story</p>
+      <p class="section-num">06 — The origin story</p>
       <h2 class="section-title">About</h2>
     </div>
     <p class="about-text fade-in">
@@ -663,11 +984,10 @@ footer {
 <!-- CONTACT -->
 <section id="contact" class="contact-section">
   <div class="section-header">
-    <p class="section-num">05 — Let's talk</p>
+    <p class="section-num">07 — Let's talk</p>
     <h2 class="section-title">Contact</h2>
     <p class="section-subtitle">I promise I write better emails than this website copy.</p>
   </div>
-  <p class="contact-prompt" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted);">&gt; mailto: janak</p>
   <a href="mailto:Janak25rudani@icloud.com" class="contact-email">janak25rudani@icloud.com</a>
   <div class="social-links">
     <a href="https://github.com/Jrudani21" target="_blank" class="social-link">github/Jrudani21</a>
@@ -678,10 +998,11 @@ footer {
 <footer>
   <div class="console-line">
     <span class="prompt">jr@portfolio:~$</span> <span class="cmd">cat footer.txt</span><br>
-    <span class="output">Built with ❤️, caffeine, and approximately {count} console.log statements.</span><br>
+    <span class="output">Built with ❤️, caffeine, and {count} console.log statements.</span><br>
     <span class="prompt">jr@portfolio:~$</span> <span class="cmd">git blame</span><br>
     <span class="error">fatal: everything is Janak's fault</span><br>
-    <span class="prompt">jr@portfolio:~$</span> <span class="cmd">exit</span><br>
+    <span class="prompt">jr@portfolio:~$</span> <span class="cmd">try_konami_code</span><br>
+    <span class="output">↑↑↓↓←→←→BA unlocked something... did you find it?</span><br>
     <span style="color: var(--dim);">Thanks for scrolling all the way down. You're the real MVP. 🏆</span>
   </div>
 </footer>
@@ -693,7 +1014,15 @@ window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 50);
 });
 
-// ======= FADE IN ON SCROLL =======
+// ======= SCROLL PROGRESS =======
+const progressBar = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  progressBar.style.width = pct + '%';
+});
+
+// ======= FADE IN =======
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) e.target.classList.add('visible');
@@ -701,13 +1030,67 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.15 });
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
+// ======= COUNT-UP STATS =======
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = parseFloat(el.dataset.target);
+    const decimals = parseInt(el.dataset.decimal || 0);
+    const dur = 1200;
+    const start = performance.now();
+    function tick(now) {
+      const p = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = (target * eased).toFixed(decimals);
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+    countObserver.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.countup').forEach(el => countObserver.observe(el));
+
+// ======= CURSOR GLOW =======
+const glow = document.getElementById('cursor-glow');
+document.addEventListener('mousemove', (e) => {
+  glow.style.left = e.clientX + 'px';
+  glow.style.top = e.clientY + 'px';
+});
+
 // ======= PANIC BUTTON =======
 document.getElementById('panicBtn').addEventListener('click', () => {
   document.getElementById('panicModal').classList.add('active');
-  // Confetti!!
-  for (let i = 0; i < 30; i++) {
+  spawnConfetti(30, ['🎉','🎊','📊','📈','😂','🔥','💻','☕','🐛']);
+});
+
+// ======= COMPLIMENT BUTTON =======
+const compliments = [
+  'Your p-values are significant AND you remembered to correct for multiple comparisons. Legend. 🏆',
+  'You explained a variance component to a non-statistician and they didn\'t cry. Unreal. 🎯',
+  'You\'re the only person who reads the residual plots. Certified rare breed. 🦄',
+  'Your R² is high and your humility is higher. Wait, that came out wrong. 💚',
+  'You set a random seed today. The reproducibility gods smile upon you. 🌱',
+  'You closed a terminal tab without crying. That\'s growth. 🌟',
+  'Your git history tells a story of a developer who tries, fails, and eventually succeeds. Inspiring. 📖',
+  'You\'re 100% statistically significant in my book. And my book has a confidence interval of [1,1]. 📚',
+  'You debugged something today. Somewhere, a QA engineer felt a disturbance in the Force. 🐛',
+  'You use tabs OR spaces, and honestly? I respect the conviction. 🎖️',
+];
+const toast = document.getElementById('toast');
+document.getElementById('complimentBtn').addEventListener('click', () => {
+  const c = compliments[Math.floor(Math.random() * compliments.length)];
+  toast.textContent = c;
+  toast.classList.add('show');
+  spawnConfetti(15, ['💚','✨','⭐','🌈']);
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => toast.classList.remove('show'), 4000);
+});
+
+// ======= CONFETTI =======
+function spawnConfetti(count, emojis) {
+  for (let i = 0; i < count; i++) {
     setTimeout(() => {
-      const emojis = ['🎉','🎊','📊','📈','😂','🔥','💻','☕','🐛'];
       const el = document.createElement('div');
       el.className = 'confetti';
       el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
@@ -715,12 +1098,12 @@ document.getElementById('panicBtn').addEventListener('click', () => {
       el.style.top = Math.random() * 40 + '%';
       el.style.animationDuration = (0.8 + Math.random() * 1.2) + 's';
       document.body.appendChild(el);
-      setTimeout(() => el.remove(), 2000);
+      setTimeout(() => el.remove(), 2200);
     }, i * 40);
   }
-});
+}
 
-// ======= PROJECT CARD TILT =======
+// ======= PROJECT TILT =======
 document.querySelectorAll('.project').forEach(card => {
   card.addEventListener('mousemove', (e) => {
     const rect = card.getBoundingClientRect();
@@ -728,60 +1111,138 @@ document.querySelectorAll('.project').forEach(card => {
     const y = e.clientY - rect.top;
     card.style.setProperty('--mx', x + 'px');
     card.style.setProperty('--my', y + 'px');
-    const cx = rect.width / 2;
-    const cy = rect.height / 2;
+    const cx = rect.width / 2, cy = rect.height / 2;
     const rx = (y - cy) / cy * 3;
     const ry = (x - cx) / cx * -3;
     card.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-2px)`;
   });
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = '';
-  });
+  card.addEventListener('mouseleave', () => { card.style.transform = ''; });
 });
 
-// ======= CLICK PROJECT FOR CONFETTI =======
+// ======= PROJECT CLICK SPARKLES =======
 document.querySelectorAll('.project').forEach(card => {
   card.addEventListener('click', (e) => {
+    if (e.target.closest('a')) return;
     const rect = card.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
+    const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
     for (let i = 0; i < 8; i++) {
       const el = document.createElement('div');
       el.className = 'confetti';
       el.textContent = '✨';
       el.style.left = (cx + (Math.random() - 0.5) * 200) + 'px';
       el.style.top = (cy + (Math.random() - 0.5) * 100) + 'px';
-      el.style.position = 'fixed';
-      el.style.zIndex = '999';
-      el.style.pointerEvents = 'none';
       el.style.fontSize = '1.2rem';
-      el.style.animation = 'fall 1s ease-out forwards';
       document.body.appendChild(el);
-      setTimeout(() => el.remove(), 1000);
+      setTimeout(() => el.remove(), 1100);
     }
   });
 });
 
-// ======= TYPEWRITER GREETING =======
-const greetingEl = document.querySelector('.terminal-greeting span:last-child');
-const messages = ['> whoami', '> npm install confidence', '> git commit -m "fixed everything"', '> python -c "print(\'hello world\')"'];
-let msgIdx = 0;
+// ======= TERMINAL GREETING CYCLE =======
+const greetings = ['> whoami', '> npm install confidence', '> git commit -m "fixed everything"', '> python -c "print(\'hello world\')"', '> model.fit(anxiety, optimizer="nap")'];
+let gIdx = 0;
 setInterval(() => {
-  msgIdx = (msgIdx + 1) % messages.length;
-  greetingEl.parentElement.innerHTML = `<span>${messages[msgIdx]}</span> <span class="cursor"></span>`;
+  gIdx = (gIdx + 1) % greetings.length;
+  document.querySelector('.terminal-greeting').innerHTML = `<span>${greetings[gIdx]}</span> <span class="cursor"></span>`;
 }, 4000);
 
-// ======= TICKER PAUSE ON HOVER =======
+// ======= TICKER PAUSE =======
 const ticker = document.getElementById('ticker');
 ticker.addEventListener('mouseenter', () => ticker.style.animationPlayState = 'paused');
 ticker.addEventListener('mouseleave', () => ticker.style.animationPlayState = 'running');
 
-// ======= FOOTER CONSOLE LOG COUNT =======
-const consoleCount = Math.floor(Math.random() * 5000) + 1000;
-document.querySelector('.output').innerHTML = 
-  document.querySelector('.output').innerHTML.replace('{count}', consoleCount);
+// ======= BRAIN SCALE CLICK =======
+document.querySelectorAll('.brain-level').forEach(lvl => {
+  lvl.addEventListener('click', () => {
+    document.querySelectorAll('.brain-level').forEach(l => l.classList.remove('active'));
+    lvl.classList.add('active');
+    spawnConfetti(10, ['🧠']);
+  });
+});
 
-// ======= EASTER EGG: KONAMI CODE =======
+// ======= TWO BUTTONS =======
+function twoButtons(choice) {
+  const r = document.getElementById('twoBtnsResult');
+  if (choice === 'ship') {
+    r.textContent = '✅ Deployed to prod. The tests were going to fail anyway.';
+  } else {
+    r.textContent = '🧪 Added one more test... which found 3 more bugs. You monster.';
+  }
+  spawnConfetti(12, ['🚀','🧪']);
+}
+
+// ======= MOCKING CYCLE =======
+const roasts = [
+  'yOu CoMmItTeD aNd PuShEd WiThOuT rUnNiNg ThE tEsTs',
+  'iT wOrKs On My MaChInE',
+  'hAvE yOu TrIeD tUrNiNg It OfF aNd On',
+  'jUsT aDd A cOlUmN tO tHe DaTaBaSe',
+  'tHe MoDeL wAs TrAiNeD oN dAtA fRoM tHe FuTuRe',
+  'iTs NoT a BuG iTs An UnDoCuMeNtEd FeAtUrE',
+];
+let roastIdx = 0;
+function mockFlip() {
+  roastIdx = (roastIdx + 1) % roasts.length;
+  document.querySelector('#mocking .mock').textContent = roasts[roastIdx];
+  spawnConfetti(8, ['🗿']);
+}
+
+// ======= WHACK-A-BUG GAME =======
+let bugTimer = null, bugScore = 0, bugActive = false, gameRunning = false;
+const arena = document.getElementById('gameArena');
+const holes = [...document.querySelectorAll('.hole')];
+const scoreEl = document.getElementById('bugScore');
+const tipEl = document.getElementById('gameTip');
+const startBtn = document.getElementById('gameStart');
+
+holes.forEach((hole, idx) => {
+  hole.addEventListener('click', () => {
+    const bug = hole.querySelector('.bug');
+    if (bug) {
+      hole.classList.add('hit');
+      bugScore++;
+      scoreEl.textContent = bugScore;
+      hole.innerHTML = '';
+      setTimeout(() => hole.classList.remove('hit'), 300);
+      spawnConfetti(6, ['💥','🐛']);
+    }
+  });
+});
+
+function spawnBug() {
+  if (!gameRunning) return;
+  holes.forEach(h => h.innerHTML = '');
+  const idx = Math.floor(Math.random() * holes.length);
+  const hole = holes[idx];
+  const bug = document.createElement('div');
+  bug.className = 'bug';
+  bug.textContent = Math.random() > 0.3 ? '🐛' : '🪲';
+  bug.style.cursor = 'pointer';
+  hole.appendChild(bug);
+  bugTimer = setTimeout(() => {
+    if (hole.querySelector('.bug')) hole.innerHTML = '';
+    spawnBug();
+  }, 1500);
+}
+
+function startGame() {
+  if (gameRunning) return;
+  gameRunning = true;
+  bugScore = 0;
+  scoreEl.textContent = '0';
+  tipEl.textContent = 'GO GO GO! 🏃';
+  startBtn.textContent = 'Squashing...';
+  spawnBug();
+  setTimeout(() => {
+    gameRunning = false;
+    clearTimeout(bugTimer);
+    holes.forEach(h => h.innerHTML = '');
+    startBtn.textContent = '🔄 Play again';
+    tipEl.innerHTML = bugScore >= 15 ? `🏆 <b style="color:var(--accent3)">${bugScore}</b> bugs?! You ARE the bug hunter.` : `You squashed <b style="color:var(--accent3)">${bugScore}</b> bugs. The rest committed to main anyway.`;
+  }, 15000);
+}
+
+// ======= KONAMI CODE =======
 const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
 let konamiIdx = 0;
 document.addEventListener('keydown', (e) => {
@@ -791,27 +1252,33 @@ document.addEventListener('keydown', (e) => {
       document.body.style.transition = 'transform 0.5s';
       document.body.style.transform = 'rotate(360deg)';
       setTimeout(() => { document.body.style.transform = ''; }, 500);
-      for (let i = 0; i < 60; i++) {
-        setTimeout(() => {
-          const el = document.createElement('div');
-          el.className = 'confetti';
-          el.textContent = '🦄';
-          el.style.left = Math.random() * 100 + '%';
-          el.style.top = Math.random() * 100 + '%';
-          el.style.fontSize = '2rem';
-          el.style.animation = 'fall 2s ease-out forwards';
-          document.body.appendChild(el);
-          setTimeout(() => el.remove(), 2000);
-        }, i * 30);
-      }
+      spawnConfetti(60, ['🦄','✨','🎉']);
       konamiIdx = 0;
     }
   } else { konamiIdx = 0; }
 });
 
-console.log('%c👋 Hey! You found the console. %cYou must be a developer. %cWe should be friends.', 
+// ======= FOOTER COUNT =======
+const consoleCount = Math.floor(Math.random() * 5000) + 1000;
+document.querySelector('.output').innerHTML =
+  document.querySelector('.output').innerHTML.replace('{count}', consoleCount);
+
+// ======= SECRET: click logo 5x =======
+let logoClicks = 0;
+document.querySelector('.nav-logo').addEventListener('click', (e) => {
+  e.preventDefault();
+  logoClicks++;
+  if (logoClicks >= 5) {
+    document.querySelector('.nav-logo').textContent = '> nice try, janak_';
+    spawnConfetti(20, ['👑','🔥']);
+    setTimeout(() => { document.querySelector('.nav-logo').textContent = '> jr._'; logoClicks = 0; }, 2000);
+  }
+});
+
+console.log('%c👋 Hey! You found the console. %cYou must be a developer. %cWe should be friends.',
   'font-size:18px; color:#00cc88;', 'color:#ffd93d;', 'color:#999;');
-console.log('%cTry the Konami code: ↑↑↓↓←→←→BA', 'color:#ff6b6b; font-style: italic;');
+console.log('%c🦄 Try the Konami code: ↑↑↓↓←→←→BA', 'color:#ff6b6b; font-style: italic;');
+console.log('%c📊 Tip: click the 🧠 memes and the buttons. I dare you.', 'color:#6c5ce7;');
 </script>
 
 </body>
