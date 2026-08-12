@@ -6,7 +6,7 @@
 <title>Janak Rudani - boot sequence detected</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=VT323&display=swap" rel="stylesheet">
 <style>
 /* =====================================================================
    JANAK RUDANI - PORTFOLIO ULTIMATE
@@ -42,15 +42,15 @@ body {
 }
 ::selection { background: var(--accent); color: var(--void); }
 a { color: inherit; }
-.mono { font-family: 'JetBrains Mono', monospace; }
+.mono { font-family: 'VT323', monospace; }
 
 /* ---------- BOOT OVERLAY ---------- */
 #boot {
   position: fixed; inset: 0; z-index: 9999;
   background: var(--void);
   display: flex; flex-direction: column; justify-content: center;
-  padding: 2rem; font-family: 'JetBrains Mono', monospace;
-  font-size: clamp(0.7rem, 2vw, 0.95rem);
+  padding: 2rem; font-family: 'VT323', monospace;
+  font-size: clamp(0.8rem, 2vw, 1.05rem);
   transition: opacity 0.6s ease;
 }
 #boot.done { opacity: 0; pointer-events: none; }
@@ -100,16 +100,16 @@ nav.scrolled {
   padding: 0.8rem 2.2rem;
 }
 .nav-logo {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 15px; font-weight: 800; color: var(--accent);
+  font-family: 'VT323', monospace;
+  font-size: 17px; font-weight: 800; color: var(--accent);
   text-decoration: none; text-shadow: var(--glow);
   cursor: pointer; user-select: none;
 }
 .nav-logo::before { content: '> '; color: var(--dim); }
 .nav-links { display: flex; gap: 1.6rem; align-items: center; }
 .nav-links a {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px; color: var(--dim); text-decoration: none;
+  font-family: 'VT323', monospace;
+  font-size: 14px; color: var(--dim); text-decoration: none;
   transition: color 0.2s; position: relative;
 }
 .nav-links a::after {
@@ -127,7 +127,7 @@ nav.scrolled {
 }
 .float-btn {
   background: rgba(16,16,24,0.9); border: 1px solid var(--border);
-  color: var(--dim); font-family: 'JetBrains Mono', monospace;
+  color: var(--dim); font-family: 'VT323', monospace;
   font-size: 11px; padding: 0.6rem 1rem; border-radius: 40px;
   cursor: pointer; transition: all 0.25s;
   backdrop-filter: blur(8px);
@@ -147,7 +147,7 @@ nav.scrolled {
   backdrop-filter: blur(6px);
 }
 .modal.active { opacity: 1; pointer-events: all; }
-.modal h2 { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 700; margin-bottom: 1rem; }
+.modal h2 { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 800; margin-bottom: 1rem; font-family: 'Unbounded', sans-serif; }
 .modal p { color: var(--dim); font-size: 1.1rem; margin-bottom: 2rem; max-width: 520px; text-align: center; }
 .modal-close {
   background: var(--accent); color: var(--void); border: none;
@@ -176,7 +176,7 @@ nav.scrolled {
   max-width: 960px; margin: 0 auto; position: relative; z-index: 2;
 }
 .terminal-greeting {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'VT323', monospace;
   font-size: 13px; color: var(--muted); margin-bottom: 1.4rem;
   display: flex; align-items: center; gap: 0.5rem; min-height: 20px;
 }
@@ -187,8 +187,9 @@ nav.scrolled {
 @keyframes blink { 50% { opacity: 0; } }
 .hero-name {
   font-size: clamp(3.2rem, 11vw, 7.5rem);
-  font-weight: 700; line-height: 0.9;
-  letter-spacing: -0.03em; margin-bottom: 1.5rem;
+  font-weight: 800; line-height: 0.9;
+  letter-spacing: -0.02em; margin-bottom: 1.5rem;
+  font-family: 'Unbounded', 'Space Grotesk', sans-serif;
 }
 .gradient-text {
   background: linear-gradient(120deg, var(--accent), var(--violet) 60%, var(--amber));
@@ -229,7 +230,7 @@ nav.scrolled {
 }
 .hero-term-btn:hover { border-color: var(--accent); color: var(--accent); }
 .hero-stats { display: flex; gap: 2.5rem; margin-top: 4rem; flex-wrap: wrap; }
-.hero-stat { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
+.hero-stat { font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); }
 .hero-stat b { color: var(--accent); font-size: 1.4rem; display: block; margin-bottom: 0.15rem; text-shadow: var(--glow); }
 .countup { display: inline-block; }
 
@@ -242,8 +243,8 @@ nav.scrolled {
 .ticker {
   display: flex; gap: 3rem; width: max-content;
   animation: scroll 40s linear infinite;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; color: var(--muted);
+  font-family: 'VT323', monospace;
+  font-size: 15px; color: var(--muted);
 }
 .ticker .joke { color: var(--amber); }
 .ticker .skill { color: var(--accent); }
@@ -254,14 +255,15 @@ nav.scrolled {
 section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: relative; z-index: 2; }
 .section-header { margin-bottom: 3.5rem; }
 .section-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; color: var(--accent); letter-spacing: 0.12em;
+  font-family: 'VT323', monospace;
+  font-size: 14px; color: var(--accent); letter-spacing: 0.12em;
   text-transform: uppercase; margin-bottom: 0.6rem;
 }
 .section-num::before { content: '// '; color: var(--muted); }
 .section-title {
   font-size: clamp(2.2rem, 5vw, 3.6rem);
-  font-weight: 700; letter-spacing: -0.02em; line-height: 1.05;
+  font-weight: 700; letter-spacing: -0.01em; line-height: 1.05;
+  font-family: 'Unbounded', 'Space Grotesk', sans-serif;
 }
 .section-subtitle { color: var(--dim); margin-top: 0.7rem; font-size: 1.05rem; max-width: 640px; }
 .section-subtitle b { color: var(--amber); }
@@ -287,7 +289,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 .project:hover { border-color: var(--accent); box-shadow: 0 16px 48px rgba(0,0,0,0.5), var(--glow); }
 .project:hover .project-num { color: var(--accent); }
 .project-num {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'VT323', monospace;
   font-size: 11px; color: var(--muted); margin-bottom: 0.5rem;
   transition: color 0.3s;
 }
@@ -296,8 +298,8 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 .project p .stat-joke { color: var(--amber); font-weight: 500; }
 .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
 .tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; padding: 3px 10px;
+  font-family: 'VT323', monospace;
+  font-size: 13px; padding: 3px 10px;
   border: 1px solid var(--border); border-radius: 20px;
   color: var(--dim); transition: all 0.2s;
 }
@@ -306,11 +308,11 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 .project-side { display: flex; flex-direction: column; align-items: flex-end; justify-content: center; }
 .project-score {
   font-size: 1.35rem; font-weight: 700; color: var(--accent);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'VT323', monospace;
 }
 .project-link {
   font-size: 11px; color: var(--muted);
-  font-family: 'JetBrains Mono', monospace; margin-top: 0.35rem;
+  font-family: 'VT323', monospace; margin-top: 0.35rem;
 }
 .project:hover .project-link { color: var(--accent); }
 
@@ -332,13 +334,13 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 .terminal-dot.y { background: #febc2e; }
 .terminal-dot.g { background: #28c840; }
 .terminal-title {
-  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  font-family: 'VT323', monospace; font-size: 11px;
   color: var(--muted); margin-left: 0.6rem;
 }
 .terminal-body {
   padding: 1.2rem 1.4rem; min-height: 300px; max-height: 400px;
-  overflow-y: auto; font-family: 'JetBrains Mono', monospace;
-  font-size: 13px; line-height: 1.7;
+  overflow-y: auto; font-family: 'VT323', monospace;
+  font-size: 16px; line-height: 1.7;
 }
 .terminal-body::-webkit-scrollbar { width: 6px; }
 .terminal-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -351,7 +353,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 .term-prompt { color: var(--accent); flex-shrink: 0; }
 .term-input {
   background: none; border: none; outline: none; color: var(--text);
-  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+  font-family: 'VT323', monospace; font-size: 16px;
   flex: 1; caret-color: var(--accent);
 }
 .term-cursor {
@@ -369,7 +371,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 .skill-meter .sm-name { font-weight: 600; font-size: 0.95rem; }
 .skill-meter .sm-name .sm-joke { color: var(--muted); font-weight: 400; font-size: 0.8rem; }
 .skill-meter .sm-pct {
-  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  font-family: 'VT323', monospace; font-size: 11px;
   color: var(--accent);
 }
 .sm-bar {
@@ -390,7 +392,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
   padding: 2rem; background: var(--surface);
 }
 .chart-title {
-  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  font-family: 'VT323', monospace; font-size: 14px;
   color: var(--muted); margin-bottom: 1.5rem; text-align: center;
 }
 .chart-wrap { position: relative; }
@@ -403,7 +405,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 }
 .chart-path.danger { stroke: var(--red); filter: drop-shadow(0 0 6px rgba(255,107,107,0.5)); }
 .chart-annot {
-  position: absolute; font-family: 'JetBrains Mono', monospace;
+  position: absolute; font-family: 'VT323', monospace;
   font-size: 10px; color: var(--amber);
   transform: rotate(-6deg);
 }
@@ -421,7 +423,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 }
 .meme-card:hover { transform: translateY(-4px) rotate(0.5deg); border-color: var(--amber); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
 .meme-card h4 {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'VT323', monospace;
   font-size: 11px; color: var(--muted);
   padding: 0.8rem 1.3rem; border-bottom: 1px solid var(--border);
 }
@@ -447,7 +449,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 .this-is-fine .flames { font-size: 2.4rem; display: block; margin-top: -0.6rem; animation: flame-flicker 0.7s ease-in-out infinite alternate; }
 @keyframes flame-flicker { from { transform: scale(1) rotate(-2deg); opacity: 0.75; } to { transform: scale(1.2) rotate(2deg); opacity: 1; } }
 .this-is-fine .caption { font-size: 1rem; font-weight: 700; color: var(--amber); margin-top: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
-.tif-sub { font-size: 0.8rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-top: 0.8rem; }
+.tif-sub { font-size: 0.8rem; color: var(--muted); font-family: 'VT323', monospace; margin-top: 0.8rem; }
 
 /* Expanding brain */
 .brain-scale { display: flex; flex-direction: column; gap: 0.6rem; }
@@ -477,27 +479,27 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 .btn-a:hover { box-shadow: var(--glow); }
 .btn-b { background: var(--red); color: var(--void); }
 .btn-b:hover { box-shadow: 0 0 20px rgba(255,107,107,0.4); }
-.meme-result { margin-top: 1.1rem; font-size: 0.85rem; color: var(--amber); font-family: 'JetBrains Mono', monospace; min-height: 1.6em; }
+.meme-result { margin-top: 1.1rem; font-size: 0.85rem; color: var(--amber); font-family: 'VT323', monospace; min-height: 1.6em; }
 
 /* Mocking */
-.mocking { font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; line-height: 1.9; text-align: center; cursor: pointer; transition: color 0.2s; }
+.mocking { font-family: 'VT323', monospace; font-size: 1.05rem; line-height: 1.9; text-align: center; cursor: pointer; transition: color 0.2s; }
 .mocking:hover { color: var(--amber); }
 .mock { text-transform: lowercase; }
 .mock::first-letter { text-transform: uppercase; }
-.mock-note { margin-top: 1rem; font-size: 0.75rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; text-align: center; }
+.mock-note { margin-top: 1rem; font-size: 0.75rem; color: var(--muted); font-family: 'VT323', monospace; text-align: center; }
 
 /* Change my mind */
 .cmm-box { border: 3px solid var(--amber); border-radius: 12px; padding: 2rem 1.2rem; background: var(--panel); text-align: center; transition: transform 0.3s, box-shadow 0.3s; }
 .cmm-box:hover { transform: scale(1.02); box-shadow: 0 0 40px rgba(255,209,102,0.15); }
 .cmm-title { font-size: 1.4rem; font-weight: 700; line-height: 1.4; }
 .cmm-title span { color: var(--muted); font-weight: 400; font-size: 0.95rem; display: block; margin-top: 0.4rem; }
-.cmm-note { margin-top: 1rem; font-size: 0.75rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; text-align: center; }
+.cmm-note { margin-top: 1rem; font-size: 0.75rem; color: var(--muted); font-family: 'VT323', monospace; text-align: center; }
 
 /* P-value casino */
 .casino { text-align: center; padding: 0.5rem 0; }
 .casino-slots {
   display: flex; gap: 0.8rem; justify-content: center;
-  font-family: 'JetBrains Mono', monospace; font-size: 2.4rem;
+  font-family: 'VT323', monospace; font-size: 2.4rem;
   font-weight: 800; margin-bottom: 1.4rem;
 }
 .casino-slot {
@@ -507,7 +509,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 }
 .casino-slot.spinning { animation: slot-shake 0.2s linear infinite; }
 @keyframes slot-shake { 0%,100% { transform: translateY(0); } 25% { transform: translateY(-4px); } 75% { transform: translateY(4px); } }
-.casino-verdict { font-size: 0.9rem; font-family: 'JetBrains Mono', monospace; min-height: 1.6em; margin-bottom: 1.2rem; }
+.casino-verdict { font-size: 0.9rem; font-family: 'VT323', monospace; min-height: 1.6em; margin-bottom: 1.2rem; }
 .casino-verdict.sig { color: var(--accent); }
 .casino-verdict.nosig { color: var(--red); }
 .casino-lever {
@@ -518,7 +520,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
   transition: transform 0.2s, box-shadow 0.2s;
 }
 .casino-lever:hover { transform: scale(1.06) rotate(-2deg); box-shadow: 0 0 30px rgba(139,124,246,0.4); }
-.casino-note { margin-top: 1rem; font-size: 0.72rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+.casino-note { margin-top: 1rem; font-size: 0.72rem; color: var(--muted); font-family: 'VT323', monospace; }
 
 /* ---------- GAME ---------- */
 .game-section { text-align: center; }
@@ -538,7 +540,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 @keyframes bug-pop { from { transform: scale(0) rotate(-30deg); } to { transform: scale(1) rotate(0); } }
 .hole.hit { animation: hit-flash 0.3s; }
 @keyframes hit-flash { 0% { background: var(--red); } 100% { background: var(--panel); } }
-.game-score { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; color: var(--dim); margin: 1.6rem 0; }
+.game-score { font-family: 'VT323', monospace; font-size: 1.1rem; color: var(--dim); margin: 1.6rem 0; }
 .game-score b { font-size: 2.2rem; color: var(--accent); }
 .game-btn {
   background: var(--accent); color: var(--void);
@@ -547,7 +549,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
   font-family: 'Space Grotesk', sans-serif; transition: transform 0.2s, box-shadow 0.2s;
 }
 .game-btn:hover { transform: scale(1.05); box-shadow: var(--glow); }
-.game-tip { font-size: 0.78rem; color: var(--muted); margin-top: 1.2rem; font-family: 'JetBrains Mono', monospace; }
+.game-tip { font-size: 0.95rem; color: var(--muted); margin-top: 1.2rem; font-family: 'VT323', monospace; }
 
 /* ---------- HOBBIES ---------- */
 .hobbies-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.1rem; }
@@ -580,7 +582,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 .git-log {
   border: 1px solid var(--border); border-radius: 16px;
   padding: 1.6rem; background: var(--surface);
-  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  font-family: 'VT323', monospace; font-size: 15px;
   line-height: 2; margin-bottom: 2.5rem; overflow-x: auto;
 }
 .git-log .commit { display: flex; gap: 1rem; white-space: nowrap; }
@@ -597,7 +599,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 }
 .fact:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: var(--glow); }
 .fact-label {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'VT323', monospace;
   font-size: 10px; color: var(--muted); text-transform: uppercase;
   letter-spacing: 0.1em; margin-bottom: 0.35rem;
 }
@@ -608,14 +610,15 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 .contact-email {
   font-size: clamp(1.5rem, 4.5vw, 3.2rem);
   font-weight: 700; color: var(--accent); text-decoration: none;
-  letter-spacing: -0.02em; transition: all 0.25s;
+  letter-spacing: -0.01em; transition: all 0.25s;
   border-bottom: 2px solid var(--accent); padding-bottom: 0.3rem;
   text-shadow: var(--glow);
+  font-family: 'Unbounded', sans-serif;
 }
 .contact-email:hover { color: var(--amber); border-color: var(--amber); text-shadow: 0 0 24px rgba(255,209,102,0.4); }
 .social-links { display: flex; gap: 2rem; justify-content: center; margin-top: 2.2rem; flex-wrap: wrap; }
 .social-link {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'VT323', monospace;
   font-size: 12px; color: var(--dim); text-decoration: none;
   transition: color 0.2s; border-bottom: 1px dashed transparent;
 }
@@ -623,7 +626,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 
 /* ---------- FOOTER ---------- */
 footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: center; position: relative; z-index: 2; }
-.console-line { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); line-height: 2; }
+.console-line { font-family: 'VT323', monospace; font-size: 14px; color: var(--muted); line-height: 2; }
 .console-line .prompt { color: var(--accent); }
 .console-line .cmd { color: var(--dim); }
 .console-line .output { color: var(--amber); }
@@ -1022,7 +1025,7 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
 
     <div class="meme-card">
       <h4>git_log_of_my_life.txt</h4>
-      <div class="meme-body" style="font-family:'JetBrains Mono',monospace; font-size:11px; line-height:1.9; color:var(--dim);">
+      <div class="meme-body" style="font-family:'VT323',monospace; font-size:14px; line-height:1.9; color:var(--dim);">
         <div><span style="color:var(--violet)">a3f9c2d</span> <span style="color:var(--amber)">(HEAD →</span> <b style="color:var(--text)">adulthood</b><span style="color:var(--amber)">)</span> fix: pretend to know what i'm doing</div>
         <div><span style="color:var(--violet)">9b1e44a</span> feat: learn statistics to avoid math in public</div>
         <div><span style="color:var(--violet)">7c0d51e</span> chore: panic about the future, then nap</div>
