@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Janak Rudani - boot sequence detected</title>
+<title>Janak Rudani - imperial boot sequence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=VT323&display=swap" rel="stylesheet">
@@ -13,21 +13,21 @@
    A terminal that got feelings. A data scientist with jokes.
    ===================================================================== */
 :root {
-  --void: #050508;
-  --panel: #0a0a10;
-  --surface: #101018;
-  --elevated: #181824;
+  --void: #05050a;
+  --panel: #0a0a12;
+  --surface: #100f16;
+  --elevated: #181624;
   --text: #f2f2f5;
   --dim: #9a9aa8;
   --muted: #565664;
-  --accent: #00e5a0;
-  --accent-dim: rgba(0,229,160,0.12);
-  --violet: #8b7cf6;
-  --amber: #ffd166;
-  --red: #ff6b6b;
+  --accent: #ff3131;
+  --accent-dim: rgba(255,49,49,0.12);
+  --violet: #59d9ff;
+  --amber: #f5c518;
+  --red: #ff3131;
   --border: rgba(255,255,255,0.07);
-  --ring: rgba(0,229,160,0.18);
-  --glow: 0 0 24px rgba(0,229,160,0.25);
+  --ring: rgba(255,49,49,0.18);
+  --glow: 0 0 24px rgba(255,49,49,0.3);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -664,6 +664,17 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
   .float-btns { right: 1rem; bottom: 1rem; }
   .terminal-body { min-height: 240px; max-height: 320px; }
 }
+/* ===== STAR WARS + PSYCHO MOVIE ADDITIONS ===== */
+.saber-wrap { display:flex; flex-direction:column; align-items:center; }
+.saber-beam { width:10px; height:150px; border-radius:5px 5px 0 0; background:linear-gradient(to top, #fff 0 8%, #ff3131 30%, #8a0000 100%); box-shadow:0 0 24px rgba(255,49,49,.9), 0 0 60px rgba(255,49,49,.45); animation:saber-hum 2.4s ease-in-out infinite; }
+@keyframes saber-hum { 0%,100% { box-shadow:0 0 24px rgba(255,49,49,.9), 0 0 60px rgba(255,49,49,.45);} 50% { box-shadow:0 0 32px rgba(255,49,49,1), 0 0 80px rgba(255,49,49,.6);} }
+.saber-hilt { width:20px; height:34px; background:linear-gradient(90deg,#1a1a1a,#444,#1a1a1a); border-radius:2px 2px 8px 8px; margin-top:-3px; box-shadow:0 2px 6px rgba(0,0,0,.6); }
+.polaroid { background:var(--panel); border:1px solid var(--border); padding:1rem 1rem 0.8rem; transform:rotate(-2deg); box-shadow:0 12px 30px rgba(0,0,0,.5); display:inline-block; }
+.polaroid p { font-family:'VT323',monospace; font-size:1rem; color:var(--dim); text-align:center; margin-top:0.6rem; }
+#matrixResult { font-size:1rem; }
+.meme-result { font-size:1rem; }
+.btn-b { background: var(--violet); color: var(--void); }
+.btn-b:hover { box-shadow: 0 0 20px rgba(89,217,255,0.4); }
 </style>
 </head>
 <body>
@@ -697,9 +708,9 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
 </div>
 
 <div class="modal" id="panicModal">
-  <h2 style="color: var(--accent);">🎉</h2>
-  <p>You found the panic button. Everything is fine. This is just a portfolio - nobody's grading it. Except recruiters. Okay, maybe panic a little. But statistically, you've got this.</p>
-  <button class="modal-close" onclick="document.getElementById('panicModal').classList.remove('active')">I'm calm now, thanks</button>
+  <h2 style="color: var(--accent);">🚨</h2>
+  <p>Darth Vader senses your panic. The Emperor is not concerned. Your code will be fine. "Do or do not, there is no try" - but let's be honest, you'll try anyway. Breathe like you're in a helmet. In... out... in... out...</p>
+  <button class="modal-close" onclick="document.getElementById('panicModal').classList.remove('active')">I'll try. I really will.</button>
 </div>
 
 <div id="toast"></div>
@@ -709,12 +720,12 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
   <div class="terminal-greeting"><span id="greetText">&gt; whoami</span><span class="cursor"></span></div>
   <h1 class="hero-name">Janak<br><span class="gradient-text" id="heroName">Rudani</span></h1>
   <p class="hero-tagline">
-    Statistics student who treats datasets like mystery novels -
-    <span class="pun" onclick="this.textContent='every variable is a suspect 🔍'">every variable is a suspect.</span>
-    I build models, break assumptions, and occasionally remember to set a seed.
+    Statistics student in a galaxy not so far away. I treat datasets like mystery novels -
+    <span class="pun" onclick="this.textContent='every variable is a suspect. always. 🔍'">every variable is a suspect.</span>
+    I build models, break assumptions, and occasionally remember to set a seed. May the p-values be with you.
   </p>
   <div class="hero-actions">
-    <a href="#projects" class="hero-cta">↓ See the receipts</a>
+    <a href="#projects" class="hero-cta">↓ See the imperial receipts</a>
     <button class="hero-term-btn" onclick="scrollToTerminal()">$_ try my terminal</button>
   </div>
   <div class="hero-stats">
@@ -727,38 +738,39 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
 
 <!-- ================= TICKER ================= -->
 <div class="ticker-wrap"><div class="ticker" id="ticker">
-  <span class="joke">🔥 correlation ≠ causation but my portfolio → your interest</span>
+  <span class="joke">⚔️ i find your lack of p-values disturbing</span>
   <span class="skill">R · tidyverse · ggplot2</span>
-  <span class="joke">📊 98% of statistics are made up (including this one)</span>
+  <span class="joke">🌌 the force is strong with this model... it overfits</span>
   <span class="skill">python · pandas · sklearn</span>
-  <span class="joke">🧠 my models converge faster than my sleep schedule</span>
+  <span class="joke">🖤 join me and we can rule the galaxy as data scientists</span>
   <span class="skill">SARIMA · GLM · ANCOVA</span>
-  <span class="joke">🐛 i debug with console.log out of emotional attachment</span>
+  <span class="joke">🌀 is this a real correlation or did i overfit it into existence?</span>
   <span class="skill">streamlit · plotly · sql</span>
-  <span class="joke">🤖 i asked an AI for a joke. it suggested linear regression.</span>
+  <span class="joke">🥊 first rule of p-hacking: you don't talk about p-hacking</span>
   <span class="skill">ollama · qlora · rag</span>
-  <span class="joke">☕ coffee: my one true co-pilot</span>
-  <span class="skill">git · markdown · resilience</span>
-  <span class="joke">🔥 correlation ≠ causation but my portfolio → your interest</span>
+  <span class="joke">🪐 that's no moon... it's a 2TB dataframe</span>
+  <span class="skill">git · markdown · the force</span>
+  <span class="joke">⚔️ i find your lack of p-values disturbing</span>
   <span class="skill">R · tidyverse · ggplot2</span>
-  <span class="joke">📊 98% of statistics are made up (including this one)</span>
+  <span class="joke">🌌 the force is strong with this model... it overfits</span>
   <span class="skill">python · pandas · sklearn</span>
-  <span class="joke">🧠 my models converge faster than my sleep schedule</span>
+  <span class="joke">🖤 join me and we can rule the galaxy as data scientists</span>
   <span class="skill">SARIMA · GLM · ANCOVA</span>
-  <span class="joke">🐛 i debug with console.log out of emotional attachment</span>
+  <span class="joke">🌀 is this a real correlation or did i overfit it into existence?</span>
   <span class="skill">streamlit · plotly · sql</span>
-  <span class="joke">🤖 i asked an AI for a joke. it suggested linear regression.</span>
+  <span class="joke">🥊 first rule of p-hacking: you don't talk about p-hacking</span>
   <span class="skill">ollama · qlora · rag</span>
-  <span class="joke">☕ coffee: my one true co-pilot</span>
-  <span class="skill">git · markdown · resilience</span>
-</div></div>
+  <span class="joke">🪐 that's no moon... it's a 2TB dataframe</span>
+  <span class="skill">git · markdown · the force</span>
+</div>
+</div>
 
 <!-- ================= PROJECTS ================= -->
 <section id="projects">
   <div class="section-header fade-in">
-    <p class="section-num">01 - the receipts</p>
+    <p class="section-num">01 - imperial archives</p>
     <h2 class="section-title">Projects</h2>
-    <p class="section-subtitle">Eight reasons I should probably touch grass more often. <b>Hover = 3D tilt. Click = sparkles.</b></p>
+    <p class="section-subtitle">Eight relics from my Jedi training. <b>Hover = 3D tilt. Click = sparkles.</b></p>
   </div>
   <div class="stagger" id="projectList">
 
@@ -850,17 +862,17 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
   <div class="section-header fade-in">
     <p class="section-num">02 - interactive terminal</p>
     <h2 class="section-title">Try my terminal</h2>
-    <p class="section-subtitle">It's real. Type <b>help</b> and press enter. I dare you to find the Easter eggs.</p>
+    <p class="section-subtitle">It's real. Type <b>help</b> and press enter. I find your lack of initiative disturbing.</p>
   </div>
   <div class="terminal-widget fade-in" id="termWidget">
     <div class="terminal-head">
       <span class="terminal-dot r"></span><span class="terminal-dot y"></span><span class="terminal-dot g"></span>
-      <span class="terminal-title">janak@portfolio: ~/hire_me</span>
+      <span class="terminal-title">vader@deathstar: ~/imperial_stats</span>
     </div>
     <div class="terminal-body" id="termBody"></div>
     <div style="padding: 0 1.4rem 1.2rem;">
       <div class="term-in">
-        <span class="term-prompt">janak@portfolio:~$</span>
+        <span class="term-prompt">vader@deathstar:~$</span>
         <input class="term-input" id="termInput" autocomplete="off" spellcheck="false" aria-label="terminal input">
         <span class="term-cursor"></span>
       </div>
@@ -873,11 +885,11 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
   <div class="section-header fade-in">
     <p class="section-num">03 - capabilities</p>
     <h2 class="section-title">Skills, honestly rated</h2>
-    <p class="section-subtitle">Self-assessed with 95% confidence intervals. Mostly because I set alpha = 0.05.</p>
+    <p class="section-subtitle">Self-assessed with 95% confidence intervals. The Empire approves of alpha = 0.05.</p>
   </div>
   <div class="skill-meters fade-in" id="skillMeters">
     <div class="skill-meter">
-      <div class="sm-head"><span class="sm-name">R + tidyverse <span class="sm-joke">(you can pry ggplot2 from my cold dead hands)</span></span><span class="sm-pct">92%</span></div>
+      <div class="sm-head"><span class="sm-name">R + tidyverse <span class="sm-joke">(the force is strong with this stack)</span></span><span class="sm-pct">92%</span></div>
       <div class="sm-bar"><div class="sm-fill" data-w="92"></div></div>
     </div>
     <div class="skill-meter">
@@ -885,27 +897,27 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
       <div class="sm-bar"><div class="sm-fill" data-w="88"></div></div>
     </div>
     <div class="skill-meter">
-      <div class="sm-head"><span class="sm-name">SQL <span class="sm-joke">(I will find your missing semicolon)</span></span><span class="sm-pct">80%</span></div>
+      <div class="sm-head"><span class="sm-name">SQL <span class="sm-joke">(I will find your missing semicolon, young Padawan)</span></span><span class="sm-pct">80%</span></div>
       <div class="sm-bar"><div class="sm-fill" data-w="80"></div></div>
     </div>
     <div class="skill-meter">
-      <div class="sm-head"><span class="sm-name">Debugging <span class="sm-joke">(including the 4-hour semicolon incident)</span></span><span class="sm-pct">95%</span></div>
+      <div class="sm-head"><span class="sm-name">Debugging <span class="sm-joke">(I find your lack of semicolons disturbing)</span></span><span class="sm-pct">95%</span></div>
       <div class="sm-bar"><div class="sm-fill" data-w="95"></div></div>
     </div>
     <div class="skill-meter">
-      <div class="sm-head"><span class="sm-name">Excel <span class="sm-joke">(it's a war crime but it works)</span></span><span class="sm-pct">100%</span></div>
+      <div class="sm-head"><span class="sm-name">Excel <span class="sm-joke">(it's no Death Star, but it works)</span></span><span class="sm-pct">100%</span></div>
       <div class="sm-bar"><div class="sm-fill hot" data-w="100"></div></div>
     </div>
     <div class="skill-meter">
-      <div class="sm-head"><span class="sm-name">Documentation <span class="sm-joke">(future me apologizes)</span></span><span class="sm-pct">40%</span></div>
+      <div class="sm-head"><span class="sm-name">Documentation <span class="sm-joke">(future me apologizes to the whole Empire)</span></span><span class="sm-pct">40%</span></div>
       <div class="sm-bar"><div class="sm-fill" data-w="40"></div></div>
     </div>
     <div class="skill-meter">
-      <div class="sm-head"><span class="sm-name">Sleep hygiene <span class="sm-joke">(who needs it)</span></span><span class="sm-pct">12%</span></div>
+      <div class="sm-head"><span class="sm-name">Sleep hygiene <span class="sm-joke">(sleep is for the Rebel Alliance)</span></span><span class="sm-pct">12%</span></div>
       <div class="sm-bar"><div class="sm-fill hot" data-w="12"></div></div>
     </div>
     <div class="skill-meter">
-      <div class="sm-head"><span class="sm-name">Coffee intake <span class="sm-joke">(not a skill, a lifestyle)</span></span><span class="sm-pct">100%</span></div>
+      <div class="sm-head"><span class="sm-name">Coffee intake <span class="sm-joke">(the only thing stronger than the Force)</span></span><span class="sm-pct">100%</span></div>
       <div class="sm-bar"><div class="sm-fill hot" data-w="100"></div></div>
     </div>
   </div>
@@ -916,7 +928,7 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
   <div class="section-header fade-in">
     <p class="section-num">04 - empirical evidence</p>
     <h2 class="section-title">Productivity vs. Caffeine</h2>
-    <p class="section-subtitle">A peer-reviewed study (n=1, me). Scroll to animate the data. Results: concerning.</p>
+    <p class="section-subtitle">A peer-reviewed study (n=1, me). The rebellion called it concerning. They were right.</p>
   </div>
   <div class="chart-card fade-in">
     <div class="chart-title"># productivity_curve.csv - coffee_cups vs. output (normalized)</div>
@@ -927,7 +939,7 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
         <path class="chart-path" id="chartPath" d="M40 240 C90 220 120 200 160 160 C200 120 230 90 280 70 C330 55 360 50 400 62 C440 80 470 120 510 180 C540 220 560 245 580 252"/>
       </svg>
       <div class="chart-annot" style="top:18%; left:48%;">← the sweet spot</div>
-      <div class="chart-annot big" style="top:8%; left:82%;">3AM bug found ☠</div>
+      <div class="chart-annot big" style="top:8%; left:82%;">the force awakens at 3AM ☠</div>
     </div>
     <div class="chart-title" style="margin-top:1.2rem;">x-axis: coffee cups (0→10) · y-axis: productivity (0→100) · regret: unbounded</div>
   </div>
@@ -936,33 +948,64 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
 <!-- ================= MEMES ================= -->
 <section id="memes">
   <div class="section-header fade-in">
-    <p class="section-num">05 - certified memes</p>
-    <h2 class="section-title">A Data Scientist's Memes</h2>
-    <p class="section-subtitle">100% organic, gluten-free, peer-<b>not</b>-reviewed. Click things.</p>
+    <p class="section-num">05 - holocron of memes</p>
+    <h2 class="section-title">A Data Scientist's Memes (Empire Edition)</h2>
+    <p class="section-subtitle">From a galaxy far, far away and a therapist's office. Click things.</p>
   </div>
-  <div class="meme-grid stagger" id="memeGrid">
+    <div class="meme-grid stagger" id="memeGrid">
 
+    <!-- VADER -->
     <div class="meme-card">
-      <h4>drake_meme.v2</h4>
+      <h4>vader_disturbing.gif</h4>
       <div class="meme-body">
-        <div class="drake">
-          <div class="drake-row"><div class="face">😤</div><div class="label">Using p &lt; 0.05 blindly<small>because someone on Twitter said so</small></div></div>
-          <div class="drake-row"><div class="face">😎</div><div class="label">Checking assumptions first<small>normality, homoscedasticity, my sanity</small></div></div>
+        <div class="saber-wrap">
+          <div class="saber-beam"></div>
+          <div class="saber-hilt"></div>
+        </div>
+        <div style="text-align:center; margin-top:1.2rem;">
+          <div style="font-size:1.3rem; font-weight:800; font-family:'Unbounded',sans-serif; line-height:1.4;">I find your lack of<br><span style="color:var(--accent);">p-values</span> disturbing</div>
+          <div style="margin-top:0.7rem; font-size:0.95rem; color:var(--muted); font-family:'VT323',monospace;">- Darth Vader, after reading your summary() output</div>
         </div>
       </div>
     </div>
 
+    <!-- THIS IS FINE -->
     <div class="meme-card">
       <h4>this_is_fine.png</h4>
       <div class="meme-body">
         <div class="this-is-fine">
           <span class="dog">🐶</span><span class="flames">🔥🔥🔥</span>
           <div class="caption">the model is overfitting<br>but it's fine</div>
-          <div class="tif-sub">train: 99.9% · test: 51% · vibes: immaculate</div>
+          <div class="tif-sub">train: 99.9% · test: 51% · the force: imbalanced</div>
         </div>
       </div>
     </div>
 
+    <!-- MATRIX -->
+    <div class="meme-card">
+      <h4>matrix_pills.sh</h4>
+      <div class="meme-body">
+        <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+          <button class="meme-btn btn-a" onclick="matrixPill('red')">🔴 red pill</button>
+          <button class="meme-btn btn-b" onclick="matrixPill('blue')">🔵 blue pill</button>
+        </div>
+        <div class="meme-result" id="matrixResult">stay in the loop of endless revisions, or see how deep the p-hacking goes</div>
+      </div>
+    </div>
+
+    <!-- INCEPTION -->
+    <div class="meme-card">
+      <h4>inception_totem.gif</h4>
+      <div class="meme-body">
+        <div style="text-align:center;">
+          <div id="totem" onclick="spinTotem()" style="font-size:3.4rem; cursor:pointer; display:inline-block; user-select:none;">🌀</div>
+          <div style="margin-top:0.7rem; font-size:1rem; font-weight:700; line-height:1.5;">is this a real result,<br><span style="color:var(--violet);">or did I overfit it into existence?</span></div>
+          <div class="mock-note" id="totemNote">click the totem. if it stops spinning, you're in reality. if not... rerun with a different seed.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPANDING BRAIN -->
     <div class="meme-card">
       <h4>expanding_brain.png</h4>
       <div class="meme-body">
@@ -970,11 +1013,25 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
           <div class="brain-level active" data-level="0"><div class="brain" style="--s:1">🧠</div><div class="text">"I'll just use Excel"</div></div>
           <div class="brain-level" data-level="1"><div class="brain" style="--s:2">🧠</div><div class="text">"Linear regression solves everything"</div></div>
           <div class="brain-level" data-level="2"><div class="brain" style="--s:3">🧠</div><div class="text">"Wait... I should check for overdispersion"</div></div>
-          <div class="brain-level" data-level="3"><div class="brain" style="--s:4">🧠</div><div class="text">"Negative Binomial GLM + mixed effects + Bayesian priors because why not"</div></div>
+          <div class="brain-level" data-level="3"><div class="brain" style="--s:4">🧠</div><div class="text">"Negative Binomial GLM + Bayesian priors. The dark side of stats."</div></div>
         </div>
       </div>
     </div>
 
+    <!-- FIGHT CLUB -->
+    <div class="meme-card">
+      <h4>fight_club_rules.txt</h4>
+      <div class="meme-body">
+        <div style="text-align:center; padding:0.6rem 0;">
+          <div style="font-size:3.2rem;">🥊</div>
+          <div style="margin-top:1rem; font-size:1.05rem; font-weight:700; line-height:1.6;">The first rule of p-hacking:<br>you don't talk about p-hacking.</div>
+          <div style="margin-top:0.7rem; font-size:1.05rem; font-weight:700; color:var(--accent); line-height:1.6;">The second rule of p-hacking:<br>you DEFINITELY don't talk about p-hacking.</div>
+          <div class="mock-note">(this portfolio violates both rules. I have a problem.)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TWO BUTTONS -->
     <div class="meme-card">
       <h4>two_buttons.png</h4>
       <div class="meme-body">
@@ -984,11 +1041,21 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
             <button class="meme-btn btn-a" onclick="twoButtons('ship')">🚀 Ship it</button>
             <button class="meme-btn btn-b" onclick="twoButtons('test')">🧪 One more test</button>
           </div>
-          <div class="meme-result" id="twoBtnsResult">choose wisely...</div>
+          <div class="meme-result" id="twoBtnsResult">choose wisely, young Padawan...</div>
         </div>
       </div>
     </div>
 
+    <!-- SHINING -->
+    <div class="meme-card">
+      <h4>shining_typing.txt</h4>
+      <div class="meme-body">
+        <div id="shiningText" onclick="shiningType()" style="text-align:center; font-family:'VT323',monospace; font-size:1.05rem; line-height:1.8; color:var(--text); cursor:pointer;">all work and no p-values makes janak a dull boy</div>
+        <div class="mock-note">click to keep typing. all work. no play. no significance.</div>
+      </div>
+    </div>
+
+    <!-- MOCKING -->
     <div class="meme-card">
       <h4>mock.text</h4>
       <div class="meme-body">
@@ -997,16 +1064,21 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
       </div>
     </div>
 
+    <!-- MEMENTO -->
     <div class="meme-card">
-      <h4>change_my_mind.jpg</h4>
+      <h4>memento_seed.jpg</h4>
       <div class="meme-body">
-        <div class="cmm-box">
-          <div class="cmm-title">R Markdown<span>is just a very opinionated way to suffer</span></div>
+        <div style="text-align:center;">
+          <div class="polaroid">
+            <div style="font-size:2.8rem;">🧩</div>
+            <p>"REMEMBER TO SET YOUR SEED...<br>wait, where am I? whose notebook is this?"</p>
+          </div>
+          <div class="mock-note">somewhere, a data scientist reruns the same cell for the 5th time.</div>
         </div>
-        <div class="cmm-note">i'm willing to be wrong (no i'm not)</div>
       </div>
     </div>
 
+    <!-- CASINO -->
     <div class="meme-card">
       <h4>p_value_casino.sh</h4>
       <div class="meme-body">
@@ -1016,33 +1088,33 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
             <div class="casino-slot" id="slot2">0.0</div>
             <div class="casino-slot" id="slot3">0.0</div>
           </div>
-          <div class="casino-verdict" id="casinoVerdict">pull the lever, test your luck</div>
-          <button class="casino-lever" onclick="pullLever()">🎰 Pull the significance lever</button>
-          <div class="casino-note">results may or may not be reproducible. that's the fun.</div>
+          <div class="casino-verdict" id="casinoVerdict">the Emperor demands a p-value. pull the lever.</div>
+          <button class="casino-lever" onclick="pullLever()">🎰 The Emperor demands a p-value</button>
+          <div class="casino-note">results may or may not be reproducible. the dark side has cookies.</div>
         </div>
       </div>
     </div>
 
+    <!-- GIT LOG -->
     <div class="meme-card">
-      <h4>git_log_of_my_life.txt</h4>
+      <h4>imperial_git_log.txt</h4>
       <div class="meme-body" style="font-family:'VT323',monospace; font-size:14px; line-height:1.9; color:var(--dim);">
-        <div><span style="color:var(--violet)">a3f9c2d</span> <span style="color:var(--amber)">(HEAD →</span> <b style="color:var(--text)">adulthood</b><span style="color:var(--amber)">)</span> fix: pretend to know what i'm doing</div>
-        <div><span style="color:var(--violet)">9b1e44a</span> feat: learn statistics to avoid math in public</div>
-        <div><span style="color:var(--violet)">7c0d51e</span> chore: panic about the future, then nap</div>
-        <div><span style="color:var(--violet)">2f8a1b3</span> refactor: replaced sleep with coffee (breaking change)</div>
-        <div><span style="color:var(--violet)">e5d3c1b</span> init: first commit (mum was proud)</div>
+        <div><span style="color:var(--violet)">a3f9c2d</span> <span style="color:var(--amber)">(HEAD →</span> <b style="color:var(--text)">imperial data division</b><span style="color:var(--amber)">)</span> feat: declare p-values imperial property</div>
+        <div><span style="color:var(--violet)">9b1e44a</span> feat: find the rebel bug, alert the Emperor</div>
+        <div><span style="color:var(--violet)">7c0d51e</span> chore: panic about the Death Star budget, then nap</div>
+        <div><span style="color:var(--violet)">2f8a1b3</span> refactor: replaced stormtroopers with coffee (hit rate improved)</div>
+        <div><span style="color:var(--violet)">e5d3c1b</span> init: first commit (the dark side was proud)</div>
       </div>
     </div>
 
   </div>
 </section>
-
 <!-- ================= GAME ================= -->
 <section id="game" class="game-section band-dark"><div class="band-inner">
   <div class="section-header">
     <p class="section-num">06 - productivity (fun version)</p>
-    <h2 class="section-title">Whack-a-Bug</h2>
-    <p class="section-subtitle">The bug-hunting hobby, gamified. Squash the bugs before they commit to main.</p>
+    <h2 class="section-title">Whack-a-Bug: Imperial Edition</h2>
+    <p class="section-subtitle">Squash the rebel bugs before they commit to main. The Empire is watching.</p>
   </div>
   <div class="game-arena" id="gameArena">
     <div class="hole" data-idx="0"></div><div class="hole" data-idx="1"></div><div class="hole" data-idx="2"></div>
@@ -1050,8 +1122,8 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
     <div class="hole" data-idx="6"></div><div class="hole" data-idx="7"></div><div class="hole" data-idx="8"></div>
   </div>
   <div class="game-score">bugs squashed: <b id="bugScore">0</b></div>
-  <button class="game-btn" id="gameStart" onclick="startGame()">🐛 Start bug hunt</button>
-  <div class="game-tip" id="gameTip">Bugs pop up for 1.5s. Click them. That's the job.</div>
+  <button class="game-btn" id="gameStart" onclick="startGame()">⚔️ Start rebel hunt</button>
+  <div class="game-tip" id="gameTip">Rebel bugs pop up for 1.5s. Squash them. The Emperor is watching.</div>
 </div></section>
 
 <!-- ================= HOBBIES ================= -->
@@ -1107,10 +1179,10 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
     like a <span class="strike">crime scene</span> hypothesis to test.
   </p>
   <div class="git-log fade-in">
-    <div class="tag-line"># my life, but make it version control</div>
-    <div class="commit"><span class="hash">a3f9c2d</span><span class="branch">(HEAD →</span><b style="color:var(--text)"> future</b><span class="branch">)</span><span class="msg"><b>feat:</b> graduate with honors, statistically speaking</span></div>
-    <div class="commit"><span class="hash">8d1b4e2</span><span class="msg"><b>feat:</b> build 8 data projects, 253 tests, 0 sanity</span></div>
-    <div class="commit"><span class="hash">5c9f0a1</span><span class="msg"><b>fix:</b> learn what a p-value actually means (breaking change)</span></div>
+    <div class="tag-line"># my life, but make it version control (imperial edition)</div>
+    <div class="commit"><span class="hash">a3f9c2d</span><span class="branch">(HEAD →</span><b style="color:var(--text)"> future</b><span class="branch">)</span><span class="msg"><b>feat:</b> graduate with honors, statistically speaking (the force is strong)</span></div>
+    <div class="commit"><span class="hash">8d1b4e2</span><span class="msg"><b>feat:</b> build 8 data projects, 253 tests, 0 sanity, 1 lightsaber</span></div>
+    <div class="commit"><span class="hash">5c9f0a1</span><span class="msg"><b>fix:</b> learn what a p-value actually means (breaking change, dark side approved)</span></div>
     <div class="commit"><span class="hash">b2e7d3f</span><span class="msg"><b>chore:</b> question everything, including this portfolio</span></div>
     <div class="commit"><span class="hash">e5d3c1b</span><span class="msg"><b>init:</b> first commit (mum was proud)</span></div>
   </div>
@@ -1125,7 +1197,7 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
 <!-- ================= CONTACT ================= -->
 <section id="contact" class="contact-section">
   <div class="section-header fade-in">
-    <p class="section-num">09 - let's talk</p>
+    <p class="section-num">09 - open a channel</p>
     <h2 class="section-title">Contact</h2>
     <p class="section-subtitle">I promise I write better emails than this website copy. <b>You can also just type "email" in my terminal.</b></p>
   </div>
@@ -1138,12 +1210,12 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
 
 <footer>
   <div class="console-line">
-    <span class="prompt">jr@portfolio:~$</span> <span class="cmd">cat footer.txt</span><br>
-    <span class="output">built with ❤️, caffeine, and {count} console.log statements</span><br>
-    <span class="prompt">jr@portfolio:~$</span> <span class="cmd">git blame</span><br>
-    <span class="error">fatal: everything is Janak's fault</span><br>
-    <span class="prompt">jr@portfolio:~$</span> <span class="cmd">try_konami_code</span><br>
-    <span class="output">↑↑↓↓←→←→BA unlocks something. go on. try it.</span>
+    <span class="prompt">vader@deathstar:~$</span> <span class="cmd">cat footer.txt</span><br>
+    <span class="output">built with ⚔️, caffeine, and {count} console.log statements</span><br>
+    <span class="prompt">vader@deathstar:~$</span> <span class="cmd">git blame</span><br>
+    <span class="error">fatal: i am your father. (and everything is my fault)</span><br>
+    <span class="prompt">vader@deathstar:~$</span> <span class="cmd">try_konami_code</span><br>
+    <span class="output">↑↑↓↓←→←→BA unlocks the force. go on. try it.</span>
   </div>
   <div class="footer-love">Thanks for scrolling all the way down. You're the real MVP. 🏆</div>
 </footer>
@@ -1183,14 +1255,15 @@ soundBtn.addEventListener('click', () => {
 
 /* ================= BOOT SEQUENCE ================= */
 const bootLines = [
-  ['> initializing janak.exe ...', 'ok'],
-  ['> loading personality modules ...', 'ok'],
+  ['> initializing imperial systems ...', 'ok'],
+  ['> calibrating lightsaber firmware ...', 'ok'],
   ['> importing statistics ........ [██████████] 100%', 'ok'],
   ['> importing humor ............. [██████████] 100%', 'ok'],
-  ['> importing patience for p-hacking ... NOT FOUND', 'err'],
-  ['> falling back to sarcasm ... OK', 'warn'],
-  ['> loading 253 test cases ...... [██████████] 100%', 'ok'],
-  ['> boot complete. welcome to the chaos.', 'ok'],
+  ['> scanning for rebel scum ...... 0 found (suspicious)', 'warn'],
+  ['> patience for p-hacking ....... NOT FOUND', 'err'],
+  ['> falling back to the dark side ... OK', 'warn'],
+  ['> loading 253 imperial test cases .. [██████████] 100%', 'ok'],
+  ['> welcome to the empire. your p-values are now imperial property.', 'ok'],
 ];
 const bootEl = document.getElementById('boot');
 const bootLinesEl = document.getElementById('boot-lines');
@@ -1370,17 +1443,17 @@ document.getElementById('panicBtn').addEventListener('click', () => {
   chord([523, 659, 784], 0.3);
 });
 const compliments = [
-  'Your p-values are significant AND you corrected for multiple comparisons. Legend. 🏆',
-  'You explained variance to a non-statistician and they didn\'t cry. Unreal. 🎯',
-  'You\'re the only person who reads residual plots. Certified rare breed. 🦄',
-  'You set a random seed today. The reproducibility gods smile upon you. 🌱',
-  'You closed a terminal without crying. That\'s growth. 🌟',
-  'Your git history tells a story of trying, failing, and succeeding. Inspiring. 📖',
-  'You\'re 100% statistically significant in my book. CI = [1,1]. 📚',
-  'You debugged something today. Somewhere, a QA engineer felt a disturbance. 🐛',
-  'You use tabs OR spaces, and honestly? I respect the conviction. 🎖️',
-  'Your code is so clean I\'d eat off it. After sanitizing it. For hygiene. 🍽️',
-  'You remembered to close your parentheses today. Rare. 🧘',
+  'Your residuals are clean. Impressive. Most impressive. 🏆',
+  'The force is strong with your R². The dark side is strong with your debugging.',
+  'You controlled for confounders. The Emperor will be pleased.',
+  'You set a seed. Order restored to the galaxy. 🌱',
+  'Do or do not, there is no try. You did. Both. Somehow. 🌟',
+  'Your code is so clean the Empire would use it for stormtrooper targeting.',
+  'You found a bug before production did. The force is with you. 🐛',
+  'You explained variance without crying. The senate will hear of this. 📖',
+  'Your git history is cleaner than the Death Star blueprints. (Low bar, honestly.)',
+  'You\'re statistically significant in every galaxy. CI = [1,1] across the parsecs.',
+  'The force is strong with this one. And so is the coffee. ☕',
 ];
 const toast = document.getElementById('toast');
 document.getElementById('complimentBtn').addEventListener('click', () => {
@@ -1424,7 +1497,7 @@ document.querySelectorAll('.project').forEach(card => {
 });
 
 /* ================= TERMINAL GREETING CYCLE ================= */
-const greetings = ['> whoami', '> npm install confidence', '> git commit -m "fixed everything"', '> python -c "print(\'hello world\')"', '> model.fit(anxiety, optimizer="nap")', '> brew install coffee'];
+const greetings = ['> whoami', '> use the force', '> git commit -m "fixed everything"', '> python -c "print(\'hello world\')"', '> model.fit(anxiety, optimizer="nap")', '> force pull --rebase'];
 let gIdx = 0;
 setInterval(() => {
   gIdx = (gIdx + 1) % greetings.length;
@@ -1509,7 +1582,7 @@ function pullLever() {
   const slots = [document.getElementById('slot1'), document.getElementById('slot2'), document.getElementById('slot3')];
   const verdict = document.getElementById('casinoVerdict');
   slots.forEach(s => s.classList.add('spinning'));
-  verdict.textContent = 'spinning the wheel of statistical fate...';
+  verdict.textContent = 'spinning the wheel of statistical fate (the dark side has cookies)...';
   blip(200, 0.6, 'sawtooth', 0.02);
   const values = [pValues[Math.floor(Math.random()*pValues.length)], pValues[Math.floor(Math.random()*pValues.length)], pValues[Math.floor(Math.random()*pValues.length)]];
   setTimeout(() => {
@@ -1520,12 +1593,12 @@ function pullLever() {
     const p = parseFloat(values[2]);
     if (p < 0.05) {
       verdict.className = 'casino-verdict sig';
-      verdict.textContent = 'p = ' + values[2] + ' - SIGNIFICANT! 🎉 publish it, defend it, frame it.';
+      verdict.textContent = 'p = ' + values[2] + ' - SIGNIFICANT! 🎉 the Emperor approves. publish it, defend it, frame it.';
       spawnConfetti(24, ['🎉','📈','✅']);
       chord([523, 659, 784, 1046], 0.5);
     } else {
       verdict.className = 'casino-verdict nosig';
-      verdict.textContent = 'p = ' + values[2] + ' - not significant. blame the sample size.';
+      verdict.textContent = 'p = ' + values[2] + ' - not significant. the rebellion sabotaged your sample size.';
       spawnConfetti(8, ['📉','😔']);
       blip(180, 0.3, 'sawtooth', 0.03);
     }
@@ -1574,20 +1647,100 @@ function startGame() {
   gameRunning = true;
   bugScore = 0;
   scoreEl.textContent = '0';
-  tipEl.textContent = 'GO GO GO! 🏃';
-  startBtn.textContent = 'Squashing...';
+  tipEl.textContent = 'THE EMPIRE DEMANDS BLOOD. GO! ⚔️';
+  startBtn.textContent = 'Hunting...';
   spawnBug();
   chord([523, 659], 0.2);
   setTimeout(() => {
     gameRunning = false;
     clearTimeout(bugTimer);
     holes.forEach(h => h.innerHTML = '');
-    startBtn.textContent = '🔄 Play again';
+    startBtn.textContent = '🔄 Fight again';
     tipEl.innerHTML = bugScore >= 15
-      ? '🏆 <b style="color:var(--amber)">' + bugScore + '</b> bugs?! You ARE the bug hunter.'
-      : 'You squashed <b style="color:var(--amber)">' + bugScore + '</b> bugs. The rest committed to main anyway.';
+      ? '🏆 <b style="color:var(--amber)">' + bugScore + '</b> rebel bugs?! The Emperor is pleased.'
+      : 'You squashed <b style="color:var(--amber)">' + bugScore + '</b> rebel bugs. The rest joined the rebellion.';
     if (bugScore >= 15) chord([523, 659, 784, 1046], 0.6);
   }, 15000);
+}
+
+/* ================= MOVIE MEME INTERACTIONS ================= */
+function matrixPill(choice) {
+  const r = document.getElementById('matrixResult');
+  if (choice === 'red') {
+    r.textContent = 'you took the red pill. you see the truth: your p-value was 0.051. welcome to reality.';
+    spawnConfetti(18, ['🔴']);
+    blip(220, 0.3, 'sawtooth', 0.03);
+  } else {
+    r.textContent = 'you took the blue pill. everything is fine. nothing is overfit. (this is a lie)';
+    spawnConfetti(10, ['🔵']);
+    blip(520, 0.15, 'triangle', 0.03);
+  }
+}
+let totemSpin = null;
+function spinTotem() {
+  const t = document.getElementById('totem');
+  if (totemSpin) { clearInterval(totemSpin); totemSpin = null; }
+  let deg = 0;
+  totemSpin = setInterval(() => { deg += 30; t.style.transform = 'rotate(' + deg + 'deg)'; }, 50);
+  blip(600, 0.1, 'square', 0.03);
+  setTimeout(() => {
+    if (!totemSpin) return;
+    clearInterval(totemSpin); totemSpin = null;
+    const stillDreaming = Math.random() > 0.4;
+    if (stillDreaming) {
+      document.getElementById('totemNote').textContent = 'still spinning... you are dreaming. or overfitting. same thing.';
+      blip(300, 0.2, 'sawtooth', 0.03);
+    } else {
+      document.getElementById('totemNote').textContent = 'the totem stopped. reality confirmed. (or is it?)';
+      spawnConfetti(8, ['🌀']);
+    }
+  }, 2500);
+}
+let shiningClicks = 0;
+function shiningType() {
+  const el = document.getElementById('shiningText');
+  shiningClicks++;
+  el.textContent += ' all work and no p-values makes janak a dull boy';
+  if (shiningClicks >= 5) el.style.color = 'var(--red)';
+  blip(200 + shiningClicks * 40, 0.06, 'square', 0.03);
+}
+/* ================= LIGHTSABER + VADER SOUNDS ================= */
+function sweep(f0, f1, dur) {
+  if (!audioOn) return;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const t0 = audioCtx.currentTime;
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = 'sawtooth';
+    o.frequency.setValueAtTime(f0, t0);
+    o.frequency.exponentialRampToValueAtTime(f1, t0 + dur);
+    g.gain.setValueAtTime(0.05, t0);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(t0); o.stop(t0 + dur);
+  } catch (e) {}
+}
+function vaderBreathe() {
+  if (!audioOn) return;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const t0 = audioCtx.currentTime;
+    for (let i = 0; i < 4; i++) {
+      const t = t0 + i * 0.85;
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type = 'sawtooth';
+      o.frequency.setValueAtTime(68, t);
+      o.frequency.exponentialRampToValueAtTime(112, t + 0.3);
+      o.frequency.exponentialRampToValueAtTime(58, t + 0.65);
+      g.gain.setValueAtTime(0.001, t);
+      g.gain.exponentialRampToValueAtTime(0.07, t + 0.1);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.65);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(t); o.stop(t + 0.7);
+    }
+  } catch (e) {}
 }
 
 /* ================= KONAMI ================= */
@@ -1600,8 +1753,9 @@ document.addEventListener('keydown', (e) => {
       document.body.style.transition = 'transform 0.5s';
       document.body.style.transform = 'rotate(360deg)';
       setTimeout(() => { document.body.style.transform = ''; }, 500);
-      spawnConfetti(70, ['🦄','✨','🎉','🎊']);
+      spawnConfetti(70, ['🦄','✨','🎉','🎊','⚔️']);
       chord([523, 659, 784, 1046, 1318], 0.8);
+      vaderBreathe();
       konamiIdx = 0;
     }
   } else { konamiIdx = 0; }
@@ -1614,9 +1768,10 @@ document.getElementById('logo').addEventListener('click', (e) => {
   logoClicks++;
   blip(500 + logoClicks * 100, 0.06, 'square', 0.03);
   if (logoClicks >= 5) {
-    document.getElementById('logo').textContent = 'nice try, janak_';
-    spawnConfetti(20, ['👑','🔥']);
+    document.getElementById('logo').textContent = 'i am your father. hire me.';
+    spawnConfetti(20, ['⚔️','🔥','🪐']);
     chord([659, 784, 1046], 0.4);
+    sweep(900, 120, 0.45);
     setTimeout(() => { document.getElementById('logo').textContent = 'jr._'; logoClicks = 0; }, 2200);
   }
 });
@@ -1630,8 +1785,8 @@ document.querySelector('.output').innerHTML =
 const termBody = document.getElementById('termBody');
 const termInput = document.getElementById('termInput');
 const banner = [
-  'janakOS v4.2.0 - "the one with too many memes"',
-  'type "help" for commands. type "hire" if you dare.',
+  'EMPIRE OS v6.6.6 - "the one with the force"',
+  'type "help". i find your lack of initiative disturbing.',
   '----------------------------------------------'
 ];
 function termWrite(html, cls) {
@@ -1654,6 +1809,11 @@ function printHelp() {
     ['hire', 'the only command that matters'],
     ['email', 'how to actually reach me'],
     ['p-value', 'statistical fortune telling'],
+    ['force', 'connect to the force'],
+    ['vader', 'disturbing. very disturbing.'],
+    ['lightsaber', 'whoosh. whoosh. whoosh.'],
+    ['yoda', 'wisdom, mostly.'],
+    ['pill', 'choose your reality'],
     ['sudo', 'try it. i dare you.'],
     ['coffee', 'brew a cup (virtual)'],
     ['clear', 'start fresh'],
@@ -1754,6 +1914,17 @@ function handleCommand(raw) {
     return;
   }
   if (cmd === 'clear' || cmd === 'cls') { termBody.innerHTML = ''; return; }
+  if (cmd === 'force' || cmd.startsWith('force ')) {
+    termOut('the force is strong with this one. (and its residuals are clean.)', 'ok');
+    return;
+  }
+  if (cmd === 'vader') { termOut('i find your lack of faith in the null hypothesis disturbing.', 'err'); return; }
+  if (cmd === 'luke') { termOut('i am your father. of this project.', 'warn'); return; }
+  if (cmd === 'yoda') { termOut('do or do not, there is no try. (except legacy code. there is only suffering.)', 'ok'); return; }
+  if (cmd === 'lightsaber') { termOut('whoosh. whoosh. whoosh. (it is red. it is angry. it works.)', 'violet'); sweep(900, 120, 0.45); return; }
+  if (cmd === 'deathstar') { termOut("that's no moon... it's a 2TB dataframe.", 'warn'); return; }
+  if (cmd === 'empire') { termOut('the empire did nothing wrong. (except the database schema.)', 'warn'); return; }
+  if (cmd === 'pill') { termOut('red pill: p<0.05, reality crumbles. blue pill: accept the null, stay comfortable. your move.', 'violet'); return; }
   if (cmd === '') return;
   termOut('command not found: ' + cmd + '. try "help". (or accept that i don\'t know everything)', 'err');
   blip(180, 0.15, 'sawtooth', 0.03);
@@ -1763,7 +1934,7 @@ termWrite('<span class="ok">8 projects</span> · <span class="ok">253 tests</spa
 termInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
     const val = termInput.value;
-    termWrite('<span class="term-prompt">janak@portfolio:~$</span> ' + val.replace(/</g, '&lt;'));
+    termWrite('<span class="term-prompt">vader@deathstar:~$</span> ' + val.replace(/</g, '&lt;'));
     blip(660, 0.05, 'square', 0.02);
     handleCommand(val);
     termInput.value = '';
