@@ -316,6 +316,113 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 }
 .project:hover .project-link { color: var(--accent); }
 
+/* ---------- LIVE PUTER.JS TODO DEMO ---------- */
+.project.todo-demo { display: block; cursor: auto; padding: 0; }
+.project.todo-demo::before { display: none; }
+.todo-demo-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; padding: 2rem 2.2rem 1.4rem; }
+.todo-demo-head h3 { font-size: 1.35rem; font-weight: 700; margin-bottom: 0.5rem; }
+.todo-demo-head p { color: var(--dim); font-size: 0.9rem; line-height: 1.65; max-width: 640px; }
+.todo-demo-head .stat-joke { color: var(--amber); font-weight: 500; }
+.todo-demo-head .project-side { flex-shrink: 0; }
+
+.tw { border-top: 1px solid var(--border); padding: 1.4rem 2.2rem 1.6rem; background: rgba(10,10,16,0.55); }
+.tw-form { display: flex; gap: 0.6rem; margin-bottom: 1rem; }
+.tw-input {
+  flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+  color: var(--text); border-radius: 10px; padding: 0.7rem 0.9rem;
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.tw-input::placeholder { color: var(--muted); }
+.tw-input:focus { border-color: var(--accent); background: rgba(255,255,255,0.08); }
+.tw-add {
+  background: var(--accent); color: #fff; border: none; border-radius: 10px;
+  padding: 0 1.4rem; font-family: 'VT323', monospace; font-size: 16px; font-weight: 700;
+  letter-spacing: 0.05em; cursor: pointer; transition: all 0.15s; box-shadow: var(--glow);
+}
+.tw-add:hover { filter: brightness(1.2); }
+.tw-add:active { transform: scale(0.95); }
+
+.tw-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; }
+.tw-filters { display: flex; gap: 0.3rem; }
+.tw-filter {
+  background: transparent; border: none; color: var(--muted);
+  font-family: 'VT323', monospace; font-size: 14px; padding: 4px 12px;
+  border-radius: 999px; cursor: pointer; transition: all 0.15s;
+}
+.tw-filter:hover { color: var(--text); }
+.tw-filter.active { background: var(--accent-dim); color: var(--accent); }
+.tw-clear {
+  background: transparent; border: none; color: var(--muted);
+  font-family: 'VT323', monospace; font-size: 13px; cursor: pointer; transition: color 0.15s;
+}
+.tw-clear:hover { color: var(--accent); }
+
+.tw-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+.tw-item {
+  display: flex; align-items: center; gap: 0.7rem;
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+  border-radius: 10px; padding: 0.6rem 0.8rem; transition: background 0.15s;
+}
+.tw-item:hover { background: rgba(255,255,255,0.06); }
+.tw-check {
+  width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%;
+  border: 2px solid var(--muted); background: transparent; cursor: pointer;
+  position: relative; transition: all 0.15s;
+}
+.tw-check:hover { border-color: var(--accent); }
+.tw-item.done .tw-check { background: var(--accent); border-color: var(--accent); }
+.tw-item.done .tw-check::after {
+  content: '✓'; position: absolute; inset: 0; display: flex;
+  align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 800;
+}
+.tw-text { flex: 1; font-size: 0.95rem; line-height: 1.4; word-break: break-word; }
+.tw-item.done .tw-text { color: var(--muted); text-decoration: line-through; }
+.tw-edit {
+  flex: 1; background: rgba(255,255,255,0.08); border: 1px solid var(--accent);
+  color: var(--text); border-radius: 8px; padding: 0.4rem 0.6rem;
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; outline: none;
+}
+.tw-icon {
+  background: transparent; border: none; color: var(--muted);
+  width: 28px; height: 28px; border-radius: 7px; cursor: pointer;
+  font-size: 14px; display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; opacity: 0;
+}
+.tw-item:hover .tw-icon { opacity: 1; }
+.tw-icon:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+.tw-icon.danger:hover { background: rgba(255,49,49,0.15); color: var(--accent); }
+
+.tw-empty {
+  text-align: center; padding: 1.6rem; color: var(--muted);
+  border: 1px dashed var(--border); border-radius: 10px;
+  font-family: 'VT323', monospace; font-size: 15px;
+}
+
+.tw-foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.8rem;
+  margin-top: 1rem; padding-top: 0.9rem; border-top: 1px solid var(--border);
+  font-family: 'VT323', monospace; font-size: 13px; color: var(--muted); flex-wrap: wrap;
+}
+.tw-sync { display: flex; align-items: center; gap: 6px; }
+.tw-sync::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+.tw-sync.ok::before { background: var(--accent); box-shadow: var(--glow); }
+.tw-sync.local::before { background: var(--amber); }
+.tw-auth {
+  background: transparent; border: 1px solid var(--border); color: var(--muted);
+  font-family: 'VT323', monospace; font-size: 13px; padding: 3px 10px;
+  border-radius: 999px; cursor: pointer; transition: all 0.15s;
+}
+.tw-auth:hover { color: var(--text); border-color: var(--accent); }
+.tw-count { color: var(--text); }
+.tw-powered { color: var(--muted); text-decoration: none; transition: color 0.15s; }
+.tw-powered:hover { color: var(--accent); }
+
+@media (max-width: 560px) {
+  .todo-demo-head { flex-direction: column; padding: 1.5rem 1.2rem 1rem; }
+  .tw { padding: 1.1rem 1.2rem 1.3rem; }
+}
+
 /* ---------- TERMINAL WIDGET ---------- */
 .terminal-widget {
   border: 1px solid var(--border); border-radius: 16px;
@@ -791,7 +898,7 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
     <button class="hero-term-btn" onclick="scrollToTerminal()">$_ try my terminal</button>
   </div>
   <div class="hero-stats">
-    <div class="hero-stat"><b><span class="countup" data-target="8">0</span></b> projects shipped</div>
+    <div class="hero-stat"><b><span class="countup" data-target="9">0</span></b> projects shipped</div>
     <div class="hero-stat"><b><span class="countup" data-target="253">0</span></b> tests passing</div>
     <div class="hero-stat"><b><span class="countup" data-target="0.84" data-decimal="2">0</span></b> best AUC</div>
     <div class="hero-stat"><b>∞</b> "just one more tweak" incidents</div>
@@ -832,7 +939,7 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
   <div class="section-header fade-in">
     <p class="section-num">01 - imperial archives</p>
     <h2 class="section-title">Projects</h2>
-    <p class="section-subtitle">Eight relics from my Jedi training. <b>Hover = 3D tilt. Click = sparkles.</b></p>
+    <p class="section-subtitle">Nine relics from my Jedi training. <b>Hover = 3D tilt. Click = sparkles. #09 is LIVE.</b></p>
   </div>
   <div class="stagger" id="projectList">
 
@@ -915,6 +1022,41 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
       </div>
       <div class="project-side"><div class="project-score">8GB VRAM</div><div class="project-link">github ↗</div></div>
     </a>
+
+    <div class="project todo-demo">
+      <div class="todo-demo-head">
+        <div>
+          <p class="project-num">09</p>
+          <h3>Puter.js To-Do - Live Serverless Demo</h3>
+          <p>A working to-do list with zero backend code. Tasks persist to Puter's cloud KV store (local fallback while signed out) - add, edit, complete, filter, clear. <span class="stat-joke">My to-do list is finally serverless. The tasks still aren't getting done.</span></p>
+          <div class="tags"><span class="tag hl">Puter.js</span><span class="tag">Cloud KV</span><span class="tag">Serverless</span><span class="tag">Auth</span><span class="tag">No Backend</span></div>
+        </div>
+        <div class="project-side"><div class="project-score">LIVE</div><a class="project-link" href="https://developer.puter.com" target="_blank" rel="noopener">powered by puter ↗</a></div>
+      </div>
+
+      <div class="tw" id="todo-widget">
+        <form class="tw-form" id="tw-form" autocomplete="off">
+          <input class="tw-input" id="tw-input" type="text" placeholder="add a task, rebel scum..." maxlength="300" aria-label="New task">
+          <button class="tw-add" type="submit">ADD</button>
+        </form>
+        <div class="tw-toolbar">
+          <div class="tw-filters">
+            <button class="tw-filter active" data-filter="all">all</button>
+            <button class="tw-filter" data-filter="active">active</button>
+            <button class="tw-filter" data-filter="completed">done</button>
+          </div>
+          <button class="tw-clear" id="tw-clear" hidden>clear done ✕</button>
+        </div>
+        <ul class="tw-list" id="tw-list"></ul>
+        <div class="tw-empty" id="tw-empty" hidden>&gt; no tasks in this sector. add one above.</div>
+        <div class="tw-foot">
+          <span class="tw-sync" id="tw-sync">…</span>
+          <button class="tw-auth" id="tw-auth" hidden>sign in</button>
+          <span class="tw-count" id="tw-count"></span>
+          <a class="tw-powered" href="https://developer.puter.com" target="_blank" rel="noopener">powered by puter</a>
+        </div>
+      </div>
+    </div>
 
   </div>
 </section>
@@ -1563,7 +1705,7 @@ document.getElementById('complimentBtn').addEventListener('click', () => {
 });
 
 /* ================= PROJECT TILT + SPARKLES ================= */
-document.querySelectorAll('.project').forEach(card => {
+document.querySelectorAll('.project:not(.todo-demo)').forEach(card => {
   card.addEventListener('mousemove', (e) => {
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -2340,6 +2482,154 @@ console.log('%c👋 Hey! You found the console. %cYou must be a developer. %cWe 
 console.log('%c🦄 Konami code: ↑↑↓↓←→←→BA', 'color:#ff6b6b; font-style: italic;');
 console.log('%c$_ Tip: the terminal on this page is REAL. type "hire".', 'color:#8b7cf6;');
 console.log('%c📊 Also: click the 🧠 meme. i dare you.', 'color:#ffd166;');
+</script>
+
+<script src="https://js.puter.com/v2/"></script>
+<script>
+/* ================= PUTER.JS LIVE TODO DEMO ================= */
+(function () {
+  const TODOS_KEY = 'portfolio-todos:v1';
+  const root = document.getElementById('todo-widget');
+  if (!root) return;
+  const $ = (id) => document.getElementById(id);
+  const form = $('tw-form'), input = $('tw-input'), list = $('tw-list'),
+        empty = $('tw-empty'), count = $('tw-count'), sync = $('tw-sync'),
+        clearBtn = $('tw-clear'), authBtn = $('tw-auth');
+  const filterBtns = Array.from(root.querySelectorAll('.tw-filter'));
+
+  let todos = [], useCloud = false, filter = 'all';
+
+  const puterReady = () => typeof window.puter !== 'undefined';
+  const uid = () => (window.crypto && crypto.randomUUID)
+    ? crypto.randomUUID()
+    : 'id-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+
+  async function loadTodos() {
+    if (puterReady()) {
+      try {
+        const data = await puter.kv.get(TODOS_KEY);
+        useCloud = true;
+        return Array.isArray(data) ? data : [];
+      } catch (e) { /* fall through to local */ }
+    }
+    useCloud = false;
+    try {
+      const raw = localStorage.getItem(TODOS_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) { return []; }
+  }
+
+  async function saveTodos() {
+    const snap = JSON.parse(JSON.stringify(todos));
+    if (useCloud && puterReady()) {
+      try { await puter.kv.set(TODOS_KEY, snap); return; } catch (e) {}
+    }
+    try { localStorage.setItem(TODOS_KEY, JSON.stringify(snap)); } catch (e) {}
+  }
+
+  function syncUI() {
+    if (useCloud && puterReady()) { sync.textContent = 'cloud · puter kv'; sync.className = 'tw-sync ok'; }
+    else { sync.textContent = 'local · this browser'; sync.className = 'tw-sync local'; }
+  }
+
+  function render() {
+    const visible = todos.filter(t =>
+      filter === 'active' ? !t.done : filter === 'completed' ? t.done : true);
+    list.innerHTML = '';
+    visible.forEach(t => list.appendChild(itemEl(t)));
+    const left = todos.filter(t => !t.done).length;
+    count.textContent = left + ' left';
+    clearBtn.hidden = todos.length - left === 0;
+    empty.hidden = todos.length > 0;
+  }
+
+  function itemEl(t) {
+    const li = document.createElement('li');
+    li.className = 'tw-item' + (t.done ? ' done' : '');
+    const check = document.createElement('button');
+    check.type = 'button'; check.className = 'tw-check';
+    check.setAttribute('aria-label', 'toggle task');
+    check.addEventListener('click', () => toggle(t.id));
+    const text = document.createElement('span');
+    text.className = 'tw-text'; text.textContent = t.text;
+    const edit = document.createElement('input');
+    edit.type = 'text'; edit.className = 'tw-edit'; edit.maxLength = 300; edit.hidden = true;
+    const eb = document.createElement('button');
+    eb.type = 'button'; eb.className = 'tw-icon'; eb.textContent = '✎';
+    eb.setAttribute('aria-label', 'edit task');
+    eb.addEventListener('click', () => startEdit(li, t, text, edit));
+    const db = document.createElement('button');
+    db.type = 'button'; db.className = 'tw-icon danger'; db.textContent = '✕';
+    db.setAttribute('aria-label', 'delete task');
+    db.addEventListener('click', () => del(t.id));
+    li.append(check, text, edit, eb, db);
+    return li;
+  }
+
+  function startEdit(li, t, textEl, edit) {
+    edit.value = t.text; textEl.hidden = true; edit.hidden = false; edit.focus();
+    edit.setSelectionRange(edit.value.length, edit.value.length);
+    let done = false;
+    const commit = async () => {
+      if (done) return; done = true;
+      textEl.hidden = false; edit.hidden = true;
+      const next = edit.value.trim();
+      if (next && next !== t.text) { t.text = next; await saveTodos(); }
+      render();
+    };
+    edit.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); commit(); }
+      else if (e.key === 'Escape') { done = true; textEl.hidden = false; edit.hidden = true; render(); }
+    });
+    edit.addEventListener('blur', commit);
+  }
+
+  async function toggle(id) {
+    const t = todos.find(x => x.id === id); if (!t) return;
+    t.done = !t.done; await saveTodos(); render();
+  }
+  async function del(id) {
+    todos = todos.filter(x => x.id !== id); await saveTodos(); render();
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const text = input.value.trim(); if (!text) return;
+    todos.unshift({ id: uid(), text, done: false, createdAt: Date.now() });
+    input.value = ''; await saveTodos(); render();
+  });
+  clearBtn.addEventListener('click', async () => {
+    todos = todos.filter(x => !x.done); await saveTodos(); render();
+  });
+  filterBtns.forEach(b => b.addEventListener('click', () => {
+    filter = b.dataset.filter;
+    filterBtns.forEach(x => x.classList.toggle('active', x === b));
+    render();
+  }));
+
+  async function authUI() {
+    if (!puterReady()) { authBtn.hidden = true; return; }
+    try {
+      const signedIn = await puter.auth.isSignedIn();
+      authBtn.hidden = false;
+      authBtn.textContent = signedIn ? 'sign out' : 'sign in';
+    } catch (e) {
+      authBtn.hidden = false; authBtn.textContent = 'sign in';
+    }
+  }
+  authBtn.addEventListener('click', async () => {
+    if (!puterReady()) return;
+    try {
+      const signedIn = await puter.auth.isSignedIn();
+      if (signedIn) await puter.auth.signOut(); else await puter.auth.signIn();
+    } catch (e) { /* ignore */ }
+    todos = await loadTodos(); syncUI(); await authUI(); render();
+  });
+
+  (async function init() {
+    todos = await loadTodos(); syncUI(); await authUI(); render();
+  })();
+})();
 </script>
 
 </body>
