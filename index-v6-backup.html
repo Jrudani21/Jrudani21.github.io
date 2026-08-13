@@ -1,0 +1,2346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Janak Rudani - imperial boot sequence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+/* =====================================================================
+   JANAK RUDANI - PORTFOLIO ULTIMATE
+   A terminal that got feelings. A data scientist with jokes.
+   ===================================================================== */
+:root {
+  --void: #05050a;
+  --panel: #0a0a12;
+  --surface: #100f16;
+  --elevated: #181624;
+  --text: #f2f2f5;
+  --dim: #9a9aa8;
+  --muted: #565664;
+  --accent: #ff3131;
+  --accent-dim: rgba(255,49,49,0.12);
+  --violet: #59d9ff;
+  --amber: #f5c518;
+  --red: #ff3131;
+  --border: rgba(255,255,255,0.07);
+  --ring: rgba(255,49,49,0.18);
+  --glow: 0 0 24px rgba(255,49,49,0.3);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scrollbar-color: var(--accent) var(--void); }
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: auto;
+}
+::selection { background: var(--accent); color: var(--void); }
+a { color: inherit; }
+.mono { font-family: 'VT323', monospace; }
+
+/* ---------- BOOT OVERLAY ---------- */
+#boot {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--void);
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 2rem; font-family: 'VT323', monospace;
+  font-size: clamp(0.8rem, 2vw, 1.05rem);
+  transition: opacity 0.6s ease;
+}
+#boot.done { opacity: 0; pointer-events: none; }
+#boot .line { color: var(--dim); white-space: pre-wrap; }
+#boot .line .ok { color: var(--accent); }
+#boot .line .warn { color: var(--amber); }
+#boot .line .err { color: var(--red); }
+#boot .skip { position: absolute; bottom: 2rem; right: 2rem; color: var(--muted); font-size: 0.7rem; cursor: pointer; }
+#boot .skip:hover { color: var(--text); }
+
+/* ---------- PARTICLE FIELD ---------- */
+#particles {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none;
+}
+
+/* ---------- CURSOR RING ---------- */
+#cursor-ring {
+  position: fixed; width: 36px; height: 36px; z-index: 9998;
+  border: 1.5px solid var(--accent); border-radius: 50%;
+  pointer-events: none; transform: translate(-50%,-50%);
+  transition: width 0.2s, height 0.2s, border-color 0.2s, opacity 0.3s;
+  opacity: 0;
+}
+#cursor-ring.hover { width: 56px; height: 56px; border-color: var(--amber); }
+#cursor-ring.dim { opacity: 0; }
+@media (pointer: coarse) { #cursor-ring { display: none; } }
+
+/* ---------- PROGRESS ---------- */
+#progress {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 1000;
+  background: linear-gradient(90deg, var(--accent), var(--violet));
+  width: 0%; transition: width 0.1s linear;
+  box-shadow: var(--glow);
+}
+
+/* ---------- NAV ---------- */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.2rem 2.2rem;
+  display: flex; justify-content: space-between; align-items: center;
+  transition: all 0.3s;
+}
+nav.scrolled {
+  background: rgba(5,5,8,0.8); backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.8rem 2.2rem;
+}
+.nav-logo {
+  font-family: 'VT323', monospace;
+  font-size: 17px; font-weight: 800; color: var(--accent);
+  text-decoration: none; text-shadow: var(--glow);
+  cursor: pointer; user-select: none;
+}
+.nav-logo::before { content: '> '; color: var(--dim); }
+.nav-links { display: flex; gap: 1.6rem; align-items: center; }
+.nav-links a {
+  font-family: 'VT323', monospace;
+  font-size: 14px; color: var(--dim); text-decoration: none;
+  transition: color 0.2s; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; left: 0; bottom: -4px;
+  width: 0; height: 1.5px; background: var(--accent);
+  transition: width 0.25s;
+}
+.nav-links a:hover { color: var(--accent); }
+.nav-links a:hover::after { width: 100%; }
+
+/* ---------- FLOAT BUTTONS ---------- */
+.float-btns {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 900;
+  display: flex; flex-direction: column; gap: 0.6rem; align-items: flex-end;
+}
+.float-btn {
+  background: rgba(16,16,24,0.9); border: 1px solid var(--border);
+  color: var(--dim); font-family: 'VT323', monospace;
+  font-size: 11px; padding: 0.6rem 1rem; border-radius: 40px;
+  cursor: pointer; transition: all 0.25s;
+  backdrop-filter: blur(8px);
+}
+.float-btn:hover { transform: scale(1.06); }
+#panicBtn:hover { border-color: var(--red); color: var(--red); box-shadow: 0 0 20px rgba(255,107,107,0.3); }
+#complimentBtn:hover { border-color: var(--amber); color: var(--amber); box-shadow: 0 0 20px rgba(255,209,102,0.3); }
+#soundBtn:hover { border-color: var(--accent); color: var(--accent); }
+#soundBtn.on { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- MODAL ---------- */
+.modal {
+  position: fixed; inset: 0; z-index: 950;
+  background: rgba(5,5,8,0.94); display: flex;
+  align-items: center; justify-content: center; flex-direction: column;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  backdrop-filter: blur(6px);
+}
+.modal.active { opacity: 1; pointer-events: all; }
+.modal h2 { font-size: clamp(2.5rem, 7vw, 5rem); font-weight: 800; margin-bottom: 1rem; font-family: 'Unbounded', sans-serif; }
+.modal p { color: var(--dim); font-size: 1.1rem; margin-bottom: 2rem; max-width: 520px; text-align: center; }
+.modal-close {
+  background: var(--accent); color: var(--void); border: none;
+  padding: 0.8rem 2.2rem; border-radius: 40px; font-weight: 700;
+  font-size: 14px; cursor: pointer; font-family: 'Space Grotesk', sans-serif;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.modal-close:hover { transform: scale(1.05); box-shadow: var(--glow); }
+
+/* ---------- TOAST ---------- */
+#toast {
+  position: fixed; bottom: 6.5rem; right: 1.5rem; z-index: 940;
+  background: var(--amber); color: var(--void);
+  padding: 1rem 1.5rem; border-radius: 12px;
+  font-weight: 600; font-size: 14px; max-width: 320px;
+  opacity: 0; transform: translateY(20px) scale(0.92);
+  transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 12px 44px rgba(255,209,102,0.35);
+}
+#toast.show { opacity: 1; transform: translateY(0) scale(1); }
+
+/* ---------- HERO ---------- */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  justify-content: center; padding: 7rem 2.2rem 3rem;
+  max-width: 960px; margin: 0 auto; position: relative; z-index: 2;
+}
+.terminal-greeting {
+  font-family: 'VT323', monospace;
+  font-size: 13px; color: var(--muted); margin-bottom: 1.4rem;
+  display: flex; align-items: center; gap: 0.5rem; min-height: 20px;
+}
+.terminal-greeting .cursor {
+  display: inline-block; width: 8px; height: 16px;
+  background: var(--accent); animation: blink 1s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.hero-name {
+  font-size: clamp(3.2rem, 11vw, 7.5rem);
+  font-weight: 800; line-height: 0.9;
+  letter-spacing: -0.02em; margin-bottom: 1.5rem;
+  font-family: 'Unbounded', 'Space Grotesk', sans-serif;
+}
+.gradient-text {
+  background: linear-gradient(120deg, var(--accent), var(--violet) 60%, var(--amber));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: gradient-shift 6s ease-in-out infinite;
+  display: inline-block;
+}
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.hero-tagline {
+  font-size: clamp(1.1rem, 2.4vw, 1.35rem);
+  color: var(--dim); max-width: 620px; margin-bottom: 2.8rem;
+  line-height: 1.55;
+}
+.hero-tagline .pun { color: var(--amber); font-weight: 500; cursor: pointer; border-bottom: 1px dashed var(--amber); }
+.hero-tagline .pun:hover { text-decoration: underline wavy; }
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+.hero-cta {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  background: var(--accent); color: var(--void);
+  padding: 0.95rem 2.1rem; border-radius: 60px;
+  font-weight: 700; font-size: 15px; text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.hero-cta:hover { transform: scale(1.04); box-shadow: var(--glow); }
+.hero-term-btn {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  background: transparent; color: var(--text);
+  padding: 0.9rem 1.8rem; border-radius: 60px;
+  font-weight: 600; font-size: 14px; text-decoration: none;
+  border: 1px solid var(--border); cursor: pointer;
+  font-family: 'Space Grotesk', sans-serif;
+  transition: all 0.2s;
+}
+.hero-term-btn:hover { border-color: var(--accent); color: var(--accent); }
+.hero-stats { display: flex; gap: 2.5rem; margin-top: 4rem; flex-wrap: wrap; }
+.hero-stat { font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); }
+.hero-stat b { color: var(--accent); font-size: 1.4rem; display: block; margin-bottom: 0.15rem; text-shadow: var(--glow); }
+.countup { display: inline-block; }
+
+/* ---------- TICKER ---------- */
+.ticker-wrap {
+  overflow: hidden; border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 0.85rem 0; background: var(--panel); position: relative; z-index: 2;
+}
+.ticker {
+  display: flex; gap: 3rem; width: max-content;
+  animation: scroll 40s linear infinite;
+  font-family: 'VT323', monospace;
+  font-size: 15px; color: var(--muted);
+}
+.ticker .joke { color: var(--amber); }
+.ticker .skill { color: var(--accent); }
+.ticker:hover { animation-play-state: paused; }
+@keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ---------- SECTIONS ---------- */
+section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: relative; z-index: 2; }
+.section-header { margin-bottom: 3.5rem; }
+.section-num {
+  font-family: 'VT323', monospace;
+  font-size: 14px; color: var(--accent); letter-spacing: 0.12em;
+  text-transform: uppercase; margin-bottom: 0.6rem;
+}
+.section-num::before { content: '// '; color: var(--muted); }
+.section-title {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 700; letter-spacing: -0.01em; line-height: 1.05;
+  font-family: 'Unbounded', 'Space Grotesk', sans-serif;
+}
+.section-subtitle { color: var(--dim); margin-top: 0.7rem; font-size: 1.05rem; max-width: 640px; }
+.section-subtitle b { color: var(--amber); }
+
+/* ---------- PROJECTS ---------- */
+.project {
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 1.5rem; padding: 2rem 2.2rem;
+  border: 1px solid var(--border); border-radius: 16px;
+  background: linear-gradient(135deg, rgba(16,16,24,0.9), rgba(10,10,16,0.9));
+  margin-bottom: 1.1rem;
+  cursor: pointer; transition: all 0.35s;
+  position: relative; overflow: hidden;
+  text-decoration: none; color: inherit;
+  transform-style: preserve-3d;
+}
+.project::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), var(--ring) 0%, transparent 65%);
+  opacity: 0; transition: opacity 0.4s;
+}
+.project:hover::before { opacity: 1; }
+.project:hover { border-color: var(--accent); box-shadow: 0 16px 48px rgba(0,0,0,0.5), var(--glow); }
+.project:hover .project-num { color: var(--accent); }
+.project-num {
+  font-family: 'VT323', monospace;
+  font-size: 11px; color: var(--muted); margin-bottom: 0.5rem;
+  transition: color 0.3s;
+}
+.project h3 { font-size: 1.35rem; font-weight: 700; margin-bottom: 0.5rem; }
+.project p { color: var(--dim); font-size: 0.9rem; line-height: 1.65; max-width: 640px; }
+.project p .stat-joke { color: var(--amber); font-weight: 500; }
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
+.tag {
+  font-family: 'VT323', monospace;
+  font-size: 13px; padding: 3px 10px;
+  border: 1px solid var(--border); border-radius: 20px;
+  color: var(--dim); transition: all 0.2s;
+}
+.tag.hl { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.project:hover .tag.hl { box-shadow: var(--glow); }
+.project-side { display: flex; flex-direction: column; align-items: flex-end; justify-content: center; }
+.project-score {
+  font-size: 1.35rem; font-weight: 700; color: var(--accent);
+  font-family: 'VT323', monospace;
+}
+.project-link {
+  font-size: 11px; color: var(--muted);
+  font-family: 'VT323', monospace; margin-top: 0.35rem;
+}
+.project:hover .project-link { color: var(--accent); }
+
+/* ---------- TERMINAL WIDGET ---------- */
+.terminal-widget {
+  border: 1px solid var(--border); border-radius: 16px;
+  overflow: hidden; background: #0c0c14;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+  position: relative; z-index: 2;
+}
+.terminal-head {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.8rem 1.2rem;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid var(--border);
+}
+.terminal-dot { width: 11px; height: 11px; border-radius: 50%; }
+.terminal-dot.r { background: #ff5f57; }
+.terminal-dot.y { background: #febc2e; }
+.terminal-dot.g { background: #28c840; }
+.terminal-title {
+  font-family: 'VT323', monospace; font-size: 11px;
+  color: var(--muted); margin-left: 0.6rem;
+}
+.terminal-body {
+  padding: 1.2rem 1.4rem; min-height: 300px; max-height: 400px;
+  overflow-y: auto; font-family: 'VT323', monospace;
+  font-size: 16px; line-height: 1.7;
+}
+.terminal-body::-webkit-scrollbar { width: 6px; }
+.terminal-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.term-out { color: var(--dim); white-space: pre-wrap; word-break: break-word; }
+.term-out .ok { color: var(--accent); }
+.term-out .warn { color: var(--amber); }
+.term-out .err { color: var(--red); }
+.term-out .violet { color: var(--violet); }
+.term-in { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.4rem; }
+.term-prompt { color: var(--accent); flex-shrink: 0; }
+.term-input {
+  background: none; border: none; outline: none; color: var(--text);
+  font-family: 'VT323', monospace; font-size: 16px;
+  flex: 1; caret-color: var(--accent);
+}
+.term-cursor {
+  display: inline-block; width: 8px; height: 15px;
+  background: var(--accent); animation: blink 1s step-end infinite;
+  margin-left: -3px;
+}
+
+/* ---------- SKILL METERS ---------- */
+.skill-meters { display: flex; flex-direction: column; gap: 1.3rem; }
+.skill-meter .sm-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 0.4rem;
+}
+.skill-meter .sm-name { font-weight: 600; font-size: 0.95rem; }
+.skill-meter .sm-name .sm-joke { color: var(--muted); font-weight: 400; font-size: 0.8rem; }
+.skill-meter .sm-pct {
+  font-family: 'VT323', monospace; font-size: 11px;
+  color: var(--accent);
+}
+.sm-bar {
+  height: 8px; border-radius: 10px; background: var(--elevated);
+  overflow: hidden;
+}
+.sm-fill {
+  height: 100%; width: 0; border-radius: 10px;
+  background: linear-gradient(90deg, var(--accent), var(--violet));
+  transition: width 1.4s cubic-bezier(0.22,1,0.36,1);
+  box-shadow: var(--glow);
+}
+.sm-fill.hot { background: linear-gradient(90deg, var(--amber), var(--red)); box-shadow: 0 0 20px rgba(255,107,107,0.35); }
+
+/* ---------- SCROLL CHART ---------- */
+.chart-card {
+  border: 1px solid var(--border); border-radius: 16px;
+  padding: 2rem; background: var(--surface);
+}
+.chart-title {
+  font-family: 'VT323', monospace; font-size: 14px;
+  color: var(--muted); margin-bottom: 1.5rem; text-align: center;
+}
+.chart-wrap { position: relative; }
+.chart-wrap svg { width: 100%; height: auto; display: block; }
+.chart-path {
+  fill: none; stroke: var(--accent); stroke-width: 3;
+  stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  filter: drop-shadow(0 0 6px rgba(0,229,160,0.5));
+}
+.chart-path.danger { stroke: var(--red); filter: drop-shadow(0 0 6px rgba(255,107,107,0.5)); }
+.chart-annot {
+  position: absolute; font-family: 'VT323', monospace;
+  font-size: 10px; color: var(--amber);
+  transform: rotate(-6deg);
+}
+.chart-annot.big { font-size: 12px; color: var(--red); font-weight: 700; }
+
+/* ---------- MEME GALLERY ---------- */
+.meme-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.4rem;
+}
+.meme-card {
+  border: 1px solid var(--border); border-radius: 16px;
+  overflow: hidden; background: var(--surface);
+  transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
+}
+.meme-card:hover { transform: translateY(-4px) rotate(0.5deg); border-color: var(--amber); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+.meme-card h4 {
+  font-family: 'VT323', monospace;
+  font-size: 11px; color: var(--muted);
+  padding: 0.8rem 1.3rem; border-bottom: 1px solid var(--border);
+}
+.meme-card h4::before { content: '$ '; color: var(--accent); }
+.meme-body { padding: 1.5rem; }
+
+/* Drake */
+.drake { display: flex; flex-direction: column; gap: 3px; }
+.drake-row {
+  display: flex; align-items: center; gap: 1rem;
+  background: var(--panel); border-radius: 10px; padding: 0.8rem 1rem;
+  transition: transform 0.25s, background 0.25s;
+}
+.drake-row:hover { transform: translateX(6px); background: var(--elevated); }
+.drake-row .face { font-size: 2.6rem; width: 60px; text-align: center; flex-shrink: 0; }
+.drake-row .label { font-size: 0.88rem; color: var(--text); font-weight: 600; }
+.drake-row .label small { display: block; color: var(--muted); font-weight: 400; font-size: 0.72rem; }
+
+/* This is fine */
+.this-is-fine { position: relative; text-align: center; }
+.this-is-fine .dog { font-size: 4.2rem; display: block; position: relative; z-index: 2; animation: dog-shake 3s ease-in-out infinite; }
+@keyframes dog-shake { 0%,100% { transform: rotate(0); } 25% { transform: rotate(4deg); } 75% { transform: rotate(-4deg); } }
+.this-is-fine .flames { font-size: 2.4rem; display: block; margin-top: -0.6rem; animation: flame-flicker 0.7s ease-in-out infinite alternate; }
+@keyframes flame-flicker { from { transform: scale(1) rotate(-2deg); opacity: 0.75; } to { transform: scale(1.2) rotate(2deg); opacity: 1; } }
+.this-is-fine .caption { font-size: 1rem; font-weight: 700; color: var(--amber); margin-top: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.tif-sub { font-size: 0.8rem; color: var(--muted); font-family: 'VT323', monospace; margin-top: 0.8rem; }
+
+/* Expanding brain */
+.brain-scale { display: flex; flex-direction: column; gap: 0.6rem; }
+.brain-level {
+  display: flex; align-items: center; gap: 0.9rem;
+  opacity: 0.45; transition: opacity 0.3s, transform 0.3s;
+  cursor: pointer; padding: 0.4rem 0.6rem; border-radius: 10px;
+}
+.brain-level:hover { opacity: 0.9; transform: scale(1.02); background: var(--panel); }
+.brain-level.active { opacity: 1; background: var(--accent-dim); }
+.brain-level .brain { font-size: calc(1.1rem + var(--s) * 0.5rem); width: 74px; text-align: center; flex-shrink: 0; }
+.brain-level .text { font-size: 0.8rem; color: var(--dim); }
+.brain-level.active .text { color: var(--text); }
+
+/* Two buttons */
+.two-btns { position: relative; text-align: center; padding: 1.2rem 0; }
+.two-btns .guy { font-size: 3.2rem; display: block; margin-bottom: 1.2rem; animation: guy-sweat 2s ease-in-out infinite; }
+@keyframes guy-sweat { 0%,100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+.two-btns .btn-pair { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.meme-btn {
+  padding: 0.85rem 1.5rem; border-radius: 10px;
+  font-weight: 700; font-size: 0.9rem; border: none; cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s; font-family: 'Space Grotesk', sans-serif;
+}
+.meme-btn:hover { transform: scale(1.07); }
+.btn-a { background: var(--accent); color: var(--void); }
+.btn-a:hover { box-shadow: var(--glow); }
+.btn-b { background: var(--red); color: var(--void); }
+.btn-b:hover { box-shadow: 0 0 20px rgba(255,107,107,0.4); }
+.meme-result { margin-top: 1.1rem; font-size: 0.85rem; color: var(--amber); font-family: 'VT323', monospace; min-height: 1.6em; }
+
+/* Mocking */
+.mocking { font-family: 'VT323', monospace; font-size: 1.05rem; line-height: 1.9; text-align: center; cursor: pointer; transition: color 0.2s; }
+.mocking:hover { color: var(--amber); }
+.mock { text-transform: lowercase; }
+.mock::first-letter { text-transform: uppercase; }
+.mock-note { margin-top: 1rem; font-size: 0.75rem; color: var(--muted); font-family: 'VT323', monospace; text-align: center; }
+
+/* Change my mind */
+.cmm-box { border: 3px solid var(--amber); border-radius: 12px; padding: 2rem 1.2rem; background: var(--panel); text-align: center; transition: transform 0.3s, box-shadow 0.3s; }
+.cmm-box:hover { transform: scale(1.02); box-shadow: 0 0 40px rgba(255,209,102,0.15); }
+.cmm-title { font-size: 1.4rem; font-weight: 700; line-height: 1.4; }
+.cmm-title span { color: var(--muted); font-weight: 400; font-size: 0.95rem; display: block; margin-top: 0.4rem; }
+.cmm-note { margin-top: 1rem; font-size: 0.75rem; color: var(--muted); font-family: 'VT323', monospace; text-align: center; }
+
+/* P-value casino */
+.casino { text-align: center; padding: 0.5rem 0; }
+.casino-slots {
+  display: flex; gap: 0.8rem; justify-content: center;
+  font-family: 'VT323', monospace; font-size: 2.4rem;
+  font-weight: 800; margin-bottom: 1.4rem;
+}
+.casino-slot {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 12px; padding: 0.8rem 1.2rem; min-width: 90px;
+  color: var(--text); transition: border-color 0.3s;
+}
+.casino-slot.spinning { animation: slot-shake 0.2s linear infinite; }
+@keyframes slot-shake { 0%,100% { transform: translateY(0); } 25% { transform: translateY(-4px); } 75% { transform: translateY(4px); } }
+.casino-verdict { font-size: 0.9rem; font-family: 'VT323', monospace; min-height: 1.6em; margin-bottom: 1.2rem; }
+.casino-verdict.sig { color: var(--accent); }
+.casino-verdict.nosig { color: var(--red); }
+.casino-lever {
+  padding: 0.85rem 2rem; border-radius: 60px;
+  background: var(--violet); color: #fff; border: none;
+  font-weight: 700; font-size: 14px; cursor: pointer;
+  font-family: 'Space Grotesk', sans-serif;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.casino-lever:hover { transform: scale(1.06) rotate(-2deg); box-shadow: 0 0 30px rgba(139,124,246,0.4); }
+.casino-note { margin-top: 1rem; font-size: 0.72rem; color: var(--muted); font-family: 'VT323', monospace; }
+
+/* ---------- GAME ---------- */
+.game-section { text-align: center; }
+.game-arena {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.1rem; max-width: 420px; margin: 0 auto;
+}
+.hole {
+  aspect-ratio: 1; background: var(--panel);
+  border: 1px solid var(--border); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.2rem; cursor: pointer; position: relative;
+  overflow: hidden; transition: background 0.2s, transform 0.2s;
+}
+.hole:hover { background: var(--elevated); transform: scale(1.03); }
+.hole .bug { font-size: 2.6rem; animation: bug-pop 0.3s cubic-bezier(0.34,1.56,0.64,1); user-select: none; }
+@keyframes bug-pop { from { transform: scale(0) rotate(-30deg); } to { transform: scale(1) rotate(0); } }
+.hole.hit { animation: hit-flash 0.3s; }
+@keyframes hit-flash { 0% { background: var(--red); } 100% { background: var(--panel); } }
+.game-score { font-family: 'VT323', monospace; font-size: 1.1rem; color: var(--dim); margin: 1.6rem 0; }
+.game-score b { font-size: 2.2rem; color: var(--accent); }
+.game-btn {
+  background: var(--accent); color: var(--void);
+  border: none; padding: 0.85rem 2.2rem; border-radius: 60px;
+  font-weight: 700; font-size: 14px; cursor: pointer;
+  font-family: 'Space Grotesk', sans-serif; transition: transform 0.2s, box-shadow 0.2s;
+}
+.game-btn:hover { transform: scale(1.05); box-shadow: var(--glow); }
+.game-tip { font-size: 0.95rem; color: var(--muted); margin-top: 1.2rem; font-family: 'VT323', monospace; }
+
+/* ---------- HOBBIES ---------- */
+.hobbies-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.1rem; }
+.hobby-card {
+  border: 1px solid var(--border); border-radius: 16px;
+  padding: 1.6rem; background: var(--surface);
+  cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;
+}
+.hobby-card:hover { border-color: var(--red); transform: translateY(-4px) rotate(-0.5deg); }
+.hobby-card h4 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.4rem; }
+.hobby-emoji { font-size: 2rem; margin-bottom: 0.6rem; display: block; }
+.hobby-card p { font-size: 0.85rem; color: var(--dim); line-height: 1.65; }
+.hover-joke {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: var(--red); color: var(--void);
+  padding: 0.55rem 1rem; font-size: 0.75rem; font-weight: 700;
+  transform: translateY(100%); transition: transform 0.3s;
+  text-align: center;
+}
+.hobby-card:hover .hover-joke { transform: translateY(0); }
+
+/* ---------- ABOUT / GIT TIMELINE ---------- */
+.about-text {
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-weight: 500; line-height: 1.5; max-width: 780px;
+  margin-bottom: 3rem;
+}
+.about-text .hilite { color: var(--accent); }
+.about-text .strike { text-decoration: line-through; color: var(--muted); }
+.git-log {
+  border: 1px solid var(--border); border-radius: 16px;
+  padding: 1.6rem; background: var(--surface);
+  font-family: 'VT323', monospace; font-size: 15px;
+  line-height: 2; margin-bottom: 2.5rem; overflow-x: auto;
+}
+.git-log .commit { display: flex; gap: 1rem; white-space: nowrap; }
+.git-log .hash { color: var(--violet); }
+.git-log .branch { color: var(--amber); }
+.git-log .msg { color: var(--dim); }
+.git-log .msg b { color: var(--text); }
+.git-log .tag-line { color: var(--muted); font-size: 10px; }
+.facts { display: flex; flex-wrap: wrap; gap: 1rem; }
+.fact {
+  flex: 1 1 180px; border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.3rem; background: var(--surface);
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+.fact:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: var(--glow); }
+.fact-label {
+  font-family: 'VT323', monospace;
+  font-size: 10px; color: var(--muted); text-transform: uppercase;
+  letter-spacing: 0.1em; margin-bottom: 0.35rem;
+}
+.fact-value { font-size: 1.05rem; font-weight: 600; }
+
+/* ---------- CONTACT ---------- */
+.contact-section { text-align: center; }
+.contact-email {
+  font-size: clamp(1.5rem, 4.5vw, 3.2rem);
+  font-weight: 700; color: var(--accent); text-decoration: none;
+  letter-spacing: -0.01em; transition: all 0.25s;
+  border-bottom: 2px solid var(--accent); padding-bottom: 0.3rem;
+  text-shadow: var(--glow);
+  font-family: 'Unbounded', sans-serif;
+}
+.contact-email:hover { color: var(--amber); border-color: var(--amber); text-shadow: 0 0 24px rgba(255,209,102,0.4); }
+.social-links { display: flex; gap: 2rem; justify-content: center; margin-top: 2.2rem; flex-wrap: wrap; }
+.social-link {
+  font-family: 'VT323', monospace;
+  font-size: 12px; color: var(--dim); text-decoration: none;
+  transition: color 0.2s; border-bottom: 1px dashed transparent;
+}
+.social-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ---------- FOOTER ---------- */
+footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: center; position: relative; z-index: 2; }
+.console-line { font-family: 'VT323', monospace; font-size: 14px; color: var(--muted); line-height: 2; }
+.console-line .prompt { color: var(--accent); }
+.console-line .cmd { color: var(--dim); }
+.console-line .output { color: var(--amber); }
+.console-line .error { color: var(--red); }
+.footer-love { color: var(--dim); font-size: 0.8rem; margin-top: 1.2rem; }
+
+/* ---------- ANIMATIONS ---------- */
+.fade-in { opacity: 0; transform: translateY(34px); transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1); }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+.stagger > * { opacity: 0; transform: translateY(24px); transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1); }
+.stagger.visible > * { opacity: 1; transform: translateY(0); }
+.stagger.visible > *:nth-child(1) { transition-delay: 0.05s; }
+.stagger.visible > *:nth-child(2) { transition-delay: 0.1s; }
+.stagger.visible > *:nth-child(3) { transition-delay: 0.15s; }
+.stagger.visible > *:nth-child(4) { transition-delay: 0.2s; }
+.stagger.visible > *:nth-child(5) { transition-delay: 0.25s; }
+.stagger.visible > *:nth-child(6) { transition-delay: 0.3s; }
+
+.confetti { position: fixed; z-index: 9999; pointer-events: none; font-size: 1.4rem; animation: fall 1.1s ease-out forwards; }
+@keyframes fall { 0% { transform: translateY(0) rotate(0); opacity: 1; } 100% { transform: translateY(105vh) rotate(720deg); opacity: 0; } }
+
+.band-dark { background: var(--panel); max-width: none; }
+.band-inner { max-width: 1040px; margin: 0 auto; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .project { grid-template-columns: 1fr; }
+  .project-side { flex-direction: row; gap: 1rem; align-items: center; }
+  nav { padding: 1rem 1.2rem; }
+  nav.scrolled { padding: 0.7rem 1.2rem; }
+  .nav-links { gap: 0.9rem; }
+  .nav-links a { font-size: 10px; }
+  .hero-stats { gap: 1.2rem; }
+  .game-arena { max-width: 320px; }
+  .float-btns { right: 1rem; bottom: 1rem; }
+  .terminal-body { min-height: 240px; max-height: 320px; }
+}
+/* ===== STAR WARS + PSYCHO MOVIE ADDITIONS ===== */
+.saber-wrap { display:flex; flex-direction:column; align-items:center; }
+.saber-beam { width:10px; height:150px; border-radius:5px 5px 0 0; background:linear-gradient(to top, #fff 0 8%, #ff3131 30%, #8a0000 100%); box-shadow:0 0 24px rgba(255,49,49,.9), 0 0 60px rgba(255,49,49,.45); animation:saber-hum 2.4s ease-in-out infinite; }
+@keyframes saber-hum { 0%,100% { box-shadow:0 0 24px rgba(255,49,49,.9), 0 0 60px rgba(255,49,49,.45);} 50% { box-shadow:0 0 32px rgba(255,49,49,1), 0 0 80px rgba(255,49,49,.6);} }
+.saber-hilt { width:20px; height:34px; background:linear-gradient(90deg,#1a1a1a,#444,#1a1a1a); border-radius:2px 2px 8px 8px; margin-top:-3px; box-shadow:0 2px 6px rgba(0,0,0,.6); }
+.polaroid { background:var(--panel); border:1px solid var(--border); padding:1rem 1rem 0.8rem; transform:rotate(-2deg); box-shadow:0 12px 30px rgba(0,0,0,.5); display:inline-block; }
+.polaroid p { font-family:'VT323',monospace; font-size:1rem; color:var(--dim); text-align:center; margin-top:0.6rem; }
+#matrixResult { font-size:1rem; }
+.meme-result { font-size:1rem; }
+.btn-b { background: var(--violet); color: var(--void); }
+.btn-b:hover { box-shadow: 0 0 20px rgba(89,217,255,0.4); }
+/* ===== CIRCUIT BUILDER GAME ===== */
+.circuit-section { text-align: center; }
+.circuit-wrap {
+  display: grid; grid-template-columns: 1fr 260px;
+  gap: 1.5rem; align-items: start; max-width: 900px; margin: 0 auto;
+}
+.circuit-board {
+  position: relative; border: 1px solid var(--border); border-radius: 16px;
+  background: #0c0c14; min-height: 420px; overflow: hidden;
+  touch-action: none; user-select: none; cursor: crosshair;
+}
+.circuit-board::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 24px 24px; pointer-events: none;
+}
+.circuit-node {
+  position: absolute; width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; border: 2px solid var(--border);
+  background: var(--panel); cursor: grab; z-index: 3;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+.circuit-node:hover { border-color: var(--accent); transform: scale(1.08); }
+.circuit-node.dragging { cursor: grabbing; transform: scale(1.15); box-shadow: 0 0 24px var(--ring); }
+.circuit-node.wired { border-color: var(--accent); box-shadow: 0 0 14px var(--ring); }
+.circuit-node.battery { color: var(--amber); border-color: var(--amber); }
+.circuit-node.resistor { color: var(--violet); border-color: var(--violet); }
+.circuit-node.led { color: var(--red); border-color: var(--red); }
+.circuit-wire {
+  position: absolute; height: 3px; border-radius: 2px;
+  transform-origin: left center; z-index: 2;
+  background: var(--accent); box-shadow: 0 0 8px rgba(0,229,160,0.6);
+  pointer-events: none;
+}
+.circuit-wire.lit { background: var(--amber); box-shadow: 0 0 12px rgba(255,209,102,0.8); }
+.circuit-side { text-align: left; display: flex; flex-direction: column; gap: 1rem; }
+.circuit-info {
+  border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.2rem;
+  background: var(--surface); font-family: 'VT323', monospace; font-size: 1rem; line-height: 1.7;
+}
+.circuit-info .stat { color: var(--dim); }
+.circuit-info .val { color: var(--accent); }
+.circuit-tip { font-size: 0.8rem; color: var(--muted); font-family: 'VT323', monospace; }
+.circuit-btn {
+  background: var(--accent); color: var(--void); border: none;
+  padding: 0.7rem 1.4rem; border-radius: 40px; font-weight: 700;
+  font-size: 13px; cursor: pointer; font-family: 'Space Grotesk', sans-serif;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.circuit-btn:hover { transform: scale(1.04); box-shadow: var(--glow); }
+.circuit-btn.secondary { background: transparent; border: 1px solid var(--border); color: var(--dim); }
+.circuit-msg { font-size: 0.9rem; color: var(--amber); font-family: 'VT323', monospace; min-height: 1.5em; }
+@media (max-width: 768px) { .circuit-wrap { grid-template-columns: 1fr; } .circuit-board { min-height: 340px; } }
+.egg-shake { animation: eggShake 0.5s ease; }
+@keyframes eggShake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-8px); } 40%,80% { transform: translateX(8px); } }
+.rainbow-text { animation: rainbowShift 2s linear infinite; }
+@keyframes rainbowShift { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
+.egg-scan { position: fixed; left: 0; right: 0; height: 2px; z-index: 9998; pointer-events: none; background: var(--accent); box-shadow: 0 0 20px var(--accent); opacity: 0; }
+.egg-scan.active { animation: scanFall 2.5s linear forwards; }
+@keyframes scanFall { 0% { top: -10px; opacity: 1; } 100% { top: 110vh; opacity: 0; } }
+</style>
+</head>
+<body>
+
+<div id="boot">
+  <div id="boot-lines"></div>
+  <div class="skip" id="bootSkip">[ click to skip ]</div>
+</div>
+
+<canvas id="particles"></canvas>
+<div id="cursor-ring"></div>
+<div id="progress"></div>
+
+<nav id="nav">
+  <a href="#" class="nav-logo" id="logo">jr._</a>
+  <div class="nav-links">
+    <a href="#projects">work</a>
+    <a href="#terminal">terminal</a>
+    <a href="#skills">skills</a>
+    <a href="#memes">memes</a>
+    <a href="#game">game</a>
+    <a href="#circuits">circuits</a>
+    <a href="#about">about</a>
+    <a href="#contact">say hi</a>
+  </div>
+</nav>
+
+<div class="float-btns">
+  <button class="float-btn" id="soundBtn" title="toggle retro sounds">🔇 sound off</button>
+  <button class="float-btn" id="complimentBtn" title="You deserve this">💬 compliment me</button>
+  <button class="float-btn" id="panicBtn" title="Click if you're overwhelmed">🚨 panic</button>
+</div>
+
+<div class="modal" id="panicModal">
+  <h2 style="color: var(--accent);">🚨</h2>
+  <p>Darth Vader senses your panic. The Emperor is not concerned. Your code will be fine. "Do or do not, there is no try" - but let's be honest, you'll try anyway. Breathe like you're in a helmet. In... out... in... out...</p>
+  <button class="modal-close" onclick="document.getElementById('panicModal').classList.remove('active')">I'll try. I really will.</button>
+</div>
+
+<div id="toast"></div>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="terminal-greeting"><span id="greetText">&gt; whoami</span><span class="cursor"></span></div>
+  <h1 class="hero-name">Janak<br><span class="gradient-text" id="heroName">Rudani</span></h1>
+  <p class="hero-tagline">
+    Statistics student in a galaxy not so far away. I treat datasets like mystery novels -
+    <span class="pun" onclick="this.textContent='every variable is a suspect. always. 🔍'">every variable is a suspect.</span>
+    I build models, break assumptions, and occasionally remember to set a seed. May the p-values be with you.
+  </p>
+  <div class="hero-actions">
+    <a href="#projects" class="hero-cta">↓ See the imperial receipts</a>
+    <button class="hero-term-btn" onclick="scrollToTerminal()">$_ try my terminal</button>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><b><span class="countup" data-target="8">0</span></b> projects shipped</div>
+    <div class="hero-stat"><b><span class="countup" data-target="253">0</span></b> tests passing</div>
+    <div class="hero-stat"><b><span class="countup" data-target="0.84" data-decimal="2">0</span></b> best AUC</div>
+    <div class="hero-stat"><b>∞</b> "just one more tweak" incidents</div>
+  </div>
+</section>
+
+<!-- ================= TICKER ================= -->
+<div class="ticker-wrap"><div class="ticker" id="ticker">
+  <span class="joke">⚔️ i find your lack of p-values disturbing</span>
+  <span class="skill">R · tidyverse · ggplot2</span>
+  <span class="joke">🌌 the force is strong with this model... it overfits</span>
+  <span class="skill">python · pandas · sklearn</span>
+  <span class="joke">🖤 join me and we can rule the galaxy as data scientists</span>
+  <span class="skill">SARIMA · GLM · ANCOVA</span>
+  <span class="joke">🌀 is this a real correlation or did i overfit it into existence?</span>
+  <span class="skill">streamlit · plotly · sql</span>
+  <span class="joke">🥊 first rule of p-hacking: you don't talk about p-hacking</span>
+  <span class="skill">ollama · qlora · rag</span>
+  <span class="joke">🪐 that's no moon... it's a 2TB dataframe</span>
+  <span class="skill">git · markdown · the force</span>
+  <span class="joke">⚔️ i find your lack of p-values disturbing</span>
+  <span class="skill">R · tidyverse · ggplot2</span>
+  <span class="joke">🌌 the force is strong with this model... it overfits</span>
+  <span class="skill">python · pandas · sklearn</span>
+  <span class="joke">🖤 join me and we can rule the galaxy as data scientists</span>
+  <span class="skill">SARIMA · GLM · ANCOVA</span>
+  <span class="joke">🌀 is this a real correlation or did i overfit it into existence?</span>
+  <span class="skill">streamlit · plotly · sql</span>
+  <span class="joke">🥊 first rule of p-hacking: you don't talk about p-hacking</span>
+  <span class="skill">ollama · qlora · rag</span>
+  <span class="joke">🪐 that's no moon... it's a 2TB dataframe</span>
+  <span class="skill">git · markdown · the force</span>
+</div>
+</div>
+
+<!-- ================= PROJECTS ================= -->
+<section id="projects">
+  <div class="section-header fade-in">
+    <p class="section-num">01 - imperial archives</p>
+    <h2 class="section-title">Projects</h2>
+    <p class="section-subtitle">Eight relics from my Jedi training. <b>Hover = 3D tilt. Click = sparkles.</b></p>
+  </div>
+  <div class="stagger" id="projectList">
+
+    <a href="https://github.com/Jrudani21/telco-churn-logistic-regression" target="_blank" class="project">
+      <div>
+        <p class="project-num">01</p>
+        <h3>Telco Churn Prediction - Logistic Regression</h3>
+        <p>Binary classification on 7,043 telecom customers. Built in R with full EDA, correlation analysis, and Type II likelihood-ratio tests to quantify churn drivers. <span class="stat-joke">My AUC is higher than my credit score.</span></p>
+        <div class="tags"><span class="tag hl">Logistic Regression</span><span class="tag">R</span><span class="tag">ROC / AUC</span><span class="tag">EDA</span><span class="tag">LRT</span></div>
+      </div>
+      <div class="project-side"><div class="project-score">AUC 0.84</div><div class="project-link">github ↗</div></div>
+    </a>
+
+    <a href="https://github.com/Jrudani21/bike-share-demand-count-regression" target="_blank" class="project">
+      <div>
+        <p class="project-num">02</p>
+        <h3>Bike Share Demand - Count Regression (R + Python)</h3>
+        <p>731 days of Capital Bikeshare demand modelled with Poisson and Negative Binomial GLMs in R, cross-validated in Python. Diagnosed severe overdispersion and quantified weather/seasonal effects with IRRs. <span class="stat-joke">Variance was 357× the mean - "Poisson, you're fired."</span></p>
+        <div class="tags"><span class="tag hl">Poisson / NB GLM</span><span class="tag">R</span><span class="tag">Python</span><span class="tag">IRR</span><span class="tag">Overdispersion</span></div>
+      </div>
+      <div class="project-side"><div class="project-score">ΔAIC 1,200</div><div class="project-link">github ↗</div></div>
+    </a>
+
+    <a href="https://github.com/Jrudani21/air-passengers-timeseries" target="_blank" class="project">
+      <div>
+        <p class="project-num">03</p>
+        <h3>Airline Forecasting - Full SARIMA Pipeline (R + Python)</h3>
+        <p>Complete Box-Jenkins workflow: log-transform, ADF/KPSS stationarity testing, ACF/PACF model identification, 36-month forecast with prediction intervals, benchmarked against Facebook Prophet. <span class="stat-joke">If only I could SARIMA my deadlines.</span></p>
+        <div class="tags"><span class="tag hl">SARIMA</span><span class="tag">R</span><span class="tag">Python</span><span class="tag">Prophet</span><span class="tag">ADF / KPSS</span></div>
+      </div>
+      <div class="project-side"><div class="project-score">MAPE ~3%</div><div class="project-link">github ↗</div></div>
+    </a>
+
+    <a href="https://github.com/Jrudani21/palmer-penguins-linear-models" target="_blank" class="project">
+      <div>
+        <p class="project-num">04</p>
+        <h3>Palmer Penguins - Complete Linear Models Guide</h3>
+        <p>A comprehensive linear modeling showcase: simple/multiple regression, one-way ANOVA with Tukey post-hoc, two-way ANOVA with interaction, and ANCOVA with adjusted means. <span class="stat-joke">Penguins are surprisingly cooperative. No IRB approval needed.</span></p>
+        <div class="tags"><span class="tag hl">ANCOVA</span><span class="tag">ANOVA</span><span class="tag">Tukey HSD</span><span class="tag">R</span></div>
+      </div>
+      <div class="project-side"><div class="project-score">R² = 0.87</div><div class="project-link">github ↗</div></div>
+    </a>
+
+    <a href="https://github.com/Jrudani21/medicare-fraud-detector" target="_blank" class="project">
+      <div>
+        <p class="project-num">05</p>
+        <h3>Medicare Fraud Detection - SQL + Dashboard</h3>
+        <p>Detects phantom billing - providers claiming from US + foreign addresses simultaneously (a documented CMS OIG scheme). Five SQL queries using CTEs and window functions over 9,976 synthetic claims, surfaced in an interactive Streamlit dashboard. <span class="stat-joke">I find fraud for fun. Your expense reports are safe. Probably.</span></p>
+        <div class="tags"><span class="tag hl">SQL</span><span class="tag">Streamlit</span><span class="tag">CTEs</span><span class="tag">Window Functions</span><span class="tag">Fraud</span></div>
+      </div>
+      <div class="project-side"><div class="project-score">18 flagged</div><div class="project-link">github ↗</div></div>
+    </a>
+
+    <a href="https://github.com/Jrudani21/covid-dashboard" target="_blank" class="project">
+      <div>
+        <p class="project-num">06</p>
+        <h3>COVID-19 Global Dashboard - Live Data App</h3>
+        <p>Real-time pandemic statistics app: global KPIs, 180-day trends, top-15 country rankings, per-capita choropleth map, searchable explorer. Live REST API (disease.sh) with Plotly visualizations. <span class="stat-joke">Built when "going viral" wasn't a marketing strategy.</span></p>
+        <div class="tags"><span class="tag hl">Streamlit</span><span class="tag">Plotly</span><span class="tag">REST API</span><span class="tag">Choropleth</span></div>
+      </div>
+      <div class="project-side"><div class="project-score">200+ countries</div><div class="project-link">github ↗</div></div>
+    </a>
+
+    <a href="https://github.com/Jrudani21/personal-assistant" target="_blank" class="project">
+      <div>
+        <p class="project-num">07</p>
+        <h3>Local AI Assistant - Ollama, RAG, CrewAI</h3>
+        <p>$0-cost assistant running fully offline on local hardware. Streamlit UI wrapping a complete tool-calling loop: sandboxed Python REPL, hybrid BM25+cosine RAG with numbered citations, structured memory, reminders, long-chat compaction. 253 tests, CrewAI multi-agent + Graphiti knowledge graph. <span class="stat-joke">It's not sentient (yet), but it remembers my coffee order better than I do.</span></p>
+        <div class="tags"><span class="tag hl">Ollama</span><span class="tag">RAG</span><span class="tag">CrewAI</span><span class="tag">Graphiti</span><span class="tag">253 Tests</span></div>
+      </div>
+      <div class="project-side"><div class="project-score">253 tests</div><div class="project-link">github ↗</div></div>
+    </a>
+
+    <a href="https://github.com/Jrudani21/llm-finetune" target="_blank" class="project">
+      <div>
+        <p class="project-num">08</p>
+        <h3>QLoRA Fine-Tuning - Consumer GPU (8GB)</h3>
+        <p>Domain-specific instruction fine-tuning pipeline built for an 8GB VRAM RTX 4060. Generates a seed stats/data-science dataset locally via a 30B model - fraud detection, count regression, time-series diagnostics - at zero API cost, using Unsloth + QLoRA. <span class="stat-joke">Some people game on their RTX 4060. I teach language models statistics. We are not the same.</span></p>
+        <div class="tags"><span class="tag hl">QLoRA</span><span class="tag">Unsloth</span><span class="tag">Ollama</span><span class="tag">8GB VRAM</span><span class="tag">Synthetic Data</span></div>
+      </div>
+      <div class="project-side"><div class="project-score">8GB VRAM</div><div class="project-link">github ↗</div></div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ================= TERMINAL ================= -->
+<section id="terminal" class="band-dark"><div class="band-inner">
+  <div class="section-header fade-in">
+    <p class="section-num">02 - interactive terminal</p>
+    <h2 class="section-title">Try my terminal</h2>
+    <p class="section-subtitle">It's real. Type <b>help</b> and press enter. I find your lack of initiative disturbing.</p>
+  </div>
+  <div class="terminal-widget fade-in" id="termWidget">
+    <div class="terminal-head">
+      <span class="terminal-dot r"></span><span class="terminal-dot y"></span><span class="terminal-dot g"></span>
+      <span class="terminal-title">vader@deathstar: ~/imperial_stats</span>
+    </div>
+    <div class="terminal-body" id="termBody"></div>
+    <div style="padding: 0 1.4rem 1.2rem;">
+      <div class="term-in">
+        <span class="term-prompt">vader@deathstar:~$</span>
+        <input class="term-input" id="termInput" autocomplete="off" spellcheck="false" aria-label="terminal input">
+        <span class="term-cursor"></span>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ================= SKILLS ================= -->
+<section id="skills">
+  <div class="section-header fade-in">
+    <p class="section-num">03 - capabilities</p>
+    <h2 class="section-title">Skills, honestly rated</h2>
+    <p class="section-subtitle">Self-assessed with 95% confidence intervals. The Empire approves of alpha = 0.05.</p>
+  </div>
+  <div class="skill-meters fade-in" id="skillMeters">
+    <div class="skill-meter">
+      <div class="sm-head"><span class="sm-name">R + tidyverse <span class="sm-joke">(the force is strong with this stack)</span></span><span class="sm-pct">92%</span></div>
+      <div class="sm-bar"><div class="sm-fill" data-w="92"></div></div>
+    </div>
+    <div class="skill-meter">
+      <div class="sm-head"><span class="sm-name">Python <span class="sm-joke">(pandas is just R with extra steps and fewer tears)</span></span><span class="sm-pct">88%</span></div>
+      <div class="sm-bar"><div class="sm-fill" data-w="88"></div></div>
+    </div>
+    <div class="skill-meter">
+      <div class="sm-head"><span class="sm-name">SQL <span class="sm-joke">(I will find your missing semicolon, young Padawan)</span></span><span class="sm-pct">80%</span></div>
+      <div class="sm-bar"><div class="sm-fill" data-w="80"></div></div>
+    </div>
+    <div class="skill-meter">
+      <div class="sm-head"><span class="sm-name">Debugging <span class="sm-joke">(I find your lack of semicolons disturbing)</span></span><span class="sm-pct">95%</span></div>
+      <div class="sm-bar"><div class="sm-fill" data-w="95"></div></div>
+    </div>
+    <div class="skill-meter">
+      <div class="sm-head"><span class="sm-name">Excel <span class="sm-joke">(it's no Death Star, but it works)</span></span><span class="sm-pct">100%</span></div>
+      <div class="sm-bar"><div class="sm-fill hot" data-w="100"></div></div>
+    </div>
+    <div class="skill-meter">
+      <div class="sm-head"><span class="sm-name">Documentation <span class="sm-joke">(future me apologizes to the whole Empire)</span></span><span class="sm-pct">40%</span></div>
+      <div class="sm-bar"><div class="sm-fill" data-w="40"></div></div>
+    </div>
+    <div class="skill-meter">
+      <div class="sm-head"><span class="sm-name">Sleep hygiene <span class="sm-joke">(sleep is for the Rebel Alliance)</span></span><span class="sm-pct">12%</span></div>
+      <div class="sm-bar"><div class="sm-fill hot" data-w="12"></div></div>
+    </div>
+    <div class="skill-meter">
+      <div class="sm-head"><span class="sm-name">Coffee intake <span class="sm-joke">(the only thing stronger than the Force)</span></span><span class="sm-pct">100%</span></div>
+      <div class="sm-bar"><div class="sm-fill hot" data-w="100"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SCROLL CHART ================= -->
+<section class="band-dark"><div class="band-inner">
+  <div class="section-header fade-in">
+    <p class="section-num">04 - empirical evidence</p>
+    <h2 class="section-title">Productivity vs. Caffeine</h2>
+    <p class="section-subtitle">A peer-reviewed study (n=1, me). The rebellion called it concerning. They were right.</p>
+  </div>
+  <div class="chart-card fade-in">
+    <div class="chart-title"># productivity_curve.csv - coffee_cups vs. output (normalized)</div>
+    <div class="chart-wrap" id="chartWrap">
+      <svg viewBox="0 0 600 300" preserveAspectRatio="none">
+        <line x1="40" y1="260" x2="580" y2="260" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        <line x1="40" y1="40" x2="40" y2="260" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+        <path class="chart-path" id="chartPath" d="M40 240 C90 220 120 200 160 160 C200 120 230 90 280 70 C330 55 360 50 400 62 C440 80 470 120 510 180 C540 220 560 245 580 252"/>
+      </svg>
+      <div class="chart-annot" style="top:18%; left:48%;">← the sweet spot</div>
+      <div class="chart-annot big" style="top:8%; left:82%;">the force awakens at 3AM ☠</div>
+    </div>
+    <div class="chart-title" style="margin-top:1.2rem;">x-axis: coffee cups (0→10) · y-axis: productivity (0→100) · regret: unbounded</div>
+  </div>
+</div></section>
+
+<!-- ================= MEMES ================= -->
+<section id="memes">
+  <div class="section-header fade-in">
+    <p class="section-num">05 - holocron of memes</p>
+    <h2 class="section-title">A Data Scientist's Memes (Empire Edition)</h2>
+    <p class="section-subtitle">From a galaxy far, far away and a therapist's office. Click things.</p>
+  </div>
+    <div class="meme-grid stagger" id="memeGrid">
+
+    <!-- VADER -->
+    <div class="meme-card">
+      <h4>vader_disturbing.gif</h4>
+      <div class="meme-body">
+        <div class="saber-wrap">
+          <div class="saber-beam"></div>
+          <div class="saber-hilt"></div>
+        </div>
+        <div style="text-align:center; margin-top:1.2rem;">
+          <div style="font-size:1.3rem; font-weight:800; font-family:'Unbounded',sans-serif; line-height:1.4;">I find your lack of<br><span style="color:var(--accent);">p-values</span> disturbing</div>
+          <div style="margin-top:0.7rem; font-size:0.95rem; color:var(--muted); font-family:'VT323',monospace;">- Darth Vader, after reading your summary() output</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THIS IS FINE -->
+    <div class="meme-card">
+      <h4>this_is_fine.png</h4>
+      <div class="meme-body">
+        <div class="this-is-fine">
+          <span class="dog">🐶</span><span class="flames">🔥🔥🔥</span>
+          <div class="caption">the model is overfitting<br>but it's fine</div>
+          <div class="tif-sub">train: 99.9% · test: 51% · the force: imbalanced</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MATRIX -->
+    <div class="meme-card">
+      <h4>matrix_pills.sh</h4>
+      <div class="meme-body">
+        <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+          <button class="meme-btn btn-a" onclick="matrixPill('red')">🔴 red pill</button>
+          <button class="meme-btn btn-b" onclick="matrixPill('blue')">🔵 blue pill</button>
+        </div>
+        <div class="meme-result" id="matrixResult">stay in the loop of endless revisions, or see how deep the p-hacking goes</div>
+      </div>
+    </div>
+
+    <!-- INCEPTION -->
+    <div class="meme-card">
+      <h4>inception_totem.gif</h4>
+      <div class="meme-body">
+        <div style="text-align:center;">
+          <div id="totem" onclick="spinTotem()" style="font-size:3.4rem; cursor:pointer; display:inline-block; user-select:none;">🌀</div>
+          <div style="margin-top:0.7rem; font-size:1rem; font-weight:700; line-height:1.5;">is this a real result,<br><span style="color:var(--violet);">or did I overfit it into existence?</span></div>
+          <div class="mock-note" id="totemNote">click the totem. if it stops spinning, you're in reality. if not... rerun with a different seed.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPANDING BRAIN -->
+    <div class="meme-card">
+      <h4>expanding_brain.png</h4>
+      <div class="meme-body">
+        <div class="brain-scale" id="brainScale">
+          <div class="brain-level active" data-level="0"><div class="brain" style="--s:1">🧠</div><div class="text">"I'll just use Excel"</div></div>
+          <div class="brain-level" data-level="1"><div class="brain" style="--s:2">🧠</div><div class="text">"Linear regression solves everything"</div></div>
+          <div class="brain-level" data-level="2"><div class="brain" style="--s:3">🧠</div><div class="text">"Wait... I should check for overdispersion"</div></div>
+          <div class="brain-level" data-level="3"><div class="brain" style="--s:4">🧠</div><div class="text">"Negative Binomial GLM + Bayesian priors. The dark side of stats."</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIGHT CLUB -->
+    <div class="meme-card">
+      <h4>fight_club_rules.txt</h4>
+      <div class="meme-body">
+        <div style="text-align:center; padding:0.6rem 0;">
+          <div style="font-size:3.2rem;">🥊</div>
+          <div style="margin-top:1rem; font-size:1.05rem; font-weight:700; line-height:1.6;">The first rule of p-hacking:<br>you don't talk about p-hacking.</div>
+          <div style="margin-top:0.7rem; font-size:1.05rem; font-weight:700; color:var(--accent); line-height:1.6;">The second rule of p-hacking:<br>you DEFINITELY don't talk about p-hacking.</div>
+          <div class="mock-note">(this portfolio violates both rules. I have a problem.)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TWO BUTTONS -->
+    <div class="meme-card">
+      <h4>two_buttons.png</h4>
+      <div class="meme-body">
+        <div class="two-btns">
+          <span class="guy">😰</span>
+          <div class="btn-pair">
+            <button class="meme-btn btn-a" onclick="twoButtons('ship')">🚀 Ship it</button>
+            <button class="meme-btn btn-b" onclick="twoButtons('test')">🧪 One more test</button>
+          </div>
+          <div class="meme-result" id="twoBtnsResult">choose wisely, young Padawan...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHINING -->
+    <div class="meme-card">
+      <h4>shining_typing.txt</h4>
+      <div class="meme-body">
+        <div id="shiningText" onclick="shiningType()" style="text-align:center; font-family:'VT323',monospace; font-size:1.05rem; line-height:1.8; color:var(--text); cursor:pointer;">all work and no p-values makes janak a dull boy</div>
+        <div class="mock-note">click to keep typing. all work. no play. no significance.</div>
+      </div>
+    </div>
+
+    <!-- MOCKING -->
+    <div class="meme-card">
+      <h4>mock.text</h4>
+      <div class="meme-body">
+        <div class="mocking" id="mocking" onclick="mockFlip()"><span class="mock">yOu CoMmItTeD aNd PuShEd WiThOuT rUnNiNg ThE tEsTs</span></div>
+        <div class="mock-note">click to cycle the roast</div>
+      </div>
+    </div>
+
+    <!-- MEMENTO -->
+    <div class="meme-card">
+      <h4>memento_seed.jpg</h4>
+      <div class="meme-body">
+        <div style="text-align:center;">
+          <div class="polaroid">
+            <div style="font-size:2.8rem;">🧩</div>
+            <p>"REMEMBER TO SET YOUR SEED...<br>wait, where am I? whose notebook is this?"</p>
+          </div>
+          <div class="mock-note">somewhere, a data scientist reruns the same cell for the 5th time.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASINO -->
+    <div class="meme-card">
+      <h4>p_value_casino.sh</h4>
+      <div class="meme-body">
+        <div class="casino">
+          <div class="casino-slots">
+            <div class="casino-slot" id="slot1">0.0</div>
+            <div class="casino-slot" id="slot2">0.0</div>
+            <div class="casino-slot" id="slot3">0.0</div>
+          </div>
+          <div class="casino-verdict" id="casinoVerdict">the Emperor demands a p-value. pull the lever.</div>
+          <button class="casino-lever" onclick="pullLever()">🎰 The Emperor demands a p-value</button>
+          <div class="casino-note">results may or may not be reproducible. the dark side has cookies.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GIT LOG -->
+    <div class="meme-card">
+      <h4>imperial_git_log.txt</h4>
+      <div class="meme-body" style="font-family:'VT323',monospace; font-size:14px; line-height:1.9; color:var(--dim);">
+        <div><span style="color:var(--violet)">a3f9c2d</span> <span style="color:var(--amber)">(HEAD →</span> <b style="color:var(--text)">imperial data division</b><span style="color:var(--amber)">)</span> feat: declare p-values imperial property</div>
+        <div><span style="color:var(--violet)">9b1e44a</span> feat: find the rebel bug, alert the Emperor</div>
+        <div><span style="color:var(--violet)">7c0d51e</span> chore: panic about the Death Star budget, then nap</div>
+        <div><span style="color:var(--violet)">2f8a1b3</span> refactor: replaced stormtroopers with coffee (hit rate improved)</div>
+        <div><span style="color:var(--violet)">e5d3c1b</span> init: first commit (the dark side was proud)</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-- ================= GAME ================= -->
+<section id="game" class="game-section band-dark"><div class="band-inner">
+  <div class="section-header">
+    <p class="section-num">06 - productivity (fun version)</p>
+    <h2 class="section-title">Whack-a-Bug: Imperial Edition</h2>
+    <p class="section-subtitle">Squash the rebel bugs before they commit to main. The Empire is watching.</p>
+  </div>
+  <div class="game-arena" id="gameArena">
+    <div class="hole" data-idx="0"></div><div class="hole" data-idx="1"></div><div class="hole" data-idx="2"></div>
+    <div class="hole" data-idx="3"></div><div class="hole" data-idx="4"></div><div class="hole" data-idx="5"></div>
+    <div class="hole" data-idx="6"></div><div class="hole" data-idx="7"></div><div class="hole" data-idx="8"></div>
+  </div>
+  <div class="game-score">bugs squashed: <b id="bugScore">0</b></div>
+  <button class="game-btn" id="gameStart" onclick="startGame()">⚔️ Start rebel hunt</button>
+  <div class="game-tip" id="gameTip">Rebel bugs pop up for 1.5s. Squash them. The Emperor is watching.</div>
+</div></section>
+
+<!-- ================= CIRCUIT BUILDER ================= -->
+<section id="circuits" class="circuit-section band-dark"><div class="band-inner">
+  <div class="section-header fade-in">
+    <p class="section-num">07 - build something real</p>
+    <h2 class="section-title">Circuit Builder</h2>
+    <p class="section-subtitle">An actual mini electronics lesson. <b>Drag</b> the parts, wire them up, learn how a circuit works. The bug-hunting hobby, applied to physics.</p>
+  </div>
+  <div class="circuit-wrap fade-in">
+    <div class="circuit-board" id="circuitBoard"></div>
+    <div class="circuit-side">
+      <div class="circuit-info">
+        <div><span class="stat">voltage:</span> <span class="val" id="cVolt">0 V</span></div>
+        <div><span class="stat">current:</span> <span class="val" id="cCur">0 mA</span></div>
+        <div><span class="stat">resistance:</span> <span class="val" id="cRes">0 Ω</span></div>
+        <div><span class="stat">state:</span> <span class="val" id="cState">disconnected</span></div>
+      </div>
+      <div class="circuit-info">
+        <div style="font-weight:700; color:var(--text); margin-bottom:0.4rem;">HOW IT WORKS</div>
+        <div class="circuit-tip">1. Drag a battery ⚡ into the board.</div>
+        <div class="circuit-tip">2. Drag a resistor 〰️ between battery and LED.</div>
+        <div class="circuit-tip">3. Drag an LED 💡 and connect the chain: <b style="color:var(--accent);">+ → R → LED → -</b></div>
+        <div class="circuit-tip">4. When the loop closes, the LED lights up and you read the values!</div>
+        <div class="circuit-tip" style="color:var(--amber);">5. Resistors protect the LED. Too many = dim. None = <span style="color:var(--red);">poof.</span></div>
+      </div>
+      <div class="circuit-msg" id="circuitMsg">drag a battery in to start...</div>
+      <div style="display:flex; gap:0.7rem; flex-wrap:wrap;">
+        <button class="circuit-btn" onclick="spawnComponent('battery')">⚡ add battery</button>
+        <button class="circuit-btn" onclick="spawnComponent('resistor')">〰️ add resistor</button>
+        <button class="circuit-btn" onclick="spawnComponent('led')">💡 add LED</button>
+        <button class="circuit-btn secondary" onclick="resetCircuit()">↺ reset</button>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ================= HOBBIES ================= -->
+<section id="hobbies">
+  <div class="section-header fade-in">
+    <p class="section-num">07 - the human side</p>
+    <h2 class="section-title">Hobbies</h2>
+    <p class="section-subtitle">Proof that I exist outside of a terminal. Hover for the real story.</p>
+  </div>
+  <div class="hobbies-grid stagger">
+    <div class="hobby-card">
+      <span class="hobby-emoji">🖥️</span><h4>PC Building</h4>
+      <p>Custom rigs, cable management, overclocking. LEGO for adults with credit cards.</p>
+      <div class="hover-joke">Yes, the RGB adds 15% performance. It's science.</div>
+    </div>
+    <div class="hobby-card">
+      <span class="hobby-emoji">⚡</span><h4>Circuits & Electronics</h4>
+      <p>Breadboards, microcontrollers, making LEDs blink - the gateway drug of hardware.</p>
+      <div class="hover-joke">I've only shocked myself twice. Both times were "for science."</div>
+    </div>
+    <div class="hobby-card">
+      <span class="hobby-emoji">🎷</span><h4>Jazz</h4>
+      <p>Miles Davis to modern fusion - improvisation feels a lot like EDA.</p>
+      <div class="hover-joke">I listen to jazz so people think I'm sophisticated. It's working.</div>
+    </div>
+    <div class="hobby-card">
+      <span class="hobby-emoji">🎮</span><h4>Gaming</h4>
+      <p>Strategy, RPGs, competitive titles. Pattern recognition before statistics did.</p>
+      <div class="hover-joke">My K/D ratio is a time series with significant autocorrelation.</div>
+    </div>
+    <div class="hobby-card">
+      <span class="hobby-emoji">🐛</span><h4>Bug Hunting</h4>
+      <p>Finding edge cases and breaking things before users do. QA is applied pessimism.</p>
+      <div class="hover-joke">I once spent 4 hours on a missing semicolon. I'm fine. Really.</div>
+    </div>
+    <div class="hobby-card">
+      <span class="hobby-emoji">🎬</span><h4>Movies</h4>
+      <p>I'll rewatch favorites until I've memorized the score and quote editing choices.</p>
+      <div class="hover-joke">The Dark Knight ×23. The Joker's stats speech is a probability lecture.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section id="about" class="band-dark"><div class="band-inner">
+  <div class="section-header fade-in">
+    <p class="section-num">08 - origin story</p>
+    <h2 class="section-title">About</h2>
+  </div>
+  <p class="about-text fade-in">
+    I'm <span class="hilite">Janak Rudani</span> - Statistics student at the University of Manitoba.
+    I treat every dataset like a <span class="hilite">plot twist</span> waiting to happen and every model
+    like a <span class="strike">crime scene</span> hypothesis to test.
+  </p>
+  <div class="git-log fade-in">
+    <div class="tag-line"># my life, but make it version control (imperial edition)</div>
+    <div class="commit"><span class="hash">a3f9c2d</span><span class="branch">(HEAD →</span><b style="color:var(--text)"> future</b><span class="branch">)</span><span class="msg"><b>feat:</b> graduate with honors, statistically speaking (the force is strong)</span></div>
+    <div class="commit"><span class="hash">8d1b4e2</span><span class="msg"><b>feat:</b> build 8 data projects, 253 tests, 0 sanity, 1 lightsaber</span></div>
+    <div class="commit"><span class="hash">5c9f0a1</span><span class="msg"><b>fix:</b> learn what a p-value actually means (breaking change, dark side approved)</span></div>
+    <div class="commit"><span class="hash">b2e7d3f</span><span class="msg"><b>chore:</b> question everything, including this portfolio</span></div>
+    <div class="commit"><span class="hash">e5d3c1b</span><span class="msg"><b>init:</b> first commit (mum was proud)</span></div>
+  </div>
+  <div class="facts stagger">
+    <div class="fact"><div class="fact-label">📍 Based in</div><div class="fact-value">🇨🇦 Winnipeg, MB</div></div>
+    <div class="fact"><div class="fact-label">🎓 Studying</div><div class="fact-value">B.Sc. Statistics & Math</div></div>
+    <div class="fact"><div class="fact-label">💻 Stack</div><div class="fact-value">R, Python, SQL</div></div>
+    <div class="fact"><div class="fact-label">☕ Fuel</div><div class="fact-value">Coffee & overconfidence</div></div>
+  </div>
+</div></section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="contact-section">
+  <div class="section-header fade-in">
+    <p class="section-num">09 - open a channel</p>
+    <h2 class="section-title">Contact</h2>
+    <p class="section-subtitle">I promise I write better emails than this website copy. <b>You can also just type "email" in my terminal.</b></p>
+  </div>
+  <a href="mailto:Janak25rudani@icloud.com" class="contact-email">janak25rudani@icloud.com</a>
+  <div class="social-links">
+    <a href="https://github.com/Jrudani21" target="_blank" class="social-link">github/Jrudani21</a>
+    <a href="https://www.linkedin.com/in/janak-rudani" target="_blank" class="social-link">linkedin/janak-rudani</a>
+  </div>
+</section>
+
+<footer>
+  <div class="console-line">
+    <span class="prompt">vader@deathstar:~$</span> <span class="cmd">cat footer.txt</span><br>
+    <span class="output">built with ⚔️, caffeine, and {count} console.log statements</span><br>
+    <span class="prompt">vader@deathstar:~$</span> <span class="cmd">git blame</span><br>
+    <span class="error">fatal: i am your father. (and everything is my fault)</span><br>
+    <span class="prompt">vader@deathstar:~$</span> <span class="cmd">try_konami_code</span><br>
+    <span class="output">↑↑↓↓←→←→BA unlocks the force. go on. try it.</span>
+  </div>
+  <div class="footer-love">Thanks for scrolling all the way down. You're the real MVP. 🏆</div>
+</footer>
+
+<script>
+'use strict';
+
+/* ================= SOUND ENGINE ================= */
+let audioOn = false;
+let audioCtx = null;
+function blip(freq, dur, type, vol) {
+  if (!audioOn) return;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = type || 'square';
+    o.frequency.value = freq || 440;
+    g.gain.value = vol || 0.04;
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start();
+    g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + (dur || 0.1));
+    o.stop(audioCtx.currentTime + (dur || 0.1));
+  } catch (e) {}
+}
+function chord(freqs, dur) {
+  if (!audioOn) return;
+  freqs.forEach(f => blip(f, dur || 0.4, 'triangle', 0.03));
+}
+const soundBtn = document.getElementById('soundBtn');
+soundBtn.addEventListener('click', () => {
+  audioOn = !audioOn;
+  soundBtn.textContent = audioOn ? '🔊 sound on' : '🔇 sound off';
+  soundBtn.classList.toggle('on', audioOn);
+  if (audioOn) blip(880, 0.15, 'square', 0.05);
+});
+
+/* ================= BOOT SEQUENCE ================= */
+const bootLines = [
+  ['> initializing imperial systems ...', 'ok'],
+  ['> calibrating lightsaber firmware ...', 'ok'],
+  ['> importing statistics ........ [██████████] 100%', 'ok'],
+  ['> importing humor ............. [██████████] 100%', 'ok'],
+  ['> scanning for rebel scum ...... 0 found (suspicious)', 'warn'],
+  ['> patience for p-hacking ....... NOT FOUND', 'err'],
+  ['> falling back to the dark side ... OK', 'warn'],
+  ['> loading 253 imperial test cases .. [██████████] 100%', 'ok'],
+  ['> welcome to the empire. your p-values are now imperial property.', 'ok'],
+];
+const bootEl = document.getElementById('boot');
+const bootLinesEl = document.getElementById('boot-lines');
+let bootDone = false;
+function finishBoot() {
+  if (bootDone) return;
+  bootDone = true;
+  bootEl.classList.add('done');
+  setTimeout(() => bootEl.remove(), 700);
+}
+(function runBoot() {
+  let i = 0;
+  function next() {
+    if (i >= bootLines.length) { setTimeout(finishBoot, 400); return; }
+    const [text, cls] = bootLines[i];
+    const line = document.createElement('div');
+    line.className = 'line';
+    line.innerHTML = '<span class="' + cls + '">' + text + '</span>';
+    bootLinesEl.appendChild(line);
+    bootLinesEl.scrollTop = bootLinesEl.scrollHeight;
+    blip(600 + i * 60, 0.05, 'square', 0.02);
+    i++;
+    setTimeout(next, i === 3 ? 700 : 260);
+  }
+  next();
+})();
+document.getElementById('bootSkip').addEventListener('click', finishBoot);
+bootEl.addEventListener('click', finishBoot);
+
+/* ================= PARTICLE FIELD ================= */
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let mouse = { x: -9999, y: -9999 };
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+const PARTICLE_COUNT = Math.min(90, Math.floor(window.innerWidth / 14));
+for (let i = 0; i < PARTICLE_COUNT; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: (Math.random() - 0.5) * 0.4,
+    vy: (Math.random() - 0.5) * 0.4,
+    r: Math.random() * 1.8 + 0.6,
+    hue: Math.random() > 0.75 ? '139,124,246' : '0,229,160'
+  });
+}
+window.addEventListener('mousemove', (e) => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+let rafId = null;
+function drawParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for (const p of particles) {
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+    const dx = mouse.x - p.x;
+    const dy = mouse.y - p.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist < 140) {
+      p.x -= dx * 0.002;
+      p.y -= dy * 0.002;
+    }
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(' + p.hue + ',0.6)';
+    ctx.fill();
+  }
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const a = particles[i], b = particles[j];
+      const dx = a.x - b.x, dy = a.y - b.y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < 110) {
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = 'rgba(0,229,160,' + (0.12 * (1 - d / 110)) + ')';
+        ctx.lineWidth = 0.7;
+        ctx.stroke();
+      }
+    }
+  }
+  rafId = requestAnimationFrame(drawParticles);
+}
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!reduceMotion) { drawParticles(); } else { canvas.remove(); }
+
+/* ================= CURSOR RING ================= */
+const ring = document.getElementById('cursor-ring');
+if (window.matchMedia('(pointer: fine)').matches && !reduceMotion) {
+  let rx = 0, ry = 0, tx = 0, ty = 0;
+  document.addEventListener('mousemove', (e) => {
+    tx = e.clientX; ty = e.clientY;
+    ring.style.opacity = 1;
+  });
+  (function ringLoop() {
+    rx += (tx - rx) * 0.18;
+    ry += (ty - ry) * 0.18;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(ringLoop);
+  })();
+  document.querySelectorAll('a, button, .project, .hobby-card, .meme-card, .brain-level, input').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+  });
+} else {
+  ring.style.display = 'none';
+}
+
+/* ================= NAV + PROGRESS ================= */
+const nav = document.getElementById('nav');
+const progressBar = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  progressBar.style.width = pct + '%';
+}, { passive: true });
+
+/* ================= FADE IN / STAGGER ================= */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in, .stagger').forEach(el => observer.observe(el));
+
+/* ================= COUNT-UP ================= */
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = parseFloat(el.dataset.target);
+    const decimals = parseInt(el.dataset.decimal || 0);
+    const dur = 1400;
+    const start = performance.now();
+    function tick(now) {
+      const p = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = (target * eased).toFixed(decimals);
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+    blip(440 + target * 10, 0.05, 'triangle', 0.02);
+    countObserver.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.countup').forEach(el => countObserver.observe(el));
+
+/* ================= CONFETTI ================= */
+function spawnConfetti(count, emojis) {
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'confetti';
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.left = Math.random() * 100 + '%';
+      el.style.top = Math.random() * 35 + '%';
+      el.style.animationDuration = (0.8 + Math.random() * 1.2) + 's';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 2200);
+    }, i * 35);
+  }
+}
+
+/* ================= FLOAT BUTTONS ================= */
+document.getElementById('panicBtn').addEventListener('click', () => {
+  document.getElementById('panicModal').classList.add('active');
+  spawnConfetti(30, ['🎉','🎊','📊','📈','😂','🔥','💻','☕','🐛']);
+  chord([523, 659, 784], 0.3);
+});
+const compliments = [
+  'Your residuals are clean. Impressive. Most impressive. 🏆',
+  'The force is strong with your R². The dark side is strong with your debugging.',
+  'You controlled for confounders. The Emperor will be pleased.',
+  'You set a seed. Order restored to the galaxy. 🌱',
+  'Do or do not, there is no try. You did. Both. Somehow. 🌟',
+  'Your code is so clean the Empire would use it for stormtrooper targeting.',
+  'You found a bug before production did. The force is with you. 🐛',
+  'You explained variance without crying. The senate will hear of this. 📖',
+  'Your git history is cleaner than the Death Star blueprints. (Low bar, honestly.)',
+  'You\'re statistically significant in every galaxy. CI = [1,1] across the parsecs.',
+  'The force is strong with this one. And so is the coffee. ☕',
+];
+const toast = document.getElementById('toast');
+document.getElementById('complimentBtn').addEventListener('click', () => {
+  toast.textContent = compliments[Math.floor(Math.random() * compliments.length)];
+  toast.classList.add('show');
+  spawnConfetti(14, ['💚','✨','⭐','🌈']);
+  chord([659, 784, 1046], 0.35);
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => toast.classList.remove('show'), 4200);
+});
+
+/* ================= PROJECT TILT + SPARKLES ================= */
+document.querySelectorAll('.project').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--mx', x + 'px');
+    card.style.setProperty('--my', y + 'px');
+    const cx = rect.width / 2, cy = rect.height / 2;
+    const rx = (y - cy) / cy * 2.5;
+    const ry = (x - cx) / cx * -2.5;
+    card.style.transform = 'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-2px)';
+  });
+  card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  card.addEventListener('click', () => {
+    const rect = card.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+    for (let i = 0; i < 8; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti';
+      el.textContent = '✨';
+      el.style.left = (cx + (Math.random() - 0.5) * 220) + 'px';
+      el.style.top = (cy + (Math.random() - 0.5) * 100) + 'px';
+      el.style.fontSize = '1.1rem';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1100);
+    }
+    blip(980, 0.08, 'triangle', 0.03);
+  });
+});
+
+/* ================= TERMINAL GREETING CYCLE ================= */
+const greetings = ['> whoami', '> use the force', '> git commit -m "fixed everything"', '> python -c "print(\'hello world\')"', '> model.fit(anxiety, optimizer="nap")', '> force pull --rebase'];
+let gIdx = 0;
+setInterval(() => {
+  gIdx = (gIdx + 1) % greetings.length;
+  document.getElementById('greetText').textContent = greetings[gIdx];
+  blip(700, 0.04, 'square', 0.015);
+}, 4200);
+
+/* ================= SKILL METERS ================= */
+const meterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.querySelectorAll('.sm-fill').forEach(f => {
+      f.style.width = f.dataset.w + '%';
+    });
+    meterObserver.unobserve(e.target);
+  });
+}, { threshold: 0.25 });
+document.querySelectorAll('.skill-meters').forEach(el => meterObserver.observe(el));
+
+/* ================= SCROLL CHART ================= */
+const chartPath = document.getElementById('chartPath');
+const chartWrap = document.getElementById('chartWrap');
+function drawChart() {
+  const rect = chartWrap.getBoundingClientRect();
+  const vh = window.innerHeight;
+  const progress = Math.min(Math.max((vh - rect.top) / (vh * 0.8), 0), 1);
+  chartPath.style.strokeDashoffset = 1 - progress;
+  if (progress > 0.72) chartPath.classList.add('danger');
+  else chartPath.classList.remove('danger');
+}
+window.addEventListener('scroll', drawChart, { passive: true });
+window.addEventListener('resize', drawChart);
+drawChart();
+
+/* ================= BRAIN SCALE ================= */
+document.querySelectorAll('.brain-level').forEach(lvl => {
+  lvl.addEventListener('click', () => {
+    document.querySelectorAll('.brain-level').forEach(l => l.classList.remove('active'));
+    lvl.classList.add('active');
+    spawnConfetti(10, ['🧠']);
+    blip(500 + lvl.dataset.level * 150, 0.1, 'triangle', 0.03);
+  });
+});
+
+/* ================= TWO BUTTONS ================= */
+function twoButtons(choice) {
+  const r = document.getElementById('twoBtnsResult');
+  if (choice === 'ship') {
+    r.textContent = '✅ Deployed to prod. The tests were going to fail anyway.';
+    spawnConfetti(12, ['🚀']);
+    chord([523, 659], 0.2);
+  } else {
+    r.textContent = '🧪 Added one more test... which found 3 more bugs. You monster.';
+    spawnConfetti(12, ['🧪']);
+    blip(300, 0.2, 'sawtooth', 0.03);
+  }
+}
+
+/* ================= MOCKING ================= */
+const roasts = [
+  'yOu CoMmItTeD aNd PuShEd WiThOuT rUnNiNg ThE tEsTs',
+  'iT wOrKs On My MaChInE',
+  'hAvE yOu TrIeD tUrNiNg It OfF aNd On',
+  'jUsT aDd A cOlUmN tO tHe DaTaBaSe',
+  'tHe MoDeL wAs TrAiNeD oN dAtA fRoM tHe FuTuRe',
+  'iTs NoT a BuG iTs An UnDoCuMeNtEd FeAtUrE',
+];
+let roastIdx = 0;
+function mockFlip() {
+  roastIdx = (roastIdx + 1) % roasts.length;
+  document.querySelector('#mocking .mock').textContent = roasts[roastIdx];
+  spawnConfetti(8, ['🗿']);
+  blip(420, 0.07, 'square', 0.03);
+}
+
+/* ================= P-VALUE CASINO ================= */
+const pValues = ['0.001', '0.019', '0.042', '0.049', '0.050', '0.051', '0.058', '0.120', '0.237', '0.410'];
+let casinoSpinning = false;
+function pullLever() {
+  if (casinoSpinning) return;
+  casinoSpinning = true;
+  const slots = [document.getElementById('slot1'), document.getElementById('slot2'), document.getElementById('slot3')];
+  const verdict = document.getElementById('casinoVerdict');
+  slots.forEach(s => s.classList.add('spinning'));
+  verdict.textContent = 'spinning the wheel of statistical fate (the dark side has cookies)...';
+  blip(200, 0.6, 'sawtooth', 0.02);
+  const values = [pValues[Math.floor(Math.random()*pValues.length)], pValues[Math.floor(Math.random()*pValues.length)], pValues[Math.floor(Math.random()*pValues.length)]];
+  setTimeout(() => {
+    slots.forEach((s, i) => {
+      s.textContent = values[i];
+      s.classList.remove('spinning');
+    });
+    const p = parseFloat(values[2]);
+    if (p < 0.05) {
+      verdict.className = 'casino-verdict sig';
+      verdict.textContent = 'p = ' + values[2] + ' - SIGNIFICANT! 🎉 the Emperor approves. publish it, defend it, frame it.';
+      spawnConfetti(24, ['🎉','📈','✅']);
+      chord([523, 659, 784, 1046], 0.5);
+    } else {
+      verdict.className = 'casino-verdict nosig';
+      verdict.textContent = 'p = ' + values[2] + ' - not significant. the rebellion sabotaged your sample size.';
+      spawnConfetti(8, ['📉','😔']);
+      blip(180, 0.3, 'sawtooth', 0.03);
+    }
+    casinoSpinning = false;
+  }, 1400);
+}
+
+/* ================= WHACK-A-BUG ================= */
+let bugTimer = null, bugScore = 0, gameRunning = false;
+const arena = document.getElementById('gameArena');
+const holes = Array.from(document.querySelectorAll('.hole'));
+const scoreEl = document.getElementById('bugScore');
+const tipEl = document.getElementById('gameTip');
+const startBtn = document.getElementById('gameStart');
+holes.forEach(hole => {
+  hole.addEventListener('click', () => {
+    const bug = hole.querySelector('.bug');
+    if (bug) {
+      hole.classList.add('hit');
+      bugScore++;
+      scoreEl.textContent = bugScore;
+      hole.innerHTML = '';
+      setTimeout(() => hole.classList.remove('hit'), 300);
+      spawnConfetti(5, ['💥','🐛']);
+      blip(700 + bugScore * 20, 0.08, 'square', 0.04);
+    }
+  });
+});
+function spawnBug() {
+  if (!gameRunning) return;
+  holes.forEach(h => h.innerHTML = '');
+  const idx = Math.floor(Math.random() * holes.length);
+  const hole = holes[idx];
+  const bug = document.createElement('div');
+  bug.className = 'bug';
+  bug.textContent = Math.random() > 0.3 ? '🐛' : '🪲';
+  hole.appendChild(bug);
+  blip(900, 0.04, 'triangle', 0.02);
+  bugTimer = setTimeout(() => {
+    if (hole.querySelector('.bug')) hole.innerHTML = '';
+    spawnBug();
+  }, 1500);
+}
+function startGame() {
+  if (gameRunning) return;
+  gameRunning = true;
+  bugScore = 0;
+  scoreEl.textContent = '0';
+  tipEl.textContent = 'THE EMPIRE DEMANDS BLOOD. GO! ⚔️';
+  startBtn.textContent = 'Hunting...';
+  spawnBug();
+  chord([523, 659], 0.2);
+  setTimeout(() => {
+    gameRunning = false;
+    clearTimeout(bugTimer);
+    holes.forEach(h => h.innerHTML = '');
+    startBtn.textContent = '🔄 Fight again';
+    tipEl.innerHTML = bugScore >= 15
+      ? '🏆 <b style="color:var(--amber)">' + bugScore + '</b> rebel bugs?! The Emperor is pleased.'
+      : 'You squashed <b style="color:var(--amber)">' + bugScore + '</b> rebel bugs. The rest joined the rebellion.';
+    if (bugScore >= 15) chord([523, 659, 784, 1046], 0.6);
+  }, 15000);
+}
+
+/* ================= MOVIE MEME INTERACTIONS ================= */
+function matrixPill(choice) {
+  const r = document.getElementById('matrixResult');
+  if (choice === 'red') {
+    r.textContent = 'you took the red pill. you see the truth: your p-value was 0.051. welcome to reality.';
+    spawnConfetti(18, ['🔴']);
+    blip(220, 0.3, 'sawtooth', 0.03);
+  } else {
+    r.textContent = 'you took the blue pill. everything is fine. nothing is overfit. (this is a lie)';
+    spawnConfetti(10, ['🔵']);
+    blip(520, 0.15, 'triangle', 0.03);
+  }
+}
+let totemSpin = null;
+function spinTotem() {
+  const t = document.getElementById('totem');
+  if (totemSpin) { clearInterval(totemSpin); totemSpin = null; }
+  let deg = 0;
+  totemSpin = setInterval(() => { deg += 30; t.style.transform = 'rotate(' + deg + 'deg)'; }, 50);
+  blip(600, 0.1, 'square', 0.03);
+  setTimeout(() => {
+    if (!totemSpin) return;
+    clearInterval(totemSpin); totemSpin = null;
+    const stillDreaming = Math.random() > 0.4;
+    if (stillDreaming) {
+      document.getElementById('totemNote').textContent = 'still spinning... you are dreaming. or overfitting. same thing.';
+      blip(300, 0.2, 'sawtooth', 0.03);
+    } else {
+      document.getElementById('totemNote').textContent = 'the totem stopped. reality confirmed. (or is it?)';
+      spawnConfetti(8, ['🌀']);
+    }
+  }, 2500);
+}
+let shiningClicks = 0;
+function shiningType() {
+  const el = document.getElementById('shiningText');
+  shiningClicks++;
+  el.textContent += ' all work and no p-values makes janak a dull boy';
+  if (shiningClicks >= 5) el.style.color = 'var(--red)';
+  blip(200 + shiningClicks * 40, 0.06, 'square', 0.03);
+}
+/* ================= LIGHTSABER + VADER SOUNDS ================= */
+function sweep(f0, f1, dur) {
+  if (!audioOn) return;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const t0 = audioCtx.currentTime;
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = 'sawtooth';
+    o.frequency.setValueAtTime(f0, t0);
+    o.frequency.exponentialRampToValueAtTime(f1, t0 + dur);
+    g.gain.setValueAtTime(0.05, t0);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(t0); o.stop(t0 + dur);
+  } catch (e) {}
+}
+function vaderBreathe() {
+  if (!audioOn) return;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const t0 = audioCtx.currentTime;
+    for (let i = 0; i < 4; i++) {
+      const t = t0 + i * 0.85;
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type = 'sawtooth';
+      o.frequency.setValueAtTime(68, t);
+      o.frequency.exponentialRampToValueAtTime(112, t + 0.3);
+      o.frequency.exponentialRampToValueAtTime(58, t + 0.65);
+      g.gain.setValueAtTime(0.001, t);
+      g.gain.exponentialRampToValueAtTime(0.07, t + 0.1);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 0.65);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(t); o.stop(t + 0.7);
+    }
+  } catch (e) {}
+}
+
+/* ================= KONAMI ================= */
+const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+let konamiIdx = 0;
+document.addEventListener('keydown', (e) => {
+  if (e.key === konami[konamiIdx]) {
+    konamiIdx++;
+    if (konamiIdx === konami.length) {
+      document.body.style.transition = 'transform 0.5s';
+      document.body.style.transform = 'rotate(360deg)';
+      setTimeout(() => { document.body.style.transform = ''; }, 500);
+      spawnConfetti(70, ['🦄','✨','🎉','🎊','⚔️']);
+      chord([523, 659, 784, 1046, 1318], 0.8);
+      vaderBreathe();
+      triggerEmpireMode();
+      konamiIdx = 0;
+    }
+  } else { konamiIdx = 0; }
+});
+
+/* ================= LOGO SECRET ================= */
+let logoClicks = 0;
+document.getElementById('logo').addEventListener('click', (e) => {
+  e.preventDefault();
+  logoClicks++;
+  blip(500 + logoClicks * 100, 0.06, 'square', 0.03);
+  if (logoClicks >= 5) {
+    document.getElementById('logo').textContent = 'i am your father. hire me.';
+    spawnConfetti(20, ['⚔️','🔥','🪐']);
+    chord([659, 784, 1046], 0.4);
+    sweep(900, 120, 0.45);
+    setTimeout(() => { document.getElementById('logo').textContent = 'jr._'; logoClicks = 0; }, 2200);
+  }
+});
+
+/* ================= FOOTER COUNT ================= */
+const consoleCount = Math.floor(Math.random() * 5000) + 1000;
+document.querySelector('.output').innerHTML =
+  document.querySelector('.output').innerHTML.replace('{count}', consoleCount);
+
+/* ================= THE TERMINAL ================= */
+const termBody = document.getElementById('termBody');
+const termInput = document.getElementById('termInput');
+const banner = [
+  'EMPIRE OS v6.6.6 - "the one with the force"',
+  'type "help". i find your lack of initiative disturbing.',
+  '----------------------------------------------'
+];
+function termWrite(html, cls) {
+  const d = document.createElement('div');
+  d.className = 'term-out ' + (cls || '');
+  d.innerHTML = html;
+  termBody.appendChild(d);
+  termBody.scrollTop = termBody.scrollHeight;
+}
+function termOut(text, cls) {
+  termWrite(text.replace(/</g, '&lt;').replace(/>/g, '&gt;'), cls);
+}
+function printHelp() {
+  const cmds = [
+    ['help', 'show this list'],
+    ['whoami', 'existential self-identification'],
+    ['projects', 'list the 8 receipts'],
+    ['skills', 'what I bring to the table'],
+    ['memes', 'the important stuff'],
+    ['hire', 'the only command that matters'],
+    ['email', 'how to actually reach me'],
+    ['p-value', 'statistical fortune telling'],
+    ['force', 'connect to the force'],
+    ['vader', 'disturbing. very disturbing.'],
+    ['lightsaber', 'whoosh. whoosh. whoosh.'],
+    ['yoda', 'wisdom, mostly.'],
+    ['pill', 'choose your reality'],
+    ['sudo', 'try it. i dare you.'],
+    ['coffee', 'brew a cup (virtual)'],
+    ['clear', 'start fresh'],
+    ['exit', 'there is no exit. you\'re a data scientist now.'],
+  ];
+  termWrite('<span class="violet">COMMAND</span> &nbsp; <span class="violet">DESCRIPTION</span><br>');
+  cmds.forEach(c => termWrite('<span class="ok">' + c[0] + '</span>' + '&nbsp;'.repeat(Math.max(1, 12 - c[0].length)) + '<span class="term-out">' + c[1] + '</span>'));
+}
+function handleCommand(raw) {
+  const cmd = raw.trim().toLowerCase();
+  if (!cmd) return;
+  if (cmd === 'help') { printHelp(); return; }
+  if (cmd === 'clear') { termBody.innerHTML = ''; return; }
+  if (cmd === 'whoami') {
+    termOut('janak_rudani - statistics student, professional overthinker, amateur jazz enjoyer.', 'ok');
+    return;
+  }
+  if (cmd === 'projects') {
+    termOut('8 projects. 253 tests. 1 questionable sleep schedule.', 'ok');
+    termOut('telco-churn · bike-share · air-passengers · penguins · medicare-fraud · covid-dash · personal-assistant · llm-finetune', 'warn');
+    termOut('full list: scroll up. i built the whole page for you.', '');
+    return;
+  }
+  if (cmd === 'skills') {
+    termOut('R · Python · SQL · stats · SARIMA · GLM · ANCOVA · RAG · QLoRA · git · sarcasm', 'ok');
+    termOut('confidence: high. sleep hygiene: low.', 'warn');
+    return;
+  }
+  if (cmd === 'memes') {
+    termOut('located in /memes. go scroll, you\'re on a portfolio not a terminal.', 'warn');
+    return;
+  }
+  if (cmd === 'hire' || cmd === 'contact') {
+    termOut('correct answer. email: janak25rudani@icloud.com', 'ok');
+    spawnConfetti(20, ['🎉','💼','📧']);
+    chord([523, 659, 784], 0.4);
+    return;
+  }
+  if (cmd === 'email') {
+    termOut('janak25rudani@icloud.com', 'ok');
+    return;
+  }
+  if (cmd === 'p-value') {
+    const p = Math.random();
+    if (p < 0.05) termOut('p = ' + p.toFixed(3) + ' - significant. publish. frame it. tell your mum.', 'ok');
+    else termOut('p = ' + p.toFixed(3) + ' - not significant. the sample size was definitely too small.', 'err');
+    return;
+  }
+  if (cmd === 'sudo' || cmd.startsWith('sudo')) {
+    termOut('permission denied. you don\'t need sudo to hire me - just the email above.', 'err');
+    return;
+  }
+  if (cmd === 'coffee' || cmd === 'brew') {
+    termOut('☕ brewing... [██████████] 100%', 'warn');
+    termOut('your virtual coffee is ready. productivity +25%. sleep -1h.', 'ok');
+    blip(400, 0.1, 'sine', 0.04);
+    coffeeEgg();
+    return;
+  }
+  if (cmd === 'exit' || cmd === 'quit' || cmd === 'q') {
+    termOut('there is no exit. you\'re a data scientist now. embrace it.', 'warn');
+    return;
+  }
+  if (cmd === 'ls') {
+    termOut('projects/  skills/  memes/  hobbies/  contact/', '');
+    return;
+  }
+  if (cmd === 'git commit' || cmd.startsWith('git commit')) {
+    termOut('[main 4e2a9f1] fix: remember to commit more often', 'ok');
+    termOut('1 file changed, 0 insertions, 1 existential crisis', '');
+    return;
+  }
+  if (cmd === 'npm install confidence' || cmd === 'npm i confidence') {
+    termOut('confidence@9.9.9 installed. 0 vulnerabilities. shockingly accurate.', 'ok');
+    return;
+  }
+  if (cmd.startsWith('pip install')) {
+    termOut('ERROR: could not find a version that satisfies the requirement ' + cmd.replace('pip install', '').trim() + '. Did you mean: pandas?', 'err');
+    return;
+  }
+  if (cmd === 'echo hi' || cmd === 'hi' || cmd === 'hello' || cmd === 'hey') {
+    termOut('hi. welcome. i\'m mildly impressed you found the terminal.', 'ok');
+    return;
+  }
+  if (cmd === 'date' || cmd === 'time') {
+    termOut(new Date().toString() + ' - and yes, you still haven\'t hired me.', '');
+    return;
+  }
+  if (cmd === '42' || cmd === 'the answer') {
+    termOut('the answer to life, the universe, and everything. definitely not your p-value though.', 'warn');
+    return;
+  }
+  if (cmd === 'panic') {
+    termOut('calm down. click the red button in the corner. it\'s a trap, but a comforting one.', 'warn');
+    return;
+  }
+  if (cmd === 'matrix') {
+    termOut('wake up, neo... you\'ve been staring at residual plots for 6 hours.', 'violet');
+    return;
+  }
+  if (cmd === 'clear' || cmd === 'cls') { termBody.innerHTML = ''; return; }
+  if (cmd === 'force' || cmd.startsWith('force ')) {
+    termOut('the force is strong with this one. (and its residuals are clean.)', 'ok');
+    return;
+  }
+  if (cmd === 'vader') { termOut('i find your lack of faith in the null hypothesis disturbing.', 'err'); return; }
+  if (cmd === 'luke') { termOut('i am your father. of this project.', 'warn'); return; }
+  if (cmd === 'yoda') { termOut('do or do not, there is no try. (except legacy code. there is only suffering.)', 'ok'); return; }
+  if (cmd === 'lightsaber') { termOut('whoosh. whoosh. whoosh. (it is red. it is angry. it works.)', 'violet'); sweep(900, 120, 0.45); return; }
+  if (cmd === 'deathstar') { termOut("that's no moon... it's a 2TB dataframe.", 'warn'); return; }
+  if (cmd === 'empire') { termOut('the empire did nothing wrong. (except the database schema.)', 'warn'); return; }
+  if (cmd === 'pill') { termOut('red pill: p<0.05, reality crumbles. blue pill: accept the null, stay comfortable. your move.', 'violet'); return; }
+  if (cmd === 'circuit' || cmd === 'electronics') { termOut('head to /circuits - drag a battery, resistor, and LED into a loop. learn Ohm\'s law. the LED will thank you.', 'ok'); return; }
+  if (cmd === 'empire') { triggerEmpireMode(); termOut('the dark side awakens...', 'violet'); return; }
+  if (cmd === '') return;
+  termOut('command not found: ' + cmd + '. try "help". (or accept that i don\'t know everything)', 'err');
+  blip(180, 0.15, 'sawtooth', 0.03);
+}
+banner.forEach(l => termWrite('<span class="violet">' + l + '</span>'));
+termWrite('<span class="ok">8 projects</span> · <span class="ok">253 tests</span> · <span class="warn">0 patience for bad data</span>');
+termInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    const val = termInput.value;
+    termWrite('<span class="term-prompt">vader@deathstar:~$</span> ' + val.replace(/</g, '&lt;'));
+    blip(660, 0.05, 'square', 0.02);
+    handleCommand(val);
+    termInput.value = '';
+  }
+});
+function scrollToTerminal() {
+  document.getElementById('terminal').scrollIntoView({ behavior: 'smooth' });
+  setTimeout(() => termInput.focus(), 600);
+}
+termInput.addEventListener('click', () => termInput.focus());
+
+/* ================= CIRCUIT BUILDER GAME ================= */
+const CIRCUIT = {
+  board: null, nodes: [], wires: [], connected: {}, dragging: null, offset: {x:0,y:0}
+};
+function spawnComponent(type) {
+  const board = document.getElementById('circuitBoard');
+  const rect = board.getBoundingClientRect();
+  const el = document.createElement('div');
+  el.className = 'circuit-node ' + type;
+  el.dataset.type = type;
+  el.dataset.id = 'n' + (CIRCUIT.nodes.length + 1);
+  const icons = { battery: '⚡', resistor: '〰️', led: '💡' };
+  el.textContent = icons[type];
+  el.style.left = (20 + Math.random() * (rect.width - 90)) + 'px';
+  el.style.top = (20 + Math.random() * (rect.height - 90)) + 'px';
+  board.appendChild(el);
+  CIRCUIT.nodes.push(el);
+  setupNode(el);
+  setMsg(type === 'battery' ? 'battery added! now add a resistor between + and the LED' : type === 'resistor' ? 'resistor added! connect: + → R → LED → -' : 'LED added! close the loop: + → R → LED → -');
+  blip(600, 0.08, 'square', 0.03);
+}
+function setupNode(el) {
+  el.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    CIRCUIT.dragging = el;
+    const rect = el.getBoundingClientRect();
+    CIRCUIT.offset.x = e.clientX - rect.left;
+    CIRCUIT.offset.y = e.clientY - rect.top;
+    el.classList.add('dragging');
+  });
+}
+document.addEventListener('mousemove', (e) => {
+  if (!CIRCUIT.dragging) return;
+  const board = document.getElementById('circuitBoard');
+  const brect = board.getBoundingClientRect();
+  let x = e.clientX - brect.left - CIRCUIT.offset.x;
+  let y = e.clientY - brect.top - CIRCUIT.offset.y;
+  x = Math.max(0, Math.min(brect.width - 50, x));
+  y = Math.max(0, Math.min(brect.height - 50, y));
+  CIRCUIT.dragging.style.left = x + 'px';
+  CIRCUIT.dragging.style.top = y + 'px';
+  updateCircuit();
+});
+document.addEventListener('mouseup', () => {
+  if (CIRCUIT.dragging) {
+    CIRCUIT.dragging.classList.remove('dragging');
+    CIRCUIT.dragging = null;
+  }
+});
+function wireExists(a, b) {
+  return CIRCUIT.wires.some(w => (w.a === a && w.b === b) || (w.a === b && w.b === a));
+}
+function connectNodes(a, b) {
+  if (a === b || wireExists(a, b)) return;
+  const w = { a, b, el: null };
+  const el = document.createElement('div');
+  el.className = 'circuit-wire';
+  document.getElementById('circuitBoard').appendChild(el);
+  w.el = el;
+  CIRCUIT.wires.push(w);
+  a.classList.add('wired');
+  b.classList.add('wired');
+  blip(500, 0.1, 'triangle', 0.03);
+}
+function drawWires() {
+  const board = document.getElementById('circuitBoard');
+  const brect = board.getBoundingClientRect();
+  CIRCUIT.wires.forEach(w => {
+    const aRect = w.a.getBoundingClientRect();
+    const bRect = w.b.getBoundingClientRect();
+    const ax = aRect.left - brect.left + aRect.width / 2;
+    const ay = aRect.top - brect.top + aRect.height / 2;
+    const bx = bRect.left - brect.left + bRect.width / 2;
+    const by = bRect.top - brect.top + bRect.height / 2;
+    const len = Math.sqrt((bx - ax) ** 2 + (by - ay) ** 2);
+    const ang = Math.atan2(by - ay, bx - ax) * 180 / Math.PI;
+    w.el.style.left = ax + 'px';
+    w.el.style.top = ay + 'px';
+    w.el.style.width = len + 'px';
+    w.el.style.transform = 'rotate(' + ang + 'deg)';
+  });
+}
+function updateCircuit() {
+  // auto-connect nearby nodes (snap wiring)
+  for (let i = 0; i < CIRCUIT.nodes.length; i++) {
+    for (let j = i + 1; j < CIRCUIT.nodes.length; j++) {
+      const a = CIRCUIT.nodes[i], b = CIRCUIT.nodes[j];
+      const ar = a.getBoundingClientRect(), br = b.getBoundingClientRect();
+      const dx = (ar.left + ar.width/2) - (br.left + br.width/2);
+      const dy = (ar.top + ar.height/2) - (br.top + br.height/2);
+      if (Math.sqrt(dx*dx + dy*dy) < 95 && !wireExists(a, b)) {
+        connectNodes(a, b);
+      }
+    }
+  }
+  drawWires();
+  evaluateCircuit();
+}
+function evaluateCircuit() {
+  const board = document.getElementById('circuitBoard');
+  const brect = board.getBoundingClientRect();
+  const types = CIRCUIT.nodes.map(n => n.dataset.type);
+  const battery = CIRCUIT.nodes.find(n => n.dataset.type === 'battery');
+  const resistor = CIRCUIT.nodes.find(n => n.dataset.type === 'resistor');
+  const led = CIRCUIT.nodes.find(n => n.dataset.type === 'led');
+  const vEl = document.getElementById('cVolt');
+  const iEl = document.getElementById('cCur');
+  const rEl = document.getElementById('cRes');
+  const sEl = document.getElementById('cState');
+  const lit = [];
+  CIRCUIT.wires.forEach(w => {
+    w.el.classList.remove('lit');
+    lit.push(w);
+  });
+  if (!battery || !resistor || !led) {
+    vEl.textContent = '0 V'; iEl.textContent = '0 mA'; rEl.textContent = '0 Ω';
+    sEl.textContent = 'missing parts';
+    return;
+  }
+  // topology check: battery must touch resistor (directly or via chain), resistor touches LED
+  const adjacency = {};
+  CIRCUIT.nodes.forEach(n => adjacency[n.dataset.id] = new Set());
+  CIRCUIT.wires.forEach(w => {
+    adjacency[w.a.dataset.id].add(w.b.dataset.id);
+    adjacency[w.b.dataset.id].add(w.a.dataset.id);
+  });
+  function reachable(startId, targetId) {
+    const seen = new Set([startId]);
+    const q = [startId];
+    while (q.length) {
+      const cur = q.shift();
+      if (cur === targetId) return true;
+      adjacency[cur].forEach(nb => {
+        if (!seen.has(nb)) { seen.add(nb); q.push(nb); }
+      });
+    }
+    return false;
+  }
+  const closed = reachable(battery.dataset.id, led.dataset.id) &&
+                 reachable(resistor.dataset.id, led.dataset.id) &&
+                 reachable(battery.dataset.id, resistor.dataset.id);
+  if (!closed) {
+    vEl.textContent = '9 V'; iEl.textContent = '0 mA'; rEl.textContent = '∞ Ω';
+    sEl.textContent = 'open circuit';
+    return;
+  }
+  // count resistors in path (simple: 1 = bright, 2 = dim, 3+ = barely)
+  const rCount = CIRCUIT.nodes.filter(n => n.dataset.type === 'resistor').length;
+  const ledBright = rCount === 1 ? 1 : rCount === 2 ? 0.6 : 0.3;
+  led.style.opacity = '0.4';
+  led.style.transition = 'opacity 0.3s';
+  if (rCount === 0) {
+    vEl.textContent = '9 V'; iEl.textContent = '900 mA'; rEl.textContent = '10 Ω';
+    sEl.textContent = 'OVERLOAD! 🔥 no resistor!';
+    setMsg('🔥 NO RESISTOR! the LED is toast. always protect with 220Ω-1kΩ.');
+    led.style.opacity = '0.15';
+    CIRCUIT.wires.forEach(w => w.el.classList.add('lit'));
+    return;
+  }
+  const ohms = rCount * 330;
+  const mA = Math.round(9000 / ohms * 10) / 10;
+  vEl.textContent = '9 V'; iEl.textContent = mA + ' mA'; rEl.textContent = ohms + ' Ω';
+  sEl.textContent = 'closed circuit ✓';
+  CIRCUIT.wires.forEach(w => w.el.classList.add('lit'));
+  led.style.opacity = ledBright;
+  if (!CIRCUIT.done) {
+    CIRCUIT.done = true;
+    setMsg('⚡ IT LIGHTS UP! current = ' + mA + ' mA through ' + ohms + 'Ω. that\'s Ohm\'s law, baby.');
+    spawnConfetti(20, ['💡','⚡','✨']);
+    chord([523, 659, 784], 0.4);
+  }
+}
+function setMsg(t) { const el = document.getElementById('circuitMsg'); if (el) el.textContent = t; }
+function resetCircuit() {
+  const board = document.getElementById('circuitBoard');
+  board.querySelectorAll('.circuit-node, .circuit-wire').forEach(el => el.remove());
+  CIRCUIT.nodes = []; CIRCUIT.wires = []; CIRCUIT.done = false;
+  document.getElementById('cVolt').textContent = '0 V';
+  document.getElementById('cCur').textContent = '0 mA';
+  document.getElementById('cRes').textContent = '0 Ω';
+  document.getElementById('cState').textContent = 'disconnected';
+  setMsg('reset! drag a battery in to start...');
+}
+window.addEventListener('resize', drawWires);
+
+/* ================= SURPRISE EASTER EGGS ================= */
+// EGG 1: secret word "empire" (or "vader", "force") - site goes dark-side rainbow
+let eggWordBuffer = '';
+const EGG_WORDS = ['empire', 'vader', 'force'];
+document.addEventListener('keydown', (e) => {
+  if (e.key.length !== 1) return;
+  eggWordBuffer = (eggWordBuffer + e.key.toLowerCase()).slice(-12);
+  if (EGG_WORDS.some(w => eggWordBuffer.includes(w))) {
+    triggerEmpireMode();
+    eggWordBuffer = '';
+  }
+});
+let empireMode = false;
+function triggerEmpireMode() {
+  if (empireMode) return;
+  empireMode = true;
+  // scanline sweep + hue-rotate the whole site for 8 seconds
+  const scan = document.createElement('div');
+  scan.className = 'egg-scan active';
+  document.body.appendChild(scan);
+  document.body.classList.add('rainbow-text');
+  spawnConfetti(40, ['⚔️','🌌','⭐','🪐']);
+  sweep(200, 1200, 0.8);
+  vaderBreathe();
+  setTimeout(() => {
+    document.body.classList.remove('rainbow-text');
+    scan.remove();
+    empireMode = false;
+    setMsg && setMsg('the force was with you for a moment there.');
+  }, 8000);
+}
+
+// EGG 2: triple-click hero name - meteor shower
+let nameClicks = 0, nameTimer = null;
+const heroName = document.getElementById('heroName');
+if (heroName) {
+  heroName.addEventListener('click', () => {
+    nameClicks++;
+    clearTimeout(nameTimer);
+    nameTimer = setTimeout(() => nameClicks = 0, 1200);
+    if (nameClicks >= 3) {
+      nameClicks = 0;
+      meteorShower();
+    }
+  });
+}
+function meteorShower() {
+  for (let i = 0; i < 25; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'confetti';
+      el.textContent = ['☄️','💫','🌟','🪐'][Math.floor(Math.random()*4)];
+      el.style.left = Math.random() * 100 + '%';
+      el.style.top = '0%';
+      el.style.fontSize = (1 + Math.random() * 1.6) + 'rem';
+      el.style.animationDuration = (1.2 + Math.random()) + 's';
+      el.style.animation = 'fall ' + (1.2 + Math.random()) + 's ease-out forwards';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 2500);
+    }, i * 90);
+  }
+  sweep(1400, 200, 1);
+}
+
+// EGG 3: type "coffee" 3x fast - total caffeine overload screen
+let coffeeCount = 0, coffeeTimer = null;
+function coffeeEgg() {
+  coffeeCount++;
+  clearTimeout(coffeeTimer);
+  coffeeTimer = setTimeout(() => coffeeCount = 0, 3000);
+  if (coffeeCount >= 3) {
+    coffeeCount = 0;
+    const t = document.getElementById('toast');
+    if (t) {
+      t.textContent = '☕☕☕ CAFFEINE OVERLOAD. productivity +9000%. sleep -100%. the force is jittery.';
+      t.classList.add('show');
+      spawnConfetti(30, ['☕','⚡','😵']);
+      chord([659, 784, 1046, 1318], 0.5);
+      setTimeout(() => t.classList.remove('show'), 5000);
+    }
+  }
+}
+
+// EGG 4: mouse trail - lightsaber sparks
+let lastSpark = 0;
+document.addEventListener('mousemove', (e) => {
+  const now = Date.now();
+  if (now - lastSpark < 140) return;
+  lastSpark = now;
+  const el = document.createElement('div');
+  el.className = 'confetti';
+  el.textContent = ['✨','⚡','·'][Math.floor(Math.random()*3)];
+  el.style.left = (e.clientX + (Math.random()-0.5)*30) + 'px';
+  el.style.top = (e.clientY + (Math.random()-0.5)*30) + 'px';
+  el.style.fontSize = '0.8rem';
+  el.style.animationDuration = '0.6s';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 700);
+});
+
+// EGG 5: konami = empire mode + confetti + breathe (wired below)
+
+/* ================= CONSOLE SECRETS ================= */
+console.log('%c👋 Hey! You found the console. %cYou must be a developer. %cWe should be friends.',
+  'font-size:18px; color:#00e5a0;', 'color:#ffd166;', 'color:#999;');
+console.log('%c🦄 Konami code: ↑↑↓↓←→←→BA', 'color:#ff6b6b; font-style: italic;');
+console.log('%c$_ Tip: the terminal on this page is REAL. type "hire".', 'color:#8b7cf6;');
+console.log('%c📊 Also: click the 🧠 meme. i dare you.', 'color:#ffd166;');
+</script>
+
+</body>
+</html>

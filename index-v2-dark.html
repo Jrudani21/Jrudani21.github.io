@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Janak Rudani — This is not a boring portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ================================================================
+   JANAK RUDANI — PORTFOLIO V2
+   Interactive + Humorous + Dark
+   "Statistics with sass. Data with jokes. Resume with personality."
+   ================================================================ */
+:root {
+  --void: #000000;
+  --panel: #0a0a0a;
+  --surface: #111111;
+  --elevated: #1a1a1a;
+  --text: #f7f7f7;
+  --dim: #999;
+  --muted: #555;
+  --accent: #00cc88;         /* terminal green meets data science */
+  --accent2: #ff6b6b;        /* warm red for highlights */
+  --accent3: #ffd93d;        /* yellow for jokes */
+  --accent4: #6c5ce7;        /* purple for surprises */
+  --border: rgba(255,255,255,0.06);
+  --ring: rgba(0,204,136,0.15);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scrollbar-color: var(--accent) var(--void); }
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ---------- NAV ---------- */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.2rem 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+  mix-blend-mode: difference;
+  background: transparent;
+  transition: background 0.3s;
+}
+nav.scrolled { background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); mix-blend-mode: normal; }
+.nav-logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px; font-weight: 700; color: var(--accent);
+  text-decoration: none; letter-spacing: -0.5px;
+}
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-links a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; color: var(--dim); text-decoration: none;
+  text-transform: lowercase; transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--accent); }
+
+/* ---------- PANIC BUTTON ---------- */
+.panic-btn {
+  position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 999;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--dim); font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; padding: 0.6rem 1rem; border-radius: 40px;
+  cursor: pointer; transition: all 0.3s;
+}
+.panic-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+.panic-modal {
+  position: fixed; inset: 0; z-index: 998;
+  background: rgba(0,0,0,0.92); display: flex;
+  align-items: center; justify-content: center; flex-direction: column;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+.panic-modal.active { opacity: 1; pointer-events: all; }
+.panic-modal h2 {
+  font-size: clamp(2rem, 6vw, 5rem); font-weight: 900;
+  margin-bottom: 1rem;
+}
+.panic-modal p { color: var(--dim); font-size: 1.1rem; margin-bottom: 2rem; }
+.panic-close {
+  background: var(--accent); color: var(--void); border: none;
+  padding: 0.8rem 2rem; border-radius: 40px; font-weight: 700;
+  font-size: 14px; cursor: pointer; font-family: inherit;
+}
+
+/* ---------- HERO ---------- */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  justify-content: center; padding: 6rem 2rem 3rem;
+  max-width: 900px; margin: 0 auto;
+}
+.terminal-greeting {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px; color: var(--muted); margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.terminal-greeting .cursor {
+  display: inline-block; width: 8px; height: 16px;
+  background: var(--accent); animation: blink 1s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.hero-name {
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-weight: 900; line-height: 0.92;
+  letter-spacing: -0.03em; margin-bottom: 1.5rem;
+}
+.hero-name .highlight { color: var(--accent); }
+.hero-tagline {
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  color: var(--dim); max-width: 600px; margin-bottom: 3rem;
+  line-height: 1.5;
+}
+.hero-tagline .pun { color: var(--accent3); font-weight: 600; }
+.hero-cta {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--accent); color: var(--void);
+  padding: 0.9rem 2rem; border-radius: 100px;
+  font-weight: 700; font-size: 15px; text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.hero-cta:hover { transform: scale(1.03); box-shadow: 0 0 40px var(--ring); }
+.hero-stats {
+  display: flex; gap: 2rem; margin-top: 4rem;
+  flex-wrap: wrap;
+}
+.hero-stat {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; color: var(--muted);
+}
+.hero-stat b { color: var(--accent); font-size: 1.3rem; display: block; margin-bottom: 0.2rem; }
+
+/* ---------- TICKER ---------- */
+.ticker-wrap {
+  overflow: hidden; border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 0.9rem 0; background: var(--surface);
+}
+.ticker {
+  display: flex; gap: 2.5rem; width: max-content;
+  animation: scroll 35s linear infinite;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+}
+.ticker .joke { color: var(--accent3); }
+.ticker .skill { color: var(--accent); }
+@keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ---------- SECTIONS ---------- */
+section { padding: 6rem 2rem; max-width: 1000px; margin: 0 auto; }
+.section-header { margin-bottom: 3rem; }
+.section-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--accent); letter-spacing: 0.1em;
+  text-transform: uppercase; margin-bottom: 0.5rem;
+}
+.section-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900; letter-spacing: -0.02em;
+}
+.section-subtitle { color: var(--dim); margin-top: 0.5rem; font-size: 1.05rem; }
+
+/* ---------- PROJECTS ---------- */
+.project {
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 1.5rem; padding: 2rem;
+  border: 1px solid var(--border); border-radius: 12px;
+  background: var(--surface); margin-bottom: 1rem;
+  cursor: pointer; transition: all 0.3s;
+  position: relative; overflow: hidden;
+  text-decoration: none; color: inherit;
+}
+.project::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), var(--ring) 0%, transparent 60%);
+  opacity: 0; transition: opacity 0.4s;
+}
+.project:hover::before { opacity: 1; }
+.project:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
+.project:hover .project-num { color: var(--accent); }
+.project-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted); margin-bottom: 0.5rem;
+  transition: color 0.3s;
+}
+.project h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+.project p { color: var(--dim); font-size: 0.9rem; line-height: 1.6; max-width: 600px; }
+.project p .stat-joke { color: var(--accent3); font-weight: 500; }
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem; }
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; padding: 3px 8px;
+  border: 1px solid var(--border); border-radius: 20px;
+  color: var(--dim);
+}
+.tag.hl { border-color: var(--accent); color: var(--accent); }
+.project-side {
+  display: flex; flex-direction: column;
+  align-items: flex-end; justify-content: center;
+}
+.project-score {
+  font-size: 1.3rem; font-weight: 800; color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+}
+.project-link {
+  font-size: 11px; color: var(--muted);
+  font-family: 'JetBrains Mono', monospace; margin-top: 0.3rem;
+}
+
+/* ---------- SKILLS ---------- */
+.skills-grid { display: grid; gap: 1.5rem; }
+.skill-group {
+  border: 1px solid var(--border); border-radius: 12px;
+  padding: 1.5rem; background: var(--surface);
+}
+.skill-group h4 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--accent); text-transform: uppercase;
+  letter-spacing: 0.1em; margin-bottom: 1rem;
+}
+.skill-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.skill-chip {
+  padding: 0.4rem 1rem; border-radius: 20px;
+  font-size: 13px; border: 1px solid var(--border);
+  color: var(--text); transition: all 0.2s; cursor: default;
+}
+.skill-chip:hover { border-color: var(--accent); background: var(--ring); transform: scale(1.05); }
+
+/* ---------- HOBBIES ---------- */
+.hobbies-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+.hobby-card {
+  border: 1px solid var(--border); border-radius: 12px;
+  padding: 1.5rem; background: var(--surface);
+  cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;
+}
+.hobby-card:hover { border-color: var(--accent2); transform: translateY(-3px); }
+.hobby-card h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; }
+.hobby-card .hobby-emoji { font-size: 1.8rem; margin-bottom: 0.5rem; display: block; }
+.hobby-card p { font-size: 0.85rem; color: var(--dim); line-height: 1.6; }
+.hobby-card .hover-joke {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: var(--accent2); color: var(--void);
+  padding: 0.5rem 1rem; font-size: 0.75rem; font-weight: 700;
+  transform: translateY(100%); transition: transform 0.3s;
+  text-align: center;
+}
+.hobby-card:hover .hover-joke { transform: translateY(0); }
+
+/* ---------- ABOUT ---------- */
+.about-text {
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-weight: 500; line-height: 1.5; max-width: 750px;
+  margin-bottom: 3rem;
+}
+.about-text .hilite { color: var(--accent); }
+.about-text .strikethrough { text-decoration: line-through; color: var(--muted); }
+.facts { display: flex; flex-wrap: wrap; gap: 1rem; }
+.fact {
+  flex: 1 1 180px; border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.2rem; background: var(--surface);
+}
+.fact-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--muted); text-transform: uppercase;
+  letter-spacing: 0.1em; margin-bottom: 0.3rem;
+}
+.fact-value { font-size: 1rem; font-weight: 600; }
+.fact-value .emoji { font-size: 1.3rem; }
+
+/* ---------- CONTACT ---------- */
+.contact-section { text-align: center; }
+.contact-prompt {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; color: var(--muted); margin-bottom: 1rem;
+}
+.contact-email {
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: 900; color: var(--accent); text-decoration: none;
+  letter-spacing: -0.02em; transition: color 0.2s;
+  border-bottom: 2px solid var(--accent); padding-bottom: 0.3rem;
+}
+.contact-email:hover { color: var(--accent3); border-color: var(--accent3); }
+.social-links { display: flex; gap: 1.5rem; justify-content: center; margin-top: 2rem; }
+.social-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; color: var(--dim); text-decoration: none;
+  transition: color 0.2s;
+}
+.social-link:hover { color: var(--accent); }
+
+/* ---------- FOOTER ---------- */
+footer {
+  padding: 3rem 2rem; border-top: 1px solid var(--border);
+  text-align: center;
+}
+.console-line {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted); line-height: 1.8;
+}
+.console-line .prompt { color: var(--accent); }
+.console-line .cmd { color: var(--dim); }
+.console-line .output { color: var(--accent3); }
+.console-line .error { color: var(--accent2); }
+
+/* ---------- ANIMATIONS ---------- */
+.fade-in {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* Confetti */
+.confetti {
+  position: fixed; z-index: 999; pointer-events: none;
+  font-size: 1.5rem; animation: fall 1s ease-out forwards;
+}
+@keyframes fall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .project { grid-template-columns: 1fr; }
+  .project-side { flex-direction: row; gap: 1rem; align-items: center; }
+  nav { padding: 1rem 1.2rem; }
+  .nav-links { gap: 0.8rem; }
+  .hero-stats { gap: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="nav-logo">&gt; jr._</a>
+  <div class="nav-links">
+    <a href="#projects">work</a>
+    <a href="#skills">skills</a>
+    <a href="#hobbies">hobbies</a>
+    <a href="#about">about</a>
+    <a href="#contact">say hi</a>
+  </div>
+</nav>
+
+<!-- PANIC BUTTON -->
+<button class="panic-btn" id="panicBtn" title="Click if you're overwhelmed">🚨 panic</button>
+<div class="panic-modal" id="panicModal">
+  <h2>🎉</h2>
+  <p>You found the panic button. Everything is fine. Take a deep breath. This is just a portfolio — nobody's grading it.</p>
+  <button class="panic-close" onclick="document.getElementById('panicModal').classList.remove('active')">I'm calm now, thanks</button>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="terminal-greeting">
+    <span>&gt; whoami</span>
+    <span class="cursor"></span>
+  </div>
+  <h1 class="hero-name">
+    Janak<br><span class="highlight">Rudani</span>
+  </h1>
+  <p class="hero-tagline">
+    Statistics student who treats datasets like mystery novels — 
+    <span class="pun">every variable is a suspect.</span> I build models, break assumptions, 
+    and occasionally remember to set a seed.
+  </p>
+  <a href="#projects" class="hero-cta">↓ See the receipts</a>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <b>8</b> projects shipped
+    </div>
+    <div class="hero-stat">
+      <b>253</b> tests passing
+    </div>
+    <div class="hero-stat">
+      <b>0.84</b> best AUC
+    </div>
+    <div class="hero-stat">
+      <b>∞</b> times I've said "just one more tweak"
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker" id="ticker">
+    <span class="joke">🔥 Correlation ≠ causation but my portfolio → your interest</span>
+    <span class="skill">R · tidyverse · ggplot2</span>
+    <span class="joke">📊 98% of statistics are made up (including this one)</span>
+    <span class="skill">Python · pandas · scikit-learn</span>
+    <span class="joke">🧠 My models converge faster than my sleep schedule</span>
+    <span class="skill">SARIMA · GLM · ANCOVA</span>
+    <span class="joke">🐛 I debug with console.log because I'm emotionally attached to it</span>
+    <span class="skill">Streamlit · Plotly · SQL</span>
+    <span class="joke">🤖 I asked an AI to write this joke — it suggested linear regression</span>
+    <span class="skill">Ollama · QLoRA · RAG</span>
+    <span class="joke">🔥 Correlation ≠ causation but my portfolio → your interest</span>
+    <span class="skill">R · tidyverse · ggplot2</span>
+    <span class="joke">📊 98% of statistics are made up (including this one)</span>
+    <span class="skill">Python · pandas · scikit-learn</span>
+    <span class="joke">🧠 My models converge faster than my sleep schedule</span>
+    <span class="skill">SARIMA · GLM · ANCOVA</span>
+    <span class="joke">🐛 I debug with console.log because I'm emotionally attached to it</span>
+    <span class="skill">Streamlit · Plotly · SQL</span>
+    <span class="joke">🤖 I asked an AI to write this joke — it suggested linear regression</span>
+    <span class="skill">Ollama · QLoRA · RAG</span>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <p class="section-num">01 — The receipts</p>
+    <h2 class="section-title">Projects</h2>
+    <p class="section-subtitle">Eight reasons I should probably touch grass more often.</p>
+  </div>
+
+  <a href="https://github.com/Jrudani21/telco-churn-logistic-regression" target="_blank" class="project fade-in">
+    <div>
+      <p class="project-num">01</p>
+      <h3>Telco Customer Churn — Logistic Regression</h3>
+      <p>Binary classification on 7,043 customers. Spoiler: month-to-month contracts are the red flag factory. <span class="stat-joke">My AUC is higher than my credit score.</span></p>
+      <div class="tags"><span class="tag hl">Logistic Regression</span><span class="tag">R</span><span class="tag">ROC / AUC</span></div>
+    </div>
+    <div class="project-side">
+      <div class="project-score">AUC 0.84</div>
+      <div class="project-link">github ↗</div>
+    </div>
+  </a>
+
+  <a href="https://github.com/Jrudani21/bike-share-demand-count-regression" target="_blank" class="project fade-in">
+    <div>
+      <p class="project-num">02</p>
+      <h3>DC Bike Share — Count Regression</h3>
+      <p>731 days of Capital Bikeshare data. Discovered the variance was 357× the mean, which is statistician-speak for "Poisson, you're fired." <span class="stat-joke">Negative Binomial saved the day. Hero arc.</span></p>
+      <div class="tags"><span class="tag hl">Poisson / NB GLM</span><span class="tag">R</span><span class="tag">IRR</span></div>
+    </div>
+    <div class="project-side">
+      <div class="project-score">ΔAIC 1,200</div>
+      <div class="project-link">github ↗</div>
+    </div>
+  </a>
+
+  <a href="https://github.com/Jrudani21/air-passengers-timeseries" target="_blank" class="project fade-in">
+    <div>
+      <p class="project-num">03</p>
+      <h3>Air Passengers — SARIMA Forecasting</h3>
+      <p>Full Box-Jenkins pipeline. Made a 36-month forecast. <span class="stat-joke">If only I could SARIMA my deadlines.</span> Also went head-to-head with Facebook Prophet and won.</p>
+      <div class="tags"><span class="tag hl">SARIMA</span><span class="tag">R</span><span class="tag">Prophet</span></div>
+    </div>
+    <div class="project-side">
+      <div class="project-score">MAPE ~3%</div>
+      <div class="project-link">github ↗</div>
+    </div>
+  </a>
+
+  <a href="https://github.com/Jrudani21/palmer-penguins-linear-models" target="_blank" class="project fade-in">
+    <div>
+      <p class="project-num">04</p>
+      <h3>Palmer Penguins — Linear Models Field Guide</h3>
+      <p>Regression, ANOVA, ANCOVA — a complete tour of linear modeling. <span class="stat-joke">Penguins are surprisingly cooperative research subjects. No IRB approval needed.</span></p>
+      <div class="tags"><span class="tag hl">ANCOVA</span><span class="tag">ANOVA</span><span class="tag">Tukey HSD</span></div>
+    </div>
+    <div class="project-side">
+      <div class="project-score">R² = 0.87</div>
+      <div class="project-link">github ↗</div>
+    </div>
+  </a>
+
+  <a href="https://github.com/Jrudani21/medicare-fraud-detector" target="_blank" class="project fade-in">
+    <div>
+      <p class="project-num">05</p>
+      <h3>Medicare Fraud Detector</h3>
+      <p>Caught phantom billing across 9,976 synthetic claims using SQL CTEs and an interactive Streamlit dashboard. <span class="stat-joke">I find fraud for fun. Your expense reports are safe. Probably.</span></p>
+      <div class="tags"><span class="tag hl">SQL</span><span class="tag">Streamlit</span><span class="tag">CTEs</span></div>
+    </div>
+    <div class="project-side">
+      <div class="project-score">18 flagged</div>
+      <div class="project-link">github ↗</div>
+    </div>
+  </a>
+
+  <a href="https://github.com/Jrudani21/covid-dashboard" target="_blank" class="project fade-in">
+    <div>
+      <p class="project-num">06</p>
+      <h3>COVID-19 Global Dashboard</h3>
+      <p>Live pandemic stats, choropleth maps, 200+ countries. <span class="stat-joke">Built this during a time when "going viral" wasn't a marketing strategy.</span></p>
+      <div class="tags"><span class="tag hl">Streamlit</span><span class="tag">Plotly</span><span class="tag">REST API</span></div>
+    </div>
+    <div class="project-side">
+      <div class="project-score">200+ countries</div>
+      <div class="project-link">github ↗</div>
+    </div>
+  </a>
+
+  <a href="https://github.com/Jrudani21/personal-assistant" target="_blank" class="project fade-in">
+    <div>
+      <p class="project-num">07</p>
+      <h3>Local AI Assistant — Ollama + RAG</h3>
+      <p>$0/month, fully offline, 253 tests. <span class="stat-joke">It's not sentient (yet), but it remembers my coffee order better than I do.</span> Streamlit + CrewAI + Graphiti knowledge graph.</p>
+      <div class="tags"><span class="tag hl">Ollama</span><span class="tag">RAG</span><span class="tag">CrewAI</span></div>
+    </div>
+    <div class="project-side">
+      <div class="project-score">253 tests</div>
+      <div class="project-link">github ↗</div>
+    </div>
+  </a>
+
+  <a href="https://github.com/Jrudani21/llm-finetune" target="_blank" class="project fade-in">
+    <div>
+      <p class="project-num">08</p>
+      <h3>QLoRA Fine-Tuning on 8GB VRAM</h3>
+      <p>Domain-specific instruction fine-tuning that fits on a consumer GPU. <span class="stat-joke">Some people play games on their RTX 4060. I teach language models statistics. We are not the same.</span></p>
+      <div class="tags"><span class="tag hl">QLoRA</span><span class="tag">Unsloth</span><span class="tag">Ollama</span></div>
+    </div>
+    <div class="project-side">
+      <div class="project-score">8GB VRAM</div>
+      <div class="project-link">github ↗</div>
+    </div>
+  </a>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" style="background: var(--panel); max-width: none; padding: 6rem calc((100vw - 1000px) / 2);">
+  <div class="section-header" style="max-width: 1000px; margin-left: auto; margin-right: auto;">
+    <p class="section-num">02 — The toolkit</p>
+    <h2 class="section-title">Skills</h2>
+    <p class="section-subtitle">Things I'm good at, things I'm learning, and things I pretend to understand.</p>
+  </div>
+  <div class="skills-grid fade-in" style="max-width: 1000px; margin: 0 auto;">
+    <div class="skill-group">
+      <h4>📝 Languages (the ones that pay the bills)</h4>
+      <div class="skill-chips">
+        <span class="skill-chip">R</span>
+        <span class="skill-chip">Python</span>
+        <span class="skill-chip">SQL</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h4>📦 Libraries (import * as confidence)</h4>
+      <div class="skill-chips">
+        <span class="skill-chip">tidyverse</span><span class="skill-chip">ggplot2</span>
+        <span class="skill-chip">pandas</span><span class="skill-chip">numpy</span>
+        <span class="skill-chip">scikit-learn</span><span class="skill-chip">statsmodels</span>
+        <span class="skill-chip">Streamlit</span><span class="skill-chip">Plotly</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h4>🔬 Methods (the "trust me, I ran diagnostics" stack)</h4>
+      <div class="skill-chips">
+        <span class="skill-chip">Linear / Logistic Regression</span>
+        <span class="skill-chip">ANOVA / ANCOVA</span>
+        <span class="skill-chip">Poisson & NB GLMs</span>
+        <span class="skill-chip">ARIMA / SARIMA</span>
+        <span class="skill-chip">Hypothesis Testing</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h4>🧪 Evaluation (how I know I'm not making things up)</h4>
+      <div class="skill-chips">
+        <span class="skill-chip">AUC / ROC</span><span class="skill-chip">AIC / BIC</span>
+        <span class="skill-chip">MAPE</span><span class="skill-chip">Residual Diagnostics</span>
+        <span class="skill-chip">Confusion Matrix</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOBBIES -->
+<section id="hobbies">
+  <div class="section-header">
+    <p class="section-num">03 — The human side</p>
+    <h2 class="section-title">Hobbies</h2>
+    <p class="section-subtitle">Proof that I exist outside of a terminal. Hover for the real story.</p>
+  </div>
+  <div class="hobbies-grid fade-in">
+    <div class="hobby-card">
+      <span class="hobby-emoji">🖥️</span>
+      <h4>PC Building</h4>
+      <p>Custom rigs, cable management, overclocking. The hardware side of computing is just LEGO for adults with credit cards.</p>
+      <div class="hover-joke">Yes, the RGB adds 15% performance. It's science.</div>
+    </div>
+    <div class="hobby-card">
+      <span class="hobby-emoji">⚡</span>
+      <h4>Circuits & Electronics</h4>
+      <p>Breadboards, microcontrollers, making LEDs blink — the gateway drug of hardware engineering.</p>
+      <div class="hover-joke">I've only shocked myself twice. Both times were "for science."</div>
+    </div>
+    <div class="hobby-card">
+      <span class="hobby-emoji">🎷</span>
+      <h4>Jazz</h4>
+      <p>Miles Davis to modern fusion — improvisational structure feels a lot like exploratory data analysis.</p>
+      <div class="hover-joke">I listen to jazz so people think I'm sophisticated. It's working.</div>
+    </div>
+    <div class="hobby-card">
+      <span class="hobby-emoji">🎮</span>
+      <h4>Gaming</h4>
+      <p>Strategy, RPGs, competitive titles. Gaming taught me pattern recognition before statistics did.</p>
+      <div class="hover-joke">My K/D ratio is a time series with significant autocorrelation.</div>
+    </div>
+    <div class="hobby-card">
+      <span class="hobby-emoji">🐛</span>
+      <h4>Bug Hunting</h4>
+      <p>Finding edge cases and breaking things before users do. QA is just applied pessimism.</p>
+      <div class="hover-joke">I once spent 4 hours debugging a missing semicolon. I'm fine. Really.</div>
+    </div>
+    <div class="hobby-card">
+      <span class="hobby-emoji">🎬</span>
+      <h4>Movies</h4>
+      <p>I'll rewatch a favorite until I've memorized the score and can quote editing choices.</p>
+      <div class="hover-joke">I've seen The Dark Knight 23 times. The Joker's stats speech is basically a probability lecture.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" style="background: var(--panel); max-width: none; padding: 6rem calc((100vw - 1000px) / 2);">
+  <div style="max-width: 1000px; margin: 0 auto;">
+    <div class="section-header">
+      <p class="section-num">04 — The origin story</p>
+      <h2 class="section-title">About</h2>
+    </div>
+    <p class="about-text fade-in">
+      I'm <span class="hilite">Janak Rudani</span> — Statistics student at the University of Manitoba. 
+      I treat every dataset like a <span class="hilite">plot twist</span> waiting to happen and every model 
+      like a <span class="strikethrough">crime scene</span> hypothesis to test.
+    </p>
+    <p class="about-text fade-in" style="color: var(--dim); font-size: 1.1rem; font-weight: 400;">
+      When I'm not wrangling data, I'm building PCs, hunting bugs on purpose, and rewatching movies until 
+      I know the score by heart. I believe that the best analysis is <span class="hilite">rigorous, reproducible, 
+      and occasionally funny</span> — because if your model can't survive a joke, it probably can't survive production either.
+    </p>
+    <div class="facts fade-in">
+      <div class="fact">
+        <div class="fact-label">📍 Based in</div>
+        <div class="fact-value"><span class="emoji">🇨🇦</span> Winnipeg, MB</div>
+      </div>
+      <div class="fact">
+        <div class="fact-label">🎓 Studying</div>
+        <div class="fact-value">B.Sc. Statistics & Math</div>
+      </div>
+      <div class="fact">
+        <div class="fact-label">💻 Stack</div>
+        <div class="fact-value">R, Python, SQL</div>
+      </div>
+      <div class="fact">
+        <div class="fact-label">☕ Fuel</div>
+        <div class="fact-value">Coffee & overconfidence</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="section-header">
+    <p class="section-num">05 — Let's talk</p>
+    <h2 class="section-title">Contact</h2>
+    <p class="section-subtitle">I promise I write better emails than this website copy.</p>
+  </div>
+  <p class="contact-prompt" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted);">&gt; mailto: janak</p>
+  <a href="mailto:Janak25rudani@icloud.com" class="contact-email">janak25rudani@icloud.com</a>
+  <div class="social-links">
+    <a href="https://github.com/Jrudani21" target="_blank" class="social-link">github/Jrudani21</a>
+    <a href="https://www.linkedin.com/in/janak-rudani" target="_blank" class="social-link">linkedin/janak-rudani</a>
+  </div>
+</section>
+
+<footer>
+  <div class="console-line">
+    <span class="prompt">jr@portfolio:~$</span> <span class="cmd">cat footer.txt</span><br>
+    <span class="output">Built with ❤️, caffeine, and approximately {count} console.log statements.</span><br>
+    <span class="prompt">jr@portfolio:~$</span> <span class="cmd">git blame</span><br>
+    <span class="error">fatal: everything is Janak's fault</span><br>
+    <span class="prompt">jr@portfolio:~$</span> <span class="cmd">exit</span><br>
+    <span style="color: var(--dim);">Thanks for scrolling all the way down. You're the real MVP. 🏆</span>
+  </div>
+</footer>
+
+<script>
+// ======= NAV SCROLL =======
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// ======= FADE IN ON SCROLL =======
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ======= PANIC BUTTON =======
+document.getElementById('panicBtn').addEventListener('click', () => {
+  document.getElementById('panicModal').classList.add('active');
+  // Confetti!!
+  for (let i = 0; i < 30; i++) {
+    setTimeout(() => {
+      const emojis = ['🎉','🎊','📊','📈','😂','🔥','💻','☕','🐛'];
+      const el = document.createElement('div');
+      el.className = 'confetti';
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.left = Math.random() * 100 + '%';
+      el.style.top = Math.random() * 40 + '%';
+      el.style.animationDuration = (0.8 + Math.random() * 1.2) + 's';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 2000);
+    }, i * 40);
+  }
+});
+
+// ======= PROJECT CARD TILT =======
+document.querySelectorAll('.project').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--mx', x + 'px');
+    card.style.setProperty('--my', y + 'px');
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const rx = (y - cy) / cy * 3;
+    const ry = (x - cx) / cx * -3;
+    card.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-2px)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
+
+// ======= CLICK PROJECT FOR CONFETTI =======
+document.querySelectorAll('.project').forEach(card => {
+  card.addEventListener('click', (e) => {
+    const rect = card.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    for (let i = 0; i < 8; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti';
+      el.textContent = '✨';
+      el.style.left = (cx + (Math.random() - 0.5) * 200) + 'px';
+      el.style.top = (cy + (Math.random() - 0.5) * 100) + 'px';
+      el.style.position = 'fixed';
+      el.style.zIndex = '999';
+      el.style.pointerEvents = 'none';
+      el.style.fontSize = '1.2rem';
+      el.style.animation = 'fall 1s ease-out forwards';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1000);
+    }
+  });
+});
+
+// ======= TYPEWRITER GREETING =======
+const greetingEl = document.querySelector('.terminal-greeting span:last-child');
+const messages = ['> whoami', '> npm install confidence', '> git commit -m "fixed everything"', '> python -c "print(\'hello world\')"'];
+let msgIdx = 0;
+setInterval(() => {
+  msgIdx = (msgIdx + 1) % messages.length;
+  greetingEl.parentElement.innerHTML = `<span>${messages[msgIdx]}</span> <span class="cursor"></span>`;
+}, 4000);
+
+// ======= TICKER PAUSE ON HOVER =======
+const ticker = document.getElementById('ticker');
+ticker.addEventListener('mouseenter', () => ticker.style.animationPlayState = 'paused');
+ticker.addEventListener('mouseleave', () => ticker.style.animationPlayState = 'running');
+
+// ======= FOOTER CONSOLE LOG COUNT =======
+const consoleCount = Math.floor(Math.random() * 5000) + 1000;
+document.querySelector('.output').innerHTML = 
+  document.querySelector('.output').innerHTML.replace('{count}', consoleCount);
+
+// ======= EASTER EGG: KONAMI CODE =======
+const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+let konamiIdx = 0;
+document.addEventListener('keydown', (e) => {
+  if (e.key === konami[konamiIdx]) {
+    konamiIdx++;
+    if (konamiIdx === konami.length) {
+      document.body.style.transition = 'transform 0.5s';
+      document.body.style.transform = 'rotate(360deg)';
+      setTimeout(() => { document.body.style.transform = ''; }, 500);
+      for (let i = 0; i < 60; i++) {
+        setTimeout(() => {
+          const el = document.createElement('div');
+          el.className = 'confetti';
+          el.textContent = '🦄';
+          el.style.left = Math.random() * 100 + '%';
+          el.style.top = Math.random() * 100 + '%';
+          el.style.fontSize = '2rem';
+          el.style.animation = 'fall 2s ease-out forwards';
+          document.body.appendChild(el);
+          setTimeout(() => el.remove(), 2000);
+        }, i * 30);
+      }
+      konamiIdx = 0;
+    }
+  } else { konamiIdx = 0; }
+});
+
+console.log('%c👋 Hey! You found the console. %cYou must be a developer. %cWe should be friends.', 
+  'font-size:18px; color:#00cc88;', 'color:#ffd93d;', 'color:#999;');
+console.log('%cTry the Konami code: ↑↑↓↓←→←→BA', 'color:#ff6b6b; font-style: italic;');
+</script>
+
+</body>
+</html>
