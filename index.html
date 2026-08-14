@@ -1003,9 +1003,19 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
       <div class="project-side"><div class="project-score">200+ countries</div><div class="project-link">github ↗</div></div>
     </a>
 
-    <a href="https://github.com/Jrudani21/llm-finetune" target="_blank" class="project">
+    <a href="https://github.com/Jrudani21/personal-assistant" target="_blank" class="project">
       <div>
         <p class="project-num">07</p>
+        <h3>Local AI Assistant - Ollama, RAG, CrewAI</h3>
+        <p>$0-cost assistant running fully offline on local hardware. Streamlit UI wrapping a complete tool-calling loop: sandboxed Python REPL, hybrid BM25+cosine RAG with numbered citations, structured memory, reminders, long-chat compaction. 253 tests, CrewAI multi-agent + Graphiti knowledge graph. <span class="stat-joke">It's not sentient (yet), but it remembers my coffee order better than I do.</span></p>
+        <div class="tags"><span class="tag hl">Ollama</span><span class="tag">RAG</span><span class="tag">CrewAI</span><span class="tag">Graphiti</span><span class="tag">253 Tests</span></div>
+      </div>
+      <div class="project-side"><div class="project-score">253 tests</div><div class="project-link">github ↗</div></div>
+    </a>
+
+    <a href="https://github.com/Jrudani21/llm-finetune" target="_blank" class="project">
+      <div>
+        <p class="project-num">08</p>
         <h3>QLoRA Fine-Tuning - Consumer GPU (8GB)</h3>
         <p>Domain-specific instruction fine-tuning pipeline built for an 8GB VRAM RTX 4060. Generates a seed stats/data-science dataset locally via a 30B model - fraud detection, count regression, time-series diagnostics - at zero API cost, using Unsloth + QLoRA. <span class="stat-joke">Some people game on their RTX 4060. I teach language models statistics. We are not the same.</span></p>
         <div class="tags"><span class="tag hl">QLoRA</span><span class="tag">Unsloth</span><span class="tag">Ollama</span><span class="tag">8GB VRAM</span><span class="tag">Synthetic Data</span></div>
@@ -1015,7 +1025,7 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
 
     <a href="https://jrudani21.github.io/jurassic-park/" target="_blank" class="project">
       <div>
-        <p class="project-num">08</p>
+        <p class="project-num">10</p>
         <h3>Jurassic Park - The AI Fleet + Live Dashboard</h3>
         <p>The whole fleet in one repo, themed as Jurassic Park: 34 scheduled bots + 17 on-demand agents, shared zero-token LLM client with 8 model tiers (Triceratops = DeepSeek flash, T-Rex = pro, Indominus = frontier Claude), semantic cache (cosine ≥0.93), supervisor vetting, circuit breakers, cost ledger at ~$0.004 total. Plus the live interactive dashboard - species catalog, park console terminal, budget ledger, DNA-bank cache - regenerated nightly. <span class="stat-joke">34 bots, $0.004 spent, one very tired GPU. The T-Rex eats on pocket change.</span></p>
         <div class="tags"><span class="tag hl">Multi-Agent</span><span class="tag">LLM Routing</span><span class="tag">Cache</span><span class="tag">Vanilla JS</span><span class="tag">$0.004</span></div>
@@ -1025,7 +1035,7 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
 
     <a href="https://github.com/Jrudani21/weather-arb" target="_blank" class="project">
       <div>
-        <p class="project-num">09</p>
+        <p class="project-num">11</p>
         <h3>Weather Arbitrage - Market Edge Bot</h3>
         <p>Automated weather-derivative trading bot: ingests NOAA forecast grids, computes degree-day deviations, detects arbitrage windows, and places orders via API - with a rate-limit-aware fetcher, checkpoint/resume rebuilds, and off-peak scheduling. <span class="stat-joke">I bet on the weather so you don't have to.</span></p>
         <div class="tags"><span class="tag hl">Trading</span><span class="tag">NOAA</span><span class="tag">Degree Days</span><span class="tag">Automation</span></div>
@@ -2083,7 +2093,7 @@ function handleCommand(raw) {
   }
   if (cmd === 'projects') {
     termOut('8 projects. 253 tests. 1 questionable sleep schedule.', 'ok');
-    termOut('telco-churn · bike-share · air-passengers · penguins · medicare-fraud · covid-dash · jurassic-park · llm-finetune', 'warn');
+    termOut('telco-churn · bike-share · air-passengers · penguins · medicare-fraud · covid-dash · personal-assistant · llm-finetune · jurassic-park', 'warn');
     termOut('full list: scroll up. i built the whole page for you.', '');
     return;
   }
