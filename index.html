@@ -1289,20 +1289,31 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
     </div>
 
     <!-- MEMENTO -->
-    <div class="meme-card">
-      <h4>memento_seed.jpg</h4>
-      <div class="meme-body">
-        <div style="text-align:center;">
-          <div class="polaroid">
-            <div style="font-size:2.8rem;">🧩</div>
-            <p>"REMEMBER TO SET YOUR SEED...<br>wait, where am I? whose notebook is this?"</p>
+        <div class="meme-card">
+          <h4>memento_seed.jpg</h4>
+          <div class="meme-body">
+            <div style="text-align:center;">
+              <div class="polaroid">
+                <div style="font-size:2.8rem;">🧩</div>
+                <p>"REMEMBER TO SET YOUR SEED...<br>wait, where am I? whose notebook is this?"</p>
+              </div>
+              <div class="mock-note">somewhere, a data scientist reruns the same cell for the 5th time.</div>
+            </div>
           </div>
-          <div class="mock-note">somewhere, a data scientist reruns the same cell for the 5th time.</div>
         </div>
-      </div>
-    </div>
 
-    <!-- CASINO -->
+        <!-- COMPLIMENT BUTTON -->
+        <div class="meme-card">
+          <h4>compliment_btn.sh</h4>
+          <div class="meme-body">
+            <div style="text-align:center; padding:1.5rem 0;">
+              <button class="compliment-btn" onclick="giveCompliment()" style="font-size:1.3rem; padding:1rem 2rem; background:linear-gradient(135deg,var(--accent),var(--violet)); border:none; border-radius:12px; color:var(--void); font-weight:800; cursor:pointer; font-family:'Unbounded',sans-serif; box-shadow:0 0 30px rgba(255,49,49,0.4); transition:transform 0.15s, box-shadow 0.15s;" onmousedown="this.style.transform='scale(0.96)'" onmouseup="this.style.transform='scale(1)'">💖 Give me a compliment</button>
+              <div class="meme-result" id="complimentResult" style="margin-top:1.2rem; font-size:1.1rem; line-height:1.6; min-height:3rem;">click the button. you deserve it.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CASINO -->
     <div class="meme-card">
       <h4>p_value_casino.sh</h4>
       <div class="meme-body">
@@ -1962,6 +1973,27 @@ function shiningType() {
   el.textContent += ' all work and no p-values makes janak a dull boy';
   if (shiningClicks >= 5) el.style.color = 'var(--red)';
   blip(200 + shiningClicks * 40, 0.06, 'square', 0.03);
+}
+const memeCompliments = [
+  "Your AUC is higher than your credit score — and that's *beautiful*.",
+  "You don't just find bugs. You *understand* them.",
+  "git blame says: everything is your fault. Translation: you *built it all*.",
+  "Negative Binomial? You handle overdispersion like a boss.",
+  "Your SARIMA forecasts are tighter than your deadlines.",
+  "253 tests. 0 sanity. 1 legend.",
+  "You teach language models statistics on an 8GB GPU. We are not the same.",
+  "The Emperor demands a p-value. You *deliver* it.",
+  "Your QLoRA pipeline runs on consumer hardware. That's not a constraint — that's *craft*.",
+  "34 bots. $0.004 spent. The T-Rex eats on pocket change.",
+];
+function giveCompliment() {
+  const r = document.getElementById('complimentResult');
+  const c = memeCompliments[Math.floor(Math.random() * memeCompliments.length)];
+  r.textContent = c;
+  spawnConfetti(22, ['💖','✨','🌟','💫']);
+  blip(523, 0.2, 'sine', 0.04);
+  setTimeout(() => blip(659, 0.2, 'sine', 0.04), 120);
+  setTimeout(() => blip(784, 0.3, 'sine', 0.04), 240);
 }
 /* ================= LIGHTSABER + VADER SOUNDS ================= */
 function sweep(f0, f1, dur) {
