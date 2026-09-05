@@ -1,0 +1,135 @@
+# Ken Agent
+
+> The self-improving AI agent built by Nous Research. A terminal-native autonomous coding and task agent with persistent memory, agent-created skills, and a messaging gateway that lives on 21+ messaging platforms — 19 native to the gateway plus IRC and Microsoft Teams via plugins (Telegram, Discord, Slack, SMS, Matrix, ...). Runs on local, Docker, SSH, Daytona, Modal, or Singularity backends. Works with Nous Portal, OpenRouter, OpenAI, Anthropic, Google, or any OpenAI-compatible endpoint.
+
+Install: `curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash`  (Linux, macOS, WSL2, Termux)
+
+Repo: https://github.com/Jrudani21/ken-agent
+
+## Getting Started
+
+- [Installation](/docs/getting-started/installation): Install Ken Agent on Linux, macOS, WSL2, native Windows, or Android via Termux
+- [Quickstart](/docs/getting-started/quickstart): Your first conversation with Ken Agent — from install to chatting in under 5 minutes
+- [Learning Path](/docs/getting-started/learning-path): Choose your learning path through the Ken Agent documentation based on your experience level and goals.
+- [Updating](/docs/getting-started/updating): How to update Ken Agent to the latest version or uninstall it
+- [Termux (Android)](/docs/getting-started/termux): Run Ken Agent directly on an Android phone with Termux
+- [Nix Setup](/docs/getting-started/nix-setup): Install and deploy Ken Agent with Nix — from quick `nix run` to fully declarative NixOS module with container mode
+
+## Using Ken
+
+- [CLI](/docs/user-guide/cli): Master the Ken Agent terminal interface — commands, keybindings, personalities, and more
+- [TUI (Ink terminal UI)](/docs/user-guide/tui): Launch the modern terminal UI for Ken — mouse-friendly, rich overlays, and non-blocking input.
+- [Configuration](/docs/user-guide/configuration): Configure Ken Agent — config.yaml, providers, models, API keys, and more
+- [Configuring Models](/docs/user-guide/configuring-models)
+- [Sessions](/docs/user-guide/sessions): Session persistence, resume, search, management, and per-platform session tracking
+- [Profiles](/docs/user-guide/profiles)
+- [Git Worktrees](/docs/user-guide/git-worktrees): Run multiple Ken agents safely on the same repository using git worktrees and isolated checkouts
+- [Docker Backend](/docs/user-guide/docker): Running Ken Agent in Docker and using Docker as a terminal backend
+- [Security](/docs/user-guide/security): Security model, dangerous command approval, user authorization, container isolation, and production deployment best practices
+- [Checkpoints & Rollback](/docs/user-guide/checkpoints-and-rollback): Filesystem safety nets for destructive operations using shadow git repos and automatic snapshots
+
+## Core Features
+
+- [Features Overview](/docs/user-guide/features/overview)
+- [Tools](/docs/user-guide/features/tools): Overview of Ken Agent's tools — what's available, how toolsets work, and terminal backends
+- [Skills System](/docs/user-guide/features/skills): On-demand knowledge documents — progressive disclosure, agent-managed skills, and the Skills Hub
+- [Curator](/docs/user-guide/features/curator): Background maintenance for agent-created skills — usage tracking, staleness, archival, and LLM-driven review
+- [Memory](/docs/user-guide/features/memory): How Ken Agent remembers across sessions — MEMORY.md, USER.md, and session search
+- [Memory Providers](/docs/user-guide/features/memory-providers): External memory provider plugins — Honcho, OpenViking, Mem0, Hindsight, Holographic, RetainDB, ByteRover, Supermemory
+- [Context Files](/docs/user-guide/features/context-files): Project context files — .hermes.md, AGENTS.md, CLAUDE.md, global SOUL.md, and .cursorrules — automatically injected into every conversation
+- [Context References](/docs/user-guide/features/context-references): Inline @-syntax for attaching files, folders, git diffs, and URLs directly into your messages
+- [Personality & SOUL.md](/docs/user-guide/features/personality): Customize Ken Agent's personality with a global SOUL.md, built-in personalities, and custom persona definitions
+- [Plugins](/docs/user-guide/features/plugins): Extend Ken with custom tools, hooks, and integrations via the plugin system
+- [Built-in Plugins](/docs/user-guide/features/built-in-plugins): Plugins shipped with Ken Agent that run automatically via lifecycle hooks — disk-cleanup and friends
+
+## Automation
+
+- [Cron Jobs](/docs/user-guide/features/cron): Schedule automated tasks with natural language, manage them with one cron tool, and attach one or more skills
+- [Delegation](/docs/user-guide/features/delegation): Spawn isolated child agents for parallel workstreams with delegate_task
+- [Kanban Multi-Agent](/docs/user-guide/features/kanban): Durable SQLite-backed task board for coordinating multiple Ken profiles
+- [Kanban Tutorial](/docs/user-guide/features/kanban-tutorial)
+- [Persistent Goals](/docs/user-guide/features/goals): Set a standing goal and let Ken keep working across turns until it's done. Our take on the Ralph loop.
+- [Code Execution](/docs/user-guide/features/code-execution): Programmatic Python execution with RPC tool access — collapse multi-step workflows into a single turn
+- [Hooks](/docs/user-guide/features/hooks): Run custom code at key lifecycle points — log activity, send alerts, post to webhooks
+- [Batch Processing](/docs/user-guide/features/batch-processing): Generate agent trajectories at scale — parallel processing, checkpointing, and toolset distributions
+
+## Media & Web
+
+- [Voice Mode](/docs/user-guide/features/voice-mode): Real-time voice conversations with Ken Agent — CLI, Telegram, Discord (DMs, text channels, and voice channels)
+- [Browser](/docs/user-guide/features/browser)
+- [Vision](/docs/user-guide/features/vision)
+- [Image Generation](/docs/user-guide/features/image-generation)
+- [Text-to-Speech](/docs/user-guide/features/tts): Text-to-speech and voice message transcription across all platforms
+
+## Messaging Platforms
+
+- [Overview](/docs/user-guide/messaging/index): Chat with Ken from Telegram, Discord, Slack, WhatsApp, Signal, SMS, Email, Home Assistant, Mattermost, Matrix, DingTalk, Yuanbao, Microsoft Teams, LINE, Raft, Webhooks, or any OpenAI-compatible frontend via the API server — architecture and setup overview
+- [Telegram](/docs/user-guide/messaging/telegram): Set up Ken Agent as a Telegram bot
+- [Discord](/docs/user-guide/messaging/discord): Set up Ken Agent as a Discord bot
+- [Slack](/docs/user-guide/messaging/slack): Set up Ken Agent as a Slack bot using Socket Mode
+- [WhatsApp](/docs/user-guide/messaging/whatsapp): Set up Ken Agent as a WhatsApp bot via the built-in Baileys bridge
+- [Signal](/docs/user-guide/messaging/signal): Set up Ken Agent as a Signal messenger bot via signal-cli daemon
+- [Email](/docs/user-guide/messaging/email): Set up Ken Agent as an email assistant via IMAP/SMTP
+- [SMS](/docs/user-guide/messaging/sms): Set up Ken Agent as an SMS chatbot via Twilio
+- [Matrix](/docs/user-guide/messaging/matrix): Set up Ken Agent as a Matrix bot
+- [Mattermost](/docs/user-guide/messaging/mattermost): Set up Ken Agent as a Mattermost bot
+- [Home Assistant](/docs/user-guide/messaging/homeassistant)
+- [Webhooks](/docs/user-guide/messaging/webhooks): Receive events from GitHub, GitLab, and other services to trigger Ken agent runs
+
+## Integrations
+
+- [Integrations Overview](/docs/integrations/index)
+- [Providers](/docs/integrations/providers)
+- [MCP (Model Context Protocol)](/docs/user-guide/features/mcp): Connect Ken Agent to external tool servers via MCP — and control exactly which MCP tools Ken loads
+- [ACP (Agent Context Protocol)](/docs/user-guide/features/acp): Use Ken Agent inside ACP-compatible editors and collaboration platforms
+- [API Server](/docs/user-guide/features/api-server): Expose hermes-agent as an OpenAI-compatible API for any frontend
+- [Honcho Memory](/docs/user-guide/features/honcho): AI-native persistent memory via Honcho — dialectic reasoning, multi-agent user modeling, and deep personalization
+- [Provider Routing](/docs/user-guide/features/provider-routing)
+- [Fallback Providers](/docs/user-guide/features/fallback-providers)
+- [Credential Pools](/docs/user-guide/features/credential-pools)
+
+## Guides & Tutorials
+
+- [Tips & Best Practices](/docs/guides/tips): Practical advice to get the most out of Ken Agent — prompt tips, CLI shortcuts, context files, memory, cost optimization, and security
+- [Local LLMs on Mac](/docs/guides/local-llm-on-mac): Set up a local OpenAI-compatible LLM server on macOS with llama.cpp or MLX, including model selection, memory optimization, and real benchmarks on Apple Silicon
+- [Daily Briefing Bot](/docs/guides/daily-briefing-bot): Build an automated daily briefing bot that researches topics, summarizes findings, and delivers them to Telegram or Discord every morning
+- [Team Telegram Assistant](/docs/guides/team-telegram-assistant): Step-by-step guide to setting up a Telegram bot that your whole team can use for code help, research, system admin, and more
+- [Use Ken as a Python Library](/docs/guides/python-library): Embed AIAgent in your own Python scripts, web apps, or automation pipelines — no CLI required
+- [Use MCP with Ken](/docs/guides/use-mcp-with-hermes): A practical guide to connecting MCP servers to Ken Agent, filtering their tools, and using them safely in real workflows
+- [Use Voice Mode with Ken](/docs/guides/use-voice-mode-with-hermes): A practical guide to setting up and using Ken voice mode across CLI, Telegram, Discord, and Discord voice channels
+- [Use SOUL.md with Ken](/docs/guides/use-soul-with-hermes): How to use SOUL.md to shape Ken Agent's default voice, what belongs there, and how it differs from AGENTS.md and /personality
+- [Build a Ken Plugin](/docs/guides/build-a-hermes-plugin)
+- [Automate with Cron](/docs/guides/automate-with-cron): Real-world automation patterns using Ken cron — monitoring, reports, pipelines, and multi-skill workflows
+- [Work with Skills](/docs/guides/work-with-skills): Find, install, use, and create skills — on-demand knowledge that teaches Ken new workflows
+- [Delegation Patterns](/docs/guides/delegation-patterns): When and how to use subagent delegation — patterns for parallel research, code review, and multi-file work
+- [GitHub PR Review Agent](/docs/guides/github-pr-review-agent): Build an automated AI code reviewer that monitors your repos, reviews pull requests, and delivers feedback — hands-free
+
+## Developer Guide
+
+- [Contributing](/docs/developer-guide/contributing): How to contribute to Ken Agent — dev setup, code style, PR process
+- [Architecture](/docs/developer-guide/architecture): Ken Agent internals — major subsystems, execution paths, data flow, and where to read next
+- [Agent Loop](/docs/developer-guide/agent-loop): Detailed walkthrough of AIAgent execution, API modes, tools, callbacks, and fallback behavior
+- [Prompt Assembly](/docs/developer-guide/prompt-assembly): How Ken builds the system prompt, preserves cache stability, and injects ephemeral layers
+- [Context Compression & Caching](/docs/developer-guide/context-compression-and-caching)
+- [Gateway Internals](/docs/developer-guide/gateway-internals): How the messaging gateway boots, authorizes users, routes sessions, and delivers messages
+- [Session Storage](/docs/developer-guide/session-storage)
+- [Provider Runtime](/docs/developer-guide/provider-runtime): How Ken resolves providers, credentials, API modes, and auxiliary models at runtime
+- [Adding Tools](/docs/developer-guide/adding-tools): How to add a new tool to Ken Agent — schemas, handlers, registration, and toolsets
+- [Adding Providers](/docs/developer-guide/adding-providers): How to add a new inference provider to Ken Agent — auth, runtime resolution, CLI flows, adapters, tests, and docs
+- [Adding Platform Adapters](/docs/developer-guide/adding-platform-adapters)
+- [Creating Skills](/docs/developer-guide/creating-skills): How to create skills for Ken Agent — SKILL.md format, guidelines, and publishing
+- [Extending the CLI](/docs/developer-guide/extending-the-cli): Build wrapper CLIs that extend the Ken TUI with custom widgets, keybindings, and layout changes
+
+## Reference
+
+- [CLI Commands](/docs/reference/cli-commands): Authoritative reference for Ken terminal commands and command families
+- [Slash Commands](/docs/reference/slash-commands): Complete reference for interactive CLI and messaging slash commands
+- [Profile Commands](/docs/reference/profile-commands)
+- [Environment Variables](/docs/reference/environment-variables): Complete reference of all environment variables used by Ken Agent
+- [Tools Reference](/docs/reference/tools-reference): Authoritative reference for Ken built-in tools, grouped by toolset
+- [Toolsets Reference](/docs/reference/toolsets-reference): Reference for Ken core, composite, platform, and dynamic toolsets
+- [MCP Config Reference](/docs/reference/mcp-config-reference): Reference for Ken Agent MCP configuration keys, filtering semantics, and utility-tool policy
+- [Model Catalog](/docs/reference/model-catalog)
+- [Bundled Skills Catalog](/docs/reference/skills-catalog): Table of all ~90 skills bundled with Ken
+- [Optional Skills Catalog](/docs/reference/optional-skills-catalog): Table of ~60 additional installable skills
+- [FAQ & Troubleshooting](/docs/reference/faq): Frequently asked questions and solutions to common issues with Ken Agent

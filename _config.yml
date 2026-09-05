@@ -1,0 +1,7 @@
+# The ken/ folder is a pre-built static site (Docusaurus output for the Ken
+# Agent docs) copied in verbatim by the deploy workflow after this Jekyll
+# build step. Excluding it here stops Jekyll's Liquid engine from parsing
+# its bundled JS/JSON (which contains "{...}" that looks like Liquid tags)
+# and corrupting the output.
+exclude:
+  - ken

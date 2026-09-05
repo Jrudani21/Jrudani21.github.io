@@ -35,6 +35,11 @@ jobs:
         with:
           source: ./
           destination: ./_site
+      - name: Copy pre-built Ken docs (bypasses Jekyll processing)
+        run: |
+          rm -rf ./_site/ken
+          cp -r ./ken ./_site/ken
+          touch ./_site/.nojekyll
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 
