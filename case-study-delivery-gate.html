@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case study: the pipeline that reported success while shipping junk — Janak Rudani</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #05050a;
+  --panel: #0a0a12;
+  --surface: #100f16;
+  --text: #f2f2f5;
+  --dim: #9a9aa8;
+  --muted: #565664;
+  --accent: #ff3131;
+  --accent-dim: rgba(255,49,49,0.12);
+  --violet: #59d9ff;
+  --amber: #f5c518;
+  --border: rgba(255,255,255,0.07);
+  --glow: 0 0 24px rgba(255,49,49,0.3);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--void); color: var(--text);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  line-height: 1.7; overflow-x: hidden;
+}
+.wrap { max-width: 860px; margin: 0 auto; padding: 3.5rem 1.4rem 5rem; }
+a { color: var(--violet); text-decoration: none; }
+a:hover { color: var(--accent); }
+.back {
+  font-family: 'VT323', monospace; font-size: 15px;
+  color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase;
+}
+.back:hover { color: var(--accent); }
+.eyebrow {
+  font-family: 'VT323', monospace; font-size: 15px; color: var(--accent);
+  letter-spacing: 0.14em; text-transform: uppercase; margin: 2.2rem 0 0.7rem;
+}
+h1 {
+  font-family: 'Unbounded', sans-serif; font-weight: 700;
+  font-size: clamp(1.7rem, 4.4vw, 2.9rem); line-height: 1.12; letter-spacing: -0.01em;
+}
+.dek { color: var(--dim); font-size: 1.06rem; margin-top: 1.1rem; max-width: 700px; }
+.dek b { color: var(--amber); }
+.stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px; background: var(--border); border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden; margin: 2.4rem 0 0.4rem;
+}
+.stat { background: linear-gradient(135deg, rgba(16,16,24,0.95), rgba(10,10,16,0.95)); padding: 1.2rem 1.3rem; }
+.stat b {
+  display: block; font-family: 'VT323', monospace; font-size: 1.9rem;
+  color: var(--accent); line-height: 1.1;
+}
+.stat span { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.03em; }
+h2 {
+  font-family: 'Unbounded', sans-serif; font-weight: 600;
+  font-size: 1.25rem; margin: 3rem 0 0.9rem; letter-spacing: -0.005em;
+}
+h2::before { content: '// '; color: var(--muted); font-family: 'VT323', monospace; }
+h3 { font-size: 1.02rem; margin: 1.6rem 0 0.4rem; color: var(--text); }
+p { color: var(--dim); margin: 0.75rem 0; }
+p b, li b { color: var(--text); }
+code {
+  font-family: 'VT323', monospace; font-size: 15px; color: var(--violet);
+  background: rgba(255,255,255,0.05); padding: 1px 6px; border-radius: 6px;
+}
+pre {
+  background: var(--panel); border: 1px solid var(--border); border-left: 2px solid var(--accent);
+  border-radius: 12px; padding: 1.1rem 1.2rem; overflow-x: auto; margin: 1.2rem 0;
+  font-family: 'VT323', monospace; font-size: 15px; line-height: 1.65; color: var(--dim);
+}
+pre .ok { color: var(--violet); }
+pre .bad { color: var(--accent); }
+pre .warn { color: var(--amber); }
+ol, ul { margin: 0.8rem 0 0.8rem 1.3rem; color: var(--dim); }
+li { margin: 0.4rem 0; }
+.card {
+  border: 1px solid var(--border); border-radius: 14px; padding: 1.3rem 1.5rem;
+  background: linear-gradient(135deg, rgba(16,16,24,0.9), rgba(10,10,16,0.9));
+  margin: 1.1rem 0;
+}
+.card .tagline {
+  font-family: 'VT323', monospace; font-size: 14px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem;
+}
+.card p { margin: 0.35rem 0 0; font-size: 0.95rem; }
+.callout {
+  border-left: 2px solid var(--amber); background: rgba(245,197,24,0.05);
+  padding: 0.9rem 1.2rem; border-radius: 0 12px 12px 0; margin: 1.4rem 0;
+  font-size: 0.95rem; color: var(--dim);
+}
+.callout b { color: var(--amber); }
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1.6rem 0 0; }
+.tag {
+  font-family: 'VT323', monospace; font-size: 13px; padding: 3px 10px;
+  border: 1px solid var(--border); border-radius: 20px; color: var(--dim);
+}
+.tag.hl { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.foot {
+  margin-top: 3.4rem; padding-top: 1.6rem; border-top: 1px solid var(--border);
+  font-family: 'VT323', monospace; font-size: 15px; color: var(--muted);
+  display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: space-between;
+}
+@media (max-width: 560px) { .wrap { padding-top: 2.4rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <a class="back" href="index.html#projects">← back to the imperial archives</a>
+
+  <p class="eyebrow">case study // 2026-09-10 // automation + data QA</p>
+  <h1>The pipeline that reported success while shipping junk</h1>
+  <p class="dek">A nightly lead-generation pipeline wrote <code>status: ok</code> into its own report while
+    delivering rows that had nothing to do with the order, and a second job celebrated success after
+    scraping <b>zero records</b>. Everything looked green for five days. Here is what was wrong, how I
+    found it, and the gate I built so a delivery has to prove itself.</p>
+
+  <div class="stats">
+    <div class="stat"><b>1 / 8</b><span>rows on-target in a delivery marked "ok"</span></div>
+    <div class="stat"><b>5 days</b><span>of failures nobody was told about</span></div>
+    <div class="stat"><b>301</b><span>the redirect that caused the wrong data</span></div>
+    <div class="stat"><b>11 / 11</b><span>test cases on the gate I shipped</span></div>
+  </div>
+
+  <h2>The setup</h2>
+  <p>Two scheduled jobs fed a productised lead-generation service: one watched an inbox directory for
+    new orders and fulfilled them on a 15-minute tick, the other processed a pending queue at 02:00.
+    Both wrote a <code>manifest.json</code> summarising the delivery, and both reported that summary
+    back to a dashboard.</p>
+  <p>The manifest was written by the same code that produced the delivery. That is the whole problem:
+    <b>it is a self-report, and nothing independently checked it.</b></p>
+
+  <h2>What was actually wrong</h2>
+  <p>Three separate faults had piled up, and they had nothing to do with each other — which is why the
+    first fix attempt (a rebuild of the job) didn't help.</p>
+
+  <div class="card">
+    <p class="tagline">fault 1 — the data was wrong</p>
+    <p>An order for <b>pest control in New York</b> was delivered as orthodontists, an escape room and a
+      moving company. One of its eight rows was on-target. An order for <b>moving companies</b> received
+      the same buildings back. The cause wasn't the scraper's parsing: the search URL carried a state
+      segment, the source returned a redirect, and the scrape quietly fell back to a generic city
+      listing. Two live probes settled it:</p>
+<pre>GET /search/ny/new-york/pest-control   <span class="bad">→ 301, 0 bytes</span>      (what the orders used)
+GET /search/new-york/pest-control      <span class="ok">→ 200, 16 pest-control companies</span></pre>
+  </div>
+
+  <div class="card">
+    <p class="tagline">fault 2 — success was unfalsifiable</p>
+    <p>The nightly job ran a pipeline that <b>exits 0 after scraping zero records</b> and writes no file
+      at all. The return code could not distinguish "delivered 500 leads" from "delivered nothing", so
+      the order was filed as completed either way. A job that cannot fail is not a job, it's a
+      rumour.</p>
+  </div>
+
+  <div class="card">
+    <p class="tagline">fault 3 — the failures were invisible</p>
+    <p>One job delivered to a local log nobody read, and another had been pinned to a model that no
+      longer existed. Between them they failed <b>16 times in nine days</b> with no notification
+      anywhere, because there was no failure alert to receive — only a delivery channel.</p>
+  </div>
+
+  <h2>How I found it</h2>
+  <p>Not by reading the code first, but by asking the durable run history what had actually happened.
+    The job table said "ok" in places, the execution records said otherwise, and one delivery's own
+    rows contradicted its manifest:</p>
+<pre><span class="bad">FAIL</span> delivery verification — order fvr-20260831-cronlive01
+  <span class="bad">FAIL</span> NICHE_MOSTLY_WRONG: only 1/8 rows match the ordered niche
+       delivered {'dental-care': 1, 'entertainment-industry': 1, 'moving-and-storage': 1}</pre>
+  <div class="callout">
+    <b>Two of the defects were in my own tooling, and the tests caught them.</b> The gate's first
+    version silently skipped its niche check because I compared column names in two different formats;
+    a naive URL parse produced a confident false failure on a delivery that was actually correct; and
+    a shared output directory let the checker verify a <i>different order's</i> file and pass a run that
+    produced nothing. Each one became a test case rather than a story.
+  </div>
+
+  <h2>The fix</h2>
+  <p>An independent gate that reads the <b>order</b>, reads the <b>delivery</b>, and refuses to take the
+    manifest's word for it. It fails on 16 conditions — wrong or partially-wrong niche, a manifest that
+    lies about its own row count, masked phone numbers, fabricated sample data reaching a real order,
+    duplicates, uncontactable rows, a missing deliverable, a format mismatch, an ordered column that
+    isn't there. It warns on the softer signals, like emails shipped without provenance.</p>
+  <p>It runs inside the fulfilment path <b>before</b> an order can be marked done: a failed delivery is
+    moved aside, the job exits non-zero, and a daily sentinel reports anything that has gone quiet. The
+    deliverable is now a decision, not a press release.</p>
+
+  <h2>Verification</h2>
+  <p>The same run that used to pass with junk now fails loudly, and the fixed source delivers what was
+    ordered:</p>
+<pre>before   1/8 rows on-target   <span class="bad">manifest: status ok</span>
+after    8/8 rows on-target   <span class="ok">gate: PASS on a real scrape</span>
+tests    11/11 cases          <span class="ok">plus 4 verified failure branches</span></pre>
+  <p>The two real deliveries on disk are still there and still fail the gate — which is the correct
+    answer for a historical artefact that was wrong.</p>
+
+  <h2>What this means if you run automation</h2>
+  <p>Every unattended pipeline eventually reports success for something it didn't do. The question is
+    whether anything checks. If your delivery marks itself green, nobody will notice the day the rows
+    stop matching the order — and the person who finds out will be your customer.</p>
+  <p>I build these checks for lead data, scraping pipelines and scheduled jobs, and I publish the tool
+    this case study is about:</p>
+  <p><a href="https://github.com/Jrudani21/delivery-gate" target="_blank" rel="noopener">github.com/Jrudani21/delivery-gate ↗</a>
+    — MIT licensed, standard library only, with the eleven test cases and two runnable samples.</p>
+
+  <div class="tags">
+    <span class="tag hl">Python</span><span class="tag">Data QA</span><span class="tag">Root cause analysis</span>
+    <span class="tag">Scheduled jobs</span><span class="tag">Web scraping</span><span class="tag">Open source</span>
+  </div>
+
+  <div class="foot">
+    <a href="index.html#projects">← all projects</a>
+    <span>Janak Rudani · Winnipeg · 2026-09-10</span>
+  </div>
+
+</div>
+</body>
+</html>

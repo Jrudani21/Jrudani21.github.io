@@ -939,7 +939,7 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
   <div class="section-header fade-in">
     <p class="section-num">01 - imperial archives</p>
     <h2 class="section-title">Projects</h2>
-    <p class="section-subtitle">Twelve relics from my Jedi training. <b>Hover = 3D tilt. Click = sparkles. #09 is LIVE.</b></p>
+    <p class="section-subtitle">Thirteen relics from my Jedi training. <b>Hover = 3D tilt. Click = sparkles. #09 is LIVE.</b></p>
   </div>
   <div class="stagger" id="projectList">
 
@@ -1078,9 +1078,18 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
       </div>
     </div>
 
+    <a href="case-study-delivery-gate.html" class="project">
+      <div>
+        <p class="project-num">13</p>
+        <h3>Delivery Gate — an unattended pipeline that lied about its own health</h3>
+        <p>A nightly lead-gen pipeline reported success while shipping wrong-niche data: a manifest said <b>status: ok</b> on a delivery whose rows were 1 of 8 on-target, and a job exited 0 after scraping nothing. I audited it, root-caused the redirect behind the junk with two live HTTP probes, then built an independent gate that refuses a delivery when the rows don't match the order. <span class="stat-joke">The manifest was fine. The manifest was lying.</span></p>
+        <div class="tags"><span class="tag hl">Python</span><span class="tag">Data QA</span><span class="tag">Root cause</span><span class="tag">11/11 tests</span><span class="tag">Open source</span></div>
+      </div>
+      <div class="project-side"><div class="project-score">1/8 → 8/8</div><div class="project-link">case study →</div></div>
+    </a>
+
   </div>
 </section>
-
 <!-- ================= TERMINAL ================= -->
 <section id="terminal" class="band-dark"><div class="band-inner">
   <div class="section-header fade-in">
