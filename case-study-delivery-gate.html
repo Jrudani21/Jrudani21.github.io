@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Case study: the pipeline that reported success while shipping junk — Janak Rudani</title>
+<meta name="description" content="Case study: a nightly lead-gen pipeline reported success while shipping wrong-niche data. How I found it, root-caused it, and built an independent delivery gate.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Case study: the pipeline that reported success while shipping junk">
+<meta property="og:description" content="A manifest said status: ok on a delivery whose rows were 1 of 8 on-target. Two live probes found the redirect, and an independent gate now refuses deliveries that don't match the order.">
+<meta property="og:url" content="https://jrudani21.github.io/case-study-delivery-gate.html">
+<meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=VT323&display=swap" rel="stylesheet">
@@ -47,10 +53,11 @@ h1 {
 .dek { color: var(--dim); font-size: 1.06rem; margin-top: 1.1rem; max-width: 700px; }
 .dek b { color: var(--amber); }
 .stats {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1px; background: var(--border); border: 1px solid var(--border);
   border-radius: 14px; overflow: hidden; margin: 2.4rem 0 0.4rem;
 }
+@media (max-width: 660px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .stat { background: linear-gradient(135deg, rgba(16,16,24,0.95), rgba(10,10,16,0.95)); padding: 1.2rem 1.3rem; }
 .stat b {
   display: block; font-family: 'VT323', monospace; font-size: 1.9rem;
