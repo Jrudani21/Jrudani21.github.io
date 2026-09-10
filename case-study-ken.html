@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case study: how I run a 34-bot agent fleet on one PC — Janak Rudani</title>
+<meta name="description" content="Ken is a fork of Hermes Agent I extended and operate as an unattended fleet: 34 bots, 9 cron jobs, 659 recorded executions, 203 skills, and $0.0037 of measured spend.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How I run a 34-bot agent fleet on one PC">
+<meta property="og:description" content="298 commits on top of an open-source agent framework, plus the operations layer that keeps it running unattended — with the numbers taken from the thing itself.">
+<meta property="og:url" content="https://jrudani21.github.io/case-study-ken.html">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #05050a; --panel: #0a0a12; --surface: #100f16;
+  --text: #f2f2f5; --dim: #9a9aa8; --muted: #565664;
+  --accent: #ff3131; --accent-dim: rgba(255,49,49,0.12);
+  --violet: #59d9ff; --amber: #f5c518; --green: #4ade80;
+  --border: rgba(255,255,255,0.07);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--void); color: var(--text); font-family: 'Space Grotesk', system-ui, sans-serif; line-height: 1.7; overflow-x: hidden; }
+.wrap { max-width: 880px; margin: 0 auto; padding: 3.5rem 1.4rem 5rem; }
+a { color: var(--violet); text-decoration: none; }
+a:hover { color: var(--accent); }
+.back { font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.back:hover { color: var(--accent); }
+.eyebrow { font-family: 'VT323', monospace; font-size: 15px; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin: 2.2rem 0 0.7rem; }
+h1 { font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: clamp(1.7rem, 4.4vw, 2.85rem); line-height: 1.12; letter-spacing: -0.01em; }
+.dek { color: var(--dim); font-size: 1.06rem; margin-top: 1.1rem; max-width: 720px; }
+.dek b { color: var(--amber); }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin: 2.4rem 0 0.4rem; }
+@media (max-width: 660px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.stat { background: linear-gradient(135deg, rgba(16,16,24,0.95), rgba(10,10,16,0.95)); padding: 1.2rem 1.3rem; }
+.stat b { display: block; font-family: 'VT323', monospace; font-size: 1.9rem; color: var(--accent); line-height: 1.1; }
+.stat span { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.03em; }
+h2 { font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 1.25rem; margin: 3rem 0 0.9rem; }
+h2::before { content: '// '; color: var(--muted); font-family: 'VT323', monospace; }
+h3 { font-size: 1.02rem; margin: 1.6rem 0 0.4rem; }
+p { color: var(--dim); margin: 0.75rem 0; }
+p b, li b, td b { color: var(--text); }
+code { font-family: 'VT323', monospace; font-size: 15px; color: var(--violet); background: rgba(255,255,255,0.05); padding: 1px 6px; border-radius: 6px; }
+pre { background: var(--panel); border: 1px solid var(--border); border-left: 2px solid var(--accent); border-radius: 12px; padding: 1.1rem 1.2rem; overflow-x: auto; margin: 1.2rem 0; font-family: 'VT323', monospace; font-size: 15px; line-height: 1.65; color: var(--dim); }
+pre .ok { color: var(--green); } pre .hl { color: var(--amber); } pre .c { color: var(--muted); }
+table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: 0.92rem; }
+th, td { text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--border); color: var(--dim); vertical-align: top; }
+th { font-family: 'VT323', monospace; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 400; }
+td:first-child { color: var(--text); white-space: nowrap; }
+ol, ul { margin: 0.8rem 0 0.8rem 1.3rem; color: var(--dim); }
+li { margin: 0.4rem 0; }
+.card { border: 1px solid var(--border); border-radius: 14px; padding: 1.3rem 1.5rem; background: linear-gradient(135deg, rgba(16,16,24,0.9), rgba(10,10,16,0.9)); margin: 1.1rem 0; }
+.card .tagline { font-family: 'VT323', monospace; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+.card p { margin: 0.35rem 0 0; font-size: 0.95rem; }
+.callout { border-left: 2px solid var(--amber); background: rgba(245,197,24,0.05); padding: 0.9rem 1.2rem; border-radius: 0 12px 12px 0; margin: 1.4rem 0; font-size: 0.95rem; color: var(--dim); }
+.callout b { color: var(--amber); }
+figure { margin: 1.6rem 0; border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 1rem; background: linear-gradient(135deg, rgba(16,16,24,0.85), rgba(10,10,16,0.85)); }
+figcaption { font-family: 'VT323', monospace; font-size: 14px; color: var(--muted); text-align: center; margin-top: 0.8rem; letter-spacing: 0.05em; }
+svg { display: block; width: 100%; height: auto; }
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1.6rem 0 0; }
+.tag { font-family: 'VT323', monospace; font-size: 13px; padding: 3px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--dim); }
+.tag.hl { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.foot { margin-top: 3.4rem; padding-top: 1.6rem; border-top: 1px solid var(--border); font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: space-between; }
+@media (max-width: 560px) { .wrap { padding-top: 2.4rem; } table { font-size: 0.85rem; } th, td { padding: 0.5rem 0.4rem; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <a class="back" href="index.html#projects">← back to the imperial archives</a>
+
+  <p class="eyebrow">case study // agent engineering // 2026</p>
+  <h1>How I run a 34-bot agent fleet on one gaming PC</h1>
+  <p class="dek">Ken is my fork of an open-source agent framework. On top of it I built the desktop app, the
+    operations layer and the skills library — then left 34 bots running unattended. Every number below is
+    read out of the thing itself: the git history, the cost ledger, the cron database. <b>Including the
+    ones that keep me honest.</b></p>
+
+  <div class="stats">
+    <div class="stat"><b>298</b><span>my commits in the fork</span></div>
+    <div class="stat"><b>34</b><span>bots across 4 fleets</span></div>
+    <div class="stat"><b>659</b><span>recorded job executions</span></div>
+    <div class="stat"><b>203</b><span>skills in the library</span></div>
+  </div>
+
+  <h2>First, what I did not do</h2>
+  <p>Ken is a <b>fork of Hermes Agent by Nous Research</b>, not a framework I wrote. The upstream repo has
+    22,536 commits from dozens of contributors; mine is <b>298</b> of them. Publishing a page that implied
+    otherwise would be a lie that a single click on the repo would expose.</p>
+  <p>What those 298 commits actually are, by how often I touched the file:</p>
+  <table>
+    <tr><th>area</th><th>what I did to it</th></tr>
+    <tr><td><code>WORKLOG.md</code></td><td>20 dated entries, 446 lines — the build written down as it happened</td></tr>
+    <tr><td><code>ken_cli/</code></td><td>web server, CLI surface, banner and branding</td></tr>
+    <tr><td><code>apps/desktop/</code></td><td>desktop app work, including English + Chinese i18n and its type layer</td></tr>
+    <tr><td><code>agent/</code></td><td>the conversation loop and the auxiliary-model client</td></tr>
+  </table>
+  <div class="callout">
+    <b>Why lead with the caveat?</b> Anyone technical checks the repo before they believe a portfolio page.
+    Claiming authorship of a 22k-commit framework takes ten seconds to disprove; describing exactly what
+    you added to it is the part that reads as judgement.
+  </div>
+
+  <h2>The fleet</h2>
+  <p>34 bots organised into 4 fleets with a coordinator each, assigned to six tiers of model — free tiers
+    and a <b>locally hosted</b> model first, paid capacity last. The dashboard reads a real ledger rather
+    than a mock-up, which is the only reason these numbers exist.</p>
+  <table>
+    <tr><th>tier</th><th>bots</th><th>what it is</th></tr>
+    <tr><td>flash</td><td>17</td><td>cheap hosted models for high-volume work</td></tr>
+    <tr><td>pro</td><td>4</td><td>stronger models, reserved for reasoning</td></tr>
+    <tr><td>local</td><td>4</td><td>qwen3:8b on my own GPU — zero marginal cost</td></tr>
+    <tr><td>groq / openrouter</td><td>4</td><td>fallback providers when a tier rate-limits</td></tr>
+    <tr><td>unassigned</td><td>5</td><td>on-demand agents that pick a tier at call time</td></tr>
+  </table>
+  <pre><span class="c"># measured, not estimated — from the fleet cost ledger</span>
+25 recorded calls   <span class="hl">$0.003721</span> total
+20,046 prompt tokens / 5,363 completion tokens
+7 distinct models, incl. <span class="ok">qwen3:8b running locally</span></pre>
+  <p>The cost headline only means something because of the routing rule behind it: try the free and local
+    tiers first, escalate to paid providers only when a job needs more than they can give. That rule is
+    also why the ledger is small — most of the fleet's work never reaches a metered API at all.</p>
+
+  <h2>The part that makes it unattended</h2>
+  <p>A fleet that only runs when you watch it is a demo. The operations layer is what I built on top:</p>
+  <figure>
+    <svg viewBox="0 0 720 300" role="img" aria-label="Architecture: interfaces feed a gateway, which drives the agent loop over router, tools, skills and cron, with a watch layer and ledger alongside">
+      <defs>
+        <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+          <path d="M0,0 L9,4.5 L0,9 z" fill="#565664"/>
+        </marker>
+      </defs>
+      <g font-family="VT323, monospace" font-size="14" fill="#9a9aa8">
+        <!-- interfaces -->
+        <rect x="14" y="26" width="150" height="46" rx="10" fill="#100f16" stroke="rgba(255,255,255,0.12)"/>
+        <text x="89" y="46" text-anchor="middle" fill="#f2f2f5">desktop app</text>
+        <text x="89" y="62" text-anchor="middle" font-size="12" fill="#565664">forked UI + i18n</text>
+
+        <rect x="14" y="90" width="150" height="46" rx="10" fill="#100f16" stroke="rgba(255,255,255,0.12)"/>
+        <text x="89" y="110" text-anchor="middle" fill="#f2f2f5">Telegram gateway</text>
+        <text x="89" y="126" text-anchor="middle" font-size="12" fill="#565664">chat control</text>
+
+        <rect x="14" y="154" width="150" height="46" rx="10" fill="#100f16" stroke="rgba(255,255,255,0.12)"/>
+        <text x="89" y="174" text-anchor="middle" fill="#f2f2f5">phone (Tailscale)</text>
+        <text x="89" y="190" text-anchor="middle" font-size="12" fill="#565664">remote terminal</text>
+
+        <!-- gateway -->
+        <rect x="212" y="80" width="150" height="66" rx="10" fill="#100f16" stroke="rgba(255,49,49,0.45)"/>
+        <text x="287" y="106" text-anchor="middle" fill="#ff3131">gateway</text>
+        <text x="287" y="124" text-anchor="middle" font-size="12" fill="#565664">routes every input</text>
+
+        <!-- loop -->
+        <rect x="410" y="26" width="150" height="120" rx="10" fill="#100f16" stroke="rgba(89,217,255,0.4)"/>
+        <text x="485" y="48" text-anchor="middle" fill="#59d9ff">agent loop</text>
+        <text x="485" y="70" text-anchor="middle" font-size="12">router: free → local → paid</text>
+        <text x="485" y="90" text-anchor="middle" font-size="12">tools + skills (203)</text>
+        <text x="485" y="110" text-anchor="middle" font-size="12">brain RAG over notes</text>
+        <text x="485" y="130" text-anchor="middle" font-size="12">delivery gate</text>
+
+        <!-- watch layer -->
+        <rect x="410" y="166" width="150" height="56" rx="10" fill="#100f16" stroke="rgba(245,197,24,0.4)"/>
+        <text x="485" y="188" text-anchor="middle" fill="#f5c518">cron + watchdogs</text>
+        <text x="485" y="206" text-anchor="middle" font-size="12">9 jobs · silent on success</text>
+
+        <!-- ledger -->
+        <rect x="606" y="80" width="100" height="66" rx="10" fill="#100f16" stroke="rgba(255,255,255,0.12)"/>
+        <text x="656" y="106" text-anchor="middle" fill="#f2f2f5">ledger</text>
+        <text x="656" y="124" text-anchor="middle" font-size="12" fill="#565664">cost per call</text>
+
+        <!-- edges -->
+        <g stroke="#565664" fill="none" marker-end="url(#ar)">
+          <path d="M164,49 H196 V100 H208"/><path d="M164,113 H208"/><path d="M164,177 H196 V126 H208"/>
+          <path d="M362,113 H386 V86 H406"/><path d="M560,90 H580 V100 H602"/>
+          <path d="M485,146 V162"/><path d="M410,194 H386 V130"/>
+        </g>
+      </g>
+    </svg>
+    <figcaption>three interfaces in, one agent loop, a watch layer beside it, and a ledger recording what it cost</figcaption>
+  </figure>
+  <ol>
+    <li><b>9 scheduled jobs</b> (8 enabled) with <b>659 recorded executions</b> in a SQLite history I can query when something looks wrong.</li>
+    <li><b>Watchdogs that stay silent when healthy</b> — a job that pings on success trains you to ignore it. Mine only speak when a check fails.</li>
+    <li><b>Independent verification</b> — the delivery gate that refuses a bad output before it reaches a customer, written up separately on this site.</li>
+    <li><b>One source of truth per tool</b> — two pipelines used to carry their own drifting copy of that gate; now both call the published one.</li>
+  </ol>
+
+  <h2>Skills as procedural memory</h2>
+  <p>The part I underestimated: <b>203 SKILL.md files across 32 categories</b>, plus 2 plugins. Each one is
+    a task I got wrong once and wrote down, so the next run starts from the fix. That library is also why
+    sessions behave consistently — the agent loads the relevant skill before touching a task instead of
+    rediscovering the sharp edges.</p>
+
+  <h2>What this adds up to</h2>
+  <p>Not "I wrote an agent framework." It is: I forked one, shipped 298 commits of real changes into it,
+    built and ran an operations layer that survives unattended, and instrumented it well enough to quote
+    its own spend to six decimal places. The interesting engineering isn't the chatbot — it's everything
+    around it that makes the chatbot something you can leave running while you sleep.</p>
+  <div class="callout">
+    <b>Read it, then check it.</b> The fleet monitor shows the live dashboard, the docs site shows the
+    system, and the fork is public — the commit count and file history are one click away.
+  </div>
+
+  <div class="tags">
+    <span class="tag hl">Python</span><span class="tag">Agent engineering</span><span class="tag">Cron / scheduling</span>
+    <span class="tag">Local LLMs</span><span class="tag">Cost engineering</span><span class="tag">Fork maintenance</span>
+  </div>
+
+  <div class="foot">
+    <a href="index.html#projects">← all projects</a>
+    <span>Janak Rudani · Winnipeg · 2026</span>
+  </div>
+
+</div>
+</body>
+</html>
