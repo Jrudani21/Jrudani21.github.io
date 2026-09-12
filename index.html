@@ -337,6 +337,28 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 .project:hover .project-link { color: var(--accent); }
 
 /* ---------- LIVE PUTER.JS TODO DEMO ---------- */
+/* ---------- PROJECT FILTER ---------- */
+.proj-controls { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin: 1.6rem 0 0.4rem; }
+.proj-label { font-family: 'VT323', monospace; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.proj-search {
+  flex: 1 1 260px; min-width: 200px; padding: 0.6rem 0.9rem;
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--border); border-radius: 8px;
+  font-family: 'VT323', monospace; font-size: 16px;
+}
+.proj-search::placeholder { color: var(--muted); }
+.proj-search:focus { outline: none; border-color: var(--accent); box-shadow: var(--glow); }
+.proj-count { font-family: 'VT323', monospace; font-size: 14px; color: var(--accent); white-space: nowrap; }
+.proj-clear {
+  background: none; border: 1px solid var(--border); border-radius: 8px;
+  color: var(--muted); cursor: pointer; padding: 0.45rem 0.7rem;
+  font-family: 'VT323', monospace; font-size: 14px;
+}
+.proj-clear:hover { color: var(--text); border-color: var(--accent); }
+.project.filtered-out { display: none; }
+.proj-empty { display: none; color: var(--muted); font-family: 'VT323', monospace; padding: 1.4rem 0; }
+.proj-empty.show { display: block; }
+
 /* ---------- REDUCED MOTION ----------
    The JS side already removes the particle canvas and the cursor ring, but the
    29 CSS keyframe animations (marquee ticker, scanlines, gradient drift, shakes)
@@ -981,6 +1003,15 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
     <h2 class="section-title">Projects</h2>
     <p class="section-subtitle">Thirteen relics from my Jedi training. <b>Hover = 3D tilt. Click = sparkles. #09 is LIVE.</b></p>
   </div>
+  <div class="proj-controls fade-in">
+    <label for="projSearch" class="proj-label">filter the archive</label>
+    <input id="projSearch" class="proj-search" type="search" autocomplete="off"
+           placeholder="r · sql · sarima · llm · dashboard · fraud …"
+           aria-label="Filter projects by keyword">
+    <span class="proj-count" id="projCount" role="status" aria-live="polite">13 projects</span>
+    <button type="button" class="proj-clear" id="projClear" hidden>clear</button>
+  </div>
+
   <div class="stagger" id="projectList">
 
     <a href="https://github.com/Jrudani21/telco-churn-logistic-regression" target="_blank" class="project">
@@ -1722,10 +1753,31 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 /* ================= FADE IN / STAGGER ================= */
+/* The old rule was threshold 0.12 on elements up to 4640px tall: 12% of
+   #projectList is 486px, which does not fit a 700-800px laptop viewport, so the
+   whole section could stay at opacity 0 (verified blank at a 700px viewport).
+   Now: observer first, plus a plain rect check on scroll/resize so the reveal
+   never depends on IntersectionObserver delivering a callback. */
+const revealTargets = Array.from(document.querySelectorAll('.fade-in, .stagger'));
+function revealIfInView() {
+  const limit = window.innerHeight * 0.9;
+  for (const el of revealTargets) {
+    if (el.classList.contains('visible')) continue;
+    const b = el.getBoundingClientRect();
+    if (b.top < limit && b.bottom > 0) el.classList.add('visible');
+  }
+}
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.12 });
-document.querySelectorAll('.fade-in, .stagger').forEach(el => observer.observe(el));
+}, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
+revealTargets.forEach(el => observer.observe(el));
+
+/* Synchronous on purpose: requestAnimationFrame is throttled or skipped while a
+   tab is backgrounded, which would leave the section invisible until paint. */
+window.addEventListener('scroll', revealIfInView, { passive: true });
+window.addEventListener('resize', revealIfInView, { passive: true });
+window.addEventListener('load', () => { revealIfInView(); setTimeout(revealIfInView, 500); });
+revealIfInView();
 
 /* ================= COUNT-UP ================= */
 const countObserver = new IntersectionObserver((entries) => {
@@ -2593,6 +2645,41 @@ console.log('%c👋 Hey! You found the console. %cYou must be a developer. %cWe 
 console.log('%c🦄 Konami code: ↑↑↓↓←→←→BA', 'color:#ff6b6b; font-style: italic;');
 console.log('%c$_ Tip: the terminal on this page is REAL. type "hire".', 'color:#8b7cf6;');
 console.log('%c📊 Also: click the 🧠 meme. i dare you.', 'color:#ffd166;');
+</script>
+
+<script>
+/* ================= PROJECT FILTER ================= */
+(function () {
+  const input = document.getElementById('projSearch');
+  const list  = document.getElementById('projectList');
+  const countEl = document.getElementById('projCount');
+  const clearBtn = document.getElementById('projClear');
+  if (!input || !list) return;
+  const cards = Array.from(list.querySelectorAll('.project'));
+  const total = cards.length;
+  const empty = document.createElement('p');
+  empty.className = 'proj-empty';
+  list.parentNode.insertBefore(empty, list.nextSibling);
+  const hay = cards.map(c => c.textContent.toLowerCase().replace(/\s+/g, ' '));
+
+  function apply() {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach((c, i) => {
+      const hit = !q || q.split(/\s+/).every(tok => hay[i].includes(tok));
+      c.classList.toggle('filtered-out', !hit);
+      if (hit) shown++;
+    });
+    countEl.textContent = q ? shown + ' of ' + total + ' match' : total + ' projects';
+    clearBtn.hidden = !q;
+    empty.textContent = q ? 'no relics match "' + input.value.trim() + '" — the archive has no record.' : '';
+    empty.classList.toggle('show', q !== '' && shown === 0);
+  }
+  input.addEventListener('input', apply);
+  input.addEventListener('keydown', (e) => { if (e.key === 'Escape') { input.value = ''; apply(); input.blur(); } });
+  clearBtn.addEventListener('click', () => { input.value = ''; apply(); input.focus(); });
+  apply();
+})();
 </script>
 
 <script>
