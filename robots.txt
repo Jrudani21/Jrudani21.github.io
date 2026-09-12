@@ -1,0 +1,9 @@
+# robots.txt - Janak Rudani's GitHub Pages portfolio
+User-agent: *
+Allow: /
+
+# The Ken framework mirror under /ken/docs/ is a vendored documentation copy
+# (121 MB). It is not portfolio content and only dilutes the crawl.
+Disallow: /ken/docs/
+
+Sitemap: https://jrudani21.github.io/sitemap.xml

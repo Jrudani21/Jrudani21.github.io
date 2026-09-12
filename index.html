@@ -337,6 +337,19 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 .project:hover .project-link { color: var(--accent); }
 
 /* ---------- LIVE PUTER.JS TODO DEMO ---------- */
+/* ---------- REDUCED MOTION ----------
+   The JS side already removes the particle canvas and the cursor ring, but the
+   29 CSS keyframe animations (marquee ticker, scanlines, gradient drift, shakes)
+   kept running. Boot timing is JS setTimeout based, so disabling them is safe. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* ---------- PRIVATE REPO CARDS ---------- */
 .project.is-private { cursor: default; border-style: dashed; }
 .project.is-private:hover { border-color: var(--muted); box-shadow: none; }
