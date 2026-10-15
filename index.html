@@ -78,7 +78,7 @@ a { color: inherit; }
 #boot .line .ok { color: var(--accent); }
 #boot .line .warn { color: var(--amber); }
 #boot .line .err { color: var(--red); }
-#boot .skip { position: absolute; bottom: 2rem; right: 2rem; color: var(--muted); font-size: 0.7rem; cursor: pointer; }
+#boot .skip { position: absolute; bottom: 2rem; right: 2rem; color: var(--muted); font-size: 0.95rem; cursor: pointer; }
 #boot .skip:hover { color: var(--text); }
 
 /* ---------- PARTICLE FIELD ---------- */
@@ -126,10 +126,10 @@ nav.scrolled {
   cursor: pointer; user-select: none;
 }
 .nav-logo::before { content: '> '; color: var(--dim); }
-.nav-links { display: flex; gap: 1.6rem; align-items: center; }
+.nav-links { display: flex; gap: 1.2rem; align-items: center; }
 .nav-links a {
   font-family: 'VT323', monospace;
-  font-size: 14px; color: var(--dim); text-decoration: none;
+  font-size: 16px; color: var(--dim); text-decoration: none;
   transition: color 0.2s; position: relative;
 }
 .nav-links a::after {
@@ -148,7 +148,7 @@ nav.scrolled {
 .float-btn {
   background: rgba(16,16,24,0.9); border: 1px solid var(--border);
   color: var(--dim); font-family: 'VT323', monospace;
-  font-size: 11px; padding: 0.6rem 1rem; border-radius: 40px;
+  font-size: 14px; padding: 0.6rem 1rem; border-radius: 40px;
   cursor: pointer; transition: all 0.25s;
   backdrop-filter: blur(8px);
 }
@@ -172,7 +172,7 @@ nav.scrolled {
 .modal-close {
   background: var(--accent); color: var(--void); border: none;
   padding: 0.8rem 2.2rem; border-radius: 40px; font-weight: 700;
-  font-size: 14px; cursor: pointer; font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px; cursor: pointer; font-family: 'Space Grotesk', sans-serif;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 .modal-close:hover { transform: scale(1.05); box-shadow: var(--glow); }
@@ -182,7 +182,7 @@ nav.scrolled {
   position: fixed; bottom: 6.5rem; right: 1.5rem; z-index: 940;
   background: var(--amber); color: var(--void);
   padding: 1rem 1.5rem; border-radius: 12px;
-  font-weight: 600; font-size: 14px; max-width: 320px;
+  font-weight: 600; font-size: 16px; max-width: 320px;
   opacity: 0; transform: translateY(20px) scale(0.92);
   transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
   box-shadow: 0 12px 44px rgba(255,209,102,0.35);
@@ -193,11 +193,11 @@ nav.scrolled {
 .hero {
   min-height: 100vh; display: flex; flex-direction: column;
   justify-content: center; padding: 7rem 2.2rem 3rem;
-  max-width: 960px; margin: 0 auto; position: relative; z-index: 2;
+  max-width: 1040px; margin: 0 auto; position: relative; z-index: 2;
 }
 .terminal-greeting {
   font-family: 'VT323', monospace;
-  font-size: 13px; color: var(--muted); margin-bottom: 1.4rem;
+  font-size: 15px; color: var(--muted); margin-bottom: 1.4rem;
   display: flex; align-items: center; gap: 0.5rem; min-height: 20px;
 }
 .terminal-greeting .cursor {
@@ -235,7 +235,7 @@ nav.scrolled {
   display: inline-flex; align-items: center; gap: 0.6rem;
   background: var(--accent); color: var(--void);
   padding: 0.95rem 2.1rem; border-radius: 60px;
-  font-weight: 700; font-size: 15px; text-decoration: none;
+  font-weight: 700; font-size: 17px; text-decoration: none;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 .hero-cta:hover { transform: scale(1.04); box-shadow: var(--glow); }
@@ -243,14 +243,14 @@ nav.scrolled {
   display: inline-flex; align-items: center; gap: 0.6rem;
   background: transparent; color: var(--text);
   padding: 0.9rem 1.8rem; border-radius: 60px;
-  font-weight: 600; font-size: 14px; text-decoration: none;
+  font-weight: 600; font-size: 16px; text-decoration: none;
   border: 1px solid var(--border); cursor: pointer;
   font-family: 'Space Grotesk', sans-serif;
   transition: all 0.2s;
 }
 .hero-term-btn:hover { border-color: var(--accent); color: var(--accent); }
 .hero-stats { display: flex; gap: 2.5rem; margin-top: 4rem; flex-wrap: wrap; }
-.hero-stat { font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); }
+.hero-stat { font-family: 'VT323', monospace; font-size: 17px; color: var(--muted); }
 .hero-stat b { color: var(--accent); font-size: 1.4rem; display: block; margin-bottom: 0.15rem; text-shadow: var(--glow); }
 .countup { display: inline-block; }
 
@@ -264,7 +264,7 @@ nav.scrolled {
   display: flex; gap: 3rem; width: max-content;
   animation: scroll 40s linear infinite;
   font-family: 'VT323', monospace;
-  font-size: 15px; color: var(--muted);
+  font-size: 17px; color: var(--muted);
 }
 .ticker .joke { color: var(--amber); }
 .ticker .skill { color: var(--accent); }
@@ -276,7 +276,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 .section-header { margin-bottom: 3.5rem; }
 .section-num {
   font-family: 'VT323', monospace;
-  font-size: 14px; color: var(--accent); letter-spacing: 0.12em;
+  font-size: 16px; color: var(--accent); letter-spacing: 0.12em;
   text-transform: uppercase; margin-bottom: 0.6rem;
 }
 .section-num::before { content: '// '; color: var(--muted); }
@@ -298,7 +298,6 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
   cursor: pointer; transition: all 0.35s;
   position: relative; overflow: hidden;
   text-decoration: none; color: inherit;
-  transform-style: preserve-3d;
 }
 .project::before {
   content: ''; position: absolute; inset: 0;
@@ -306,20 +305,20 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
   opacity: 0; transition: opacity 0.4s;
 }
 .project:hover::before { opacity: 1; }
-.project:hover { border-color: var(--accent); box-shadow: 0 16px 48px rgba(0,0,0,0.5), var(--glow); }
+.project:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 16px 48px rgba(0,0,0,0.5), var(--glow); }
 .project:hover .project-num { color: var(--accent); }
 .project-num {
   font-family: 'VT323', monospace;
-  font-size: 11px; color: var(--muted); margin-bottom: 0.5rem;
+  font-size: 14px; color: var(--muted); margin-bottom: 0.5rem;
   transition: color 0.3s;
 }
 .project h3 { font-size: 1.35rem; font-weight: 700; margin-bottom: 0.5rem; }
-.project p { color: var(--dim); font-size: 0.9rem; line-height: 1.65; max-width: 640px; }
+.project p { color: var(--dim); font-size: 0.95rem; line-height: 1.65; max-width: 640px; }
 .project p .stat-joke { color: var(--amber); font-weight: 500; }
 .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
 .tag {
   font-family: 'VT323', monospace;
-  font-size: 13px; padding: 3px 10px;
+  font-size: 15px; padding: 3px 10px;
   border: 1px solid var(--border); border-radius: 20px;
   color: var(--dim); transition: all 0.2s;
 }
@@ -331,18 +330,18 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
   font-family: 'VT323', monospace;
 }
 .project-link {
-  font-size: 11px; color: var(--muted);
+  font-size: 14px; color: var(--muted);
   font-family: 'VT323', monospace; margin-top: 0.35rem;
 }
 .project:hover .project-link { color: var(--accent); }
 
 /* ---------- CHIPS / RECRUITER / PALETTE / NOW ---------- */
 .proj-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.9rem 0 1.4rem; }
-.chip { font-family: 'VT323', monospace; font-size: 15px; padding: 4px 14px; border-radius: 20px;
+.chip { font-family: 'VT323', monospace; font-size: 17px; padding: 4px 14px; border-radius: 20px;
   border: 1px solid var(--border); background: transparent; color: var(--dim); cursor: pointer; transition: all 0.2s; }
 .chip:hover { border-color: var(--accent); color: var(--accent); }
 .chip.on { background: var(--accent); border-color: var(--accent); color: var(--void); }
-.now-panel { font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); margin-top: 1.6rem; min-height: 1.4em; }
+.now-panel { font-family: 'VT323', monospace; font-size: 17px; color: var(--muted); margin-top: 1.6rem; min-height: 1.4em; }
 .now-panel b { color: var(--accent); font-weight: normal; }
 html.recruiter #boot, html.recruiter #particles, html.recruiter #cursor-ring,
 html.recruiter #terminal, html.recruiter #memes, html.recruiter #game, html.recruiter #circuits, html.recruiter #hobbies,
@@ -388,7 +387,7 @@ html.recruiter .gradient-text { animation: none; }
 /* ---------- LIVE PUTER.JS TODO DEMO ---------- */
 /* ---------- PROJECT FILTER ---------- */
 .proj-controls { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin: 1.6rem 0 0.4rem; }
-.proj-label { font-family: 'VT323', monospace; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.proj-label { font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
 .proj-search {
   flex: 1 1 260px; min-width: 200px; padding: 0.6rem 0.9rem;
   background: var(--surface); color: var(--text);
@@ -397,11 +396,11 @@ html.recruiter .gradient-text { animation: none; }
 }
 .proj-search::placeholder { color: var(--muted); }
 .proj-search:focus { outline: none; border-color: var(--accent); box-shadow: var(--glow); }
-.proj-count { font-family: 'VT323', monospace; font-size: 14px; color: var(--accent); white-space: nowrap; }
+.proj-count { font-family: 'VT323', monospace; font-size: 16px; color: var(--accent); white-space: nowrap; }
 .proj-clear {
   background: none; border: 1px solid var(--border); border-radius: 8px;
   color: var(--muted); cursor: pointer; padding: 0.45rem 0.7rem;
-  font-family: 'VT323', monospace; font-size: 14px;
+  font-family: 'VT323', monospace; font-size: 16px;
 }
 .proj-clear:hover { color: var(--text); border-color: var(--accent); }
 .project.filtered-out { display: none !important; }
@@ -432,7 +431,7 @@ html.recruiter .gradient-text { animation: none; }
 .project.todo-demo::before { display: none; }
 .todo-demo-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; padding: 2rem 2.2rem 1.4rem; }
 .todo-demo-head h3 { font-size: 1.35rem; font-weight: 700; margin-bottom: 0.5rem; }
-.todo-demo-head p { color: var(--dim); font-size: 0.9rem; line-height: 1.65; max-width: 640px; }
+.todo-demo-head p { color: var(--dim); font-size: 0.95rem; line-height: 1.65; max-width: 640px; }
 .todo-demo-head .stat-joke { color: var(--amber); font-weight: 500; }
 .todo-demo-head .project-side { flex-shrink: 0; }
 
@@ -458,14 +457,14 @@ html.recruiter .gradient-text { animation: none; }
 .tw-filters { display: flex; gap: 0.3rem; }
 .tw-filter {
   background: transparent; border: none; color: var(--muted);
-  font-family: 'VT323', monospace; font-size: 14px; padding: 4px 12px;
+  font-family: 'VT323', monospace; font-size: 16px; padding: 4px 12px;
   border-radius: 999px; cursor: pointer; transition: all 0.15s;
 }
 .tw-filter:hover { color: var(--text); }
 .tw-filter.active { background: var(--accent-dim); color: var(--accent); }
 .tw-clear {
   background: transparent; border: none; color: var(--muted);
-  font-family: 'VT323', monospace; font-size: 13px; cursor: pointer; transition: color 0.15s;
+  font-family: 'VT323', monospace; font-size: 15px; cursor: pointer; transition: color 0.15s;
 }
 .tw-clear:hover { color: var(--accent); }
 
@@ -485,7 +484,7 @@ html.recruiter .gradient-text { animation: none; }
 .tw-item.done .tw-check { background: var(--accent); border-color: var(--accent); }
 .tw-item.done .tw-check::after {
   content: '✓'; position: absolute; inset: 0; display: flex;
-  align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 800;
+  align-items: center; justify-content: center; color: #fff; font-size: 15px; font-weight: 800;
 }
 .tw-text { flex: 1; font-size: 0.95rem; line-height: 1.4; word-break: break-word; }
 .tw-item.done .tw-text { color: var(--muted); text-decoration: line-through; }
@@ -497,7 +496,7 @@ html.recruiter .gradient-text { animation: none; }
 .tw-icon {
   background: transparent; border: none; color: var(--muted);
   width: 28px; height: 28px; border-radius: 7px; cursor: pointer;
-  font-size: 14px; display: flex; align-items: center; justify-content: center;
+  font-size: 16px; display: flex; align-items: center; justify-content: center;
   transition: all 0.15s; opacity: 0;
 }
 .tw-item:hover .tw-icon { opacity: 1; }
@@ -507,13 +506,13 @@ html.recruiter .gradient-text { animation: none; }
 .tw-empty {
   text-align: center; padding: 1.6rem; color: var(--muted);
   border: 1px dashed var(--border); border-radius: 10px;
-  font-family: 'VT323', monospace; font-size: 15px;
+  font-family: 'VT323', monospace; font-size: 17px;
 }
 
 .tw-foot {
   display: flex; align-items: center; justify-content: space-between; gap: 0.8rem;
   margin-top: 1rem; padding-top: 0.9rem; border-top: 1px solid var(--border);
-  font-family: 'VT323', monospace; font-size: 13px; color: var(--muted); flex-wrap: wrap;
+  font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); flex-wrap: wrap;
 }
 .tw-sync { display: flex; align-items: center; gap: 6px; }
 .tw-sync::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
@@ -521,7 +520,7 @@ html.recruiter .gradient-text { animation: none; }
 .tw-sync.local::before { background: var(--amber); }
 .tw-auth {
   background: transparent; border: 1px solid var(--border); color: var(--muted);
-  font-family: 'VT323', monospace; font-size: 13px; padding: 3px 10px;
+  font-family: 'VT323', monospace; font-size: 15px; padding: 3px 10px;
   border-radius: 999px; cursor: pointer; transition: all 0.15s;
 }
 .tw-auth:hover { color: var(--text); border-color: var(--accent); }
@@ -552,7 +551,7 @@ html.recruiter .gradient-text { animation: none; }
 .terminal-dot.y { background: #febc2e; }
 .terminal-dot.g { background: #28c840; }
 .terminal-title {
-  font-family: 'VT323', monospace; font-size: 11px;
+  font-family: 'VT323', monospace; font-size: 14px;
   color: var(--muted); margin-left: 0.6rem;
 }
 .terminal-body {
@@ -587,9 +586,9 @@ html.recruiter .gradient-text { animation: none; }
   margin-bottom: 0.4rem;
 }
 .skill-meter .sm-name { font-weight: 600; font-size: 0.95rem; }
-.skill-meter .sm-name .sm-joke { color: var(--muted); font-weight: 400; font-size: 0.8rem; }
+.skill-meter .sm-name .sm-joke { color: var(--muted); font-weight: 400; font-size: 0.95rem; }
 .skill-meter .sm-pct {
-  font-family: 'VT323', monospace; font-size: 11px;
+  font-family: 'VT323', monospace; font-size: 14px;
   color: var(--accent);
 }
 .sm-bar {
@@ -610,7 +609,7 @@ html.recruiter .gradient-text { animation: none; }
   padding: 2rem; background: var(--surface);
 }
 .chart-title {
-  font-family: 'VT323', monospace; font-size: 14px;
+  font-family: 'VT323', monospace; font-size: 16px;
   color: var(--muted); margin-bottom: 1.5rem; text-align: center;
 }
 .chart-wrap { position: relative; }
@@ -624,10 +623,10 @@ html.recruiter .gradient-text { animation: none; }
 .chart-path.danger { stroke: var(--red); filter: drop-shadow(0 0 6px rgba(255,107,107,0.5)); }
 .chart-annot {
   position: absolute; font-family: 'VT323', monospace;
-  font-size: 10px; color: var(--amber);
+  font-size: 12px; color: var(--amber);
   transform: rotate(-6deg);
 }
-.chart-annot.big { font-size: 12px; color: var(--red); font-weight: 700; }
+.chart-annot.big { font-size: 13px; color: var(--red); font-weight: 700; }
 
 /* ---------- MEME GALLERY ---------- */
 .meme-grid {
@@ -642,7 +641,7 @@ html.recruiter .gradient-text { animation: none; }
 .meme-card:hover { transform: translateY(-4px) rotate(0.5deg); border-color: var(--amber); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
 .meme-card h4 {
   font-family: 'VT323', monospace;
-  font-size: 11px; color: var(--muted);
+  font-size: 14px; color: var(--muted);
   padding: 0.8rem 1.3rem; border-bottom: 1px solid var(--border);
 }
 .meme-card h4::before { content: '$ '; color: var(--accent); }
@@ -657,8 +656,8 @@ html.recruiter .gradient-text { animation: none; }
 }
 .drake-row:hover { transform: translateX(6px); background: var(--elevated); }
 .drake-row .face { font-size: 2.6rem; width: 60px; text-align: center; flex-shrink: 0; }
-.drake-row .label { font-size: 0.88rem; color: var(--text); font-weight: 600; }
-.drake-row .label small { display: block; color: var(--muted); font-weight: 400; font-size: 0.72rem; }
+.drake-row .label { font-size: 0.95rem; color: var(--text); font-weight: 600; }
+.drake-row .label small { display: block; color: var(--muted); font-weight: 400; font-size: 0.95rem; }
 
 /* This is fine */
 .this-is-fine { position: relative; text-align: center; }
@@ -667,7 +666,7 @@ html.recruiter .gradient-text { animation: none; }
 .this-is-fine .flames { font-size: 2.4rem; display: block; margin-top: -0.6rem; animation: flame-flicker 0.7s ease-in-out infinite alternate; }
 @keyframes flame-flicker { from { transform: scale(1) rotate(-2deg); opacity: 0.75; } to { transform: scale(1.2) rotate(2deg); opacity: 1; } }
 .this-is-fine .caption { font-size: 1rem; font-weight: 700; color: var(--amber); margin-top: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
-.tif-sub { font-size: 0.8rem; color: var(--muted); font-family: 'VT323', monospace; margin-top: 0.8rem; }
+.tif-sub { font-size: 0.95rem; color: var(--muted); font-family: 'VT323', monospace; margin-top: 0.8rem; }
 
 /* Expanding brain */
 .brain-scale { display: flex; flex-direction: column; gap: 0.6rem; }
@@ -679,7 +678,7 @@ html.recruiter .gradient-text { animation: none; }
 .brain-level:hover { opacity: 0.9; transform: scale(1.02); background: var(--panel); }
 .brain-level.active { opacity: 1; background: var(--accent-dim); }
 .brain-level .brain { font-size: calc(1.1rem + var(--s) * 0.5rem); width: 74px; text-align: center; flex-shrink: 0; }
-.brain-level .text { font-size: 0.8rem; color: var(--dim); }
+.brain-level .text { font-size: 0.95rem; color: var(--dim); }
 .brain-level.active .text { color: var(--text); }
 
 /* Two buttons */
@@ -689,7 +688,7 @@ html.recruiter .gradient-text { animation: none; }
 .two-btns .btn-pair { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 .meme-btn {
   padding: 0.85rem 1.5rem; border-radius: 10px;
-  font-weight: 700; font-size: 0.9rem; border: none; cursor: pointer;
+  font-weight: 700; font-size: 0.95rem; border: none; cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s; font-family: 'Space Grotesk', sans-serif;
 }
 .meme-btn:hover { transform: scale(1.07); }
@@ -697,21 +696,21 @@ html.recruiter .gradient-text { animation: none; }
 .btn-a:hover { box-shadow: var(--glow); }
 .btn-b { background: var(--red); color: var(--void); }
 .btn-b:hover { box-shadow: 0 0 20px rgba(255,107,107,0.4); }
-.meme-result { margin-top: 1.1rem; font-size: 0.85rem; color: var(--amber); font-family: 'VT323', monospace; min-height: 1.6em; }
+.meme-result { margin-top: 1.1rem; font-size: 0.95rem; color: var(--amber); font-family: 'VT323', monospace; min-height: 1.6em; }
 
 /* Mocking */
 .mocking { font-family: 'VT323', monospace; font-size: 1.05rem; line-height: 1.9; text-align: center; cursor: pointer; transition: color 0.2s; }
 .mocking:hover { color: var(--amber); }
 .mock { text-transform: lowercase; }
 .mock::first-letter { text-transform: uppercase; }
-.mock-note { margin-top: 1rem; font-size: 0.75rem; color: var(--muted); font-family: 'VT323', monospace; text-align: center; }
+.mock-note { margin-top: 1rem; font-size: 0.95rem; color: var(--muted); font-family: 'VT323', monospace; text-align: center; }
 
 /* Change my mind */
 .cmm-box { border: 3px solid var(--amber); border-radius: 12px; padding: 2rem 1.2rem; background: var(--panel); text-align: center; transition: transform 0.3s, box-shadow 0.3s; }
 .cmm-box:hover { transform: scale(1.02); box-shadow: 0 0 40px rgba(255,209,102,0.15); }
 .cmm-title { font-size: 1.4rem; font-weight: 700; line-height: 1.4; }
 .cmm-title span { color: var(--muted); font-weight: 400; font-size: 0.95rem; display: block; margin-top: 0.4rem; }
-.cmm-note { margin-top: 1rem; font-size: 0.75rem; color: var(--muted); font-family: 'VT323', monospace; text-align: center; }
+.cmm-note { margin-top: 1rem; font-size: 0.95rem; color: var(--muted); font-family: 'VT323', monospace; text-align: center; }
 
 /* P-value casino */
 .casino { text-align: center; padding: 0.5rem 0; }
@@ -727,18 +726,18 @@ html.recruiter .gradient-text { animation: none; }
 }
 .casino-slot.spinning { animation: slot-shake 0.2s linear infinite; }
 @keyframes slot-shake { 0%,100% { transform: translateY(0); } 25% { transform: translateY(-4px); } 75% { transform: translateY(4px); } }
-.casino-verdict { font-size: 0.9rem; font-family: 'VT323', monospace; min-height: 1.6em; margin-bottom: 1.2rem; }
+.casino-verdict { font-size: 0.95rem; font-family: 'VT323', monospace; min-height: 1.6em; margin-bottom: 1.2rem; }
 .casino-verdict.sig { color: var(--accent); }
 .casino-verdict.nosig { color: var(--red); }
 .casino-lever {
   padding: 0.85rem 2rem; border-radius: 60px;
   background: var(--violet); color: #fff; border: none;
-  font-weight: 700; font-size: 14px; cursor: pointer;
+  font-weight: 700; font-size: 16px; cursor: pointer;
   font-family: 'Space Grotesk', sans-serif;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 .casino-lever:hover { transform: scale(1.06) rotate(-2deg); box-shadow: 0 0 30px rgba(139,124,246,0.4); }
-.casino-note { margin-top: 1rem; font-size: 0.72rem; color: var(--muted); font-family: 'VT323', monospace; }
+.casino-note { margin-top: 1rem; font-size: 0.95rem; color: var(--muted); font-family: 'VT323', monospace; }
 
 /* ---------- GAME ---------- */
 .game-section { text-align: center; }
@@ -763,7 +762,7 @@ html.recruiter .gradient-text { animation: none; }
 .game-btn {
   background: var(--accent); color: var(--void);
   border: none; padding: 0.85rem 2.2rem; border-radius: 60px;
-  font-weight: 700; font-size: 14px; cursor: pointer;
+  font-weight: 700; font-size: 16px; cursor: pointer;
   font-family: 'Space Grotesk', sans-serif; transition: transform 0.2s, box-shadow 0.2s;
 }
 .game-btn:hover { transform: scale(1.05); box-shadow: var(--glow); }
@@ -779,11 +778,11 @@ html.recruiter .gradient-text { animation: none; }
 .hobby-card:hover { border-color: var(--red); transform: translateY(-4px) rotate(-0.5deg); }
 .hobby-card h4 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.4rem; }
 .hobby-emoji { font-size: 2rem; margin-bottom: 0.6rem; display: block; }
-.hobby-card p { font-size: 0.85rem; color: var(--dim); line-height: 1.65; }
+.hobby-card p { font-size: 0.95rem; color: var(--dim); line-height: 1.65; }
 .hover-joke {
   position: absolute; bottom: 0; left: 0; right: 0;
   background: var(--red); color: var(--void);
-  padding: 0.55rem 1rem; font-size: 0.75rem; font-weight: 700;
+  padding: 0.55rem 1rem; font-size: 0.95rem; font-weight: 700;
   transform: translateY(100%); transition: transform 0.3s;
   text-align: center;
 }
@@ -800,7 +799,7 @@ html.recruiter .gradient-text { animation: none; }
 .git-log {
   border: 1px solid var(--border); border-radius: 16px;
   padding: 1.6rem; background: var(--surface);
-  font-family: 'VT323', monospace; font-size: 15px;
+  font-family: 'VT323', monospace; font-size: 17px;
   line-height: 2; margin-bottom: 2.5rem; overflow-x: auto;
 }
 .git-log .commit { display: flex; gap: 1rem; white-space: nowrap; }
@@ -808,7 +807,7 @@ html.recruiter .gradient-text { animation: none; }
 .git-log .branch { color: var(--amber); }
 .git-log .msg { color: var(--dim); }
 .git-log .msg b { color: var(--text); }
-.git-log .tag-line { color: var(--muted); font-size: 10px; }
+.git-log .tag-line { color: var(--muted); font-size: 13px; }
 .facts { display: flex; flex-wrap: wrap; gap: 1rem; }
 .fact {
   flex: 1 1 180px; border: 1px solid var(--border);
@@ -818,7 +817,7 @@ html.recruiter .gradient-text { animation: none; }
 .fact:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: var(--glow); }
 .fact-label {
   font-family: 'VT323', monospace;
-  font-size: 10px; color: var(--muted); text-transform: uppercase;
+  font-size: 13px; color: var(--muted); text-transform: uppercase;
   letter-spacing: 0.1em; margin-bottom: 0.35rem;
 }
 .fact-value { font-size: 1.05rem; font-weight: 600; }
@@ -837,14 +836,14 @@ html.recruiter .gradient-text { animation: none; }
 .social-links { display: flex; gap: 2rem; justify-content: center; margin-top: 2.2rem; flex-wrap: wrap; }
 .social-link {
   font-family: 'VT323', monospace;
-  font-size: 12px; color: var(--dim); text-decoration: none;
+  font-size: 15px; color: var(--dim); text-decoration: none;
   transition: color 0.2s; border-bottom: 1px dashed transparent;
 }
 .social-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
 
 /* ---------- FOOTER ---------- */
 footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: center; position: relative; z-index: 2; }
-.console-line { font-family: 'VT323', monospace; font-size: 14px; color: var(--muted); line-height: 2; }
+.console-line { font-family: 'VT323', monospace; font-size: 16px; color: var(--muted); line-height: 2; }
 .console-line .prompt { color: var(--accent); }
 .console-line .cmd { color: var(--dim); }
 .console-line .output { color: var(--amber); }
@@ -853,12 +852,12 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
   font-family: 'Unbounded', 'Space Grotesk', sans-serif; font-weight: 800;
   font-size: clamp(3rem, 14.5vw, 13rem); line-height: 0.85; letter-spacing: -0.04em;
   text-transform: uppercase; margin: 0 0 2.5rem; user-select: none;
-  color: transparent; -webkit-text-stroke: 1.5px var(--accent);
-  transition: color 0.5s, -webkit-text-stroke-color 0.5s;
+  color: rgba(255,49,49,0.16);
+  transition: color 0.4s;
 }
 .footer-mark:hover { color: var(--accent); }
 @media (prefers-reduced-motion: reduce) { .footer-mark { transition: none; } }
-.footer-love { color: var(--dim); font-size: 0.8rem; margin-top: 1.2rem; }
+.footer-love { color: var(--dim); font-size: 0.95rem; margin-top: 1.2rem; }
 
 /* ---------- ANIMATIONS ---------- */
 .fade-in { opacity: 0; transform: translateY(34px); transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1); }
@@ -876,7 +875,7 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
 @keyframes fall { 0% { transform: translateY(0) rotate(0); opacity: 1; } 100% { transform: translateY(105vh) rotate(720deg); opacity: 0; } }
 
 .band-dark { background: var(--panel); max-width: none; }
-.band-inner { max-width: 1040px; margin: 0 auto; }
+.band-inner { max-width: 970px; margin: 0 auto; }
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -885,7 +884,8 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
   nav { padding: 1rem 1.2rem; }
   nav.scrolled { padding: 0.7rem 1.2rem; }
   .nav-links { gap: 0.9rem; }
-  .nav-links a { font-size: 10px; }
+  .nav-links a { font-size: 13px; }
+  .nav-links { overflow-x: auto; scrollbar-width: none; max-width: 68vw; }
   .hero-stats { gap: 1.2rem; }
   .game-arena { max-width: 320px; }
   .float-btns { right: 1rem; bottom: 1rem; }
@@ -945,16 +945,16 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
 }
 .circuit-info .stat { color: var(--dim); }
 .circuit-info .val { color: var(--accent); }
-.circuit-tip { font-size: 0.8rem; color: var(--muted); font-family: 'VT323', monospace; }
+.circuit-tip { font-size: 0.95rem; color: var(--muted); font-family: 'VT323', monospace; }
 .circuit-btn {
   background: var(--accent); color: var(--void); border: none;
   padding: 0.7rem 1.4rem; border-radius: 40px; font-weight: 700;
-  font-size: 13px; cursor: pointer; font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px; cursor: pointer; font-family: 'Space Grotesk', sans-serif;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 .circuit-btn:hover { transform: scale(1.04); box-shadow: var(--glow); }
 .circuit-btn.secondary { background: transparent; border: 1px solid var(--border); color: var(--dim); }
-.circuit-msg { font-size: 0.9rem; color: var(--amber); font-family: 'VT323', monospace; min-height: 1.5em; }
+.circuit-msg { font-size: 0.95rem; color: var(--amber); font-family: 'VT323', monospace; min-height: 1.5em; }
 @media (max-width: 768px) { .circuit-wrap { grid-template-columns: 1fr; } .circuit-board { min-height: 340px; } }
 .egg-shake { animation: eggShake 0.5s ease; }
 @keyframes eggShake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-8px); } 40%,80% { transform: translateX(8px); } }
@@ -1088,8 +1088,7 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
   line-height: 1;
   white-space: nowrap;
   padding: 0.2em 0.3em;
-  color: transparent;
-  -webkit-text-stroke: 1.5px var(--accent);
+  color: rgba(255,49,49,0.16);
   transition: color 0.3s ease;
 }
 .stack-marquee__item:hover {
@@ -1155,7 +1154,7 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
   <div class="section-header fade-in">
     <p class="section-num">01 - imperial archives</p>
     <h2 class="section-title">Projects</h2>
-    <p class="section-subtitle"><span id="projTotal">Thirteen</span> relics from my Jedi training. <b>Hover = 3D tilt. Click = sparkles. #09 is LIVE.</b></p>
+    <p class="section-subtitle"><span id="projTotal">Thirteen</span> relics from my Jedi training. <b>Hover = spotlight. Click = sparkles. #09 is LIVE.</b></p>
   </div>
   <div class="proj-controls fade-in">
     <label for="projSearch" class="proj-label">filter the archive</label>
@@ -1721,8 +1720,8 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
 .proc-list{list-style:none;margin:0;padding:0;max-width:60rem}
 .proc-step{display:grid;grid-template-columns:minmax(6rem,11rem) 1fr;gap:2rem;align-items:center;padding:1.75rem 0;border-top:1px solid var(--border)}
 .proc-step:last-child{border-bottom:1px solid var(--border)}
-.proc-num{font-family:'Unbounded',sans-serif;font-weight:800;font-size:clamp(3.5rem,9vw,7rem);line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--accent);transition:color .25s,text-shadow .25s}
-.proc-step:hover .proc-num{color:var(--accent);text-shadow:var(--glow)}
+.proc-num{font-family:'Unbounded',sans-serif;font-weight:800;font-size:clamp(3.5rem,9vw,7rem);line-height:1;color:rgba(255,49,49,.16);transition:color .25s}
+.proc-step:hover .proc-num{color:var(--accent)}
 .proc-name{font-family:'Unbounded',sans-serif;font-size:clamp(1.2rem,2.4vw,1.7rem);color:var(--text);margin:0 0 .4rem}
 .proc-desc{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;line-height:1.55;color:var(--dim);margin:0;max-width:34rem}
 @media (max-width:768px){
@@ -1802,7 +1801,7 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
 </section>
 
 <style>
-.cta{border-top:1px solid var(--border);padding:clamp(5rem,12vw,10rem) 6vw clamp(4rem,9vw,7rem)}
+.cta{border-top:1px solid var(--border);padding:clamp(5rem,12vw,10rem) max(2.2rem,calc((100vw - 1040px)/2 + 2.2rem)) clamp(4rem,9vw,7rem);position:relative;z-index:2}
 .cta-inner{max-width:62rem;margin:0}
 .cta-label{font-family:'VT323',monospace;font-size:1.25rem;letter-spacing:.15em;color:var(--accent);margin:0 0 1.5rem}
 .cta-title{font-family:'Unbounded',sans-serif;font-weight:700;font-size:clamp(2.2rem,6.5vw,5.5rem);line-height:1.04;color:var(--text);margin:0 0 2rem;max-width:14ch}
@@ -2116,12 +2115,7 @@ document.querySelectorAll('.project:not(.todo-demo)').forEach(card => {
     const y = e.clientY - rect.top;
     card.style.setProperty('--mx', x + 'px');
     card.style.setProperty('--my', y + 'px');
-    const cx = rect.width / 2, cy = rect.height / 2;
-    const rx = (y - cy) / cy * 2.5;
-    const ry = (x - cx) / cx * -2.5;
-    card.style.transform = 'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-2px)';
   });
-  card.addEventListener('mouseleave', () => { card.style.transform = ''; });
   card.addEventListener('click', () => {
     const rect = card.getBoundingClientRect();
     const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
