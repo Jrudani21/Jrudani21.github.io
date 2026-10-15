@@ -985,6 +985,8 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
     <a href="#memes">memes</a>
     <a href="#game">game</a>
     <a href="#circuits">circuits</a>
+    <a href="#process">method</a>
+    <a href="#faq">faq</a>
     <a href="#about">about</a>
     <a href="#contact">say hi</a>
   </div>
@@ -1153,7 +1155,7 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
   <div class="section-header fade-in">
     <p class="section-num">01 - imperial archives</p>
     <h2 class="section-title">Projects</h2>
-    <p class="section-subtitle">Thirteen relics from my Jedi training. <b>Hover = 3D tilt. Click = sparkles. #09 is LIVE.</b></p>
+    <p class="section-subtitle"><span id="projTotal">Thirteen</span> relics from my Jedi training. <b>Hover = 3D tilt. Click = sparkles. #09 is LIVE.</b></p>
   </div>
   <div class="proj-controls fade-in">
     <label for="projSearch" class="proj-label">filter the archive</label>
@@ -2945,6 +2947,7 @@ console.log('%c📊 Also: click the 🧠 meme. i dare you.', 'color:#ffd166;');
   input.addEventListener('input', apply);
   input.addEventListener('keydown', (e) => { if (e.key === 'Escape') { input.value = ''; apply(); input.blur(); } });
   clearBtn.addEventListener('click', () => { input.value = ''; cat = 'all'; document.querySelectorAll('#projChips .chip').forEach(x => x.classList.toggle('on', x.dataset.cat === 'all')); apply(); input.focus(); });
+  const pt = document.getElementById('projTotal'); if (pt) pt.textContent = total;
   apply();
 })();
 </script>
