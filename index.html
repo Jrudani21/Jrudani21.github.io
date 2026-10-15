@@ -1057,6 +1057,98 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
 </div>
 
 <!-- ================= PROJECTS ================= -->
+<style>
+.stack-marquee {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  background: var(--void);
+}
+.stack-marquee__inner {
+  display: flex;
+  width: max-content;
+  animation: stack-marquee-scroll 40s linear infinite;
+}
+.stack-marquee:hover .stack-marquee__inner,
+.stack-marquee:focus-within .stack-marquee__inner {
+  animation-play-state: paused;
+}
+.stack-marquee__track {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.stack-marquee__item {
+  font-family: 'Unbounded', 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(3.5rem, 12vw, 9rem);
+  line-height: 1;
+  white-space: nowrap;
+  padding: 0.2em 0.3em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--accent);
+  transition: color 0.3s ease;
+}
+.stack-marquee__item:hover {
+  color: var(--accent);
+}
+.stack-marquee__sep {
+  width: 0.22em;
+  height: 0.22em;
+  background: var(--accent);
+  transform: rotate(45deg);
+  margin: 0 0.4em;
+  flex-shrink: 0;
+}
+@keyframes stack-marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stack-marquee {
+    overflow-x: auto;
+  }
+  .stack-marquee__inner {
+    animation: none;
+  }
+  .stack-marquee__track[aria-hidden="true"] {
+    display: none;
+  }
+}
+</style>
+
+<div class="stack-marquee" role="region" aria-label="Tech stack">
+  <div class="stack-marquee__inner">
+    <div class="stack-marquee__track">
+      <span class="stack-marquee__item">R</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">Python</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">SQL</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">Neo4j</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">Ollama</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">QLoRA</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">Streamlit</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">PyTorch</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">FastAPI</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">RAG</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">MCP</span><span class="stack-marquee__sep"></span>
+    </div>
+    <div class="stack-marquee__track" aria-hidden="true">
+      <span class="stack-marquee__item">R</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">Python</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">SQL</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">Neo4j</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">Ollama</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">QLoRA</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">Streamlit</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">PyTorch</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">FastAPI</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">RAG</span><span class="stack-marquee__sep"></span>
+      <span class="stack-marquee__item">MCP</span><span class="stack-marquee__sep"></span>
+    </div>
+  </div>
+</div>
+
 <section id="projects">
   <div class="section-header fade-in">
     <p class="section-num">01 - imperial archives</p>
@@ -1623,6 +1715,76 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
   </div>
 </div></section>
 
+<style>
+.proc-list{list-style:none;margin:0;padding:0;max-width:60rem}
+.proc-step{display:grid;grid-template-columns:minmax(6rem,11rem) 1fr;gap:2rem;align-items:center;padding:1.75rem 0;border-top:1px solid var(--border)}
+.proc-step:last-child{border-bottom:1px solid var(--border)}
+.proc-num{font-family:'Unbounded',sans-serif;font-weight:800;font-size:clamp(3.5rem,9vw,7rem);line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--accent);transition:color .25s,text-shadow .25s}
+.proc-step:hover .proc-num{color:var(--accent);text-shadow:var(--glow)}
+.proc-name{font-family:'Unbounded',sans-serif;font-size:clamp(1.2rem,2.4vw,1.7rem);color:var(--text);margin:0 0 .4rem}
+.proc-desc{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;line-height:1.55;color:var(--dim);margin:0;max-width:34rem}
+@media (max-width:768px){
+  .proc-step{grid-template-columns:1fr;gap:.5rem;padding:1.25rem 0}
+  .proc-num{font-size:3.5rem}
+}
+@media (prefers-reduced-motion:reduce){.proc-num{transition:none}}
+</style>
+
+<section id="process">
+  <div class="section-header fade-in">
+    <p class="section-num">method</p>
+    <h2 class="section-title">How I work</h2>
+  </div>
+  <ol class="proc-list">
+    <li class="proc-step fade-in">
+      <span class="proc-num" aria-hidden="true">01</span>
+      <div><h3 class="proc-name">Question</h3><p class="proc-desc">Write the decision the number has to support.</p></div>
+    </li>
+    <li class="proc-step fade-in">
+      <span class="proc-num" aria-hidden="true">02</span>
+      <div><h3 class="proc-name">Data</h3><p class="proc-desc">Check leakage, missingness, and who recorded it.</p></div>
+    </li>
+    <li class="proc-step fade-in">
+      <span class="proc-num" aria-hidden="true">03</span>
+      <div><h3 class="proc-name">Model</h3><p class="proc-desc">Use the smallest model that explains it.</p></div>
+    </li>
+    <li class="proc-step fade-in">
+      <span class="proc-num" aria-hidden="true">04</span>
+      <div><h3 class="proc-name">Break it</h3><p class="proc-desc">Residuals, overdispersion, holdout, injected bad rows.</p></div>
+    </li>
+    <li class="proc-step fade-in">
+      <span class="proc-num" aria-hidden="true">05</span>
+      <div><h3 class="proc-name">Ship</h3><p class="proc-desc">Tests, README, one command to rerun.</p></div>
+    </li>
+  </ol>
+</section>
+
+<style>
+.faq-list { max-width: 52rem; }
+.faq-list details { border-top: 1px solid var(--border); padding: 1.1rem 0; }
+.faq-list details:last-child { border-bottom: 1px solid var(--border); }
+.faq-list summary { cursor: pointer; list-style: none; font-family: 'Unbounded', 'Space Grotesk', sans-serif;
+  font-size: clamp(1rem, 2vw, 1.25rem); display: flex; gap: 1rem; align-items: baseline; }
+.faq-list summary::-webkit-details-marker { display: none; }
+.faq-list summary::before { content: attr(data-n); font-family: 'VT323', monospace; color: var(--accent); font-size: 1rem; }
+.faq-list summary::after { content: '+'; margin-left: auto; color: var(--accent); font-family: 'VT323', monospace; font-size: 1.4rem; }
+.faq-list details[open] summary::after { content: '\2212'; }
+.faq-list p { color: var(--dim); margin: 0.8rem 0 0 2.2rem; max-width: 40rem; }
+</style>
+<section id="faq">
+  <div class="section-header fade-in">
+    <p class="section-num">questions, answered</p>
+    <h2 class="section-title">Recruiter FAQ</h2>
+  </div>
+  <div class="faq-list">
+    <details><summary data-n="01">What do you do?</summary><p>I build and stress-test statistical models in R and Python: regression, count models and time-series forecasts. I also automate data checks so a bad delivery is caught before anyone relies on it.</p></details>
+    <details><summary data-n="02">What roles are you open to?</summary><p>Data analyst, data scientist and ML engineering roles, remote or hybrid from Winnipeg. I'm strongest where statistics meets data quality and automation.</p></details>
+    <details><summary data-n="03">What is your background?</summary><p>BSc in Statistics and Mathematics from the University of Manitoba (2026), plus three years of healthcare claims work with SQL, validation and reporting.</p></details>
+    <details><summary data-n="04">What is your stack?</summary><p>R, Python, SQL, Streamlit and FastAPI day to day. For AI work: Ollama, RAG, MCP and QLoRA fine-tuning on an 8 GB GPU.</p></details>
+    <details><summary data-n="05">What is Ken?</summary><p>My local agent fleet: 34 bots on one PC. The case study in the projects list covers how it works and what broke.</p></details>
+  </div>
+</section>
+
 <!-- ================= CONTACT ================= -->
 <section id="contact" class="contact-section">
   <div class="section-header fade-in">
@@ -1636,6 +1798,34 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
     <a href="https://www.linkedin.com/in/janakrudani21" target="_blank" class="social-link">linkedin/janak Rudani</a>
   </div>
 </section>
+
+<style>
+.cta{border-top:1px solid var(--border);padding:clamp(5rem,12vw,10rem) 6vw clamp(4rem,9vw,7rem)}
+.cta-inner{max-width:62rem;margin:0}
+.cta-label{font-family:'VT323',monospace;font-size:1.25rem;letter-spacing:.15em;color:var(--accent);margin:0 0 1.5rem}
+.cta-title{font-family:'Unbounded',sans-serif;font-weight:700;font-size:clamp(2.2rem,6.5vw,5.5rem);line-height:1.04;color:var(--text);margin:0 0 2rem;max-width:14ch}
+.cta-text{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;line-height:1.6;color:var(--dim);margin:0 0 3rem;max-width:36rem}
+.cta-actions{display:flex;flex-wrap:wrap;gap:1rem}
+.cta-btn{display:inline-block;font-family:'VT323',monospace;font-size:1.4rem;letter-spacing:.1em;text-decoration:none;padding:.8rem 1.8rem;border:1px solid var(--accent);color:var(--accent);transition:background .2s,color .2s,box-shadow .2s}
+.cta-btn:hover{box-shadow:var(--glow)}
+.cta-btn--fill{background:var(--accent);color:var(--void)}
+.cta-btn:not(.cta-btn--fill):hover{background:var(--accent);color:var(--void)}
+.cta-btn:focus-visible{outline:2px solid var(--amber);outline-offset:4px}
+@media (max-width:768px){.cta-actions{flex-direction:column}.cta-btn{text-align:center}}
+@media (prefers-reduced-motion:reduce){.cta-btn{transition:none}}
+</style>
+
+<div class="cta">
+  <div class="cta-inner">
+    <p class="cta-label">&gt; contact</p>
+    <h2 class="cta-title">Open to data and ML roles.</h2>
+    <p class="cta-text">Based in Winnipeg, working remote or hybrid. I reply within a day.</p>
+    <div class="cta-actions">
+      <a class="cta-btn cta-btn--fill" href="mailto:janak25rudani@icloud.com">Email me</a>
+      <a class="cta-btn" href="https://github.com/Jrudani21">See the code</a>
+    </div>
+  </div>
+</div>
 
 <footer>
   <p class="footer-mark" aria-hidden="true">Janak<br>Rudani</p>
