@@ -336,6 +336,32 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 }
 .project:hover .project-link { color: var(--accent); }
 
+/* ---------- TRANSITIONS ---------- */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: 0.25s ease both vt-out; }
+::view-transition-new(root) { animation: 0.4s cubic-bezier(0.22,1,0.36,1) both vt-in; }
+@keyframes vt-out { to { opacity: 0; transform: translateY(-8px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(12px); } }
+.nav-links a.active { color: var(--accent); }
+.nav-links a.active::after { width: 100%; }
+.project:active, .hero-cta:active, .hero-term-btn:active { transform: scale(0.98); }
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+.section-title { text-wrap: balance; }
+@media (prefers-reduced-motion: no-preference) {
+  .fade-in .section-title { clip-path: inset(0 100% 0 0); transition: clip-path 0.9s cubic-bezier(0.22,1,0.36,1) 0.15s; }
+  .fade-in.visible .section-title { clip-path: inset(0 0 0 0); }
+}
+@media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none; } }
+
+/* ---------- BENTO PROJECTS (ref: land-book / godly grids) ---------- */
+#projectList { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem; }
+#projectList .project { grid-template-columns: 1fr; grid-template-rows: 1fr auto; margin-bottom: 0; align-content: space-between; }
+#projectList .project:first-child, #projectList .project.todo-demo { grid-column: 1 / -1; }
+#projectList .project:first-child h3 { font-size: clamp(1.6rem, 3vw, 2.2rem); letter-spacing: -0.01em; }
+#projectList .project-side { flex-direction: row; justify-content: space-between; align-items: baseline; border-top: 1px solid var(--border); padding-top: 0.9rem; }
+#projectList .project-score { font-size: 1.7rem; }
+@media (max-width: 768px) { #projectList { grid-template-columns: 1fr; } }
+
 /* ---------- LIVE PUTER.JS TODO DEMO ---------- */
 /* ---------- PROJECT FILTER ---------- */
 .proj-controls { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin: 1.6rem 0 0.4rem; }
@@ -800,6 +826,15 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
 .console-line .cmd { color: var(--dim); }
 .console-line .output { color: var(--amber); }
 .console-line .error { color: var(--red); }
+.footer-mark {
+  font-family: 'Unbounded', 'Space Grotesk', sans-serif; font-weight: 800;
+  font-size: clamp(3rem, 14.5vw, 13rem); line-height: 0.85; letter-spacing: -0.04em;
+  text-transform: uppercase; margin: 0 0 2.5rem; user-select: none;
+  color: transparent; -webkit-text-stroke: 1.5px var(--accent);
+  transition: color 0.5s, -webkit-text-stroke-color 0.5s;
+}
+.footer-mark:hover { color: var(--accent); }
+@media (prefers-reduced-motion: reduce) { .footer-mark { transition: none; } }
 .footer-love { color: var(--dim); font-size: 0.8rem; margin-top: 1.2rem; }
 
 /* ---------- ANIMATIONS ---------- */
@@ -1569,6 +1604,7 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
 </section>
 
 <footer>
+  <p class="footer-mark" aria-hidden="true">Janak<br>Rudani</p>
   <div class="console-line">
     <span class="prompt">vader@deathstar:~$</span> <span class="cmd">cat footer.txt</span><br>
     <span class="output">built with ⚔️, caffeine, and {count} console.log statements</span><br>
@@ -2862,5 +2898,15 @@ console.log('%c📊 Also: click the 🧠 meme. i dare you.', 'color:#ffd166;');
 })();
 </script>
 
+<script>
+// active nav link follows the section in view
+(() => {
+  const links = [...document.querySelectorAll('.nav-links a[href^="#"]')];
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+  }), { rootMargin: '-45% 0px -50% 0px' });
+  links.forEach(a => { const t = document.querySelector(a.getAttribute('href')); if (t) io.observe(t); });
+})();
+</script>
 </body>
 </html>

@@ -77,6 +77,11 @@ svg { display: block; width: 100%; height: auto; }
 .tag.hl { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
 .foot { margin-top: 3.4rem; padding-top: 1.6rem; border-top: 1px solid var(--border); font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: space-between; }
 @media (max-width: 560px) { .wrap { padding-top: 2.4rem; } table { font-size: 0.85rem; } th, td { padding: 0.5rem 0.4rem; } }
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: 0.25s ease both vt-out; }
+::view-transition-new(root) { animation: 0.4s cubic-bezier(0.22,1,0.36,1) both vt-in; }
+@keyframes vt-out { to { opacity: 0; transform: translateY(-8px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(12px); } }
 </style>
 </head>
 <body>
