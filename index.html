@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="brutal">
 <head>
+<script>try{if(localStorage.getItem("theme")==="dark")document.documentElement.classList.remove("brutal")}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Janak Rudani - Statistics, Data Science &amp; Automation</title>
@@ -963,6 +964,141 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
 .egg-scan { position: fixed; left: 0; right: 0; height: 2px; z-index: 9998; pointer-events: none; background: var(--accent); box-shadow: 0 0 20px var(--accent); opacity: 0; }
 .egg-scan.active { animation: scanFall 2.5s linear forwards; }
 @keyframes scanFall { 0% { top: -10px; opacity: 1; } 100% { top: 110vh; opacity: 0; } }
+
+/* =====================================================================
+   NEO-BRUTALIST THEME  (html.brutal, default; toggle button restores dark)
+   Raw cream paper, 3px black borders, hard offset shadows, flat colour.
+   ===================================================================== */
+html.brutal {
+  --void: #f3efe3; --panel: #ffe94d; --surface: #ffffff; --elevated: #ffffff;
+  --text: #0a0a0a; --dim: #1f1f1f; --muted: #4a4a4a;
+  --accent: #ff3131; --accent-dim: #ffd6d6; --violet: #1a4dff; --amber: #0a0a0a;
+  --border: #0a0a0a; --ring: rgba(0,0,0,0); --glow: 6px 6px 0 #0a0a0a;
+  scrollbar-color: #0a0a0a #f3efe3;
+}
+html.brutal *, html.brutal *::before, html.brutal *::after { border-radius: 0 !important; }
+html.brutal body { background: var(--void); }
+html.brutal ::selection { background: #0a0a0a; color: #ffe94d; }
+html.brutal #boot, html.brutal #particles, html.brutal #cursor-ring { display: none !important; }
+html.brutal #progress { background: #0a0a0a; box-shadow: none; height: 6px; }
+
+/* dark islands keep the original dark palette so their content stays legible */
+html.brutal .terminal-widget, html.brutal .circuit-board, html.brutal .game-arena, html.brutal footer, html.brutal .stack-marquee {
+  --text: #f2f2f5; --dim: #b8b8c6; --muted: #8a8a9a; --border: rgba(255,255,255,0.25); --void: #05050a;
+}
+html.brutal .terminal-widget, html.brutal .circuit-board { border: 3px solid #0a0a0a; box-shadow: 8px 8px 0 #0a0a0a; }
+
+/* nav + floating UI */
+html.brutal nav { background: var(--void); border-bottom: 3px solid #0a0a0a; backdrop-filter: none; }
+html.brutal nav.scrolled { background: var(--void); backdrop-filter: none; border-bottom: 3px solid #0a0a0a; }
+html.brutal .nav-logo { color: #0a0a0a; text-shadow: none; background: #ffe94d; padding: 0 0.4rem; border: 2px solid #0a0a0a; }
+html.brutal .nav-logo::before { color: #0a0a0a; }
+html.brutal .nav-links a { color: #0a0a0a; font-weight: 700; }
+html.brutal .nav-links a:hover, html.brutal .nav-links a.active { color: #0a0a0a; background: #ffe94d; }
+html.brutal .nav-links a::after { display: none; }
+html.brutal .float-btn { background: #fff; color: #0a0a0a; border: 3px solid #0a0a0a; box-shadow: 4px 4px 0 #0a0a0a; }
+html.brutal .float-btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #0a0a0a; background: #ffe94d; color: #0a0a0a; border-color: #0a0a0a; }
+html.brutal #toast { background: #0a0a0a; color: #ffe94d; border: 3px solid #0a0a0a; box-shadow: 6px 6px 0 #ff3131; }
+html.brutal .modal { background: #ffe94d; backdrop-filter: none; }
+html.brutal .modal h2 { color: #0a0a0a !important; }
+html.brutal .modal-close { background: #0a0a0a; color: #ffe94d; border: 3px solid #0a0a0a; box-shadow: 5px 5px 0 #ff3131; }
+
+/* hero */
+html.brutal .terminal-greeting { color: #0a0a0a; font-weight: 700; }
+html.brutal .terminal-greeting .cursor { background: #0a0a0a; }
+html.brutal .hero-name { text-shadow: 5px 5px 0 #0a0a0a; }
+html.brutal .gradient-text { background: none; -webkit-text-fill-color: var(--accent); color: var(--accent); animation: none; }
+html.brutal .hero-tagline .pun { color: #0a0a0a; background: #ffe94d; border-bottom: 3px solid #0a0a0a; padding: 0 0.2em; }
+html.brutal .hero-cta, html.brutal .hero-term-btn { border: 3px solid #0a0a0a; color: #0a0a0a; box-shadow: 5px 5px 0 #0a0a0a; font-weight: 800; transition: transform 0.12s, box-shadow 0.12s; }
+html.brutal .hero-cta { background: #ffe94d; }
+html.brutal .hero-term-btn { background: #fff; }
+html.brutal .hero-cta:hover, html.brutal .hero-term-btn:hover { transform: translate(-3px,-3px); box-shadow: 8px 8px 0 #0a0a0a; color: #0a0a0a; border-color: #0a0a0a; }
+html.brutal .hero-cta:active, html.brutal .hero-term-btn:active { transform: translate(3px,3px); box-shadow: 1px 1px 0 #0a0a0a; }
+html.brutal .hero-stat b { text-shadow: none; color: #0a0a0a; background: #ffe94d; display: inline-block; padding: 0 0.3rem; }
+html.brutal .now-panel { color: #0a0a0a; font-weight: 700; }
+html.brutal .now-panel b { background: #0a0a0a; color: #ffe94d; padding: 0 0.3rem; }
+
+/* tickers + marquee: black bands, yellow type */
+html.brutal .ticker-wrap { background: #0a0a0a; border-block: 3px solid #0a0a0a; }
+html.brutal .ticker { color: #f3efe3; }
+html.brutal .ticker .joke { color: #ffe94d; }
+html.brutal .ticker .skill { color: #ff7a7a; }
+html.brutal .stack-marquee { background: #0a0a0a; border-block: 3px solid #0a0a0a; }
+html.brutal .stack-marquee__item { color: #ffe94d; -webkit-text-stroke: 0; }
+html.brutal .stack-marquee__item:hover { color: #ff3131; }
+html.brutal .stack-marquee__sep { background: #ff3131; }
+
+/* sections */
+html.brutal .section-num { color: #0a0a0a; background: #ffe94d; display: inline-block; padding: 0.05rem 0.6rem; border: 2px solid #0a0a0a; }
+html.brutal .section-num::before { color: #0a0a0a; }
+html.brutal .section-title { border-bottom: 8px solid #0a0a0a; display: inline-block; padding-bottom: 0.2rem; }
+html.brutal .section-subtitle b { color: #0a0a0a; background: #ffe94d; padding: 0 0.2em; }
+html.brutal .band-dark { background: var(--panel); border-block: 3px solid #0a0a0a; }
+html.brutal .band-dark .section-num { background: #fff; }
+
+/* projects */
+html.brutal .project { background: #fff; border: 3px solid #0a0a0a; box-shadow: 6px 6px 0 #0a0a0a; transition: transform 0.12s, box-shadow 0.12s; }
+html.brutal .project::before { display: none; }
+html.brutal .project:hover { transform: translate(-3px,-3px); box-shadow: 10px 10px 0 #0a0a0a; border-color: #0a0a0a; }
+html.brutal .project:active { transform: translate(3px,3px); box-shadow: 2px 2px 0 #0a0a0a; }
+html.brutal .project[data-featured] { background: #ffe94d; }
+html.brutal .project.is-private { border-style: dashed; box-shadow: 6px 6px 0 #4a4a4a; }
+html.brutal .project:hover .project-num, html.brutal .project:hover .project-link { color: #0a0a0a; }
+html.brutal .project p .stat-joke, html.brutal .stat-joke { color: #0a0a0a; background: #ffe94d; padding: 0 0.2em; font-weight: 700; }
+html.brutal .project[data-featured] .stat-joke { background: #fff; }
+html.brutal .project-score { color: #0a0a0a; font-weight: 800; }
+html.brutal #projectList .project-side { border-top: 3px solid #0a0a0a; }
+html.brutal .tag { border: 2px solid #0a0a0a; background: #fff; color: #0a0a0a; font-weight: 700; }
+html.brutal .tag.hl { background: #ff3131; color: #0a0a0a; border-color: #0a0a0a; }
+html.brutal .project:hover .tag.hl { box-shadow: none; }
+html.brutal .proj-search { background: #fff; border: 3px solid #0a0a0a; color: #0a0a0a; }
+html.brutal .proj-search:focus { box-shadow: 5px 5px 0 #0a0a0a; border-color: #0a0a0a; }
+html.brutal .proj-label, html.brutal .proj-count { color: #0a0a0a; font-weight: 700; }
+html.brutal .proj-clear { border: 2px solid #0a0a0a; color: #0a0a0a; background: #fff; }
+html.brutal .chip { background: #fff; color: #0a0a0a; border: 3px solid #0a0a0a; font-weight: 700; box-shadow: 3px 3px 0 #0a0a0a; }
+html.brutal .chip:hover { background: #ffe94d; color: #0a0a0a; border-color: #0a0a0a; transform: translate(-1px,-1px); }
+html.brutal .chip.on { background: #0a0a0a; color: #ffe94d; box-shadow: none; transform: translate(3px,3px); }
+
+/* cards used across the lower sections */
+html.brutal .chart-card, html.brutal .meme-card, html.brutal .hobby-card, html.brutal .cmm-box, html.brutal .skill-meter {
+  background: #fff; border: 3px solid #0a0a0a; box-shadow: 6px 6px 0 #0a0a0a;
+}
+html.brutal .cmm-box { background: #ffe94d; }
+
+/* method, faq, cta */
+html.brutal .proc-step { border-top: 3px solid #0a0a0a; }
+html.brutal .proc-step:last-child { border-bottom: 3px solid #0a0a0a; }
+html.brutal .proc-num { color: #0a0a0a; text-shadow: 4px 4px 0 #ffe94d; }
+html.brutal .proc-step:hover .proc-num { color: #ff3131; }
+html.brutal .faq-list details { background: #fff; border: 3px solid #0a0a0a; box-shadow: 5px 5px 0 #0a0a0a; padding: 1rem 1.2rem; margin-bottom: 1.1rem; }
+html.brutal .faq-list details:last-child { border-bottom: 3px solid #0a0a0a; }
+html.brutal .faq-list details[open] { background: #ffe94d; }
+html.brutal .faq-list summary::before, html.brutal .faq-list summary::after { color: #0a0a0a; }
+html.brutal .contact-email { color: #0a0a0a; }
+html.brutal .social-link { color: #0a0a0a; border-bottom: 3px solid #0a0a0a; font-weight: 700; }
+html.brutal .social-link:hover { color: #0a0a0a; background: #ffe94d; border-bottom-color: #0a0a0a; }
+html.brutal .cta { border-top: 3px solid #0a0a0a; background: #ffe94d; }
+html.brutal .cta-label { color: #0a0a0a; }
+html.brutal .cta-title, html.brutal .cta-text { color: #0a0a0a; }
+html.brutal .cta-btn { border: 3px solid #0a0a0a; color: #0a0a0a; background: #fff; box-shadow: 5px 5px 0 #0a0a0a; font-weight: 800; transition: transform 0.12s, box-shadow 0.12s; }
+html.brutal .cta-btn--fill { background: #0a0a0a; color: #ffe94d; }
+html.brutal .cta-btn:hover, html.brutal .cta-btn:not(.cta-btn--fill):hover { transform: translate(-3px,-3px); box-shadow: 8px 8px 0 #0a0a0a; background: #ff3131; color: #0a0a0a; }
+
+/* footer: black slab */
+html.brutal footer { background: #0a0a0a; border-top: 3px solid #0a0a0a; }
+html.brutal .footer-mark { color: #ffe94d; }
+html.brutal .footer-mark:hover { color: #ff3131; }
+html.brutal .console-line .cmd { color: #fff; }
+html.brutal .console-line .output { color: #ffe94d; }
+html.brutal .footer-love { color: #f3efe3; }
+
+/* palette */
+html.brutal #palette { background: #fff; border: 3px solid #0a0a0a; box-shadow: 8px 8px 0 #0a0a0a; color: #0a0a0a; }
+html.brutal #palette::backdrop { background: rgba(255,233,77,0.8); backdrop-filter: none; }
+html.brutal #palette input { color: #0a0a0a; border-bottom: 3px solid #0a0a0a; }
+html.brutal #palette li { color: #0a0a0a; }
+html.brutal #palette li.sel, html.brutal #palette li:hover { background: #ffe94d; color: #0a0a0a; }
+html.brutal :focus-visible { outline: 3px solid #1a4dff; outline-offset: 3px; }
 </style>
 </head>
 <body>
@@ -993,6 +1129,7 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
 </nav>
 
 <div class="float-btns">
+  <button class="float-btn" id="themeBtn" title="switch between brutalist and dark">🧱 dark theme</button>
   <button class="float-btn" id="recruiterBtn" title="plain, fast, no jokes">👔 recruiter mode</button>
   <button class="float-btn" id="soundBtn" title="toggle retro sounds">🔇 sound off</button>
   <button class="float-btn" id="complimentBtn" title="You deserve this">💬 compliment me</button>
@@ -3188,6 +3325,17 @@ console.log('%c📊 Also: click the 🧠 meme. i dare you.', 'color:#ffd166;');
     else if (e.key === 'Enter' && shown[sel]) { dlg.close(); shown[sel].go(); }
   });
   dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+})();
+</script>
+<script>
+(() => {
+  const root = document.documentElement, b = document.getElementById('themeBtn');
+  const label = () => { b.textContent = root.classList.contains('brutal') ? '\u{1F311} dark theme' : '\u{1F9F1} brutalist'; };
+  label();
+  b.addEventListener('click', () => {
+    root.classList.toggle('brutal'); label();
+    try { localStorage.setItem('theme', root.classList.contains('brutal') ? 'brutal' : 'dark'); } catch (e) {}
+  });
 })();
 </script>
 </body>
