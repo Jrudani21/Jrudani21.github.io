@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" class="brutal">
+<html lang="en" class="swiss">
 <head>
-<script>try{if(localStorage.getItem("theme")==="dark")document.documentElement.classList.remove("brutal")}catch(e){}</script>
+<script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="brutal"||t==="swiss"){var c=document.documentElement.classList;c.remove("swiss","brutal");if(t!=="dark")c.add(t)}}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Janak Rudani - Statistics, Data Science &amp; Automation</title>
@@ -1102,6 +1102,135 @@ html.brutal .hole { background: #0a0a0a; border: 3px solid #0a0a0a; box-shadow: 
 html.brutal .hole:hover { background: #2a2a2a; }
 html.brutal .game-score, html.brutal .game-tip { color: #0a0a0a; font-weight: 700; }
 html.brutal :focus-visible { outline: 3px solid #1a4dff; outline-offset: 3px; }
+
+/* =====================================================================
+   SWISS THEME  (html.swiss): white, black type, one red, hairline grid.
+   ===================================================================== */
+html.swiss {
+  --void: #ffffff; --panel: #f4f4f2; --surface: #ffffff; --elevated: #ffffff;
+  --text: #0a0a0a; --dim: #333333; --muted: #6a6a6a;
+  --accent: #e10600; --accent-dim: #fde7e5; --violet: #0a0a0a; --amber: #e10600;
+  --border: #d4d4d0; --ring: rgba(0,0,0,0); --glow: 0 0 0 rgba(0,0,0,0);
+  scrollbar-color: #e10600 #ffffff;
+}
+html.swiss *, html.swiss *::before, html.swiss *::after { border-radius: 0 !important; }
+html.swiss ::selection { background: #e10600; color: #fff; }
+html.swiss #boot, html.swiss #particles, html.swiss #cursor-ring { display: none !important; }
+html.swiss #progress { background: #e10600; box-shadow: none; height: 4px; }
+html.swiss .hero-name, html.swiss .section-title { letter-spacing: -0.045em; }
+
+/* dark islands keep their own palette */
+html.swiss .terminal-widget, html.swiss .circuit-board, html.swiss .game-arena {
+  --text: #f2f2f5; --dim: #b8b8c6; --muted: #8a8a9a; --border: rgba(255,255,255,0.22); --void: #05050a;
+}
+html.swiss .terminal-widget, html.swiss .circuit-board { box-shadow: none; border: 1px solid #0a0a0a; }
+
+/* nav + floating UI */
+html.swiss nav, html.swiss nav.scrolled { background: #fff; backdrop-filter: none; border-bottom: 1px solid #0a0a0a; }
+html.swiss .nav-logo { color: #e10600; text-shadow: none; font-weight: 800; }
+html.swiss .nav-logo::before { color: #0a0a0a; }
+html.swiss .nav-links a { color: #0a0a0a; font-weight: 600; }
+html.swiss .nav-links a::after { background: #e10600; height: 2px; }
+html.swiss .nav-links a:hover, html.swiss .nav-links a.active { color: #e10600; }
+html.swiss .float-btn { background: #fff; color: #0a0a0a; border: 1px solid #0a0a0a; }
+html.swiss .float-btn:hover { background: #e10600; color: #fff; border-color: #e10600; box-shadow: none; transform: none; }
+html.swiss #toast { background: #0a0a0a; color: #fff; box-shadow: none; }
+html.swiss .modal { background: #fff; backdrop-filter: none; }
+html.swiss .modal h2 { color: #e10600 !important; }
+html.swiss .modal-close { background: #e10600; color: #fff; }
+
+/* hero */
+html.swiss .terminal-greeting { color: #6a6a6a; }
+html.swiss .terminal-greeting .cursor { background: #e10600; }
+html.swiss .gradient-text { background: none; -webkit-text-fill-color: #e10600; color: #e10600; animation: none; }
+html.swiss .hero-tagline .pun { color: #e10600; border-bottom: 2px solid #e10600; }
+html.swiss .hero-cta { background: #e10600; color: #fff; border: 2px solid #e10600; font-weight: 700; }
+html.swiss .hero-cta:hover { background: #0a0a0a; border-color: #0a0a0a; color: #fff; box-shadow: none; transform: none; }
+html.swiss .hero-term-btn { border: 2px solid #0a0a0a; color: #0a0a0a; background: #fff; }
+html.swiss .hero-term-btn:hover { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
+html.swiss .hero-stats { border-top: 2px solid #0a0a0a; padding-top: 1.2rem; }
+html.swiss .hero-stat b { color: #e10600; text-shadow: none; font-size: 2.2rem; }
+html.swiss .now-panel b { color: #e10600; }
+
+/* tickers + marquee */
+html.swiss .ticker-wrap { border-block: 1px solid #0a0a0a; background: #fff; }
+html.swiss .ticker { color: #6a6a6a; }
+html.swiss .ticker .joke { color: #0a0a0a; font-weight: 700; }
+html.swiss .ticker .skill { color: #e10600; }
+html.swiss .stack-marquee { background: #fff; border-block: 1px solid #0a0a0a; }
+html.swiss .stack-marquee__item { color: #0a0a0a; -webkit-text-stroke: 0; letter-spacing: -0.04em; }
+html.swiss .stack-marquee__item:hover { color: #e10600; }
+html.swiss .stack-marquee__sep { background: #e10600; transform: none; }
+
+/* sections */
+html.swiss .section-num { color: #e10600; font-weight: 700; }
+html.swiss .section-num::before { color: #0a0a0a; }
+html.swiss .section-header { border-top: 4px solid #0a0a0a; padding-top: 1rem; }
+html.swiss .section-subtitle b { color: #e10600; }
+html.swiss .band-dark { background: var(--panel); }
+
+/* projects: ruled grid, red on hover */
+html.swiss .project { background: #fff; border: 0; border-top: 2px solid #0a0a0a; padding: 1.4rem 0.2rem 1.6rem; box-shadow: none; transition: border-color 0.15s, background 0.15s; }
+html.swiss .project::before { display: none; }
+html.swiss .project:hover { border-top-color: #e10600; box-shadow: none; transform: none; background: #fff; }
+html.swiss .project:hover h3, html.swiss .project:hover .project-num, html.swiss .project:hover .project-link { color: #e10600; }
+html.swiss .project[data-featured] { background: var(--panel); border-top: 6px solid #e10600; padding: 1.6rem 1.4rem; }
+html.swiss .project.is-private { border-top-style: dashed; }
+html.swiss .project p .stat-joke, html.swiss .stat-joke { color: #e10600; font-weight: 600; }
+html.swiss .project-score { color: #e10600; font-weight: 800; }
+html.swiss #projectList .project-side { border-top: 1px solid var(--border); }
+html.swiss .tag { border: 1px solid #0a0a0a; background: transparent; color: #0a0a0a; }
+html.swiss .tag.hl { background: #e10600; border-color: #e10600; color: #fff; }
+html.swiss .project:hover .tag.hl { box-shadow: none; }
+html.swiss .proj-search { background: #fff; border: 1px solid #0a0a0a; color: #0a0a0a; }
+html.swiss .proj-search:focus { border-color: #e10600; box-shadow: none; }
+html.swiss .proj-label { color: #0a0a0a; font-weight: 700; }
+html.swiss .proj-count { color: #e10600; }
+html.swiss .proj-clear { border: 1px solid #0a0a0a; color: #0a0a0a; }
+html.swiss .chip { border: 1px solid #0a0a0a; color: #0a0a0a; background: #fff; }
+html.swiss .chip:hover { border-color: #e10600; color: #e10600; }
+html.swiss .chip.on { background: #e10600; border-color: #e10600; color: #fff; }
+
+/* cards in lower sections */
+html.swiss .chart-card, html.swiss .meme-card, html.swiss .hobby-card, html.swiss .skill-meter { background: #fff; border: 0; border-top: 2px solid #0a0a0a; box-shadow: none; }
+html.swiss .cmm-box { background: var(--panel); border: 0; border-top: 6px solid #e10600; }
+
+/* method, faq, cta */
+html.swiss .proc-step { border-top: 2px solid #0a0a0a; }
+html.swiss .proc-step:last-child { border-bottom: 2px solid #0a0a0a; }
+html.swiss .proc-num { color: #e10600; }
+html.swiss .proc-step:hover .proc-num { color: #0a0a0a; }
+html.swiss .faq-list details { border-top: 2px solid #0a0a0a; }
+html.swiss .faq-list details:last-child { border-bottom: 2px solid #0a0a0a; }
+html.swiss .faq-list summary::before, html.swiss .faq-list summary::after { color: #e10600; }
+html.swiss .contact-email { color: #e10600; }
+html.swiss .social-link { color: #0a0a0a; border-bottom: 2px solid #0a0a0a; }
+html.swiss .social-link:hover { color: #e10600; border-bottom-color: #e10600; }
+html.swiss .cta { border-top: 6px solid #e10600; background: #fff; }
+html.swiss .cta-label { color: #e10600; }
+html.swiss .cta-btn { border: 2px solid #0a0a0a; color: #0a0a0a; }
+html.swiss .cta-btn--fill { background: #e10600; border-color: #e10600; color: #fff; }
+html.swiss .cta-btn:hover, html.swiss .cta-btn:not(.cta-btn--fill):hover { background: #0a0a0a; border-color: #0a0a0a; color: #fff; box-shadow: none; }
+
+/* footer: full red slab */
+html.swiss footer { background: #e10600; border-top: 0; }
+html.swiss .footer-mark { color: #fff; letter-spacing: -0.05em; }
+html.swiss .footer-mark:hover { color: #0a0a0a; }
+html.swiss .console-line, html.swiss .console-line .prompt, html.swiss .console-line .cmd { color: #fff; }
+html.swiss .console-line .output, html.swiss .console-line .error { color: #fff; font-weight: 700; }
+html.swiss .footer-love { color: #fff; }
+
+/* palette */
+html.swiss #palette { background: #fff; border: 2px solid #0a0a0a; box-shadow: none; color: #0a0a0a; }
+html.swiss #palette::backdrop { background: rgba(255,255,255,0.8); backdrop-filter: none; }
+html.swiss #palette input { color: #0a0a0a; border-bottom: 2px solid #0a0a0a; }
+html.swiss #palette li { color: #0a0a0a; }
+html.swiss #palette li.sel, html.swiss #palette li:hover { background: #e10600; color: #fff; }
+html.swiss #palette li small { color: inherit; opacity: 0.7; }
+html.swiss .hole { background: #0a0a0a; border: 2px solid #0a0a0a; }
+html.swiss .hole:hover { background: #2a2a2a; }
+html.swiss .game-score, html.swiss .game-tip { color: #0a0a0a; }
+html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
 </style>
 </head>
 <body>
@@ -1132,7 +1261,7 @@ html.brutal :focus-visible { outline: 3px solid #1a4dff; outline-offset: 3px; }
 </nav>
 
 <div class="float-btns">
-  <button class="float-btn" id="themeBtn" title="switch between brutalist and dark">🧱 dark theme</button>
+  <button class="float-btn" id="themeBtn" title="cycle theme: swiss, brutal, dark">theme</button>
   <button class="float-btn" id="recruiterBtn" title="plain, fast, no jokes">👔 recruiter mode</button>
   <button class="float-btn" id="soundBtn" title="toggle retro sounds">🔇 sound off</button>
   <button class="float-btn" id="complimentBtn" title="You deserve this">💬 compliment me</button>
@@ -3333,11 +3462,16 @@ console.log('%c📊 Also: click the 🧠 meme. i dare you.', 'color:#ffd166;');
 <script>
 (() => {
   const root = document.documentElement, b = document.getElementById('themeBtn');
-  const label = () => { b.textContent = root.classList.contains('brutal') ? '\u{1F311} dark theme' : '\u{1F9F1} brutalist'; };
+  const order = ['swiss', 'brutal', 'dark'];
+  const cur = () => order.find(t => root.classList.contains(t)) || 'dark';
+  const label = () => { b.textContent = '\u25D0 theme: ' + cur(); };
   label();
   b.addEventListener('click', () => {
-    root.classList.toggle('brutal'); label();
-    try { localStorage.setItem('theme', root.classList.contains('brutal') ? 'brutal' : 'dark'); } catch (e) {}
+    const next = order[(order.indexOf(cur()) + 1) % order.length];
+    root.classList.remove('swiss', 'brutal');
+    if (next !== 'dark') root.classList.add(next);
+    label();
+    try { localStorage.setItem('theme', next); } catch (e) {}
   });
 })();
 </script>
