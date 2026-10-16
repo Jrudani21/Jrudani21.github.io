@@ -5,3 +5,12 @@
 # and corrupting the output.
 exclude:
   - ken
+  # Internal project docs; keep them out of the published Pages site.
+  - AGENTS.md
+  - ARCHITECTURE.md
+  - CODE_STYLE.md
+  - DATABASE.md
+  - DESIGN_SYSTEM.md
+  - PRD.md
+  - SECURITY.md
+  - TESTING.md
