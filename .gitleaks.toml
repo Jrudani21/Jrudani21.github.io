@@ -1,0 +1,8 @@
+title = "gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Vendored built docs site: placeholders and minified JS, not secrets"
+paths = ['''^ken/docs/''']
