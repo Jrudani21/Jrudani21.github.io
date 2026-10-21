@@ -197,6 +197,19 @@ svg { display: block; width: 100%; height: auto; }
     <tr><td>audit</td><td><code>npx @anthropic-ai/claude-code -p</code> and <code>ssh -R8080:...</code> slipped past the first version of their rules</td></tr>
   </table>
 
+  <h2>Where it sits among similar tools</h2>
+  <p>I read the READMEs of three open-source projects in the same space before settling on Sure?'s scope. They overlap, but
+    they make different trade-offs:</p>
+  <table>
+    <tr><th>tool</th><th>approach</th><th>pick it when</th></tr>
+    <tr><td>Sure?</td><td>pattern rules as plain data, plain-English cards with an undo answer, a local approvals board</td><td>you want every risky action explained to a person, on Windows, with no dependencies</td></tr>
+    <tr><td>AgentTrail Guard</td><td>74 pattern rules in 11 packs, per-rule allow lists, a transcript scan report</td><td>you want more rules today across Claude Code, Cursor and Codex</td></tr>
+    <tr><td>cc-safety-net</td><td>parses what a command actually does, with presets and cloud rulebooks, 17 coding CLIs</td><td>you want real shell parsing or many different agents</td></tr>
+    <tr><td>Cupcake</td><td>policy as code (OPA/Rego compiled to Wasm), allow, modify, block, warn or review</td><td>you want policy-as-code and enterprise controls</td></tr>
+  </table>
+  <p>Where Sure? is behind, and the README says so: the public repo covers Claude Code only, detection is pattern matching
+    and not a parser, and it has no custom-rule test runner or transcript scan yet.</p>
+
   <h2>How it was built</h2>
   <p>Sure? was built with AI assistance (Claude Code and free models for mechanical work), and the process is
     the point: tests first, a different model family to critique, a stronger model to review, and a human
