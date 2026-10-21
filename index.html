@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Janak Rudani - Statistics, Data Science &amp; Automation</title>
-<meta name="description" content="Janak Rudani - Statistics student at the University of Manitoba. 13 projects in R, Python and SQL: churn and count-regression modelling, SARIMA forecasting, fraud detection, local LLM/RAG tooling and $0-budget automation fleets.">
+<meta name="description" content="Janak Rudani - Statistics student at the University of Manitoba. 14 projects in R, Python and SQL: churn and count-regression modelling, SARIMA forecasting, fraud detection, local LLM/RAG tooling and $0-budget automation fleets.">
 <link rel="canonical" href="https://jrudani21.github.io/">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <meta name="theme-color" content="#05050a">
@@ -13,14 +13,14 @@
 <meta property="og:site_name" content="Janak Rudani">
 <meta property="og:url" content="https://jrudani21.github.io/">
 <meta property="og:title" content="Janak Rudani - Statistics, Data Science &amp; Automation">
-<meta property="og:description" content="Stats student at the University of Manitoba. 13 projects in R, Python and SQL, plus a 34-bot agent fleet running on one PC for $0.004.">
+<meta property="og:description" content="Stats student at the University of Manitoba. 14 projects in R, Python and SQL, plus a 34-bot agent fleet running on one PC for $0.004.">
 <meta property="og:image" content="https://jrudani21.github.io/assets/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Janak Rudani - statistics, data science and automation">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Janak Rudani - Statistics, Data Science &amp; Automation">
-<meta name="twitter:description" content="Stats student at the University of Manitoba. 13 projects in R, Python and SQL, plus a 34-bot agent fleet running on one PC for $0.004.">
+<meta name="twitter:description" content="Stats student at the University of Manitoba. 14 projects in R, Python and SQL, plus a 34-bot agent fleet running on one PC for $0.004.">
 <meta name="twitter:image" content="https://jrudani21.github.io/assets/og-card.png">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Janak Rudani","url":"https://jrudani21.github.io/","jobTitle":"Statistics student, data analyst","affiliation":{"@type":"CollegeOrUniversity","name":"University of Manitoba"},"knowsAbout":["Statistics","R","Python","SQL","Regression modelling","Time series forecasting","LLM automation"],"sameAs":["https://github.com/Jrudani21","https://www.linkedin.com/in/janakrudani21"]}
@@ -1430,7 +1430,7 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
     <input id="projSearch" class="proj-search" type="search" autocomplete="off"
            placeholder="r · sql · sarima · llm · dashboard · fraud …"
            aria-label="Filter projects by keyword">
-    <span class="proj-count" id="projCount" role="status" aria-live="polite">13 projects</span>
+    <span class="proj-count" id="projCount" role="status" aria-live="polite">14 projects</span>
     <button type="button" class="proj-clear" id="projClear" hidden>clear</button>
   </div>
 
@@ -1598,6 +1598,16 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
         <div class="tags"><span class="tag hl">Agent engineering</span><span class="tag">Python</span><span class="tag">Cron</span><span class="tag">Local LLMs</span><span class="tag">Open source fork</span></div>
       </div>
       <div class="project-side"><div class="project-score">34 bots</div><div class="project-link">case study →</div></div>
+    </a>
+
+    <a href="case-study-sure.html" class="project" data-cat="ai" data-featured>
+      <div>
+        <p class="project-num">15</p>
+        <h3>Sure?: plain-English safety cards for AI coding agents</h3>
+        <p>A free, local hook for Claude Code that stays quiet on safe actions and, before a risky one, shows what will happen, why it matters, what it costs and whether it can be undone. 25 kinds of risk, tested against a labelled corpus of 640+ commands with an old-versus-new replay that must lose zero cards. Stdlib only, MIT licensed, and honest in the first paragraph about what it does not catch.</p>
+        <div class="tags"><span class="tag hl">AI agent safety</span><span class="tag">Python</span><span class="tag">Test-first</span><span class="tag">Differential testing</span><span class="tag">Open source</span></div>
+      </div>
+      <div class="project-side"><div class="project-score">25 kinds</div><div class="project-link">case study &rarr;</div></div>
     </a>
 
   </div>
@@ -2731,7 +2741,7 @@ function printHelp() {
   const cmds = [
     ['help', 'show this list'],
     ['whoami', 'existential self-identification'],
-    ['projects', 'list the 13 receipts'],
+    ['projects', 'list the 14 receipts'],
     ['skills', 'what I bring to the table'],
     ['memes', 'the important stuff'],
     ['hire', 'the only command that matters'],
@@ -2760,8 +2770,8 @@ function handleCommand(raw) {
     return;
   }
   if (cmd === 'projects') {
-    termOut('13 projects. 253 tests. 1 questionable sleep schedule.', 'ok');
-    termOut('telco-churn · bike-share · air-passengers · penguins · medicare-fraud · covid-dash · personal-assistant · llm-finetune · jurassic-park · puter-todo · delivery-gate · ken · weather-arb (private)', 'warn');
+    termOut('14 projects. 253 tests. 1 questionable sleep schedule.', 'ok');
+    termOut('telco-churn · bike-share · air-passengers · penguins · medicare-fraud · covid-dash · personal-assistant · llm-finetune · jurassic-park · puter-todo · delivery-gate · ken · sure · weather-arb (private)', 'warn');
     termOut('full list: scroll up. i built the whole page for you.', '');
     return;
   }
@@ -2861,7 +2871,7 @@ function handleCommand(raw) {
   blip(180, 0.15, 'sawtooth', 0.03);
 }
 banner.forEach(l => termWrite('<span class="violet">' + l + '</span>'));
-termWrite('<span class="ok">13 projects</span> · <span class="ok">253 tests</span> · <span class="warn">0 patience for bad data</span>');
+termWrite('<span class="ok">14 projects</span> · <span class="ok">253 tests</span> · <span class="warn">0 patience for bad data</span>');
 termInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
     const val = termInput.value;

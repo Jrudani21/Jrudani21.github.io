@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case study: plain-English safety cards for AI coding agents - Janak Rudani</title>
+<meta name="description" content="Sure? is a free, local seatbelt for Claude Code: 25 kinds of risky action, a short plain-English card with an undo answer before each one, and a labelled corpus of 640+ commands that keeps the rules honest.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sure?: plain-English safety cards for AI coding agents">
+<meta property="og:description" content="A stdlib-only hook that shows what an AI agent is about to do, what it costs and whether it can be undone, tested against 640+ labelled commands.">
+<meta property="og:url" content="https://jrudani21.github.io/case-study-sure.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sure?: plain-English safety cards for AI coding agents">
+<meta name="twitter:description" content="A stdlib-only hook that shows what an AI agent is about to do, what it costs and whether it can be undone.">
+<meta name="twitter:image" content="https://jrudani21.github.io/assets/og-card.png">
+<link rel="canonical" href="https://jrudani21.github.io/case-study-sure.html">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<meta name="theme-color" content="#05050a">
+<meta property="og:site_name" content="Janak Rudani">
+<meta property="og:image" content="https://jrudani21.github.io/assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","headline":"Sure?: plain-English safety cards for AI coding agents","description":"A stdlib-only hook that shows what an AI agent is about to do, what it costs and whether it can be undone.","url":"https://jrudani21.github.io/case-study-sure.html","image":"https://jrudani21.github.io/assets/og-card.png","author":{"@type":"Person","name":"Janak Rudani","url":"https://jrudani21.github.io/","sameAs":["https://github.com/Jrudani21","https://www.linkedin.com/in/janakrudani21"]}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #05050a; --panel: #0a0a12; --surface: #100f16;
+  --text: #f2f2f5; --dim: #9a9aa8; --muted: #565664;
+  --accent: #ff3131; --accent-dim: rgba(255,49,49,0.12);
+  --violet: #59d9ff; --amber: #f5c518; --green: #4ade80;
+  --border: rgba(255,255,255,0.07);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--void); color: var(--text); font-family: 'Space Grotesk', system-ui, sans-serif; line-height: 1.7; overflow-x: hidden; }
+.wrap { max-width: 880px; margin: 0 auto; padding: 3.5rem 1.4rem 5rem; }
+a { color: var(--violet); text-decoration: none; }
+a:hover { color: var(--accent); }
+.back { font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.back:hover { color: var(--accent); }
+.eyebrow { font-family: 'VT323', monospace; font-size: 15px; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin: 2.2rem 0 0.7rem; }
+h1 { font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: clamp(1.7rem, 4.4vw, 2.85rem); line-height: 1.12; letter-spacing: -0.01em; }
+.dek { color: var(--dim); font-size: 1.06rem; margin-top: 1.1rem; max-width: 720px; }
+.dek b { color: var(--amber); }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin: 2.4rem 0 0.4rem; }
+@media (max-width: 660px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.stat { background: linear-gradient(135deg, rgba(16,16,24,0.95), rgba(10,10,16,0.95)); padding: 1.2rem 1.3rem; }
+.stat b { display: block; font-family: 'VT323', monospace; font-size: 1.9rem; color: var(--accent); line-height: 1.1; }
+.stat span { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.03em; }
+h2 { font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 1.25rem; margin: 3rem 0 0.9rem; }
+h2::before { content: '// '; color: var(--muted); font-family: 'VT323', monospace; }
+p { color: var(--dim); margin: 0.75rem 0; }
+p b, li b, td b { color: var(--text); }
+code { font-family: 'VT323', monospace; font-size: 15px; color: var(--violet); background: rgba(255,255,255,0.05); padding: 1px 6px; border-radius: 6px; }
+pre { background: var(--panel); border: 1px solid var(--border); border-left: 2px solid var(--accent); border-radius: 12px; padding: 1.1rem 1.2rem; overflow-x: auto; margin: 1.2rem 0; font-family: 'VT323', monospace; font-size: 15px; line-height: 1.65; color: var(--dim); }
+pre .ok { color: var(--green); } pre .hl { color: var(--amber); } pre .c { color: var(--muted); } pre .bad { color: var(--accent); }
+table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: 0.92rem; }
+th, td { text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--border); color: var(--dim); vertical-align: top; }
+th { font-family: 'VT323', monospace; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 400; }
+td:first-child { color: var(--text); white-space: nowrap; }
+ol, ul { margin: 0.8rem 0 0.8rem 1.3rem; color: var(--dim); }
+li { margin: 0.4rem 0; }
+.callout { border-left: 2px solid var(--amber); background: rgba(245,197,24,0.05); padding: 0.9rem 1.2rem; border-radius: 0 12px 12px 0; margin: 1.4rem 0; font-size: 0.95rem; color: var(--dim); }
+.callout b { color: var(--amber); }
+figure { margin: 1.6rem 0; border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 1rem; background: linear-gradient(135deg, rgba(16,16,24,0.85), rgba(10,10,16,0.85)); }
+figure img { display: block; width: 100%; height: auto; border-radius: 8px; }
+figcaption { font-family: 'VT323', monospace; font-size: 14px; color: var(--muted); text-align: center; margin-top: 0.8rem; letter-spacing: 0.05em; }
+svg { display: block; width: 100%; height: auto; }
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1.6rem 0 0; }
+.tag { font-family: 'VT323', monospace; font-size: 13px; padding: 3px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--dim); }
+.tag.hl { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.links { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; margin: 1.4rem 0 0; font-family: 'VT323', monospace; font-size: 16px; }
+.foot { margin-top: 3.4rem; padding-top: 1.6rem; border-top: 1px solid var(--border); font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: space-between; }
+@media (max-width: 560px) { .wrap { padding-top: 2.4rem; } table { font-size: 0.85rem; } th, td { padding: 0.5rem 0.4rem; } td:first-child { white-space: normal; } }
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: 0.25s ease both vt-out; }
+::view-transition-new(root) { animation: 0.4s cubic-bezier(0.22,1,0.36,1) both vt-in; }
+@keyframes vt-out { to { opacity: 0; transform: translateY(-8px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(12px); } }
+@media (prefers-reduced-motion: reduce) { ::view-transition-old(root), ::view-transition-new(root) { animation: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <a class="back" href="index.html#projects">&larr; back to the imperial archives</a>
+
+  <p class="eyebrow">case study // developer tools // 2026</p>
+  <h1>Sure?: plain-English safety cards for AI coding agents</h1>
+  <p class="dek">AI coding agents run shell commands faster than anyone reads them. Sure? is a small local hook for
+    Claude Code that stays quiet on safe actions and, before a risky one, shows a short card: <b>what will
+    happen, why it matters, what it costs and whether it can be undone</b>. It is free, has no dependencies,
+    and I tested it against a labelled corpus instead of trusting my own regexes.</p>
+
+  <div class="stats">
+    <div class="stat"><b>25</b><span>kinds of risky action</span></div>
+    <div class="stat"><b>640+</b><span>labelled commands in the corpus</span></div>
+    <div class="stat"><b>1,300+</b><span>automated tests</span></div>
+    <div class="stat"><b>0</b><span>dependencies (standard library only)</span></div>
+  </div>
+
+  <h2>First, what it is not</h2>
+  <p>Sure? is <b>not a sandbox and not a security boundary</b>. It matches patterns in commands; it does not
+    parse every shell, and anything running as the same user can tamper with it. It cannot see Claude opening a
+    file with its Read tool (the README documents Claude Code's own deny rules for that gap), and if Sure?
+    itself fails it stays silent and Claude's normal prompt applies, so it can never block the agent by
+    breaking. It helps an owner who is paying attention. That limit is in the first paragraph of the README.</p>
+  <div class="callout">
+    <b>Why lead with the limits?</b> Safety tools that overstate what they catch are worse than none. A
+    reviewer who finds the gap themselves stops trusting the rest; one who is told about it first can judge the
+    tool for what it is.
+  </div>
+
+  <h2>What a card looks like</h2>
+  <p>The same four lines for every kind of risk, written for a person and not for a shell expert:</p>
+  <pre><span class="c"># Claude wants to run: rm -rf build dist</span>
+<span class="hl">WHAT:</span> Permanently deletes files or discards your changes
+<span class="hl">WHY IT MATTERS:</span> Deleted files skip the recycle bin, and discarded changes are not saved anywhere.
+<span class="hl">COST:</span> Your work or project files could disappear.
+<span class="hl">UNDO:</span> Hard: only if the files were saved in git or a backup beforehand.</pre>
+  <figure>
+    <img src="assets/sure-cards.png" alt="Two waiting cards on the Sure? board: each shows its tier badge, a plain title, the exact command in a code block, how to undo it, and Block and Allow once buttons" loading="lazy">
+    <figcaption>the same four answers on the board: tier first, then the exact command, then how to undo it</figcaption>
+  </figure>
+  <p>Every card carries a tier that says how bad a mistake would be, and the tier decides what you may do:</p>
+  <table>
+    <tr><th>tier</th><th>meaning</th><th>your options</th></tr>
+    <tr><td>easy</td><td>simple to reverse, like a package install</td><td>allow once, block, or always allow in that project</td></tr>
+    <tr><td>hard</td><td>reversible only with git or a backup</td><td>allow once or block</td></tr>
+    <tr><td>impossible</td><td>cannot be taken back, like a production destroy or a leaked key</td><td>block, or allow once with a second confirming click</td></tr>
+  </table>
+
+  <h2>How a decision is made</h2>
+  <figure>
+    <svg viewBox="0 0 720 210" role="img" aria-label="Flow: Claude Code proposes a tool call, the Sure? hook checks it; safe calls run, risky ones become a card that you decide on the local board or in Claude's own prompt">
+      <defs>
+        <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#565664"/></marker>
+      </defs>
+      <g font-family="VT323, monospace" font-size="14" fill="#9a9aa8">
+        <rect x="14" y="76" width="140" height="56" rx="10" fill="#100f16" stroke="rgba(255,255,255,0.12)"/>
+        <text x="84" y="100" text-anchor="middle" fill="#f2f2f5">Claude Code</text>
+        <text x="84" y="118" text-anchor="middle" font-size="12" fill="#565664">proposes a tool call</text>
+
+        <rect x="206" y="76" width="140" height="56" rx="10" fill="#100f16" stroke="rgba(255,49,49,0.45)"/>
+        <text x="276" y="100" text-anchor="middle" fill="#ff3131">Sure? hook</text>
+        <text x="276" y="118" text-anchor="middle" font-size="12" fill="#565664">25 kinds, pure Python</text>
+
+        <rect x="398" y="20" width="130" height="46" rx="10" fill="#100f16" stroke="rgba(74,222,128,0.4)"/>
+        <text x="463" y="40" text-anchor="middle" fill="#4ade80">safe</text>
+        <text x="463" y="56" text-anchor="middle" font-size="12" fill="#565664">runs, nothing shown</text>
+
+        <rect x="398" y="140" width="130" height="56" rx="10" fill="#100f16" stroke="rgba(245,197,24,0.4)"/>
+        <text x="463" y="162" text-anchor="middle" fill="#f5c518">card + tier</text>
+        <text x="463" y="180" text-anchor="middle" font-size="12" fill="#565664">what / why / cost / undo</text>
+
+        <rect x="576" y="140" width="130" height="56" rx="10" fill="#100f16" stroke="rgba(89,217,255,0.4)"/>
+        <text x="641" y="162" text-anchor="middle" fill="#59d9ff">you decide</text>
+        <text x="641" y="180" text-anchor="middle" font-size="12" fill="#565664">board or Claude prompt</text>
+
+        <g stroke="#565664" fill="none" marker-end="url(#ar)">
+          <path d="M154,104 H202"/><path d="M346,92 H372 V43 H394"/><path d="M346,116 H372 V168 H394"/><path d="M528,168 H572"/>
+        </g>
+      </g>
+    </svg>
+    <figcaption>quiet by default; a card only when the action is risky; no answer means Claude's own prompt takes over</figcaption>
+  </figure>
+  <p>The optional board is a local web page (served on 127.0.0.1, locked down with a content-security policy and
+    a per-session key) where each waiting card can be dragged to Block, Ask Claude or Allow once, with real
+    buttons for keyboard and touch use.</p>
+  <figure>
+    <img src="assets/sure-board.png" alt="The Sure? approvals board: a wide Waiting for you queue where each card shows its tier, the exact command and how to undo it, and a side rail of Done and Blocked decisions" loading="lazy">
+    <figcaption>the board with demo data: the queue that needs a decision is the wide column, the rest is a quiet rail</figcaption>
+  </figure>
+  <figure style="max-width:340px;margin-left:auto;margin-right:auto">
+    <img src="assets/sure-phone.png" alt="The same board at phone width: a single column with the waiting card first" loading="lazy">
+    <figcaption>at phone width it becomes one column, queue first; checked for no sideways scroll at 390 px</figcaption>
+  </figure>
+
+  <h2>How I made the rules trustworthy</h2>
+  <p>A regex that looks right is not evidence. Each batch of rules went through the same gates:</p>
+  <ol>
+    <li><b>A labelled corpus.</b> 640+ commands, each marked risky or safe, with look-alikes on both sides (<code>terraform plan</code> next to <code>terraform destroy</code>, <code>git commit -m "docs: never cat .env"</code> next to <code>cat .env</code>). New rules are written test-first against it.</li>
+    <li><b>Old versus new.</b> Every change is replayed through the previous rules on 1,500+ commands and file paths. The gate is zero lost cards and zero tiers lowered.</li>
+    <li><b>A speed budget.</b> Each new pattern must classify a 4,000-character hostile input in under 50 ms, because the hook runs before every tool call.</li>
+    <li><b>An independent audit.</b> A second model reviews the diff read-only and reports exact commands and results, not opinions.</li>
+  </ol>
+  <p>Those gates caught real bugs, not hypothetical ones:</p>
+  <table>
+    <tr><th>found by</th><th>bug</th></tr>
+    <tr><td>old-vs-new replay</td><td>a case-sensitivity change silently dropped cards for <code>AUTH.py</code> and <code>CREDENTIALS.json</code></td></tr>
+    <tr><td>speed budget</td><td>a <code>timeout</code> pattern backtracked exponentially and could stall the hook past its limit</td></tr>
+    <tr><td>audit</td><td>a <code>git rm</code> pattern was quadratic: 0.145 s on a 4,000-character input, three times over budget</td></tr>
+    <tr><td>audit</td><td><code>git commit -m "fix -n flag parsing"</code> raised a safety-bypass card because a flag inside a quoted message was read as a flag</td></tr>
+    <tr><td>audit</td><td><code>npx @anthropic-ai/claude-code -p</code> and <code>ssh -R8080:...</code> slipped past the first version of their rules</td></tr>
+  </table>
+
+  <h2>How it was built</h2>
+  <p>Sure? was built with AI assistance (Claude Code and free models for mechanical work), and the process is
+    the point: tests first, a different model family to critique, a stronger model to review, and a human
+    deciding what ships. The rules are plain data in one JSON file, so a reader can audit what it flags without
+    reading code. It is MIT licensed, and the repo includes a responsible-use note that asks users not to
+    overstate what it protects against.</p>
+
+  <h2>What this adds up to</h2>
+  <p>Not "I built a security product." It is a small, honest tool with a clear scope, a way to measure whether
+    it works, and a record of the bugs that measurement found. The interesting part is the discipline around
+    the rules: label first, replay old against new, budget the speed, and let something else check the work.
+    It also plugs into my own agent workbench: the same card now guards that agent's shell and file tools.</p>
+
+  <div class="links">
+    <a href="https://github.com/Jrudani21/sure" target="_blank" rel="noopener">source on github &nearr;</a>
+    <a href="case-study-ken.html">the agent fleet it also guards &rarr;</a>
+  </div>
+
+  <div class="tags">
+    <span class="tag hl">Python</span><span class="tag">Developer tools</span><span class="tag">AI agent safety</span>
+    <span class="tag">Test-first</span><span class="tag">Differential testing</span><span class="tag">Open source</span>
+  </div>
+
+  <div class="foot">
+    <a href="index.html#projects">&larr; all projects</a>
+    <span>Janak Rudani &middot; Winnipeg &middot; 2026</span>
+  </div>
+
+</div>
+</body>
+</html>
