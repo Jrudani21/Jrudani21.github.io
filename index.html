@@ -1176,6 +1176,49 @@ html.swiss .compliment-btn { min-height:48px; font-size:1rem !important; backgro
 html.swiss .compliment-btn:hover { box-shadow:none !important; }
 
 </style>
+<style id="motion">
+/* motion layer (swiss): tokens from taste motion.md; every move ends on the static state, so reduced-motion = finished page */
+:root { --ease-out: cubic-bezier(0.22,1,0.36,1); --ease-expo: cubic-bezier(0.16,1,0.3,1); --stagger-item: 70ms; }
+html.swiss .hero-name .ln { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .08em; margin-bottom: -.08em; }
+html.swiss .hero-name .ln > span { display: inline-block; }
+@media (prefers-reduced-motion: no-preference) {
+  /* signature: each name line rises out of its own mask */
+  html.swiss .hero-name .ln > span { transform: translateY(105%); animation: ln-rise 950ms var(--ease-expo) forwards; }
+  html.swiss .hero-name .ln:nth-of-type(2) > span { animation-delay: 110ms; }
+  @keyframes ln-rise { to { transform: translateY(0); } }
+  /* hero support copy arrives after the name, in reading order */
+  html.swiss .hero > .terminal-greeting, html.swiss .hero > .hero-tagline, html.swiss .hero > .hero-actions, html.swiss .hero > .now-panel, html.swiss .hero .hero-stat { opacity: 0; animation: hero-in 700ms var(--ease-out) forwards; }
+  html.swiss .hero > .terminal-greeting { animation-delay: 0ms; }
+  html.swiss .hero > .hero-tagline { animation-delay: 420ms; }
+  html.swiss .hero > .hero-actions { animation-delay: 500ms; }
+  html.swiss .hero > .now-panel { animation-delay: 580ms; }
+  html.swiss .hero .hero-stat:nth-child(1) { animation-delay: 560ms; }
+  html.swiss .hero .hero-stat:nth-child(2) { animation-delay: 630ms; }
+  html.swiss .hero .hero-stat:nth-child(3) { animation-delay: 700ms; }
+  html.swiss .hero .hero-stat:nth-child(4) { animation-delay: 770ms; }
+  @keyframes hero-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  /* generic reveal: smaller travel, one curve, so headings (clip rise) and bodies do not move alike */
+  html.swiss .fade-in { transform: translateY(16px); transition-duration: 700ms; }
+  html.swiss .section-header.fade-in { transform: none; }
+  /* projects: rule draws left to right, then the verdict figure slides in from the right */
+  html.swiss #projectList .project { border-top-color: transparent; transform: translateY(14px); }
+  html.swiss #projectList .project::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: #0a0a0a; transform: scaleX(0); transform-origin: left; transition: transform 900ms var(--ease-expo); }
+  html.swiss #projectList.visible .project { transform: none; }
+  html.swiss #projectList.visible .project::after { transform: scaleX(1); }
+  html.swiss #projectList .project .project-score { opacity: 0; transform: translateX(32px); transition: opacity 600ms var(--ease-out) 180ms, transform 800ms var(--ease-expo) 180ms; }
+  html.swiss #projectList.visible .project .project-score { opacity: 1; transform: none; }
+  html.swiss #projectList.visible .project:hover .project-score { transform: translateX(-8px); transition-delay: 0ms; transition-duration: 240ms; }
+  /* skill rows arrive one by one */
+  html.swiss .skill-meters.visible .skill-meter { animation: hero-in 600ms var(--ease-out) backwards; }
+  html.swiss .skill-meters.visible .skill-meter:nth-child(2) { animation-delay: 70ms; }
+  html.swiss .skill-meters.visible .skill-meter:nth-child(3) { animation-delay: 140ms; }
+  html.swiss .skill-meters.visible .skill-meter:nth-child(4) { animation-delay: 210ms; }
+  html.swiss .skill-meters.visible .skill-meter:nth-child(5) { animation-delay: 280ms; }
+}
+/* feedback under the hand */
+html.swiss .hero-cta, html.swiss .hero-term-btn, html.swiss .chip, html.swiss .float-btn { transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, transform 140ms var(--ease-out); }
+html.swiss .hero-cta:active, html.swiss .hero-term-btn:active, html.swiss .chip:active, html.swiss .float-btn:active { transform: scale(0.97); }
+</style>
 </head>
 <body>
 
@@ -1224,7 +1267,7 @@ html.swiss .compliment-btn:hover { box-shadow:none !important; }
 <!-- ================= HERO ================= -->
 <section class="hero">
   <div class="terminal-greeting"><span id="greetText">&gt; whoami</span><span class="cursor"></span></div>
-  <h1 class="hero-name">Janak<br><span class="gradient-text" id="heroName">Rudani</span></h1>
+  <h1 class="hero-name"><span class="ln"><span>Janak</span></span><br><span class="ln"><span class="gradient-text" id="heroName">Rudani</span></span></h1>
   <p class="hero-tagline">
     Statistics student in a galaxy not so far away. I treat datasets like mystery novels -
     <span class="pun" onclick="this.textContent='every variable is a suspect. always. 🔍'">every variable is a suspect.</span>
