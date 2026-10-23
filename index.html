@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Janak Rudani - Statistics, Data Science &amp; Automation</title>
-<meta name="description" content="Janak Rudani - Statistics student at the University of Manitoba. 14 projects in R, Python and SQL: churn and count-regression modelling, SARIMA forecasting, fraud detection, local LLM/RAG tooling and $0-budget automation fleets.">
+<meta name="description" content="Janak Rudani - Statistics student at the University of Manitoba. 11 projects in R, Python and SQL: churn and count-regression modelling, SARIMA forecasting, fraud detection, local LLM/RAG tooling and $0-budget automation fleets.">
 <link rel="canonical" href="https://jrudani21.github.io/">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <meta name="theme-color" content="#05050a">
@@ -13,14 +13,14 @@
 <meta property="og:site_name" content="Janak Rudani">
 <meta property="og:url" content="https://jrudani21.github.io/">
 <meta property="og:title" content="Janak Rudani - Statistics, Data Science &amp; Automation">
-<meta property="og:description" content="Stats student at the University of Manitoba. 14 projects in R, Python and SQL, plus a 34-bot agent fleet running on one PC for $0.004.">
+<meta property="og:description" content="Stats student at the University of Manitoba. 11 projects in R, Python and SQL, plus a 34-bot agent fleet running on one PC for $0.004.">
 <meta property="og:image" content="https://jrudani21.github.io/assets/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Janak Rudani - statistics, data science and automation">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Janak Rudani - Statistics, Data Science &amp; Automation">
-<meta name="twitter:description" content="Stats student at the University of Manitoba. 14 projects in R, Python and SQL, plus a 34-bot agent fleet running on one PC for $0.004.">
+<meta name="twitter:description" content="Stats student at the University of Manitoba. 11 projects in R, Python and SQL, plus a 34-bot agent fleet running on one PC for $0.004.">
 <meta name="twitter:image" content="https://jrudani21.github.io/assets/og-card.png">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Janak Rudani","url":"https://jrudani21.github.io/","jobTitle":"Statistics student, data analyst","affiliation":{"@type":"CollegeOrUniversity","name":"University of Manitoba"},"knowsAbout":["Statistics","R","Python","SQL","Regression modelling","Time series forecasting","LLM automation"],"sameAs":["https://github.com/Jrudani21","https://www.linkedin.com/in/janakrudani21"]}
@@ -113,7 +113,7 @@ nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   padding: 1.2rem 2.2rem;
   display: flex; justify-content: space-between; align-items: center;
-  transition: all 0.3s;
+  transition: color 0.3s, background-color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s, opacity 0.3s;
 }
 nav.scrolled {
   background: rgba(5,5,8,0.8); backdrop-filter: blur(14px);
@@ -150,10 +150,14 @@ nav.scrolled {
   background: rgba(16,16,24,0.9); border: 1px solid var(--border);
   color: var(--dim); font-family: 'VT323', monospace;
   font-size: 14px; padding: 0.6rem 1rem; border-radius: 40px;
-  cursor: pointer; transition: all 0.25s;
-  backdrop-filter: blur(8px);
+  cursor: pointer; transition: color 0.25s, background-color 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.25s, opacity 0.25s;
+
 }
 .float-btn:hover { transform: scale(1.06); }
+/* options menu: five toggles collapse behind one button, every width */
+.float-btns:not(.open) .float-btn:not(#menuBtn) { display: none; }
+#menuBtn { min-height: 44px; min-width: 44px; }
+.contact-email { overflow-wrap: anywhere; }
 #panicBtn:hover { border-color: var(--red); color: var(--red); box-shadow: 0 0 20px rgba(255,107,107,0.3); }
 #complimentBtn:hover { border-color: var(--amber); color: var(--amber); box-shadow: 0 0 20px rgba(255,209,102,0.3); }
 #soundBtn:hover { border-color: var(--accent); color: var(--accent); }
@@ -185,14 +189,14 @@ nav.scrolled {
   padding: 1rem 1.5rem; border-radius: 12px;
   font-weight: 600; font-size: 16px; max-width: 320px;
   opacity: 0; transform: translateY(20px) scale(0.92);
-  transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  transition: color 0.35s cubic-bezier(0.34,1.56,0.64,1), background-color 0.35s cubic-bezier(0.34,1.56,0.64,1), border-color 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s cubic-bezier(0.34,1.56,0.64,1), transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s cubic-bezier(0.34,1.56,0.64,1);
   box-shadow: 0 12px 44px rgba(255,209,102,0.35);
 }
 #toast.show { opacity: 1; transform: translateY(0) scale(1); }
 
 /* ---------- HERO ---------- */
 .hero {
-  min-height: 100vh; display: flex; flex-direction: column;
+  min-height: 100dvh; display: flex; flex-direction: column;
   justify-content: center; padding: 7rem 2.2rem 3rem;
   max-width: 1040px; margin: 0 auto; position: relative; z-index: 2;
 }
@@ -247,7 +251,7 @@ nav.scrolled {
   font-weight: 600; font-size: 16px; text-decoration: none;
   border: 1px solid var(--border); cursor: pointer;
   font-family: 'Space Grotesk', sans-serif;
-  transition: all 0.2s;
+  transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s;
 }
 .hero-term-btn:hover { border-color: var(--accent); color: var(--accent); }
 .hero-stats { display: flex; gap: 2.5rem; margin-top: 4rem; flex-wrap: wrap; }
@@ -296,7 +300,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
   border: 1px solid var(--border); border-radius: 16px;
   background: linear-gradient(135deg, rgba(16,16,24,0.9), rgba(10,10,16,0.9));
   margin-bottom: 1.1rem;
-  cursor: pointer; transition: all 0.35s;
+  cursor: pointer; transition: color 0.35s, background-color 0.35s, border-color 0.35s, box-shadow 0.35s, transform 0.35s, opacity 0.35s;
   position: relative; overflow: hidden;
   text-decoration: none; color: inherit;
 }
@@ -321,7 +325,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
   font-family: 'VT323', monospace;
   font-size: 15px; padding: 3px 10px;
   border: 1px solid var(--border); border-radius: 20px;
-  color: var(--dim); transition: all 0.2s;
+  color: var(--dim); transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s;
 }
 .tag.hl { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
 .project:hover .tag.hl { box-shadow: var(--glow); }
@@ -339,7 +343,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 /* ---------- CHIPS / RECRUITER / PALETTE / NOW ---------- */
 .proj-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.9rem 0 1.4rem; }
 .chip { font-family: 'VT323', monospace; font-size: 17px; padding: 4px 14px; border-radius: 20px;
-  border: 1px solid var(--border); background: transparent; color: var(--dim); cursor: pointer; transition: all 0.2s; }
+  border: 1px solid var(--border); background: transparent; color: var(--dim); cursor: pointer; transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s; }
 .chip:hover { border-color: var(--accent); color: var(--accent); }
 .chip.on { background: var(--accent); border-color: var(--accent); color: var(--void); }
 .now-panel { font-family: 'VT323', monospace; font-size: 17px; color: var(--muted); margin-top: 1.6rem; min-height: 1.4em; }
@@ -379,13 +383,12 @@ html.recruiter .gradient-text { animation: none; }
 /* ---------- BENTO PROJECTS (ref: land-book / godly grids) ---------- */
 #projectList { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem; }
 #projectList .project { grid-template-columns: 1fr; grid-template-rows: 1fr auto; margin-bottom: 0; align-content: space-between; }
-#projectList .project[data-featured], #projectList .project.todo-demo { grid-column: 1 / -1; }
+#projectList .project[data-featured] { grid-column: 1 / -1; }
 #projectList .project[data-featured] h3 { font-size: clamp(1.6rem, 3vw, 2.2rem); letter-spacing: -0.01em; }
 #projectList .project-side { flex-direction: row; justify-content: space-between; align-items: baseline; border-top: 1px solid var(--border); padding-top: 0.9rem; }
 #projectList .project-score { font-size: 1.7rem; }
 @media (max-width: 768px) { #projectList { grid-template-columns: 1fr; } }
 
-/* ---------- LIVE PUTER.JS TODO DEMO ---------- */
 /* ---------- PROJECT FILTER ---------- */
 .proj-controls { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin: 1.6rem 0 0.4rem; }
 .proj-label { font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
@@ -428,111 +431,6 @@ html.recruiter .gradient-text { animation: none; }
 .project.is-private:hover .project-link { color: var(--muted); }
 .project.is-private .project-link { color: var(--amber); }
 
-.project.todo-demo { display: block; cursor: auto; padding: 0; }
-.project.todo-demo::before { display: none; }
-.todo-demo-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; padding: 2rem 2.2rem 1.4rem; }
-.todo-demo-head h3 { font-size: 1.35rem; font-weight: 700; margin-bottom: 0.5rem; }
-.todo-demo-head p { color: var(--dim); font-size: 0.95rem; line-height: 1.65; max-width: 640px; }
-.todo-demo-head .stat-joke { color: var(--amber); font-weight: 500; }
-.todo-demo-head .project-side { flex-shrink: 0; }
-
-.tw { border-top: 1px solid var(--border); padding: 1.4rem 2.2rem 1.6rem; background: rgba(10,10,16,0.55); }
-.tw-form { display: flex; gap: 0.6rem; margin-bottom: 1rem; }
-.tw-input {
-  flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-  color: var(--text); border-radius: 10px; padding: 0.7rem 0.9rem;
-  font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; outline: none;
-  transition: border-color 0.2s, background 0.2s;
-}
-.tw-input::placeholder { color: var(--muted); }
-.tw-input:focus { border-color: var(--accent); background: rgba(255,255,255,0.08); }
-.tw-add {
-  background: var(--accent); color: #fff; border: none; border-radius: 10px;
-  padding: 0 1.4rem; font-family: 'VT323', monospace; font-size: 16px; font-weight: 700;
-  letter-spacing: 0.05em; cursor: pointer; transition: all 0.15s; box-shadow: var(--glow);
-}
-.tw-add:hover { filter: brightness(1.2); }
-.tw-add:active { transform: scale(0.95); }
-
-.tw-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; }
-.tw-filters { display: flex; gap: 0.3rem; }
-.tw-filter {
-  background: transparent; border: none; color: var(--muted);
-  font-family: 'VT323', monospace; font-size: 16px; padding: 4px 12px;
-  border-radius: 999px; cursor: pointer; transition: all 0.15s;
-}
-.tw-filter:hover { color: var(--text); }
-.tw-filter.active { background: var(--accent-dim); color: var(--accent); }
-.tw-clear {
-  background: transparent; border: none; color: var(--muted);
-  font-family: 'VT323', monospace; font-size: 15px; cursor: pointer; transition: color 0.15s;
-}
-.tw-clear:hover { color: var(--accent); }
-
-.tw-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
-.tw-item {
-  display: flex; align-items: center; gap: 0.7rem;
-  background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-  border-radius: 10px; padding: 0.6rem 0.8rem; transition: background 0.15s;
-}
-.tw-item:hover { background: rgba(255,255,255,0.06); }
-.tw-check {
-  width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%;
-  border: 2px solid var(--muted); background: transparent; cursor: pointer;
-  position: relative; transition: all 0.15s;
-}
-.tw-check:hover { border-color: var(--accent); }
-.tw-item.done .tw-check { background: var(--accent); border-color: var(--accent); }
-.tw-item.done .tw-check::after {
-  content: '✓'; position: absolute; inset: 0; display: flex;
-  align-items: center; justify-content: center; color: #fff; font-size: 15px; font-weight: 800;
-}
-.tw-text { flex: 1; font-size: 0.95rem; line-height: 1.4; word-break: break-word; }
-.tw-item.done .tw-text { color: var(--muted); text-decoration: line-through; }
-.tw-edit {
-  flex: 1; background: rgba(255,255,255,0.08); border: 1px solid var(--accent);
-  color: var(--text); border-radius: 8px; padding: 0.4rem 0.6rem;
-  font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; outline: none;
-}
-.tw-icon {
-  background: transparent; border: none; color: var(--muted);
-  width: 28px; height: 28px; border-radius: 7px; cursor: pointer;
-  font-size: 16px; display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s; opacity: 0;
-}
-.tw-item:hover .tw-icon { opacity: 1; }
-.tw-icon:hover { background: rgba(255,255,255,0.1); color: var(--text); }
-.tw-icon.danger:hover { background: rgba(255,49,49,0.15); color: var(--accent); }
-
-.tw-empty {
-  text-align: center; padding: 1.6rem; color: var(--muted);
-  border: 1px dashed var(--border); border-radius: 10px;
-  font-family: 'VT323', monospace; font-size: 17px;
-}
-
-.tw-foot {
-  display: flex; align-items: center; justify-content: space-between; gap: 0.8rem;
-  margin-top: 1rem; padding-top: 0.9rem; border-top: 1px solid var(--border);
-  font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); flex-wrap: wrap;
-}
-.tw-sync { display: flex; align-items: center; gap: 6px; }
-.tw-sync::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
-.tw-sync.ok::before { background: var(--accent); box-shadow: var(--glow); }
-.tw-sync.local::before { background: var(--amber); }
-.tw-auth {
-  background: transparent; border: 1px solid var(--border); color: var(--muted);
-  font-family: 'VT323', monospace; font-size: 15px; padding: 3px 10px;
-  border-radius: 999px; cursor: pointer; transition: all 0.15s;
-}
-.tw-auth:hover { color: var(--text); border-color: var(--accent); }
-.tw-count { color: var(--text); }
-.tw-powered { color: var(--muted); text-decoration: none; transition: color 0.15s; }
-.tw-powered:hover { color: var(--accent); }
-
-@media (max-width: 560px) {
-  .todo-demo-head { flex-direction: column; padding: 1.5rem 1.2rem 1rem; }
-  .tw { padding: 1.1rem 1.2rem 1.3rem; }
-}
 
 /* ---------- TERMINAL WIDGET ---------- */
 .terminal-widget {
@@ -602,32 +500,7 @@ html.recruiter .gradient-text { animation: none; }
   transition: width 1.4s cubic-bezier(0.22,1,0.36,1);
   box-shadow: var(--glow);
 }
-.sm-fill.hot { background: linear-gradient(90deg, var(--amber), var(--red)); box-shadow: 0 0 20px rgba(255,107,107,0.35); }
 
-/* ---------- SCROLL CHART ---------- */
-.chart-card {
-  border: 1px solid var(--border); border-radius: 16px;
-  padding: 2rem; background: var(--surface);
-}
-.chart-title {
-  font-family: 'VT323', monospace; font-size: 16px;
-  color: var(--muted); margin-bottom: 1.5rem; text-align: center;
-}
-.chart-wrap { position: relative; }
-.chart-wrap svg { width: 100%; height: auto; display: block; }
-.chart-path {
-  fill: none; stroke: var(--accent); stroke-width: 3;
-  stroke-linecap: round; stroke-linejoin: round;
-  stroke-dasharray: 1; stroke-dashoffset: 1;
-  filter: drop-shadow(0 0 6px rgba(0,229,160,0.5));
-}
-.chart-path.danger { stroke: var(--red); filter: drop-shadow(0 0 6px rgba(255,107,107,0.5)); }
-.chart-annot {
-  position: absolute; font-family: 'VT323', monospace;
-  font-size: 12px; color: var(--amber);
-  transform: rotate(-6deg);
-}
-.chart-annot.big { font-size: 13px; color: var(--red); font-weight: 700; }
 
 /* ---------- MEME GALLERY ---------- */
 .meme-grid {
@@ -755,7 +628,7 @@ html.recruiter .gradient-text { animation: none; }
 }
 .hole:hover { background: var(--elevated); transform: scale(1.03); }
 .hole .bug { font-size: 2.6rem; animation: bug-pop 0.3s cubic-bezier(0.34,1.56,0.64,1); user-select: none; }
-@keyframes bug-pop { from { transform: scale(0) rotate(-30deg); } to { transform: scale(1) rotate(0); } }
+@keyframes bug-pop { from { transform: scale(0.9) rotate(-30deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
 .hole.hit { animation: hit-flash 0.3s; }
 @keyframes hit-flash { 0% { background: var(--red); } 100% { background: var(--panel); } }
 .game-score { font-family: 'VT323', monospace; font-size: 1.1rem; color: var(--dim); margin: 1.6rem 0; }
@@ -774,7 +647,7 @@ html.recruiter .gradient-text { animation: none; }
 .hobby-card {
   border: 1px solid var(--border); border-radius: 16px;
   padding: 1.6rem; background: var(--surface);
-  cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;
+  cursor: pointer; transition: color 0.3s, background-color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s, opacity 0.3s; position: relative; overflow: hidden;
 }
 .hobby-card:hover { border-color: var(--red); transform: translateY(-4px) rotate(-0.5deg); }
 .hobby-card h4 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.4rem; }
@@ -828,7 +701,7 @@ html.recruiter .gradient-text { animation: none; }
 .contact-email {
   font-size: clamp(1.5rem, 4.5vw, 3.2rem);
   font-weight: 700; color: var(--accent); text-decoration: none;
-  letter-spacing: -0.01em; transition: all 0.25s;
+  letter-spacing: -0.01em; transition: color 0.25s, background-color 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.25s, opacity 0.25s, text-shadow 0.25s;
   border-bottom: 2px solid var(--accent); padding-bottom: 0.3rem;
   text-shadow: var(--glow);
   font-family: 'Unbounded', sans-serif;
@@ -858,7 +731,6 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
 }
 .footer-mark:hover { color: var(--accent); }
 @media (prefers-reduced-motion: reduce) { .footer-mark { transition: none; } }
-.footer-love { color: var(--dim); font-size: 0.95rem; margin-top: 1.2rem; }
 
 /* ---------- ANIMATIONS ---------- */
 .fade-in { opacity: 0; transform: translateY(34px); transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1); }
@@ -1060,7 +932,7 @@ html.brutal .chip:hover { background: #ffe94d; color: #0a0a0a; border-color: #0a
 html.brutal .chip.on { background: #0a0a0a; color: #ffe94d; box-shadow: none; transform: translate(3px,3px); }
 
 /* cards used across the lower sections */
-html.brutal .chart-card, html.brutal .meme-card, html.brutal .hobby-card, html.brutal .cmm-box, html.brutal .skill-meter {
+html.brutal .meme-card, html.brutal .hobby-card, html.brutal .cmm-box, html.brutal .skill-meter {
   background: #fff; border: 3px solid #0a0a0a; box-shadow: 6px 6px 0 #0a0a0a;
 }
 html.brutal .cmm-box { background: #ffe94d; }
@@ -1090,7 +962,6 @@ html.brutal .footer-mark { color: #ffe94d; }
 html.brutal .footer-mark:hover { color: #ff3131; }
 html.brutal .console-line .cmd { color: #fff; }
 html.brutal .console-line .output { color: #ffe94d; }
-html.brutal .footer-love { color: #f3efe3; }
 
 /* palette */
 html.brutal #palette { background: #fff; border: 3px solid #0a0a0a; box-shadow: 8px 8px 0 #0a0a0a; color: #0a0a0a; }
@@ -1192,7 +1063,7 @@ html.swiss .chip:hover { border-color: #e10600; color: #e10600; }
 html.swiss .chip.on { background: #e10600; border-color: #e10600; color: #fff; }
 
 /* cards in lower sections */
-html.swiss .chart-card, html.swiss .meme-card, html.swiss .hobby-card, html.swiss .skill-meter { background: #fff; border: 0; border-top: 2px solid #0a0a0a; box-shadow: none; }
+html.swiss .meme-card, html.swiss .hobby-card, html.swiss .skill-meter { background: #fff; border: 0; border-top: 2px solid #0a0a0a; box-shadow: none; }
 html.swiss .cmm-box { background: var(--panel); border: 0; border-top: 6px solid #e10600; }
 
 /* method, faq, cta */
@@ -1218,7 +1089,6 @@ html.swiss .footer-mark { color: #fff; letter-spacing: -0.05em; }
 html.swiss .footer-mark:hover { color: #0a0a0a; }
 html.swiss .console-line, html.swiss .console-line .prompt, html.swiss .console-line .cmd { color: #fff; }
 html.swiss .console-line .output, html.swiss .console-line .error { color: #fff; font-weight: 700; }
-html.swiss .footer-love { color: #fff; }
 
 /* palette */
 html.swiss #palette { background: #fff; border: 2px solid #0a0a0a; box-shadow: none; color: #0a0a0a; }
@@ -1231,6 +1101,80 @@ html.swiss .hole { background: #0a0a0a; border: 2px solid #0a0a0a; }
 html.swiss .hole:hover { background: #2a2a2a; }
 html.swiss .game-score, html.swiss .game-tip { color: #0a0a0a; }
 html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
+</style>
+<style id="restyle">
+/* restyle (swiss only): type-led hero, text face for labels */
+html.swiss .hero { max-width: 1400px; padding: 7rem clamp(1.2rem,4vw,3.5rem) 3rem; }
+html.swiss .hero-name { font-size: clamp(3.6rem, 15vw, 13rem); line-height: .86; margin-bottom: 2rem; }
+html.swiss .hero-tagline { max-width: 36ch; color: #0a0a0a; font-size: clamp(1.15rem, 2vw, 1.5rem); line-height: 1.45; }
+html.swiss .terminal-greeting { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; color: #4a4a4a; }
+html.swiss .hero-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; margin-top: 4rem; }
+html.swiss .hero-stat { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; color: #0a0a0a; }
+html.swiss .hero-stat b { font-family: 'Unbounded', sans-serif; font-size: clamp(2.6rem, 6vw, 4.5rem); line-height: 1; margin-bottom: .5rem; }
+html.swiss .hero-cta, html.swiss .hero-term-btn { min-height: 48px; display: inline-flex; align-items: center; font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; }
+/* projects: ruled list, verdict figure at display size */
+html.swiss #projectList { grid-template-columns: 1fr; gap: 0; }
+html.swiss #projectList .project { display: grid; grid-template-columns: minmax(0,1fr) minmax(200px,.4fr); gap: 2rem 3rem; padding: 2.4rem 0; background: transparent; border: 0; border-top: 2px solid #0a0a0a; box-shadow: none; align-items: start; }
+html.swiss #projectList .project:hover { transform: none; background: #f4f4f2; box-shadow: none; }
+html.swiss #projectList .project h3 { font-size: clamp(1.4rem, 2.6vw, 2.2rem); letter-spacing: -0.02em; color: #0a0a0a; }
+html.swiss #projectList .project p { color: #2a2a2a; font-size: 1.05rem; }
+html.swiss #projectList .project-side { flex-direction: column; align-items: flex-start; justify-content: space-between; border: 0; padding: 0; height: 100%; gap: 1rem; }
+html.swiss #projectList .project-score { font-family: 'Unbounded', sans-serif; font-size: clamp(2rem, 4.2vw, 3.6rem); line-height: 1; color: #e10600; text-shadow: none; }
+@media (max-width: 768px) { html.swiss #projectList .project { grid-template-columns: 1fr; gap: 1rem; padding: 1.8rem 0; } }
+/* labels: text face, sentence case; mono stays in terminal/code/game */
+html.swiss .section-num, html.swiss .project-num, html.swiss .proj-label, html.swiss .proj-count, html.swiss .proj-search, html.swiss .proj-clear,
+html.swiss .tag, html.swiss .chip, html.swiss .project-link, html.swiss .now-panel, html.swiss .float-btn { font-family: 'Space Grotesk', sans-serif; text-transform: none; letter-spacing: 0; }
+html.swiss .section-num { font-size: 1rem; font-weight: 600; color: #e10600; }
+html.swiss .proj-label { font-size: 1rem; font-weight: 600; color: #0a0a0a; }
+html.swiss .tag, html.swiss .chip { font-size: .9rem; min-height: 32px; }
+html.swiss .project-num { font-size: .95rem; color: #4a4a4a; }
+html.swiss .float-btn { font-size: 1rem; }
+html.swiss .now-panel { font-size: 1rem; color: #4a4a4a; }
+html.swiss .section-num::before { content: none; }
+html.swiss #projectList .project h3 { line-height: 1.15; }
+/* skills: visible bars, readable labels, two columns on wide screens */
+html.swiss .skill-meters { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 2rem 4rem; }
+html.swiss .skill-meter { padding: 1rem 0 0; }
+html.swiss .skill-meter .sm-name { font-size: 1.1rem; color: #0a0a0a; }
+html.swiss .skill-meter .sm-name .sm-joke { display: block; font-size: 1rem; color: #4a4a4a; margin-top: .2rem; }
+html.swiss .skill-meter .sm-pct { font-family: 'Unbounded', sans-serif; font-size: 1.5rem; color: #e10600; }
+html.swiss .sm-bar { height: 12px; background: #e8e8e4; border: 0; margin-top: .7rem; }
+html.swiss .sm-fill { background: #e10600; box-shadow: none; }
+html.swiss .section-num { display: none; }
+@media (min-width: 1000px) {
+  html.swiss .hero { display: grid; grid-template-columns: minmax(0,1.15fr) minmax(0,.85fr); column-gap: 4rem; align-content: center; }
+  html.swiss .hero > .terminal-greeting, html.swiss .hero > .hero-name { grid-column: 1 / -1; }
+  html.swiss .hero > .hero-tagline, html.swiss .hero > .hero-actions, html.swiss .hero > .now-panel { grid-column: 1; }
+  html.swiss .hero > .hero-stats { grid-column: 2; grid-row: 3 / span 3; margin-top: 0; grid-template-columns: repeat(2, minmax(0,1fr)); border-top: 0; border-left: 2px solid #0a0a0a; padding: 0 0 0 2.5rem; align-content: start; }
+}
+html.swiss .hero-name { font-size: clamp(3.6rem, 17vw, 17rem); }
+/* swiss — memes section */
+html.swiss .meme-card { padding:1.5rem; border:0; border-top:2px solid #0a0a0a; border-radius:0; background:#fff; box-shadow:none; text-shadow:none; }
+html.swiss .meme-card:hover { border:0; border-top:2px solid #0a0a0a; box-shadow:none; text-shadow:none; transform:none; }
+html.swiss .meme-card h4 { padding:0 0 0.75rem; border-bottom:0; color:#4a4a4a; font-family:'VT323',monospace; font-size:1rem; text-shadow:none; }
+html.swiss .meme-body { padding:0; font-family:'Space Grotesk',sans-serif; font-size:1rem !important; color:#4a4a4a !important; text-shadow:none; }
+html.swiss .meme-body [style*="VT323"],
+html.swiss .meme-body [style*="0.95rem"],
+html.swiss .meme-body [style*="14px"] { font-family:'Space Grotesk',sans-serif !important; font-size:1rem !important; color:#4a4a4a !important; }
+html.swiss .meme-body [style*="var("] { color:#0a0a0a !important; }
+html.swiss .caption,
+html.swiss .polaroid p,
+html.swiss .casino-verdict { font-family:'Space Grotesk',sans-serif; font-size:1rem; color:#0a0a0a; text-shadow:none; }
+html.swiss .tif-sub,
+html.swiss .mock-note,
+html.swiss .meme-result,
+html.swiss .mocking,
+html.swiss .brain-level .text,
+html.swiss .casino-slot,
+html.swiss .casino-note { font-family:'Space Grotesk',sans-serif; font-size:1rem; color:#4a4a4a; text-shadow:none; }
+html.swiss .meme-btn { min-height:48px; font-size:1rem; box-shadow:none; text-shadow:none; }
+html.swiss .meme-btn:hover,
+html.swiss .btn-a:hover,
+html.swiss .btn-b:hover { box-shadow:none; text-shadow:none; transform:none; }
+html.swiss .casino-lever { min-height:48px; font-size:1rem; box-shadow:none; text-shadow:none; }
+html.swiss .compliment-btn { min-height:48px; font-size:1rem !important; background:#e10600 !important; color:#fff !important; box-shadow:none !important; text-shadow:none; }
+html.swiss .compliment-btn:hover { box-shadow:none !important; }
+
 </style>
 </head>
 <body>
@@ -1260,16 +1204,17 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
   </div>
 </nav>
 
-<div class="float-btns">
+<div class="float-btns" id="floatBtns">
+  <button class="float-btn" id="menuBtn" aria-expanded="false" aria-controls="floatBtns">options</button>
   <button class="float-btn" id="themeBtn" title="cycle theme: swiss, brutal, dark">theme</button>
-  <button class="float-btn" id="recruiterBtn" title="plain, fast, no jokes">👔 recruiter mode</button>
-  <button class="float-btn" id="soundBtn" title="toggle retro sounds">🔇 sound off</button>
-  <button class="float-btn" id="complimentBtn" title="You deserve this">💬 compliment me</button>
-  <button class="float-btn" id="panicBtn" title="Click if you're overwhelmed">🚨 panic</button>
+  <button class="float-btn" id="recruiterBtn" title="plain, fast, no jokes"><span aria-hidden="true">👔</span> recruiter mode</button>
+  <button class="float-btn" id="soundBtn" title="toggle retro sounds"><span aria-hidden="true">🔇</span> sound off</button>
+  <button class="float-btn" id="complimentBtn" title="You deserve this"><span aria-hidden="true">💬</span> compliment me</button>
+  <button class="float-btn" id="panicBtn" title="Click if you're overwhelmed"><span aria-hidden="true">🚨</span> panic</button>
 </div>
 
 <div class="modal" id="panicModal">
-  <h2 style="color: var(--accent);">🚨</h2>
+  <h2 aria-label="Panic" style="color: var(--accent);"><span aria-hidden="true">🚨</span></h2>
   <p>Darth Vader senses your panic. The Emperor is not concerned. Your code will be fine. "Do or do not, there is no try" - but let's be honest, you'll try anyway. Breathe like you're in a helmet. In... out... in... out...</p>
   <button class="modal-close" onclick="document.getElementById('panicModal').classList.remove('active')">I'll try. I really will.</button>
 </div>
@@ -1291,7 +1236,7 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
   </div>
   <p class="now-panel" id="nowPanel" aria-live="polite"></p>
     <div class="hero-stats">
-    <div class="hero-stat"><b><span class="countup" data-target="9">0</span></b> projects shipped</div>
+    <div class="hero-stat"><b><span class="countup" data-target="11">0</span></b> projects shipped</div>
     <div class="hero-stat"><b><span class="countup" data-target="253">0</span></b> tests passing</div>
     <div class="hero-stat"><b><span class="countup" data-target="0.84" data-decimal="2">0</span></b> best AUC</div>
     <div class="hero-stat"><b>∞</b> "just one more tweak" incidents</div>
@@ -1300,29 +1245,29 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
 
 <!-- ================= TICKER ================= -->
 <div class="ticker-wrap"><div class="ticker" id="ticker">
-  <span class="joke">⚔️ i find your lack of p-values disturbing</span>
+  <span class="joke"><span aria-hidden="true">⚔️</span> i find your lack of p-values disturbing</span>
   <span class="skill">R · tidyverse · ggplot2</span>
-  <span class="joke">🌌 the force is strong with this model... it overfits</span>
+  <span class="joke"><span aria-hidden="true">🌌</span> the force is strong with this model... it overfits</span>
   <span class="skill">python · pandas · sklearn</span>
-  <span class="joke">🖤 join me and we can rule the galaxy as data scientists</span>
+  <span class="joke"><span aria-hidden="true">🖤</span> join me and we can rule the galaxy as data scientists</span>
   <span class="skill">SARIMA · GLM · ANCOVA</span>
-  <span class="joke">🌀 is this a real correlation or did i overfit it into existence?</span>
+  <span class="joke"><span aria-hidden="true">🌀</span> is this a real correlation or did i overfit it into existence?</span>
   <span class="skill">streamlit · plotly · sql</span>
-  <span class="joke">🥊 first rule of p-hacking: you don't talk about p-hacking</span>
+  <span class="joke"><span aria-hidden="true">🥊</span> first rule of p-hacking: you don't talk about p-hacking</span>
   <span class="skill">ollama · qlora · rag</span>
-  <span class="joke">🪐 that's no moon... it's a 2TB dataframe</span>
+  <span class="joke"><span aria-hidden="true">🪐</span> that's no moon... it's a 2TB dataframe</span>
   <span class="skill">git · markdown · the force</span>
-  <span class="joke">⚔️ i find your lack of p-values disturbing</span>
+  <span class="joke"><span aria-hidden="true">⚔️</span> i find your lack of p-values disturbing</span>
   <span class="skill">R · tidyverse · ggplot2</span>
-  <span class="joke">🌌 the force is strong with this model... it overfits</span>
+  <span class="joke"><span aria-hidden="true">🌌</span> the force is strong with this model... it overfits</span>
   <span class="skill">python · pandas · sklearn</span>
-  <span class="joke">🖤 join me and we can rule the galaxy as data scientists</span>
+  <span class="joke"><span aria-hidden="true">🖤</span> join me and we can rule the galaxy as data scientists</span>
   <span class="skill">SARIMA · GLM · ANCOVA</span>
-  <span class="joke">🌀 is this a real correlation or did i overfit it into existence?</span>
+  <span class="joke"><span aria-hidden="true">🌀</span> is this a real correlation or did i overfit it into existence?</span>
   <span class="skill">streamlit · plotly · sql</span>
-  <span class="joke">🥊 first rule of p-hacking: you don't talk about p-hacking</span>
+  <span class="joke"><span aria-hidden="true">🥊</span> first rule of p-hacking: you don't talk about p-hacking</span>
   <span class="skill">ollama · qlora · rag</span>
-  <span class="joke">🪐 that's no moon... it's a 2TB dataframe</span>
+  <span class="joke"><span aria-hidden="true">🪐</span> that's no moon... it's a 2TB dataframe</span>
   <span class="skill">git · markdown · the force</span>
 </div>
 </div>
@@ -1423,14 +1368,14 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
   <div class="section-header fade-in">
     <p class="section-num">01 - imperial archives</p>
     <h2 class="section-title">Projects</h2>
-    <p class="section-subtitle"><span id="projTotal">Thirteen</span> relics from my Jedi training. <b>Hover = spotlight. Click = sparkles. #09 is LIVE.</b></p>
+    <p class="section-subtitle"><span id="projTotal">11</span> relics from my Jedi training.</p>
   </div>
   <div class="proj-controls fade-in">
     <label for="projSearch" class="proj-label">filter the archive</label>
     <input id="projSearch" class="proj-search" type="search" autocomplete="off"
            placeholder="r · sql · sarima · llm · dashboard · fraud …"
            aria-label="Filter projects by keyword">
-    <span class="proj-count" id="projCount" role="status" aria-live="polite">14 projects</span>
+    <span class="proj-count" id="projCount" role="status" aria-live="polite">11 projects</span>
     <button type="button" class="proj-clear" id="projClear" hidden>clear</button>
   </div>
 
@@ -1525,64 +1470,10 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
       <div class="project-side"><div class="project-score">8GB VRAM</div><div class="project-link">github ↗</div></div>
     </a>
 
-    <a href="https://jrudani21.github.io/jurassic-park/" target="_blank" class="project" data-cat="ai">
-      <div>
-        <p class="project-num">10</p>
-        <h3>Jurassic Park - The AI Fleet + Live Dashboard</h3>
-        <p>The whole fleet in one repo, themed as Jurassic Park: 34 scheduled bots + 17 on-demand agents, shared zero-token LLM client with 8 model tiers (Triceratops = DeepSeek flash, T-Rex = pro, Indominus = frontier Claude), semantic cache (cosine ≥0.93), supervisor vetting, circuit breakers, cost ledger at ~$0.004 total. Plus the live interactive dashboard - species catalog, park console terminal, budget ledger, DNA-bank cache - regenerated nightly. <span class="stat-joke">34 bots, $0.004 spent, one very tired GPU. The T-Rex eats on pocket change.</span></p>
-        <div class="tags"><span class="tag hl">Multi-Agent</span><span class="tag">LLM Routing</span><span class="tag">Cache</span><span class="tag">Vanilla JS</span><span class="tag">$0.004</span></div>
-      </div>
-      <div class="project-side"><div class="project-score">34 bots</div><div class="project-link">site ↗</div></div>
-    </a>
-
-    <div class="project is-private" data-cat="auto" title="Repo is private - email me for a walkthrough">
-      <div>
-        <p class="project-num">11</p>
-        <h3>Weather Arbitrage - Market Edge Bot</h3>
-        <p>Automated weather-derivative trading bot: ingests NOAA forecast grids, computes degree-day deviations, detects arbitrage windows, and places orders via API - with a rate-limit-aware fetcher, checkpoint/resume rebuilds, and off-peak scheduling. <span class="stat-joke">I bet on the weather so you don't have to.</span></p>
-        <div class="tags"><span class="tag hl">Trading</span><span class="tag">NOAA</span><span class="tag">Degree Days</span><span class="tag">Automation</span></div>
-      </div>
-      <div class="project-side"><div class="project-score">LIVE</div><div class="project-link">private 🔒</div></div>
-    </div>
-
-    <div class="project todo-demo" data-cat="auto">
-      <div class="todo-demo-head">
-        <div>
-          <p class="project-num">09</p>
-          <h3>Puter.js To-Do - Live Serverless Demo</h3>
-          <p>A working to-do list with zero backend code. Tasks persist to Puter's cloud KV store (local fallback while signed out) - add, edit, complete, filter, clear. <span class="stat-joke">My to-do list is finally serverless. The tasks still aren't getting done.</span></p>
-          <div class="tags"><span class="tag hl">Puter.js</span><span class="tag">Cloud KV</span><span class="tag">Serverless</span><span class="tag">Auth</span><span class="tag">No Backend</span></div>
-        </div>
-        <div class="project-side"><div class="project-score">LIVE</div><a class="project-link" href="https://developer.puter.com" target="_blank" rel="noopener">powered by puter ↗</a></div>
-      </div>
-
-      <div class="tw" id="todo-widget">
-        <form class="tw-form" id="tw-form" autocomplete="off">
-          <input class="tw-input" id="tw-input" type="text" placeholder="add a task, rebel scum..." maxlength="300" aria-label="New task">
-          <button class="tw-add" type="submit">ADD</button>
-        </form>
-        <div class="tw-toolbar">
-          <div class="tw-filters">
-            <button class="tw-filter active" data-filter="all">all</button>
-            <button class="tw-filter" data-filter="active">active</button>
-            <button class="tw-filter" data-filter="completed">done</button>
-          </div>
-          <button class="tw-clear" id="tw-clear" hidden>clear done ✕</button>
-        </div>
-        <ul class="tw-list" id="tw-list"></ul>
-        <div class="tw-empty" id="tw-empty" hidden>&gt; no tasks in this sector. add one above.</div>
-        <div class="tw-foot">
-          <span class="tw-sync" id="tw-sync">…</span>
-          <button class="tw-auth" id="tw-auth" hidden>sign in</button>
-          <span class="tw-count" id="tw-count"></span>
-          <a class="tw-powered" href="https://developer.puter.com" target="_blank" rel="noopener">powered by puter</a>
-        </div>
-      </div>
-    </div>
 
     <a href="case-study-delivery-gate.html" class="project" data-cat="auto" data-featured>
       <div>
-        <p class="project-num">13</p>
+        <p class="project-num">09</p>
         <h3>Delivery Gate — an unattended pipeline that lied about its own health</h3>
         <p>A nightly lead-gen pipeline reported success while shipping wrong-niche data: a manifest said <b>status: ok</b> on a delivery whose rows were 1 of 8 on-target, and a job exited 0 after scraping nothing. I audited it, root-caused the redirect behind the junk with two live HTTP probes, then built an independent gate that refuses a delivery when the rows don't match the order. <span class="stat-joke">The manifest was fine. The manifest was lying.</span></p>
         <div class="tags"><span class="tag hl">Python</span><span class="tag">Data QA</span><span class="tag">Root cause</span><span class="tag">11/11 tests</span><span class="tag">Open source</span></div>
@@ -1592,9 +1483,9 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
 
     <a href="case-study-ken.html" class="project" data-cat="ai" data-featured>
       <div>
-        <p class="project-num">14</p>
+        <p class="project-num">10</p>
         <h3>Ken — a 34-bot agent fleet on one PC</h3>
-        <p>My fork of the Hermes Agent framework: 298 commits of extension work on top of it, plus the operations layer that keeps 34 bots running unattended — 9 cron jobs, 659 recorded executions, 203 skills, and $0.0037 of measured spend. <span class="stat-joke">Most of the fleet's work never reaches a metered API. That's the point.</span></p>
+        <p>My fork of the Hermes Agent framework: 298 commits of extension work on top of it, plus the operations layer that keeps 34 bots running unattended — 9 cron jobs, 659 recorded executions, 203 skills, and $0.0037 of measured spend. <span class="stat-joke">Most of the fleet's work never reaches a metered API. That's the point.</span> A live dashboard of the fleet, themed as Jurassic Park, is at jrudani21.github.io/jurassic-park.</p>
         <div class="tags"><span class="tag hl">Agent engineering</span><span class="tag">Python</span><span class="tag">Cron</span><span class="tag">Local LLMs</span><span class="tag">Open source fork</span></div>
       </div>
       <div class="project-side"><div class="project-score">34 bots</div><div class="project-link">case study →</div></div>
@@ -1602,7 +1493,7 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
 
     <a href="case-study-sure.html" class="project" data-cat="ai" data-featured>
       <div>
-        <p class="project-num">15</p>
+        <p class="project-num">11</p>
         <h3>Sure?: plain-English safety cards for AI coding agents</h3>
         <p>A free, local hook for Claude Code that stays quiet on safe actions and, before a risky one, shows what will happen, why it matters, what it costs and whether it can be undone. 25 kinds of risk, tested against a labelled corpus of 640+ commands with an old-versus-new replay that must lose zero cards. Stdlib only, MIT licensed, and honest in the first paragraph about what it does not catch.</p>
         <div class="tags"><span class="tag hl">AI agent safety</span><span class="tag">Python</span><span class="tag">Test-first</span><span class="tag">Differential testing</span><span class="tag">Open source</span></div>
@@ -1660,50 +1551,17 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
       <div class="sm-bar"><div class="sm-fill" data-w="95"></div></div>
     </div>
     <div class="skill-meter">
-      <div class="sm-head"><span class="sm-name">Excel <span class="sm-joke">(it's no Death Star, but it works)</span></span><span class="sm-pct">100%</span></div>
-      <div class="sm-bar"><div class="sm-fill hot" data-w="100"></div></div>
-    </div>
-    <div class="skill-meter">
       <div class="sm-head"><span class="sm-name">Documentation <span class="sm-joke">(future me apologizes to the whole Empire)</span></span><span class="sm-pct">40%</span></div>
       <div class="sm-bar"><div class="sm-fill" data-w="40"></div></div>
-    </div>
-    <div class="skill-meter">
-      <div class="sm-head"><span class="sm-name">Sleep hygiene <span class="sm-joke">(sleep is for the Rebel Alliance)</span></span><span class="sm-pct">12%</span></div>
-      <div class="sm-bar"><div class="sm-fill hot" data-w="12"></div></div>
-    </div>
-    <div class="skill-meter">
-      <div class="sm-head"><span class="sm-name">Coffee intake <span class="sm-joke">(the only thing stronger than the Force)</span></span><span class="sm-pct">100%</span></div>
-      <div class="sm-bar"><div class="sm-fill hot" data-w="100"></div></div>
     </div>
   </div>
 </section>
 
-<!-- ================= SCROLL CHART ================= -->
-<section class="band-dark"><div class="band-inner">
-  <div class="section-header fade-in">
-    <p class="section-num">04 - empirical evidence</p>
-    <h2 class="section-title">Productivity vs. Caffeine</h2>
-    <p class="section-subtitle">A peer-reviewed study (n=1, me). The rebellion called it concerning. They were right.</p>
-  </div>
-  <div class="chart-card fade-in">
-    <div class="chart-title"># productivity_curve.csv - coffee_cups vs. output (normalized)</div>
-    <div class="chart-wrap" id="chartWrap">
-      <svg viewBox="0 0 600 300" preserveAspectRatio="none">
-        <line x1="40" y1="260" x2="580" y2="260" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-        <line x1="40" y1="40" x2="40" y2="260" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-        <path class="chart-path" id="chartPath" d="M40 240 C90 220 120 200 160 160 C200 120 230 90 280 70 C330 55 360 50 400 62 C440 80 470 120 510 180 C540 220 560 245 580 252"/>
-      </svg>
-      <div class="chart-annot" style="top:18%; left:48%;">← the sweet spot</div>
-      <div class="chart-annot big" style="top:8%; left:82%;">the force awakens at 3AM ☠</div>
-    </div>
-    <div class="chart-title" style="margin-top:1.2rem;">x-axis: coffee cups (0→10) · y-axis: productivity (0→100) · regret: unbounded</div>
-  </div>
-</div></section>
 
 <!-- ================= MEMES ================= -->
 <section id="memes">
   <div class="section-header fade-in">
-    <p class="section-num">05 - holocron of memes</p>
+    <p class="section-num">04 - holocron of memes</p>
     <h2 class="section-title">A Data Scientist's Memes (Empire Edition)</h2>
     <p class="section-subtitle">From a galaxy far, far away and a therapist's office. Click things.</p>
   </div>
@@ -1729,7 +1587,7 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
       <h4>this_is_fine.png</h4>
       <div class="meme-body">
         <div class="this-is-fine">
-          <span class="dog">🐶</span><span class="flames">🔥🔥🔥</span>
+          <span class="dog"><span aria-hidden="true">🐶</span></span><span class="flames"><span aria-hidden="true">🔥🔥🔥</span></span>
           <div class="caption">the model is overfitting<br>but it's fine</div>
           <div class="tif-sub">train: 99.9% · test: 51% · the force: imbalanced</div>
         </div>
@@ -1741,8 +1599,8 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
       <h4>matrix_pills.sh</h4>
       <div class="meme-body">
         <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
-          <button class="meme-btn btn-a" onclick="matrixPill('red')">🔴 red pill</button>
-          <button class="meme-btn btn-b" onclick="matrixPill('blue')">🔵 blue pill</button>
+          <button class="meme-btn btn-a" onclick="matrixPill('red')"><span aria-hidden="true">🔴</span> red pill</button>
+          <button class="meme-btn btn-b" onclick="matrixPill('blue')"><span aria-hidden="true">🔵</span> blue pill</button>
         </div>
         <div class="meme-result" id="matrixResult">stay in the loop of endless revisions, or see how deep the p-hacking goes</div>
       </div>
@@ -1753,7 +1611,7 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
       <h4>inception_totem.gif</h4>
       <div class="meme-body">
         <div style="text-align:center;">
-          <div id="totem" onclick="spinTotem()" style="font-size:3.4rem; cursor:pointer; display:inline-block; user-select:none;">🌀</div>
+          <div id="totem" role="button" tabindex="0" aria-label="Spin the totem" onclick="spinTotem()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();spinTotem()}" style="font-size:3.4rem; cursor:pointer; display:inline-block; user-select:none;"><span aria-hidden="true">🌀</span></div>
           <div style="margin-top:0.7rem; font-size:1rem; font-weight:700; line-height:1.5;">is this a real result,<br><span style="color:var(--violet);">or did I overfit it into existence?</span></div>
           <div class="mock-note" id="totemNote">click the totem. if it stops spinning, you're in reality. if not... rerun with a different seed.</div>
         </div>
@@ -1765,10 +1623,10 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
       <h4>expanding_brain.png</h4>
       <div class="meme-body">
         <div class="brain-scale" id="brainScale">
-          <div class="brain-level active" data-level="0"><div class="brain" style="--s:1">🧠</div><div class="text">"I'll just use Excel"</div></div>
-          <div class="brain-level" data-level="1"><div class="brain" style="--s:2">🧠</div><div class="text">"Linear regression solves everything"</div></div>
-          <div class="brain-level" data-level="2"><div class="brain" style="--s:3">🧠</div><div class="text">"Wait... I should check for overdispersion"</div></div>
-          <div class="brain-level" data-level="3"><div class="brain" style="--s:4">🧠</div><div class="text">"Negative Binomial GLM + Bayesian priors. The dark side of stats."</div></div>
+          <div class="brain-level active" data-level="0"><div class="brain" style="--s:1"><span aria-hidden="true">🧠</span></div><div class="text">"I'll just use Excel"</div></div>
+          <div class="brain-level" data-level="1"><div class="brain" style="--s:2"><span aria-hidden="true">🧠</span></div><div class="text">"Linear regression solves everything"</div></div>
+          <div class="brain-level" data-level="2"><div class="brain" style="--s:3"><span aria-hidden="true">🧠</span></div><div class="text">"Wait... I should check for overdispersion"</div></div>
+          <div class="brain-level" data-level="3"><div class="brain" style="--s:4"><span aria-hidden="true">🧠</span></div><div class="text">"Negative Binomial GLM + Bayesian priors. The dark side of stats."</div></div>
         </div>
       </div>
     </div>
@@ -1778,7 +1636,7 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
       <h4>fight_club_rules.txt</h4>
       <div class="meme-body">
         <div style="text-align:center; padding:0.6rem 0;">
-          <div style="font-size:3.2rem;">🥊</div>
+          <div style="font-size:3.2rem;"><span aria-hidden="true">🥊</span></div>
           <div style="margin-top:1rem; font-size:1.05rem; font-weight:700; line-height:1.6;">The first rule of p-hacking:<br>you don't talk about p-hacking.</div>
           <div style="margin-top:0.7rem; font-size:1.05rem; font-weight:700; color:var(--accent); line-height:1.6;">The second rule of p-hacking:<br>you DEFINITELY don't talk about p-hacking.</div>
           <div class="mock-note">(this portfolio violates both rules. I have a problem.)</div>
@@ -1791,10 +1649,10 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
       <h4>two_buttons.png</h4>
       <div class="meme-body">
         <div class="two-btns">
-          <span class="guy">😰</span>
+          <span class="guy"><span aria-hidden="true">😰</span></span>
           <div class="btn-pair">
-            <button class="meme-btn btn-a" onclick="twoButtons('ship')">🚀 Ship it</button>
-            <button class="meme-btn btn-b" onclick="twoButtons('test')">🧪 One more test</button>
+            <button class="meme-btn btn-a" onclick="twoButtons('ship')"><span aria-hidden="true">🚀</span> Ship it</button>
+            <button class="meme-btn btn-b" onclick="twoButtons('test')"><span aria-hidden="true">🧪</span> One more test</button>
           </div>
           <div class="meme-result" id="twoBtnsResult">choose wisely, young Padawan...</div>
         </div>
@@ -1825,7 +1683,7 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
           <div class="meme-body">
             <div style="text-align:center;">
               <div class="polaroid">
-                <div style="font-size:2.8rem;">🧩</div>
+                <div style="font-size:2.8rem;"><span aria-hidden="true">🧩</span></div>
                 <p>"REMEMBER TO SET YOUR SEED...<br>wait, where am I? whose notebook is this?"</p>
               </div>
               <div class="mock-note">somewhere, a data scientist reruns the same cell for the 5th time.</div>
@@ -1838,7 +1696,7 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
           <h4>compliment_btn.sh</h4>
           <div class="meme-body">
             <div style="text-align:center; padding:1.5rem 0;">
-              <button class="compliment-btn" onclick="giveCompliment()" style="font-size:1.3rem; padding:1rem 2rem; background:linear-gradient(135deg,var(--accent),var(--violet)); border:none; border-radius:12px; color:var(--void); font-weight:800; cursor:pointer; font-family:'Unbounded',sans-serif; box-shadow:0 0 30px rgba(255,49,49,0.4); transition:transform 0.15s, box-shadow 0.15s;" onmousedown="this.style.transform='scale(0.96)'" onmouseup="this.style.transform='scale(1)'">💖 Give me a compliment</button>
+              <button class="compliment-btn" onclick="giveCompliment()" style="font-size:1.3rem; padding:1rem 2rem; background:linear-gradient(135deg,var(--accent),var(--violet)); border:none; border-radius:12px; color:var(--void); font-weight:800; cursor:pointer; font-family:'Unbounded',sans-serif; box-shadow:0 0 30px rgba(255,49,49,0.4); transition:transform 0.15s, box-shadow 0.15s;" onmousedown="this.style.transform='scale(0.96)'" onmouseup="this.style.transform='scale(1)'"><span aria-hidden="true">💖</span> Give me a compliment</button>
               <div class="meme-result" id="complimentResult" style="margin-top:1.2rem; font-size:1.1rem; line-height:1.6; min-height:3rem;">click the button. you deserve it.</div>
             </div>
           </div>
@@ -1855,7 +1713,7 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
             <div class="casino-slot" id="slot3">0.0</div>
           </div>
           <div class="casino-verdict" id="casinoVerdict">the Emperor demands a p-value. pull the lever.</div>
-          <button class="casino-lever" onclick="pullLever()">🎰 The Emperor demands a p-value</button>
+          <button class="casino-lever" onclick="pullLever()"><span aria-hidden="true">🎰</span> The Emperor demands a p-value</button>
           <div class="casino-note">results may or may not be reproducible. the dark side has cookies.</div>
         </div>
       </div>
@@ -1878,7 +1736,7 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
 <!-- ================= GAME ================= -->
 <section id="game" class="game-section band-dark"><div class="band-inner">
   <div class="section-header">
-    <p class="section-num">06 - productivity (fun version)</p>
+    <p class="section-num">05 - productivity (fun version)</p>
     <h2 class="section-title">Whack-a-Bug: Imperial Edition</h2>
     <p class="section-subtitle">Squash the rebel bugs before they commit to main. The Empire is watching.</p>
   </div>
@@ -1888,14 +1746,14 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
     <div class="hole" data-idx="6"></div><div class="hole" data-idx="7"></div><div class="hole" data-idx="8"></div>
   </div>
   <div class="game-score">bugs squashed: <b id="bugScore">0</b></div>
-  <button class="game-btn" id="gameStart" onclick="startGame()">⚔️ Start rebel hunt</button>
+  <button class="game-btn" id="gameStart" onclick="startGame()"><span aria-hidden="true">⚔️</span> Start rebel hunt</button>
   <div class="game-tip" id="gameTip">Rebel bugs pop up for 1.5s. Squash them. The Emperor is watching.</div>
 </div></section>
 
 <!-- ================= CIRCUIT BUILDER ================= -->
 <section id="circuits" class="circuit-section band-dark"><div class="band-inner">
   <div class="section-header fade-in">
-    <p class="section-num">07 - build something real</p>
+    <p class="section-num">06 - build something real</p>
     <h2 class="section-title">Circuit Builder</h2>
     <p class="section-subtitle">An actual mini electronics lesson. <b>Drag</b> the parts, wire them up, learn how a circuit works. The bug-hunting hobby, applied to physics.</p>
   </div>
@@ -1910,17 +1768,17 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
       </div>
       <div class="circuit-info">
         <div style="font-weight:700; color:var(--text); margin-bottom:0.4rem;">HOW IT WORKS</div>
-        <div class="circuit-tip">1. Drag a battery ⚡ into the board.</div>
+        <div class="circuit-tip">1. Drag a battery <span aria-hidden="true">⚡</span> into the board.</div>
         <div class="circuit-tip">2. Drag a resistor 〰️ between battery and LED.</div>
-        <div class="circuit-tip">3. Drag an LED 💡 and connect the chain: <b style="color:var(--accent);">+ → R → LED → -</b></div>
+        <div class="circuit-tip">3. Drag an LED <span aria-hidden="true">💡</span> and connect the chain: <b style="color:var(--accent);">+ → R → LED → -</b></div>
         <div class="circuit-tip">4. When the loop closes, the LED lights up and you read the values!</div>
         <div class="circuit-tip" style="color:var(--amber);">5. Resistors protect the LED. Too many = dim. None = <span style="color:var(--red);">poof.</span></div>
       </div>
       <div class="circuit-msg" id="circuitMsg">drag a battery in to start...</div>
       <div style="display:flex; gap:0.7rem; flex-wrap:wrap;">
-        <button class="circuit-btn" onclick="spawnComponent('battery')">⚡ add battery</button>
+        <button class="circuit-btn" onclick="spawnComponent('battery')"><span aria-hidden="true">⚡</span> add battery</button>
         <button class="circuit-btn" onclick="spawnComponent('resistor')">〰️ add resistor</button>
-        <button class="circuit-btn" onclick="spawnComponent('led')">💡 add LED</button>
+        <button class="circuit-btn" onclick="spawnComponent('led')"><span aria-hidden="true">💡</span> add LED</button>
         <button class="circuit-btn secondary" onclick="resetCircuit()">↺ reset</button>
       </div>
     </div>
@@ -1936,32 +1794,32 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
   </div>
   <div class="hobbies-grid stagger">
     <div class="hobby-card">
-      <span class="hobby-emoji">🖥️</span><h4>PC Building</h4>
+      <span class="hobby-emoji"><span aria-hidden="true">🖥️</span></span><h4>PC Building</h4>
       <p>Custom rigs, cable management, overclocking. LEGO for adults with credit cards.</p>
       <div class="hover-joke">Yes, the RGB adds 15% performance. It's science.</div>
     </div>
     <div class="hobby-card">
-      <span class="hobby-emoji">⚡</span><h4>Circuits & Electronics</h4>
+      <span class="hobby-emoji"><span aria-hidden="true">⚡</span></span><h4>Circuits & Electronics</h4>
       <p>Breadboards, microcontrollers, making LEDs blink - the gateway drug of hardware.</p>
       <div class="hover-joke">I've only shocked myself twice. Both times were "for science."</div>
     </div>
     <div class="hobby-card">
-      <span class="hobby-emoji">🎷</span><h4>Jazz</h4>
+      <span class="hobby-emoji"><span aria-hidden="true">🎷</span></span><h4>Jazz</h4>
       <p>Miles Davis to modern fusion - improvisation feels a lot like EDA.</p>
       <div class="hover-joke">I listen to jazz so people think I'm sophisticated. It's working.</div>
     </div>
     <div class="hobby-card">
-      <span class="hobby-emoji">🎮</span><h4>Gaming</h4>
+      <span class="hobby-emoji"><span aria-hidden="true">🎮</span></span><h4>Gaming</h4>
       <p>Strategy, RPGs, competitive titles. Pattern recognition before statistics did.</p>
       <div class="hover-joke">My K/D ratio is a time series with significant autocorrelation.</div>
     </div>
     <div class="hobby-card">
-      <span class="hobby-emoji">🐛</span><h4>Bug Hunting</h4>
+      <span class="hobby-emoji"><span aria-hidden="true">🐛</span></span><h4>Bug Hunting</h4>
       <p>Finding edge cases and breaking things before users do. QA is applied pessimism.</p>
       <div class="hover-joke">I once spent 4 hours on a missing semicolon. I'm fine. Really.</div>
     </div>
     <div class="hobby-card">
-      <span class="hobby-emoji">🎬</span><h4>Movies</h4>
+      <span class="hobby-emoji"><span aria-hidden="true">🎬</span></span><h4>Movies</h4>
       <p>I'll rewatch favorites until I've memorized the score and quote editing choices.</p>
       <div class="hover-joke">The Dark Knight ×23. The Joker's stats speech is a probability lecture.</div>
     </div>
@@ -1982,16 +1840,16 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
   <div class="git-log fade-in">
     <div class="tag-line"># my life, but make it version control (imperial edition)</div>
     <div class="commit"><span class="hash">a3f9c2d</span><span class="branch">(HEAD →</span><b style="color:var(--text)"> future</b><span class="branch">)</span><span class="msg"><b>feat:</b> graduate with honors, statistically speaking (the force is strong)</span></div>
-    <div class="commit"><span class="hash">8d1b4e2</span><span class="msg"><b>feat:</b> build 13 data projects, 253 tests, 0 sanity, 1 lightsaber</span></div>
+    <div class="commit"><span class="hash">8d1b4e2</span><span class="msg"><b>feat:</b> build 11 projects, 253 tests, 0 sanity, 1 lightsaber</span></div>
     <div class="commit"><span class="hash">5c9f0a1</span><span class="msg"><b>fix:</b> learn what a p-value actually means (breaking change, dark side approved)</span></div>
     <div class="commit"><span class="hash">b2e7d3f</span><span class="msg"><b>chore:</b> question everything, including this portfolio</span></div>
     <div class="commit"><span class="hash">e5d3c1b</span><span class="msg"><b>init:</b> first commit (mum was proud)</span></div>
   </div>
   <div class="facts stagger">
-    <div class="fact"><div class="fact-label">📍 Based in</div><div class="fact-value">🇨🇦 Winnipeg, MB</div></div>
-    <div class="fact"><div class="fact-label">🎓 Studying</div><div class="fact-value">B.Sc. Statistics & Math</div></div>
-    <div class="fact"><div class="fact-label">💻 Stack</div><div class="fact-value">R, Python, SQL</div></div>
-    <div class="fact"><div class="fact-label">☕ Fuel</div><div class="fact-value">Coffee & overconfidence</div></div>
+    <div class="fact"><div class="fact-label"><span aria-hidden="true">📍</span> Based in</div><div class="fact-value">🇨🇦 Winnipeg, MB</div></div>
+    <div class="fact"><div class="fact-label"><span aria-hidden="true">🎓</span> Studying</div><div class="fact-value">B.Sc. Statistics & Math</div></div>
+    <div class="fact"><div class="fact-label"><span aria-hidden="true">💻</span> Stack</div><div class="fact-value">R, Python, SQL</div></div>
+    <div class="fact"><div class="fact-label"><span aria-hidden="true">☕</span> Fuel</div><div class="fact-value">Coffee & overconfidence</div></div>
   </div>
 </div></section>
 
@@ -2012,7 +1870,7 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
 
 <section id="process">
   <div class="section-header fade-in">
-    <p class="section-num">method</p>
+    <p class="section-num">09 - method</p>
     <h2 class="section-title">How I work</h2>
   </div>
   <ol class="proc-list">
@@ -2053,7 +1911,7 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
 </style>
 <section id="faq">
   <div class="section-header fade-in">
-    <p class="section-num">questions, answered</p>
+    <p class="section-num">10 - questions, answered</p>
     <h2 class="section-title">Recruiter FAQ</h2>
   </div>
   <div class="faq-list">
@@ -2068,14 +1926,14 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
 <!-- ================= CONTACT ================= -->
 <section id="contact" class="contact-section">
   <div class="section-header fade-in">
-    <p class="section-num">09 - open a channel</p>
+    <p class="section-num">11 - open a channel</p>
     <h2 class="section-title">Contact</h2>
     <p class="section-subtitle">I promise I write better emails than this website copy. <b>You can also just type "email" in my terminal.</b></p>
   </div>
   <a href="mailto:Janak25rudani@icloud.com" class="contact-email">janak25rudani@icloud.com</a>
   <div class="social-links">
     <a href="https://github.com/Jrudani21" target="_blank" class="social-link">github/Jrudani21</a>
-    <a href="https://www.linkedin.com/in/janakrudani21" target="_blank" class="social-link">linkedin/janak Rudani</a>
+    <a href="https://www.linkedin.com/in/janakrudani21" target="_blank" class="social-link">linkedin/janakrudani21</a>
   </div>
 </section>
 
@@ -2111,13 +1969,12 @@ html.swiss :focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px; }
   <p class="footer-mark" aria-hidden="true">Janak<br>Rudani</p>
   <div class="console-line">
     <span class="prompt">vader@deathstar:~$</span> <span class="cmd">cat footer.txt</span><br>
-    <span class="output">built with ⚔️, caffeine, and {count} console.log statements</span><br>
+    <span class="output">built with <span aria-hidden="true">⚔️</span>, caffeine, and {count} console.log statements</span><br>
     <span class="prompt">vader@deathstar:~$</span> <span class="cmd">git blame</span><br>
     <span class="error">fatal: i am your father. (and everything is my fault)</span><br>
     <span class="prompt">vader@deathstar:~$</span> <span class="cmd">try_konami_code</span><br>
     <span class="output">↑↑↓↓←→←→BA unlocks the force. go on. try it.</span>
   </div>
-  <div class="footer-love">Thanks for scrolling all the way down. You're the real MVP. 🏆</div>
 </footer>
 
 <script>
@@ -2148,7 +2005,7 @@ function chord(freqs, dur) {
 const soundBtn = document.getElementById('soundBtn');
 soundBtn.addEventListener('click', () => {
   audioOn = !audioOn;
-  soundBtn.textContent = audioOn ? '🔊 sound on' : '🔇 sound off';
+  soundBtn.innerHTML = audioOn ? '<span aria-hidden="true">🔊</span> sound on' : '<span aria-hidden="true">🔇</span> sound off';
   soundBtn.classList.toggle('on', audioOn);
   if (audioOn) blip(880, 0.15, 'square', 0.05);
 });
@@ -2387,7 +2244,7 @@ document.getElementById('complimentBtn').addEventListener('click', () => {
 });
 
 /* ================= PROJECT TILT + SPARKLES ================= */
-document.querySelectorAll('.project:not(.todo-demo)').forEach(card => {
+document.querySelectorAll('.project').forEach(card => {
   card.addEventListener('mousemove', (e) => {
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -2433,20 +2290,6 @@ const meterObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.25 });
 document.querySelectorAll('.skill-meters').forEach(el => meterObserver.observe(el));
 
-/* ================= SCROLL CHART ================= */
-const chartPath = document.getElementById('chartPath');
-const chartWrap = document.getElementById('chartWrap');
-function drawChart() {
-  const rect = chartWrap.getBoundingClientRect();
-  const vh = window.innerHeight;
-  const progress = Math.min(Math.max((vh - rect.top) / (vh * 0.8), 0), 1);
-  chartPath.style.strokeDashoffset = 1 - progress;
-  if (progress > 0.72) chartPath.classList.add('danger');
-  else chartPath.classList.remove('danger');
-}
-window.addEventListener('scroll', drawChart, { passive: true });
-window.addEventListener('resize', drawChart);
-drawChart();
 
 /* ================= BRAIN SCALE ================= */
 document.querySelectorAll('.brain-level').forEach(lvl => {
@@ -2741,7 +2584,7 @@ function printHelp() {
   const cmds = [
     ['help', 'show this list'],
     ['whoami', 'existential self-identification'],
-    ['projects', 'list the 14 receipts'],
+    ['projects', 'list the 11 receipts'],
     ['skills', 'what I bring to the table'],
     ['memes', 'the important stuff'],
     ['hire', 'the only command that matters'],
@@ -2770,8 +2613,8 @@ function handleCommand(raw) {
     return;
   }
   if (cmd === 'projects') {
-    termOut('14 projects. 253 tests. 1 questionable sleep schedule.', 'ok');
-    termOut('telco-churn · bike-share · air-passengers · penguins · medicare-fraud · covid-dash · personal-assistant · llm-finetune · jurassic-park · puter-todo · delivery-gate · ken · sure · weather-arb (private)', 'warn');
+    termOut('11 projects. 253 tests. 1 questionable sleep schedule.', 'ok');
+    termOut('telco-churn · bike-share · air-passengers · penguins · medicare-fraud · covid-dash · personal-assistant · llm-finetune · delivery-gate · ken · sure', 'warn');
     termOut('full list: scroll up. i built the whole page for you.', '');
     return;
   }
@@ -2871,7 +2714,7 @@ function handleCommand(raw) {
   blip(180, 0.15, 'sawtooth', 0.03);
 }
 banner.forEach(l => termWrite('<span class="violet">' + l + '</span>'));
-termWrite('<span class="ok">14 projects</span> · <span class="ok">253 tests</span> · <span class="warn">0 patience for bad data</span>');
+termWrite('<span class="ok">11 projects</span> · <span class="ok">253 tests</span> · <span class="warn">0 patience for bad data</span>');
 termInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
     const val = termInput.value;
@@ -3225,185 +3068,6 @@ console.log('%c📊 Also: click the 🧠 meme. i dare you.', 'color:#ffd166;');
 })();
 </script>
 
-<script>
-/* ================= PUTER.JS LIVE TODO DEMO =================
-   puter.js is loaded ON DEMAND (first interaction with this widget). Auto-loading it
-   on page load made Puter throw its own consent modal over the hero for every
-   first-time visitor, before they could read anything. */
-(function () {
-  const TODOS_KEY = 'portfolio-todos:v1';
-  const root = document.getElementById('todo-widget');
-  if (!root) return;
-  const $ = (id) => document.getElementById(id);
-  const form = $('tw-form'), input = $('tw-input'), list = $('tw-list'),
-        empty = $('tw-empty'), count = $('tw-count'), sync = $('tw-sync'),
-        clearBtn = $('tw-clear'), authBtn = $('tw-auth');
-  const filterBtns = Array.from(root.querySelectorAll('.tw-filter'));
-
-  let todos = [], useCloud = false, filter = 'all';
-
-  const puterReady = () => typeof window.puter !== 'undefined';
-
-  /* ---- on-demand puter.js loader ---- */
-  let puterLoad = null;
-  function loadPuter() {
-    if (puterReady()) return Promise.resolve();
-    if (puterLoad) return puterLoad;
-    puterLoad = new Promise((resolve, reject) => {
-      const s = document.createElement('script');
-      s.src = 'https://js.puter.com/v2/';
-      s.async = true;
-      s.onload = resolve;
-      s.onerror = () => reject(new Error('puter.js failed to load'));
-      document.head.appendChild(s);
-    });
-    return puterLoad;
-  }
-  let armed = false;
-  function armPuter() {
-    if (armed) return; armed = true;
-    const go = async () => {
-      ['pointerdown', 'keydown', 'focusin'].forEach(ev => root.removeEventListener(ev, go, true));
-      try { await loadPuter(); } catch (e) { return; }
-      todos = await loadTodos(); syncUI(); await authUI(); render();
-    };
-    ['pointerdown', 'keydown', 'focusin'].forEach(ev => root.addEventListener(ev, go, true));
-  }
-  const uid = () => (window.crypto && crypto.randomUUID)
-    ? crypto.randomUUID()
-    : 'id-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
-
-  async function loadTodos() {
-    if (puterReady()) {
-      try {
-        if (await puter.auth.isSignedIn()) {
-          const data = await puter.kv.get(TODOS_KEY);
-          useCloud = true;
-          return Array.isArray(data) ? data : [];
-        }
-      } catch (e) { /* fall through to local */ }
-    }
-    useCloud = false;
-    try {
-      const raw = localStorage.getItem(TODOS_KEY);
-      return raw ? JSON.parse(raw) : [];
-    } catch (e) { return []; }
-  }
-
-  async function saveTodos() {
-    const snap = JSON.parse(JSON.stringify(todos));
-    if (useCloud && puterReady()) {
-      try { await puter.kv.set(TODOS_KEY, snap); return; } catch (e) {}
-    }
-    try { localStorage.setItem(TODOS_KEY, JSON.stringify(snap)); } catch (e) {}
-  }
-
-  function syncUI() {
-    if (useCloud && puterReady()) { sync.textContent = 'cloud · puter kv'; sync.className = 'tw-sync ok'; }
-    else { sync.textContent = 'local · this browser'; sync.className = 'tw-sync local'; }
-  }
-
-  function render() {
-    const visible = todos.filter(t =>
-      filter === 'active' ? !t.done : filter === 'completed' ? t.done : true);
-    list.innerHTML = '';
-    visible.forEach(t => list.appendChild(itemEl(t)));
-    const left = todos.filter(t => !t.done).length;
-    count.textContent = left + ' left';
-    clearBtn.hidden = todos.length - left === 0;
-    empty.hidden = todos.length > 0;
-  }
-
-  function itemEl(t) {
-    const li = document.createElement('li');
-    li.className = 'tw-item' + (t.done ? ' done' : '');
-    const check = document.createElement('button');
-    check.type = 'button'; check.className = 'tw-check';
-    check.setAttribute('aria-label', 'toggle task');
-    check.addEventListener('click', () => toggle(t.id));
-    const text = document.createElement('span');
-    text.className = 'tw-text'; text.textContent = t.text;
-    const edit = document.createElement('input');
-    edit.type = 'text'; edit.className = 'tw-edit'; edit.maxLength = 300; edit.hidden = true;
-    const eb = document.createElement('button');
-    eb.type = 'button'; eb.className = 'tw-icon'; eb.textContent = '✎';
-    eb.setAttribute('aria-label', 'edit task');
-    eb.addEventListener('click', () => startEdit(li, t, text, edit));
-    const db = document.createElement('button');
-    db.type = 'button'; db.className = 'tw-icon danger'; db.textContent = '✕';
-    db.setAttribute('aria-label', 'delete task');
-    db.addEventListener('click', () => del(t.id));
-    li.append(check, text, edit, eb, db);
-    return li;
-  }
-
-  function startEdit(li, t, textEl, edit) {
-    edit.value = t.text; textEl.hidden = true; edit.hidden = false; edit.focus();
-    edit.setSelectionRange(edit.value.length, edit.value.length);
-    let done = false;
-    const commit = async () => {
-      if (done) return; done = true;
-      textEl.hidden = false; edit.hidden = true;
-      const next = edit.value.trim();
-      if (next && next !== t.text) { t.text = next; await saveTodos(); }
-      render();
-    };
-    edit.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') { e.preventDefault(); commit(); }
-      else if (e.key === 'Escape') { done = true; textEl.hidden = false; edit.hidden = true; render(); }
-    });
-    edit.addEventListener('blur', commit);
-  }
-
-  async function toggle(id) {
-    const t = todos.find(x => x.id === id); if (!t) return;
-    t.done = !t.done; await saveTodos(); render();
-  }
-  async function del(id) {
-    todos = todos.filter(x => x.id !== id); await saveTodos(); render();
-  }
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const text = input.value.trim(); if (!text) return;
-    todos.unshift({ id: uid(), text, done: false, createdAt: Date.now() });
-    input.value = ''; await saveTodos(); render();
-  });
-  clearBtn.addEventListener('click', async () => {
-    todos = todos.filter(x => !x.done); await saveTodos(); render();
-  });
-  filterBtns.forEach(b => b.addEventListener('click', () => {
-    filter = b.dataset.filter;
-    filterBtns.forEach(x => x.classList.toggle('active', x === b));
-    render();
-  }));
-
-  async function authUI() {
-    if (!puterReady()) { authBtn.hidden = true; return; }
-    try {
-      const signedIn = await puter.auth.isSignedIn();
-      authBtn.hidden = false;
-      authBtn.textContent = signedIn ? 'sign out' : 'sign in';
-    } catch (e) {
-      authBtn.hidden = false; authBtn.textContent = 'sign in';
-    }
-  }
-  authBtn.addEventListener('click', async () => {
-    if (!puterReady()) return;
-    try {
-      const signedIn = await puter.auth.isSignedIn();
-      if (signedIn) await puter.auth.signOut(); else await puter.auth.signIn();
-    } catch (e) { /* ignore */ }
-    todos = await loadTodos(); syncUI(); await authUI(); render();
-  });
-
-  (async function init() {
-    todos = await loadTodos();   // local mirror, zero third-party requests on first paint
-    syncUI(); await authUI(); render();
-    armPuter();
-  })();
-})();
-</script>
 
 <script>
 // active nav link follows the section in view
@@ -3425,8 +3089,11 @@ console.log('%c📊 Also: click the 🧠 meme. i dare you.', 'color:#ffd166;');
   const root = document.documentElement;
   const store = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } },
                   set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} } };
+  const menuBtn = document.getElementById('menuBtn'), fb = document.getElementById('floatBtns');
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && fb.classList.contains('open')) { menuBtn.click(); menuBtn.focus(); } });
+  menuBtn.addEventListener('click', () => { const o = fb.classList.toggle('open'); menuBtn.setAttribute('aria-expanded', o); menuBtn.textContent = o ? 'close' : 'options'; });
   const btn = document.getElementById('recruiterBtn');
-  const setRec = on => { root.classList.toggle('recruiter', on); btn.textContent = on ? '\u{1F3AD} full experience' : '\u{1F454} recruiter mode'; store.set('recruiter', on ? '1' : '0'); };
+  const setRec = on => { root.classList.toggle('recruiter', on); btn.innerHTML = on ? '<span aria-hidden="true">\u{1F3AD}</span> full experience' : '<span aria-hidden="true">\u{1F454}</span> recruiter mode'; store.set('recruiter', on ? '1' : '0'); };
   setRec(store.get('recruiter') === '1');
   btn.addEventListener('click', () => setRec(!root.classList.contains('recruiter')));
 

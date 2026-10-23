@@ -13,7 +13,7 @@ Guidance for AI coding agents working in this repo (Janak Rudani's GitHub Pages 
 
 ## Where things are
 
-- `index.html` - the whole homepage (CSS, markup, JS in one file, about 2,870 lines).
+- `index.html` - the whole homepage (CSS, markup, JS in one file, about 3,150 lines).
 - `case-study-ken.html`, `case-study-delivery-gate.html` - standalone pages with their own
   copy of the colour tokens.
 - `ken/docs/` - **vendored build output** of the Ken Agent docs (1,913 files). Do not edit by
@@ -35,8 +35,7 @@ Guidance for AI coding agents working in this repo (Janak Rudani's GitHub Pages 
 
 - Do keep everything here publishable: this repo is public.
 - Don't add secrets, analytics keys, phone numbers or a home address.
-- Don't load Puter.js (or any heavy third-party script) on page load; it is lazy-loaded on
-  purpose.
+- Don't load heavy third-party scripts on page load.
 - Don't add a build system or framework without the owner asking.
 
 ## Sensitive paths

@@ -56,7 +56,6 @@ Headings use `clamp()` for fluid sizing (e.g. `.modal h2 { font-size: clamp(2.5r
 - `.ticker-wrap` / `.ticker` scrolling marquee (pauses on hover).
 - `.section-title`, `.gradient-text`, `.band-dark` / `.band-inner` section bands.
 - `.terminal-widget`, `.terminal-body`, `.term-input` fake terminal.
-- `.tw-*` Puter.js to-do widget.
 - `.fade-in`, `.stagger` reveal-on-scroll helpers.
 
 Most common radii: `10px`, `16px`, `50%` (circles).

@@ -13,7 +13,7 @@ vendored copy of the Ken Agent documentation site under `/ken/docs/`.
 
 - Recruiters / hiring managers evaluating the owner for data-science, statistics and AI
   engineering roles. The `<title>` and meta description position the owner as a
-  "Statistics student at the University of Manitoba" with "13 projects in R, Python and SQL".
+  "Statistics student at the University of Manitoba" with "11 projects in R, Python and SQL".
 - Prospective clients (the case studies describe delivered systems).
 
 ## Scope (what exists today)
@@ -22,7 +22,6 @@ vendored copy of the Ken Agent documentation site under `/ken/docs/`.
 |---|---|
 | Hero, nav, boot animation, custom cursor, particle canvas | `index.html` (`#boot`, `#particles`, `#cursor-ring`, `.hero`) |
 | Project list with search/filter (`#projSearch`, `#projCount`) linking to GitHub repos | `index.html` `#projects` |
-| Live Puter.js to-do demo (cloud KV when signed in, localStorage otherwise) | `index.html` `#todo-widget`, script near line 2686 |
 | Fake terminal widget | `index.html` `#terminal` |
 | Skills meters, chart, "memes" interactive section, compliment/panic buttons | `index.html` `#skills`, `#memes` |
 | Case study: Ken (agent fleet) | `case-study-ken.html` |
@@ -46,7 +45,7 @@ Unknown - needs owner input (e.g. recruiter response rate, page-load budget).
 
 - Is `/ken/docs/` (about 168 MB on disk, 1,913 tracked files) meant to stay vendored in this
   repo, or move to the Ken repo's own Pages site?
-- The meta description says "13 projects"; the count is hand-maintained in several places
+- The meta description says "11 projects"; the count is hand-maintained in several places
   (`<meta>`, `#projCount`, terminal output). Should it be generated?
 - Root-level `*.md` files (including these docs) may be rendered by GitHub Pages' Jekyll build;
   should `_config.yml` exclude them? (see SECURITY.md)

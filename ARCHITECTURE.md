@@ -32,13 +32,9 @@ _config.yml                     Jekyll config: excludes ken/ from Liquid process
 
 - Fonts from Google Fonts (`fonts.googleapis.com`, `fonts.gstatic.com`).
 - `index.html` scripts (three inline `<script>` blocks) drive: boot sequence, particle canvas,
-  custom cursor, scroll progress, project search/filter, fake terminal, games/memes, and the
-  Puter.js to-do demo.
-- **Puter.js** (`https://js.puter.com/v2/`) is lazy-loaded on first interaction with the to-do
-  widget (`loadPuter()`), not on page load, so its consent modal does not cover the hero
-  (commit `001f76b`). When signed in, todos go to `puter.kv`; otherwise to `localStorage`.
-- Outbound links: GitHub repos under `github.com/Jrudani21/...`, the Jurassic Park site,
-  LinkedIn, `developer.puter.com`.
+  custom cursor, scroll progress, project search/filter, fake terminal, games/memes.
+- Outbound links: GitHub repos under `github.com/Jrudani21/...`, the Jurassic Park site (text only),
+  LinkedIn.
 
 ## External services
 
@@ -46,10 +42,9 @@ _config.yml                     Jekyll config: excludes ken/ from Liquid process
 |---|---|---|
 | GitHub Pages + Actions | hosting, build | yes |
 | Google Fonts | web fonts | soft (falls back to system fonts) |
-| Puter.js | optional cloud KV + auth for the to-do demo | no (localStorage fallback) |
 
 ## Verified against
 
 `.github/workflows/jekyll-gh-pages.yml`, `_config.yml`, `robots.txt`, `index.html`
-(head, `loadPuter()` and to-do code around lines 2686-2860), `git ls-files`,
+(head and inline scripts), `git ls-files`,
 `git log --oneline`, `wc -l index.html`.
