@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case study: When does a free AI model need a critic? A small, honest benchmark - Janak Rudani</title>
+<meta name="description" content="Five coding tasks from real Windows bugs, hidden-test scoring and no model judges: what a free model, a free model plus a critic, and a strong model each got right.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="When does a free AI model need a critic? A small, honest benchmark">
+<meta property="og:description" content="Five coding tasks from real Windows bugs, hidden-test scoring and no model judges: what a free model, a free model plus a critic, and a strong model each got right.">
+<meta property="og:url" content="https://jrudani21.github.io/case-study-escalation.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="When does a free AI model need a critic? A small, honest benchmark">
+<meta name="twitter:description" content="Five coding tasks from real Windows bugs, hidden-test scoring and no model judges: what a free model, a free model plus a critic, and a strong model each got right.">
+<meta name="twitter:image" content="https://jrudani21.github.io/assets/og-card.png">
+<link rel="canonical" href="https://jrudani21.github.io/case-study-escalation.html">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<meta name="theme-color" content="#05050a">
+<meta property="og:site_name" content="Janak Rudani">
+<meta property="og:image" content="https://jrudani21.github.io/assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","headline":"When does a free AI model need a critic? A small, honest benchmark","description":"Five coding tasks from real Windows bugs, hidden-test scoring and no model judges: what a free model, a free model plus a critic, and a strong model each got right.","url":"https://jrudani21.github.io/case-study-escalation.html","image":"https://jrudani21.github.io/assets/og-card.png","author":{"@type":"Person","name":"Janak Rudani","url":"https://jrudani21.github.io/","sameAs":["https://github.com/Jrudani21","https://www.linkedin.com/in/janakrudani21"]}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #05050a; --panel: #0a0a12; --surface: #100f16;
+  --text: #f2f2f5; --dim: #9a9aa8; --muted: #565664;
+  --accent: #ff3131; --accent-dim: rgba(255,49,49,0.12);
+  --violet: #59d9ff; --amber: #f5c518; --green: #4ade80;
+  --border: rgba(255,255,255,0.07);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--void); color: var(--text); font-family: 'Space Grotesk', system-ui, sans-serif; line-height: 1.7; overflow-x: hidden; }
+.wrap { max-width: 880px; margin: 0 auto; padding: 3.5rem 1.4rem 5rem; }
+a { color: var(--violet); text-decoration: none; }
+a:hover { color: var(--accent); }
+.back { font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.back:hover { color: var(--accent); }
+.eyebrow { font-family: 'VT323', monospace; font-size: 15px; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin: 2.2rem 0 0.7rem; }
+h1 { font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: clamp(1.7rem, 4.4vw, 2.85rem); line-height: 1.12; letter-spacing: -0.01em; }
+.dek { color: var(--dim); font-size: 1.06rem; margin-top: 1.1rem; max-width: 720px; }
+.dek b { color: var(--amber); }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin: 2.4rem 0 0.4rem; }
+@media (max-width: 660px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.stat { background: linear-gradient(135deg, rgba(16,16,24,0.95), rgba(10,10,16,0.95)); padding: 1.2rem 1.3rem; }
+.stat b { display: block; font-family: 'VT323', monospace; font-size: 1.9rem; color: var(--accent); line-height: 1.1; }
+.stat span { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.03em; }
+h2 { font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 1.25rem; margin: 3rem 0 0.9rem; }
+h2::before { content: '// '; color: var(--muted); font-family: 'VT323', monospace; }
+p { color: var(--dim); margin: 0.75rem 0; }
+p b, li b, td b { color: var(--text); }
+code { font-family: 'VT323', monospace; font-size: 15px; color: var(--violet); background: rgba(255,255,255,0.05); padding: 1px 6px; border-radius: 6px; }
+pre { background: var(--panel); border: 1px solid var(--border); border-left: 2px solid var(--accent); border-radius: 12px; padding: 1.1rem 1.2rem; overflow-x: auto; margin: 1.2rem 0; font-family: 'VT323', monospace; font-size: 15px; line-height: 1.65; color: var(--dim); }
+pre .ok { color: var(--green); } pre .hl { color: var(--amber); } pre .c { color: var(--muted); } pre .bad { color: var(--accent); }
+table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: 0.92rem; }
+th, td { text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--border); color: var(--dim); vertical-align: top; }
+th { font-family: 'VT323', monospace; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 400; }
+td:first-child { color: var(--text); white-space: nowrap; }
+ol, ul { margin: 0.8rem 0 0.8rem 1.3rem; color: var(--dim); }
+li { margin: 0.4rem 0; }
+.callout { border-left: 2px solid var(--amber); background: rgba(245,197,24,0.05); padding: 0.9rem 1.2rem; border-radius: 0 12px 12px 0; margin: 1.4rem 0; font-size: 0.95rem; color: var(--dim); }
+.callout b { color: var(--amber); }
+figure { margin: 1.6rem 0; border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 1rem; background: linear-gradient(135deg, rgba(16,16,24,0.85), rgba(10,10,16,0.85)); }
+figure img { display: block; width: 100%; height: auto; border-radius: 8px; }
+figcaption { font-family: 'VT323', monospace; font-size: 14px; color: var(--muted); text-align: center; margin-top: 0.8rem; letter-spacing: 0.05em; }
+svg { display: block; width: 100%; height: auto; }
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1.6rem 0 0; }
+.tag { font-family: 'VT323', monospace; font-size: 13px; padding: 3px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--dim); }
+.tag.hl { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.links { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; margin: 1.4rem 0 0; font-family: 'VT323', monospace; font-size: 16px; }
+.foot { margin-top: 3.4rem; padding-top: 1.6rem; border-top: 1px solid var(--border); font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: space-between; }
+@media (max-width: 560px) { .wrap { padding-top: 2.4rem; } table { font-size: 0.85rem; } th, td { padding: 0.5rem 0.4rem; } td:first-child { white-space: normal; } }
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: 0.25s ease both vt-out; }
+::view-transition-new(root) { animation: 0.4s cubic-bezier(0.22,1,0.36,1) both vt-in; }
+@keyframes vt-out { to { opacity: 0; transform: translateY(-8px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(12px); } }
+@media (prefers-reduced-motion: reduce) { ::view-transition-old(root), ::view-transition-new(root) { animation: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <a class="back" href="index.html#projects">&larr; back to the imperial archives</a>
+
+  <p class="eyebrow">case study // AI engineering // 2026</p>
+  <h1>When does a free AI model need a critic? A small, honest benchmark</h1>
+  <p class="dek">I route work to free model lanes first and escalate only when needed. I wanted numbers instead of a
+    feeling, so I scored five small coding tasks with <b>hidden tests and no model judges</b>, and compared a free
+    model alone, a free model with a critic, and a strong model alone.</p>
+
+  <div class="stats">
+    <div class="stat"><b>5</b><span>tasks from real Windows bugs</span></div>
+    <div class="stat"><b>3</b><span>approaches compared</span></div>
+    <div class="stat"><b>0</b><span>LLM judges (hidden tests only)</span></div>
+    <div class="stat"><b>5</b><span>samples on the hardest task</span></div>
+  </div>
+
+  <h2>First, what this is not</h2>
+  <p>This is <b>not a leaderboard</b>. There are five tasks and one to five samples per cell, and the same model
+    flipped between pass and fail across samples. It is a worked example of how to measure a routing decision
+    without fooling yourself.</p>
+
+  <h2>The tasks</h2>
+  <p>Each is a bug class I have actually hit: parsing durations like <code>1h30m</code>; merging touching
+    intervals; replacing one line without changing its CRLF or LF ending; deciding whether a shell command is a
+    recursive force delete (the check a safety hook needs); and quoting a path for PowerShell, including the
+    typographic quote characters PowerShell treats as quotes.</p>
+
+  <h2>How it was scored</h2>
+  <ol>
+    <li><b>Hidden test cases</b> run in a subprocess. No model grades another model.</li>
+    <li><b>The tests were tested first.</b> A known-good and a known-bad solution had to score full and not-full, so a zero means the model failed, not the harness.</li>
+    <li><b>Lane checks.</b> I read the CLI's usage file to confirm which provider really answered. A fallback model's answer was discarded, not counted.</li>
+    <li><b>Test-blind critic.</b> The critic sees only the spec and the draft. The loop stops when the critic finds nothing, never because tests passed, and is capped at two rounds.</li>
+  </ol>
+
+  <h2>What happened</h2>
+  <table>
+    <tr><th>setup</th><th>parse durations</th><th>PowerShell quoting</th></tr>
+    <tr><td>free model alone</td><td>11/15 to 15/15 across six one-shot runs (anchored-regex bug)</td><td>0/9 to 6/9 in every sample</td></tr>
+    <tr><td>strong critic + free fixer</td><td>full marks, 1 round</td><td>full marks, 2 rounds</td></tr>
+    <tr><td>free critic + free fixer</td><td>15/15 after 1 round in the one sample that needed it</td><td>full marks in 1 of 5 samples</td></tr>
+    <tr><td>larger free model alone</td><td>same model, same spread as above</td><td>full marks in 5 of 5</td></tr>
+  </table>
+  <ul>
+    <li>A critique only helped when it named a failing input and the exact required output. Vague review did nothing for the small model.</li>
+    <li>The critique model mattered more than the fixer. A free critic once approved a draft that was still wrong.</li>
+    <li>For a narrow task, routing to a bigger free model beat adding a review step.</li>
+    <li>The critiques also found real defects my first tests never checked, such as a lone carriage return and quoted flags in shell commands.</li>
+  </ul>
+  <div class="callout">
+    <b>A caveat I kept in the data.</b> I then wrote stricter tests from rules the spec already stated. They came
+    after I had read the critiques, so I report them beside the first scores and not instead of them.
+  </div>
+
+  <h2>A side finding that nearly poisoned the numbers</h2>
+  <p>The agent CLI auto-loaded a brainstorming skill, which made a small model answer with a design plan and no
+    code. A scorer that did not read the replies would have counted that as a model failure. Running with the
+    CLI's safe mode removed it: 8 seconds instead of 33, and 21k tokens instead of 51k. I then disabled the two
+    skill plugins in my config and checked one real call.</p>
+
+  <h2>What I would claim, and what I would not</h2>
+  <p>I would claim: critique quality beats fixer quality; reviews need a failing input and an exact expected
+    output; thin tests hide defects a review finds; and checking which model actually answered is part of the
+    method.</p>
+  <p>I would not claim anything about cost in dollars (free calls were $0 and I have no price for the strong
+    calls), nor that this generalises past five tasks.</p>
+
+  <div class="links">
+    <a href="case-study-sure.html">the safety hook built with the same discipline &rarr;</a>
+    <a href="case-study-ken.html">the agent fleet this routes for &rarr;</a>
+  </div>
+
+  <div class="tags">
+    <span class="tag hl">Python</span><span class="tag">LLM evaluation</span><span class="tag">Model routing</span>
+    <span class="tag">Hidden tests</span><span class="tag">Critic loops</span>
+  </div>
+
+  <div class="foot">
+    <a href="index.html#projects">&larr; all projects</a>
+    <span>Janak Rudani &middot; Winnipeg &middot; 2026</span>
+  </div>
+
+</div>
+</body>
+</html>
