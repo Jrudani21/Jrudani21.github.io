@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Janak Rudani - Statistics, Data Science &amp; Automation</title>
-<meta name="description" content="Janak Rudani - Statistics student at the University of Manitoba. 11 projects in R, Python and SQL: churn and count-regression modelling, SARIMA forecasting, fraud detection, local LLM/RAG tooling and $0-budget automation fleets.">
+<meta name="description" content="Janak Rudani - Statistics student at the University of Manitoba. 12 projects in R, Python and SQL: churn and count-regression modelling, SARIMA forecasting, fraud detection, local LLM/RAG tooling and $0-budget automation fleets.">
 <link rel="canonical" href="https://jrudani21.github.io/">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <meta name="theme-color" content="#05050a">
@@ -13,14 +13,14 @@
 <meta property="og:site_name" content="Janak Rudani">
 <meta property="og:url" content="https://jrudani21.github.io/">
 <meta property="og:title" content="Janak Rudani - Statistics, Data Science &amp; Automation">
-<meta property="og:description" content="Stats student at the University of Manitoba. 11 projects in R, Python and SQL, plus a 34-bot agent fleet running on one PC for $0.004.">
+<meta property="og:description" content="Stats student at the University of Manitoba. 12 projects in R, Python and SQL, plus a 34-bot agent fleet running on one PC for $0.004.">
 <meta property="og:image" content="https://jrudani21.github.io/assets/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Janak Rudani - statistics, data science and automation">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Janak Rudani - Statistics, Data Science &amp; Automation">
-<meta name="twitter:description" content="Stats student at the University of Manitoba. 11 projects in R, Python and SQL, plus a 34-bot agent fleet running on one PC for $0.004.">
+<meta name="twitter:description" content="Stats student at the University of Manitoba. 12 projects in R, Python and SQL, plus a 34-bot agent fleet running on one PC for $0.004.">
 <meta name="twitter:image" content="https://jrudani21.github.io/assets/og-card.png">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Janak Rudani","url":"https://jrudani21.github.io/","jobTitle":"Statistics student, data analyst","affiliation":{"@type":"CollegeOrUniversity","name":"University of Manitoba"},"knowsAbout":["Statistics","R","Python","SQL","Regression modelling","Time series forecasting","LLM automation"],"sameAs":["https://github.com/Jrudani21","https://www.linkedin.com/in/janakrudani21"]}
@@ -1433,7 +1433,7 @@ html.swiss .skill-meter .sm-name { font-size: 1.125rem; }
     <input id="projSearch" class="proj-search" type="search" autocomplete="off"
            placeholder="r · sql · sarima · llm · dashboard · fraud …"
            aria-label="Filter projects by keyword">
-    <span class="proj-count" id="projCount" role="status" aria-live="polite">11 projects</span>
+    <span class="proj-count" id="projCount" role="status" aria-live="polite">12 projects</span>
     <button type="button" class="proj-clear" id="projClear" hidden>clear</button>
   </div>
 
@@ -1557,6 +1557,16 @@ html.swiss .skill-meter .sm-name { font-size: 1.125rem; }
         <div class="tags"><span class="tag hl">AI agent safety</span><span class="tag">Python</span><span class="tag">Test-first</span><span class="tag">Differential testing</span><span class="tag">Open source</span></div>
       </div>
       <div class="project-side"><div class="project-score">25 kinds</div><div class="project-link">case study &rarr;</div></div>
+    </a>
+
+    <a href="case-study-escalation.html" class="project" data-cat="ai" data-featured>
+      <div>
+        <p class="project-num">12</p>
+        <h3>Escalation benchmark: when does a free AI model need a critic?</h3>
+        <p>Five coding tasks drawn from real Windows bugs, scored by hidden tests with no model judging another model. Compares a free model alone, a free model with a critic, and a strong model alone. The test harness was validated with known-good and known-bad solutions first, every answer was checked against the lane that actually served it, and the write-up keeps its own weak spots in view.</p>
+        <div class="tags"><span class="tag hl">LLM evaluation</span><span class="tag">Python</span><span class="tag">Model routing</span><span class="tag">Hidden tests</span><span class="tag">Open source</span></div>
+      </div>
+      <div class="project-side"><div class="project-score">5 tasks</div><div class="project-link">case study &rarr;</div></div>
     </a>
 
   </div>
@@ -2671,7 +2681,7 @@ function handleCommand(raw) {
     return;
   }
   if (cmd === 'projects') {
-    termOut('11 projects. 253 tests. 1 questionable sleep schedule.', 'ok');
+    termOut('12 projects. 253 tests. 1 questionable sleep schedule.', 'ok');
     termOut('telco-churn · bike-share · air-passengers · penguins · medicare-fraud · covid-dash · personal-assistant · llm-finetune · delivery-gate · ken · sure', 'warn');
     termOut('full list: scroll up. i built the whole page for you.', '');
     return;
@@ -2772,7 +2782,7 @@ function handleCommand(raw) {
   blip(180, 0.15, 'sawtooth', 0.03);
 }
 banner.forEach(l => termWrite('<span class="violet">' + l + '</span>'));
-termWrite('<span class="ok">11 projects</span> · <span class="ok">253 tests</span> · <span class="warn">0 patience for bad data</span>');
+termWrite('<span class="ok">12 projects</span> · <span class="ok">253 tests</span> · <span class="warn">0 patience for bad data</span>');
 termInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
     const val = termInput.value;
