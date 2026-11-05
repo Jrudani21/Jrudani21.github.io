@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Case study: Building an eval that can say no: a held-out harness for a QLoRA fine-tune - Janak Rudani</title>
-<meta name="description" content="A held-out eval harness for a QLoRA statistics fine-tune: an exact paired test plus a separate LLM judge, checked end to end on two base models while the fine-tune comparison is still pending.">
+<meta name="description" content="A held-out eval harness for a QLoRA statistics fine-tune: an exact paired test plus a separate LLM judge, checked end to end on two base models then used on a retrained fine-tune, which shows no significant difference from its base.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Building an eval that can say no: a held-out harness for a QLoRA fine-tune">
 <meta property="og:description" content="A held-out eval harness for a QLoRA statistics fine-tune: an exact paired test plus a separate LLM judge, checked end to end on two base models while the fine-tune comparison is still pending.">
@@ -92,7 +92,7 @@ svg { display: block; width: 100%; height: auto; }
   <h1>Building an eval that can say no: a held-out harness for a QLoRA fine-tune</h1>
   <p class="dek">I fine-tuned a small model on statistics questions. Before claiming it helped, I built a held-out
     test with an <b>exact paired significance test and a separate LLM judge</b>. Run on two base models, it
-    correctly reports <b>no significant difference</b>. The fine-tune comparison is next.</p>
+    correctly reports <b>no significant difference</b>. I then retrained the fine-tune and ran the real comparison: also no significant difference (see The real comparison).</p>
 
   <div class="stats">
     <div class="stat"><b>49</b><span>held-out questions (30 easy, 19 hard)</span></div>
@@ -104,8 +104,8 @@ svg { display: block; width: 100%; height: auto; }
   <h2>First, what this is not</h2>
   <p>It is <b>not evidence that the fine-tune works</b>. The tuned model is not on the machine I ran this from, so
     both columns below are <b>two base models</b>: <code>qwen3-8b</code> in the "base" column and
-    <code>qwen3.5-9b</code> in the "tuned" column. I used them to test the harness itself. The real comparison is
-    still to run.</p>
+    <code>qwen3.5-9b</code> in the "tuned" column. I used them to test the harness itself. The real comparison is in its own
+    section below.</p>
 
   <h2>The project</h2>
   <p>A pipeline that fine-tunes Qwen2.5 on applied statistics (Poisson and negative binomial regression, SARIMA,
@@ -147,12 +147,31 @@ svg { display: block; width: 100%; height: auto; }
     <li>Only 3 questions split the models on keywords (6 on the judge). The exact test cannot reach p &lt; 0.05 with fewer than 6 split questions all going one way, so the next set needs more hard questions.</li>
   </ul>
 
+  <h2>The real comparison</h2>
+  <p>The original adapter was lost, so I retrained it: same recipe (QLoRA on Qwen2.5-7B-Instruct, the 240 training
+    pairs, 1 epoch, 108 steps, final training loss 1.484, eval loss 1.18; the first run had reported 1.49 and 1.16).
+    This is a re-run, not the adapter from the first run. Both columns are the same 4-bit base model, with the
+    adapter switched on or off, greedy decoding and the Qwen chat template. The answer cap went from 400 to 1024 tokens,
+    and I wrote 24 more hard questions (73 in all) so that enough questions could split to make the exact test usable.</p>
+  <table>
+    <tr><th>question set</th><th>base (adapter off)</th><th>tuned (adapter on)</th></tr>
+    <tr><td>Easy, n = 30</td><td>28</td><td>28</td></tr>
+    <tr><td>Hard, n = 19</td><td>15</td><td>17</td></tr>
+    <tr><td>New hard, n = 24</td><td>23</td><td>21</td></tr>
+    <tr><td><strong>All, n = 73</strong></td><td><strong>66 (90%)</strong></td><td><strong>66 (90%)</strong></td></tr>
+  </table>
+  <ul>
+    <li><strong>No measurable difference.</strong> Keyword pass is 90% for both. Exactly 6 questions split the models, 3 each way, so the exact McNemar test gives p = 1.0.</li>
+    <li>Tuned answers were shorter: about 1,200 characters against 1,930 for the base, on the first 49 questions.</li>
+    <li><strong>I have no judge result.</strong> The judge I could reach for free (a 30B NVIDIA model) gave a 5 to almost every answer on the first pass. With a stricter prompt and a larger token budget it returned a score for only 15 of 49 answer pairs, so I discarded it rather than report a number.</li>
+  </ul>
+
   <h2>What I would claim, and what I would not</h2>
   <p>I would claim: the harness runs end to end, treats failed calls safely, and reports "not significant" when
-    that is the answer.</p>
-  <p>I would not claim: that the fine-tune beats its base, or that these two base models differ. The reference
+    that is the answer. On 73 held-out questions the retrained fine-tune is no better than its base on keyword pass rate.</p>
+  <p>I would not claim: that the fine-tune beats its base, that it is worse, or that the first two base models differ. Not claimed either: that the original adapter behaves the same as the retrained one. The reference
     answers and keywords are mine and have not been reviewed by a statistician, one judge model is one
-    opinion, and answers were capped at 400 tokens, so some were graded unfinished.</p>
+    opinion, the first 49 answers were capped at 400 tokens and some were graded unfinished (the retrained comparison used 1,024), one training run is one seed, and I matched eval questions to the training set by exact text only, not by paraphrase.</p>
 
   <div class="links">
     <a href="https://github.com/Jrudani21/llm-finetune/tree/main/eval" target="_blank" rel="noopener">the eval code &nearr;</a>
