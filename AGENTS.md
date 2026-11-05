@@ -14,7 +14,7 @@ Guidance for AI coding agents working in this repo (Janak Rudani's GitHub Pages 
 ## Where things are
 
 - `index.html` - the whole homepage (CSS, markup, JS in one file, about 3,150 lines).
-- `case-study-ken.html`, `case-study-delivery-gate.html` - standalone pages with their own
+- `case-study-*.html` (ken, delivery-gate, sure, escalation, llm-finetune) - standalone pages with their own
   copy of the colour tokens.
 - `ken/docs/` - **vendored build output** of the Ken Agent docs (1,913 files). Do not edit by
   hand, do not run search-and-replace over it, and keep it excluded in `_config.yml`.

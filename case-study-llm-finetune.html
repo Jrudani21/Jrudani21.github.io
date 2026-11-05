@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Case study: Did my fine-tune work? Building an eval that can say no - Janak Rudani</title>
-<meta name="description" content="49 held-out questions, an exact paired test and a separate LLM judge for a QLoRA statistics model on an 8 GB GPU: the harness bugs I hit, and why the honest result so far is no significant difference.">
+<title>Case study: Building an eval that can say no: a held-out harness for a QLoRA fine-tune - Janak Rudani</title>
+<meta name="description" content="A held-out eval harness for a QLoRA statistics fine-tune: an exact paired test plus a separate LLM judge, checked end to end on two base models while the fine-tune comparison is still pending.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Did my fine-tune work? Building an eval that can say no">
-<meta property="og:description" content="49 held-out questions, an exact paired test and a separate LLM judge for a QLoRA statistics model on an 8 GB GPU: the harness bugs I hit, and why the honest result so far is no significant difference.">
+<meta property="og:title" content="Building an eval that can say no: a held-out harness for a QLoRA fine-tune">
+<meta property="og:description" content="A held-out eval harness for a QLoRA statistics fine-tune: an exact paired test plus a separate LLM judge, checked end to end on two base models while the fine-tune comparison is still pending.">
 <meta property="og:url" content="https://jrudani21.github.io/case-study-llm-finetune.html">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Did my fine-tune work? Building an eval that can say no">
-<meta name="twitter:description" content="49 held-out questions, an exact paired test and a separate LLM judge for a QLoRA statistics model on an 8 GB GPU: the harness bugs I hit, and why the honest result so far is no significant difference.">
+<meta name="twitter:title" content="Building an eval that can say no: a held-out harness for a QLoRA fine-tune">
+<meta name="twitter:description" content="A held-out eval harness for a QLoRA statistics fine-tune: an exact paired test plus a separate LLM judge, checked end to end on two base models while the fine-tune comparison is still pending.">
 <meta name="twitter:image" content="https://jrudani21.github.io/assets/og-card.png">
 <link rel="canonical" href="https://jrudani21.github.io/case-study-llm-finetune.html">
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -21,7 +21,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"TechArticle","headline":"Did my fine-tune work? Building an eval that can say no","description":"49 held-out questions, an exact paired test and a separate LLM judge for a QLoRA statistics model on an 8 GB GPU: the harness bugs I hit, and why the honest result so far is no significant difference.","url":"https://jrudani21.github.io/case-study-llm-finetune.html","image":"https://jrudani21.github.io/assets/og-card.png","author":{"@type":"Person","name":"Janak Rudani","url":"https://jrudani21.github.io/","sameAs":["https://github.com/Jrudani21","https://www.linkedin.com/in/janakrudani21"]}}
+{"@context":"https://schema.org","@type":"TechArticle","headline":"Building an eval that can say no: a held-out harness for a QLoRA fine-tune","description":"A held-out eval harness for a QLoRA statistics fine-tune: an exact paired test plus a separate LLM judge, checked end to end on two base models while the fine-tune comparison is still pending.","url":"https://jrudani21.github.io/case-study-llm-finetune.html","image":"https://jrudani21.github.io/assets/og-card.png","author":{"@type":"Person","name":"Janak Rudani","url":"https://jrudani21.github.io/","sameAs":["https://github.com/Jrudani21","https://www.linkedin.com/in/janakrudani21"]}}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -89,10 +89,10 @@ svg { display: block; width: 100%; height: auto; }
   <a class="back" href="index.html#projects">&larr; back to the imperial archives</a>
 
   <p class="eyebrow">case study // LLM evaluation // 2026</p>
-  <h1>Did my fine-tune work? Building an eval that can say no</h1>
+  <h1>Building an eval that can say no: a held-out harness for a QLoRA fine-tune</h1>
   <p class="dek">I fine-tuned a small model on statistics questions. Before claiming it helped, I built a held-out
-    test with an <b>exact paired significance test and a separate LLM judge</b>. The harness is done and tested.
-    The honest result so far is <b>no significant difference</b>, and this page explains why that is still worth showing.</p>
+    test with an <b>exact paired significance test and a separate LLM judge</b>. Run on two base models, it
+    correctly reports <b>no significant difference</b>. The fine-tune comparison is next.</p>
 
   <div class="stats">
     <div class="stat"><b>49</b><span>held-out questions (30 easy, 19 hard)</span></div>
@@ -117,18 +117,18 @@ svg { display: block; width: 100%; height: auto; }
   <ol>
     <li><b>Held-out questions</b> the model never trained on, each with accepted keywords.</li>
     <li><b>Exact McNemar test</b> on paired pass/fail, written with <code>math.comb</code>, no stats library.</li>
-    <li><b>A separate judge model</b> (<code>gpt-oss-20b</code>) that grades each answer 1 to 5 against a reference answer, then a paired sign test.</li>
+    <li><b>A separate judge model</b> (<code>gpt-oss-20b</code>) that grades each answer 1 to 5 against a reference answer (hard set) or the keyword list (easy set), then a paired sign test.</li>
     <li><b>One model loaded at a time</b>, because alternating models on 8 GB of VRAM crashed the server.</li>
-    <li><b>Unit tests</b> for keyword hit and miss, a known McNemar value, the judge-reply parser and the question file.</li>
+    <li><b>Unit tests</b> for keyword matching, a known McNemar value, failed calls never passing, and both question files.</li>
   </ol>
 
   <h2>What went wrong, and what I changed</h2>
   <table>
     <tr><th>problem</th><th>how I found it</th><th>fix</th></tr>
-    <tr><td>First harness came from a small free model and reported success</td><td>The question file was not valid JSONL, it imported a library I did not use, and the Ollama options were in the wrong place</td><td>I rewrote the harness and tests myself instead of looping the weak model</td></tr>
-    <tr><td>"Wrong" markers on correct answers</td><td>Reading the question file</td><td>Removed them</td></tr>
-    <tr><td>A model scored 5% on the hard set</td><td>All 19 calls had failed with HTTP 500, and the one-letter keyword <code>h</code> matched the text "HTTP"</td><td>A failed call never passes, is excluded from the test, and prints a warning. Retries added.</td></tr>
-    <tr><td>Judge gave every answer a 5</td><td>I fed it a correct, an off-topic and a wrong answer: it scored 5, 1 and 1</td><td>The judge was fine. The questions were too easy, so I wrote a harder set.</td></tr>
+    <tr><td>A first draft of the harness looked finished but was broken</td><td>I ran it: the question file was not valid JSONL, one import was unused, the Ollama options were in the wrong field, and some "wrong answer" markers matched correct answers</td><td>Rewrote the harness and tests by hand</td></tr>
+    <tr><td>A model scored 5% on the hard set</td><td>All 19 calls had failed with HTTP 500, and the one-letter keyword <code>h</code> matched the text "HTTP"</td><td>A failed call never passes, is excluded from the test, and prints a warning. Retries added, and the one-letter keyword removed.</td></tr>
+    <tr><td>Judge gave every answer a 5</td><td>I fed it a correct, an off-topic and a wrong answer: it scored 5, 1 and 1</td><td>The judge passed that manual three-answer check. The easy set also had no reference answers, so I wrote a harder set with them.</td></tr>
+    <tr><td>Keyword pass on wrong answers</td><td>I read the hard-set answers: "likelihood" passed an answer saying AIC can be compared across differencing orders, and one answer was cut off at the 400-token cap before its number</td><td>Keywords are a floor, not a grade, and the judge is the second opinion. The next run raises the token cap.</td></tr>
   </table>
   <div class="callout">
     <b>The lesson.</b> A harness that reports a number is not a harness that works. The 5% looked like a finding
@@ -137,25 +137,25 @@ svg { display: block; width: 100%; height: auto; }
 
   <h2>Results</h2>
   <table>
-    <tr><th>question set</th><th>keyword pass</th><th>judge mean (1 to 5)</th></tr>
+    <tr><th>question set</th><th>keyword pass, qwen3-8b vs qwen3.5-9b</th><th>judge mean (1 to 5), qwen3-8b vs qwen3.5-9b</th></tr>
     <tr><td>Easy, n = 30</td><td>97% vs 100%, McNemar p = 1.0</td><td>5.0 vs 5.0, all 30 tied</td></tr>
-    <tr><td>Hard, n = 19</td><td>89% vs 84%, McNemar p = 1.0</td><td>4.05 vs 4.47, sign test p = 0.69 (2 / 4 / 13 ties)</td></tr>
+    <tr><td>Hard, n = 19</td><td>89% vs 84%, McNemar p = 1.0</td><td>4.05 vs 4.47, sign test p = 0.69 (qwen3-8b better on 2, qwen3.5-9b on 4, 13 tied)</td></tr>
   </table>
   <ul>
-    <li>The easy set could not tell the models apart, so it stopped being useful. The hard set has reference answers and tighter keywords.</li>
-    <li>Keywords and the judge disagreed on two questions, which is why I report both and do not pick the favourable one.</li>
-    <li>With 19 questions, a gap this size cannot be separated from noise.</li>
+    <li>The easy set could not tell the models apart, so it stopped being useful. The hard set has a reference answer for every question.</li>
+    <li>The two methods pointed opposite ways: keywords favoured qwen3-8b, the judge favoured qwen3.5-9b, and they flatly contradicted each other on 3 of the 19 hard questions. That is why I report both.</li>
+    <li>Only 3 questions split the models on keywords (6 on the judge). The exact test cannot reach p &lt; 0.05 with fewer than 6 split questions all going one way, so the next set needs more hard questions.</li>
   </ul>
 
   <h2>What I would claim, and what I would not</h2>
   <p>I would claim: the harness runs end to end, treats failed calls safely, and reports "not significant" when
     that is the answer.</p>
   <p>I would not claim: that the fine-tune beats its base, or that these two base models differ. The reference
-    answers and keywords are mine and have not been reviewed by a statistician, and one judge model is one
-    opinion.</p>
+    answers and keywords are mine and have not been reviewed by a statistician, one judge model is one
+    opinion, and answers were capped at 400 tokens, so some were graded unfinished.</p>
 
   <div class="links">
-    <a href="https://github.com/Jrudani21/llm-finetune" target="_blank" rel="noopener">the repo &rarr;</a>
+    <a href="https://github.com/Jrudani21/llm-finetune" target="_blank" rel="noopener">the repo &nearr;</a>
     <a href="case-study-escalation.html">another benchmark, scored with hidden tests &rarr;</a>
     <a href="case-study-delivery-gate.html">the same lesson in a data pipeline: green is not correct &rarr;</a>
   </div>
