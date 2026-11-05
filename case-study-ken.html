@@ -75,6 +75,7 @@ svg { display: block; width: 100%; height: auto; }
 .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1.6rem 0 0; }
 .tag { font-family: 'VT323', monospace; font-size: 13px; padding: 3px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--dim); }
 .tag.hl { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.links { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; margin: 1.4rem 0 0; font-family: 'VT323', monospace; font-size: 16px; }
 .foot { margin-top: 3.4rem; padding-top: 1.6rem; border-top: 1px solid var(--border); font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: space-between; }
 @media (max-width: 560px) { .wrap { padding-top: 2.4rem; } table { font-size: 0.85rem; } th, td { padding: 0.5rem 0.4rem; } }
 @view-transition { navigation: auto; }
@@ -218,6 +219,12 @@ svg { display: block; width: 100%; height: auto; }
   <div class="callout">
     <b>Read it, then check it.</b> The fleet monitor shows the live dashboard, the docs site shows the
     system, and the fork is public — the commit count and file history are one click away.
+  </div>
+
+  <div class="links">
+    <a href="case-study-escalation.html">the benchmark behind its model routing &rarr;</a>
+    <a href="case-study-sure.html">the safety hook that guards its shell tools &rarr;</a>
+    <a href="case-study-delivery-gate.html">a pipeline check built on the same distrust of self-reports &rarr;</a>
   </div>
 
   <div class="tags">
