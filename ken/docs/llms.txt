@@ -2,7 +2,7 @@
 
 > The self-improving AI agent built by Nous Research. A terminal-native autonomous coding and task agent with persistent memory, agent-created skills, and a messaging gateway that lives on 21+ messaging platforms — 19 native to the gateway plus IRC and Microsoft Teams via plugins (Telegram, Discord, Slack, SMS, Matrix, ...). Runs on local, Docker, SSH, Daytona, Modal, or Singularity backends. Works with Nous Portal, OpenRouter, OpenAI, Anthropic, Google, or any OpenAI-compatible endpoint.
 
-Install: `curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash`  (Linux, macOS, WSL2, Termux)
+Install: `curl -fsSL https://raw.githubusercontent.com/NousResearch/ken-agent/main/scripts/install.sh | bash`  (Linux, macOS, WSL2, Termux)
 
 Repo: https://github.com/Jrudani21/ken-agent
 
@@ -36,7 +36,7 @@ Repo: https://github.com/Jrudani21/ken-agent
 - [Curator](/docs/user-guide/features/curator): Background maintenance for agent-created skills — usage tracking, staleness, archival, and LLM-driven review
 - [Memory](/docs/user-guide/features/memory): How Ken Agent remembers across sessions — MEMORY.md, USER.md, and session search
 - [Memory Providers](/docs/user-guide/features/memory-providers): External memory provider plugins — Honcho, OpenViking, Mem0, Hindsight, Holographic, RetainDB, ByteRover, Supermemory
-- [Context Files](/docs/user-guide/features/context-files): Project context files — .hermes.md, AGENTS.md, CLAUDE.md, global SOUL.md, and .cursorrules — automatically injected into every conversation
+- [Context Files](/docs/user-guide/features/context-files): Project context files — .ken.md, AGENTS.md, CLAUDE.md, global SOUL.md, and .cursorrules — automatically injected into every conversation
 - [Context References](/docs/user-guide/features/context-references): Inline @-syntax for attaching files, folders, git diffs, and URLs directly into your messages
 - [Personality & SOUL.md](/docs/user-guide/features/personality): Customize Ken Agent's personality with a global SOUL.md, built-in personalities, and custom persona definitions
 - [Plugins](/docs/user-guide/features/plugins): Extend Ken with custom tools, hooks, and integrations via the plugin system
@@ -82,7 +82,7 @@ Repo: https://github.com/Jrudani21/ken-agent
 - [Providers](/docs/integrations/providers)
 - [MCP (Model Context Protocol)](/docs/user-guide/features/mcp): Connect Ken Agent to external tool servers via MCP — and control exactly which MCP tools Ken loads
 - [ACP (Agent Context Protocol)](/docs/user-guide/features/acp): Use Ken Agent inside ACP-compatible editors and collaboration platforms
-- [API Server](/docs/user-guide/features/api-server): Expose hermes-agent as an OpenAI-compatible API for any frontend
+- [API Server](/docs/user-guide/features/api-server): Expose ken-agent as an OpenAI-compatible API for any frontend
 - [Honcho Memory](/docs/user-guide/features/honcho): AI-native persistent memory via Honcho — dialectic reasoning, multi-agent user modeling, and deep personalization
 - [Provider Routing](/docs/user-guide/features/provider-routing)
 - [Fallback Providers](/docs/user-guide/features/fallback-providers)
@@ -95,10 +95,10 @@ Repo: https://github.com/Jrudani21/ken-agent
 - [Daily Briefing Bot](/docs/guides/daily-briefing-bot): Build an automated daily briefing bot that researches topics, summarizes findings, and delivers them to Telegram or Discord every morning
 - [Team Telegram Assistant](/docs/guides/team-telegram-assistant): Step-by-step guide to setting up a Telegram bot that your whole team can use for code help, research, system admin, and more
 - [Use Ken as a Python Library](/docs/guides/python-library): Embed AIAgent in your own Python scripts, web apps, or automation pipelines — no CLI required
-- [Use MCP with Ken](/docs/guides/use-mcp-with-hermes): A practical guide to connecting MCP servers to Ken Agent, filtering their tools, and using them safely in real workflows
-- [Use Voice Mode with Ken](/docs/guides/use-voice-mode-with-hermes): A practical guide to setting up and using Ken voice mode across CLI, Telegram, Discord, and Discord voice channels
-- [Use SOUL.md with Ken](/docs/guides/use-soul-with-hermes): How to use SOUL.md to shape Ken Agent's default voice, what belongs there, and how it differs from AGENTS.md and /personality
-- [Build a Ken Plugin](/docs/guides/build-a-hermes-plugin)
+- [Use MCP with Ken](/docs/guides/use-mcp-with-ken): A practical guide to connecting MCP servers to Ken Agent, filtering their tools, and using them safely in real workflows
+- [Use Voice Mode with Ken](/docs/guides/use-voice-mode-with-ken): A practical guide to setting up and using Ken voice mode across CLI, Telegram, Discord, and Discord voice channels
+- [Use SOUL.md with Ken](/docs/guides/use-soul-with-ken): How to use SOUL.md to shape Ken Agent's default voice, what belongs there, and how it differs from AGENTS.md and /personality
+- [Build a Ken Plugin](/docs/guides/build-a-ken-plugin)
 - [Automate with Cron](/docs/guides/automate-with-cron): Real-world automation patterns using Ken cron — monitoring, reports, pipelines, and multi-skill workflows
 - [Work with Skills](/docs/guides/work-with-skills): Find, install, use, and create skills — on-demand knowledge that teaches Ken new workflows
 - [Delegation Patterns](/docs/guides/delegation-patterns): When and how to use subagent delegation — patterns for parallel research, code review, and multi-file work

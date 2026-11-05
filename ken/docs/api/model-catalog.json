@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-05T00:36:33Z",
+  "updated_at": "2026-11-02T20:39:59Z",
   "metadata": {
     "source": "ken-agent repo",
     "docs": "https://jrudani21.github.io/ken/docs/reference/model-catalog"
@@ -144,6 +144,10 @@
         {
           "id": "openrouter/pareto-code",
           "description": "auto-routes to cheapest coder meeting openrouter.min_coding_score"
+        },
+        {
+          "id": "openrouter/free",
+          "description": "free router: filters by the request's capabilities, then picks a random free model"
         },
         {
           "id": "openrouter/elephant-alpha",
