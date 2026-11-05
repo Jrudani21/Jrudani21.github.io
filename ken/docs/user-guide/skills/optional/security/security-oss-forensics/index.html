@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.2">
 <title data-rh="true">Oss Forensics — GitHub supply-chain forensics: recovery, IOCs, reporting | Ken Agent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://jrudani21.github.io/ken/docs/img/ken-agent-banner.png"><meta data-rh="true" name="twitter:image" content="https://jrudani21.github.io/ken/docs/img/ken-agent-banner.png"><meta data-rh="true" property="og:url" content="https://jrudani21.github.io/ken/docs/user-guide/skills/optional/security/security-oss-forensics"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Oss Forensics — GitHub supply-chain forensics: recovery, IOCs, reporting | Ken Agent"><meta data-rh="true" name="description" content="GitHub supply-chain forensics: recovery, IOCs, reporting"><meta data-rh="true" property="og:description" content="GitHub supply-chain forensics: recovery, IOCs, reporting"><link data-rh="true" rel="icon" href="/ken/docs/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://jrudani21.github.io/ken/docs/user-guide/skills/optional/security/security-oss-forensics"><link data-rh="true" rel="alternate" href="https://jrudani21.github.io/ken/docs/user-guide/skills/optional/security/security-oss-forensics" hreflang="en"><link data-rh="true" rel="alternate" href="https://jrudani21.github.io/ken/docs/user-guide/skills/optional/security/security-oss-forensics" hreflang="x-default"><link data-rh="true" rel="preconnect" href="https://2JLBVEYZN5-dsn.algolia.net" crossorigin="anonymous"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Oss Forensics","item":"https://jrudani21.github.io/ken/docs/user-guide/skills/optional/security/security-oss-forensics"}]}</script><link rel="search" type="application/opensearchdescription+xml" title="Ken Agent" href="/ken/docs/opensearch.xml"><link rel="stylesheet" href="/ken/docs/assets/css/styles.ec1eb070.css">
-<script src="/ken/docs/assets/js/runtime~main.3ea85cd2.js" defer="defer"></script>
+<script src="/ken/docs/assets/js/runtime~main.add828d5.js" defer="defer"></script>
 <script src="/ken/docs/assets/js/main.30168277.js" defer="defer"></script>
 </head>
 <body>
@@ -86,7 +86,7 @@ or the <code>optional-skills/</code> equivalent. All script and template referen
 <li class="">Value</li>
 <li class="">Source (user-provided, inferred)</li>
 </ul>
-<p><strong>Reference</strong>: See <a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/security/oss-forensics/references/evidence-types.md" target="_blank" rel="noopener noreferrer" class="">evidence-types.md</a> for IOC taxonomy.</p>
+<p><strong>Reference</strong>: See evidence-types.md for IOC taxonomy.</p>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="phase-2-parallel-evidence-collection">Phase 2: Parallel Evidence Collection<a href="#phase-2-parallel-evidence-collection" class="hash-link" aria-label="Direct link to Phase 2: Parallel Evidence Collection" title="Direct link to Phase 2: Parallel Evidence Collection" translate="no">​</a></h2>
 <p>Spawn up to 5 specialist investigator sub-agents using <code>delegate_task</code> (batch mode, max 3 concurrent). Each investigator has a <strong>single data source</strong> and must not mix sources.</p>
@@ -105,7 +105,7 @@ or the <code>optional-skills/</code> equivalent. All script and template referen
 <li class="">Unsigned commits from verified contributors → type: <code>git</code></li>
 <li class="">Suspicious binary file additions → type: <code>git</code></li>
 </ul>
-<p><strong>Reference</strong>: See <a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/security/oss-forensics/references/recovery-techniques.md" target="_blank" rel="noopener noreferrer" class="">recovery-techniques.md</a> for accessing force-pushed commits.</p>
+<p><strong>Reference</strong>: See recovery-techniques.md for accessing force-pushed commits.</p>
 <hr>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="investigator-2-github-api-investigator">Investigator 2: GitHub API Investigator<a href="#investigator-2-github-api-investigator" class="hash-link" aria-label="Direct link to Investigator 2: GitHub API Investigator" title="Direct link to Investigator 2: GitHub API Investigator" translate="no">​</a></h3>
 <p><strong>ROLE BOUNDARY</strong>: You query the GITHUB REST API ONLY. Do not run git commands locally.</p>
@@ -117,7 +117,7 @@ or the <code>optional-skills/</code> equivalent. All script and template referen
 <li class="">Contributor in archive events but not in contributors list → evidence of permission revocation</li>
 <li class="">Commit in archive PushEvents but not in API commit list → evidence of force-push/deletion</li>
 </ul>
-<p><strong>Reference</strong>: See <a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/security/oss-forensics/references/evidence-types.md" target="_blank" rel="noopener noreferrer" class="">evidence-types.md</a> for GH event types.</p>
+<p><strong>Reference</strong>: See evidence-types.md for GH event types.</p>
 <hr>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="investigator-3-wayback-machine-investigator">Investigator 3: Wayback Machine Investigator<a href="#investigator-3-wayback-machine-investigator" class="hash-link" aria-label="Direct link to Investigator 3: Wayback Machine Investigator" title="Direct link to Investigator 3: Wayback Machine Investigator" translate="no">​</a></h3>
 <p><strong>ROLE BOUNDARY</strong>: You query the WAYBACK MACHINE CDX API ONLY. Do not use the GitHub API.</p>
@@ -130,7 +130,7 @@ or the <code>optional-skills/</code> equivalent. All script and template referen
 <li class="">Historical README versions showing changes</li>
 <li class="">Evidence of content present in archive but missing from current GitHub state</li>
 </ul>
-<p><strong>Reference</strong>: See <a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/security/oss-forensics/references/github-archive-guide.md" target="_blank" rel="noopener noreferrer" class="">github-archive-guide.md</a> for CDX API parameters.</p>
+<p><strong>Reference</strong>: See github-archive-guide.md for CDX API parameters.</p>
 <hr>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="investigator-4-gh-archive--bigquery-investigator">Investigator 4: GH Archive / BigQuery Investigator<a href="#investigator-4-gh-archive--bigquery-investigator" class="hash-link" aria-label="Direct link to Investigator 4: GH Archive / BigQuery Investigator" title="Direct link to Investigator 4: GH Archive / BigQuery Investigator" translate="no">​</a></h3>
 <p><strong>ROLE BOUNDARY</strong>: You query GITHUB ARCHIVE via BIGQUERY ONLY. This is a tamper-proof record of all public GitHub events.</p>
@@ -152,7 +152,7 @@ or the <code>optional-skills/</code> equivalent. All script and template referen
 <li class="">WorkflowRunEvents for suspicious CI/CD automation</li>
 <li class="">PushEvents that precede a &quot;gap&quot; in the git log (evidence of rewrite)</li>
 </ul>
-<p><strong>Reference</strong>: See <a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/security/oss-forensics/references/github-archive-guide.md" target="_blank" rel="noopener noreferrer" class="">github-archive-guide.md</a> for all 12 event types and query patterns.</p>
+<p><strong>Reference</strong>: See github-archive-guide.md for all 12 event types and query patterns.</p>
 <hr>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="investigator-5-ioc-enrichment-investigator">Investigator 5: IOC Enrichment Investigator<a href="#investigator-5-ioc-enrichment-investigator" class="hash-link" aria-label="Direct link to Investigator 5: IOC Enrichment Investigator" title="Direct link to Investigator 5: IOC Enrichment Investigator" translate="no">​</a></h3>
 <p><strong>ROLE BOUNDARY</strong>: You enrich EXISTING IOCs from Phase 1 using passive public sources ONLY. Do not execute any code from the target repository.</p>
@@ -162,7 +162,7 @@ or the <code>optional-skills/</code> equivalent. All script and template referen
 <li class="">For each domain/IP: check passive DNS, WHOIS records (via <code>web_extract</code> on public WHOIS services)</li>
 <li class="">For each package name: check npm/PyPI for matching malicious package reports</li>
 <li class="">For each actor username: check GitHub profile, contribution history, account age</li>
-<li class="">Recover force-pushed commits using 3 methods (see <a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/security/oss-forensics/references/recovery-techniques.md" target="_blank" rel="noopener noreferrer" class="">recovery-techniques.md</a>)</li>
+<li class="">Recover force-pushed commits using 3 methods (see recovery-techniques.md)</li>
 </ul>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="phase-3-evidence-consolidation">Phase 3: Evidence Consolidation<a href="#phase-3-evidence-consolidation" class="hash-link" aria-label="Direct link to Phase 3: Evidence Consolidation" title="Direct link to Phase 3: Evidence Consolidation" translate="no">​</a></h2>
@@ -189,7 +189,7 @@ or the <code>optional-skills/</code> equivalent. All script and template referen
 <li class="">Identify what evidence would disprove it</li>
 <li class="">Be labeled <code>[HYPOTHESIS]</code> until validated</li>
 </ul>
-<p><strong>Common hypothesis templates</strong> (see <a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/security/oss-forensics/references/investigation-templates.md" target="_blank" rel="noopener noreferrer" class="">investigation-templates.md</a>):</p>
+<p><strong>Common hypothesis templates</strong> (see investigation-templates.md):</p>
 <ul>
 <li class="">Maintainer Compromise: legitimate account used post-takeover to inject malicious code</li>
 <li class="">Dependency Confusion: package name squatting to intercept installs</li>
@@ -217,7 +217,7 @@ or the <code>optional-skills/</code> equivalent. All script and template referen
 <p>Rejected hypotheses feed back into Phase 4 for refinement (max 3 iterations).</p>
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="phase-6-final-report-generation">Phase 6: Final Report Generation<a href="#phase-6-final-report-generation" class="hash-link" aria-label="Direct link to Phase 6: Final Report Generation" title="Direct link to Phase 6: Final Report Generation" translate="no">​</a></h2>
-<p>Populate <code>investigation-report.md</code> using the template in <a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/security/oss-forensics/templates/forensic-report.md" target="_blank" rel="noopener noreferrer" class="">forensic-report.md</a>.</p>
+<p>Populate <code>investigation-report.md</code> using the template in forensic-report.md.</p>
 <p><strong>Mandatory sections</strong>:</p>
 <ul>
 <li class="">Executive Summary: one-paragraph verdict (Compromised / Clean / Inconclusive) with confidence level</li>
@@ -283,12 +283,12 @@ or the <code>optional-skills/</code> equivalent. All script and template referen
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="reference-materials">Reference Materials<a href="#reference-materials" class="hash-link" aria-label="Direct link to Reference Materials" title="Direct link to Reference Materials" translate="no">​</a></h2>
 <ul>
-<li class=""><a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/security/oss-forensics/references/github-archive-guide.md" target="_blank" rel="noopener noreferrer" class="">github-archive-guide.md</a> — BigQuery queries, CDX API, 12 event types</li>
-<li class=""><a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/security/oss-forensics/references/evidence-types.md" target="_blank" rel="noopener noreferrer" class="">evidence-types.md</a> — IOC taxonomy, evidence source types, observation types</li>
-<li class=""><a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/security/oss-forensics/references/recovery-techniques.md" target="_blank" rel="noopener noreferrer" class="">recovery-techniques.md</a> — Recovering deleted commits, PRs, issues</li>
-<li class=""><a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/security/oss-forensics/references/investigation-templates.md" target="_blank" rel="noopener noreferrer" class="">investigation-templates.md</a> — Pre-built hypothesis templates per attack type</li>
-<li class=""><a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/security/oss-forensics/scripts/evidence-store.py" target="_blank" rel="noopener noreferrer" class="">evidence-store.py</a> — CLI tool for managing the evidence JSON store</li>
-<li class=""><a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/security/oss-forensics/templates/forensic-report.md" target="_blank" rel="noopener noreferrer" class="">forensic-report.md</a> — Structured report template</li>
+<li class="">github-archive-guide.md — BigQuery queries, CDX API, 12 event types</li>
+<li class="">evidence-types.md — IOC taxonomy, evidence source types, observation types</li>
+<li class="">recovery-techniques.md — Recovering deleted commits, PRs, issues</li>
+<li class="">investigation-templates.md — Pre-built hypothesis templates per attack type</li>
+<li class="">evidence-store.py — CLI tool for managing the evidence JSON store</li>
+<li class="">forensic-report.md — Structured report template</li>
 </ul></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/ken/docs/user-guide/skills/optional/security/security-godmode"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Godmode</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/ken/docs/user-guide/skills/optional/security/security-sherlock"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Sherlock</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#skill-metadata" class="table-of-contents__link toc-highlight">Skill metadata</a></li><li><a href="#reference-full-skillmd" class="table-of-contents__link toc-highlight">Reference: full SKILL.md</a></li><li><a href="#️-anti-hallucination-guardrails" class="table-of-contents__link toc-highlight">⚠️ Anti-Hallucination Guardrails</a></li><li><a href="#example-scenarios" class="table-of-contents__link toc-highlight">Example Scenarios</a></li><li><a href="#phase-0-initialization" class="table-of-contents__link toc-highlight">Phase 0: Initialization</a></li><li><a href="#phase-1-prompt-parsing-and-ioc-extraction" class="table-of-contents__link toc-highlight">Phase 1: Prompt Parsing and IOC Extraction</a></li><li><a href="#phase-2-parallel-evidence-collection" class="table-of-contents__link toc-highlight">Phase 2: Parallel Evidence Collection</a><ul><li><a href="#investigator-1-local-git-investigator" class="table-of-contents__link toc-highlight">Investigator 1: Local Git Investigator</a></li><li><a href="#investigator-2-github-api-investigator" class="table-of-contents__link toc-highlight">Investigator 2: GitHub API Investigator</a></li><li><a href="#investigator-3-wayback-machine-investigator" class="table-of-contents__link toc-highlight">Investigator 3: Wayback Machine Investigator</a></li><li><a href="#investigator-4-gh-archive--bigquery-investigator" class="table-of-contents__link toc-highlight">Investigator 4: GH Archive / BigQuery Investigator</a></li><li><a href="#investigator-5-ioc-enrichment-investigator" class="table-of-contents__link toc-highlight">Investigator 5: IOC Enrichment Investigator</a></li></ul></li><li><a href="#phase-3-evidence-consolidation" class="table-of-contents__link toc-highlight">Phase 3: Evidence Consolidation</a></li><li><a href="#phase-4-hypothesis-formation" class="table-of-contents__link toc-highlight">Phase 4: Hypothesis Formation</a></li><li><a href="#phase-5-hypothesis-validation" class="table-of-contents__link toc-highlight">Phase 5: Hypothesis Validation</a></li><li><a href="#phase-6-final-report-generation" class="table-of-contents__link toc-highlight">Phase 6: Final Report Generation</a></li><li><a href="#phase-7-completion" class="table-of-contents__link toc-highlight">Phase 7: Completion</a></li><li><a href="#ethical-use-guidelines" class="table-of-contents__link toc-highlight">Ethical Use Guidelines</a></li><li><a href="#api-rate-limiting" class="table-of-contents__link toc-highlight">API Rate Limiting</a></li><li><a href="#reference-materials" class="table-of-contents__link toc-highlight">Reference Materials</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/ken/docs/getting-started/quickstart">Getting Started</a></li><li class="footer__item"><a class="footer__link-item" href="/ken/docs/user-guide/cli">User Guide</a></li><li class="footer__item"><a class="footer__link-item" href="/ken/docs/developer-guide/architecture">Developer Guide</a></li><li class="footer__item"><a class="footer__link-item" href="/ken/docs/reference/cli-commands">Reference</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://agentskills.io" target="_blank" rel="noopener noreferrer" class="footer__link-item">Skills Hub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/ken/docs/">Desktop Download</a></li><li class="footer__item"><a href="https://jrudani21.github.io" target="_blank" rel="noopener noreferrer" class="footer__link-item">Portfolio<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Built by <a href="https://jrudani21.github.io">Janak Rudani</a> · MIT License (fork of an MIT-licensed project by Nous Research) · 2026</div></div></div></footer></div>
 </body>
 </html>

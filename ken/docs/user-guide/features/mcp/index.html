@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.2">
 <title data-rh="true">MCP (Model Context Protocol) | Ken Agent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://jrudani21.github.io/ken/docs/img/ken-agent-banner.png"><meta data-rh="true" name="twitter:image" content="https://jrudani21.github.io/ken/docs/img/ken-agent-banner.png"><meta data-rh="true" property="og:url" content="https://jrudani21.github.io/ken/docs/user-guide/features/mcp"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="MCP (Model Context Protocol) | Ken Agent"><meta data-rh="true" name="description" content="Connect Ken Agent to external tool servers via MCP — and control exactly which MCP tools Ken loads"><meta data-rh="true" property="og:description" content="Connect Ken Agent to external tool servers via MCP — and control exactly which MCP tools Ken loads"><link data-rh="true" rel="icon" href="/ken/docs/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://jrudani21.github.io/ken/docs/user-guide/features/mcp"><link data-rh="true" rel="alternate" href="https://jrudani21.github.io/ken/docs/user-guide/features/mcp" hreflang="en"><link data-rh="true" rel="alternate" href="https://jrudani21.github.io/ken/docs/user-guide/features/mcp" hreflang="x-default"><link data-rh="true" rel="preconnect" href="https://2JLBVEYZN5-dsn.algolia.net" crossorigin="anonymous"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"MCP (Model Context Protocol)","item":"https://jrudani21.github.io/ken/docs/user-guide/features/mcp"}]}</script><link rel="search" type="application/opensearchdescription+xml" title="Ken Agent" href="/ken/docs/opensearch.xml"><link rel="stylesheet" href="/ken/docs/assets/css/styles.ec1eb070.css">
-<script src="/ken/docs/assets/js/runtime~main.3ea85cd2.js" defer="defer"></script>
+<script src="/ken/docs/assets/js/runtime~main.add828d5.js" defer="defer"></script>
 <script src="/ken/docs/assets/js/main.30168277.js" defer="defer"></script>
 </head>
 <body>
@@ -93,7 +93,7 @@ the ken-agent repo, so Nous has reviewed each entry before it shipped —
 <code>source:</code> field&#x27;s repository, the <code>install.bootstrap:</code> commands, and any
 <code>transport.command:</code> invocation.</p>
 <p>Manifests live at
-<a href="https://github.com/Jrudani21/ken-agent/tree/main/optional-mcps" target="_blank" rel="noopener noreferrer" class=""><code>optional-mcps/&lt;name&gt;/manifest.yaml</code></a>
+<code>optional-mcps/&lt;name&gt;/manifest.yaml</code>
 on GitHub. The picker also prints the manifest&#x27;s <code>source:</code> URL at install
 time so you can quickly verify the upstream repo. The web dashboard&#x27;s MCP
 page surfaces the same detail per catalog entry — transport, auth type, the
@@ -129,7 +129,7 @@ you want to opt into.</p>
 <p>MCPs are never auto-updated. Re-run <code>ken mcp install &lt;name&gt;</code> to refresh
 after a Ken update if a manifest version changed.</p>
 <p>To add an MCP to the catalog, open a PR against
-<a href="https://github.com/Jrudani21/ken-agent/tree/main/optional-mcps" target="_blank" rel="noopener noreferrer" class=""><code>optional-mcps/</code></a>.</p>
+<code>optional-mcps/</code>.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="two-kinds-of-mcp-servers">Two kinds of MCP servers<a href="#two-kinds-of-mcp-servers" class="hash-link" aria-label="Direct link to Two kinds of MCP servers" title="Direct link to Two kinds of MCP servers" translate="no">​</a></h2>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="stdio-servers">Stdio servers<a href="#stdio-servers" class="hash-link" aria-label="Direct link to Stdio servers" title="Direct link to Stdio servers" translate="no">​</a></h3>
 <p>Stdio servers run as local subprocesses and talk over stdin/stdout.</p>

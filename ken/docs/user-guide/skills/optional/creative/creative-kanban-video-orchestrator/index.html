@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.2">
 <title data-rh="true">Kanban Video Orchestrator — Plan and run multi-agent video production pipelines | Ken Agent</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://jrudani21.github.io/ken/docs/img/ken-agent-banner.png"><meta data-rh="true" name="twitter:image" content="https://jrudani21.github.io/ken/docs/img/ken-agent-banner.png"><meta data-rh="true" property="og:url" content="https://jrudani21.github.io/ken/docs/user-guide/skills/optional/creative/creative-kanban-video-orchestrator"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Kanban Video Orchestrator — Plan and run multi-agent video production pipelines | Ken Agent"><meta data-rh="true" name="description" content="Plan and run multi-agent video production pipelines"><meta data-rh="true" property="og:description" content="Plan and run multi-agent video production pipelines"><link data-rh="true" rel="icon" href="/ken/docs/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://jrudani21.github.io/ken/docs/user-guide/skills/optional/creative/creative-kanban-video-orchestrator"><link data-rh="true" rel="alternate" href="https://jrudani21.github.io/ken/docs/user-guide/skills/optional/creative/creative-kanban-video-orchestrator" hreflang="en"><link data-rh="true" rel="alternate" href="https://jrudani21.github.io/ken/docs/user-guide/skills/optional/creative/creative-kanban-video-orchestrator" hreflang="x-default"><link data-rh="true" rel="preconnect" href="https://2JLBVEYZN5-dsn.algolia.net" crossorigin="anonymous"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Kanban Video Orchestrator","item":"https://jrudani21.github.io/ken/docs/user-guide/skills/optional/creative/creative-kanban-video-orchestrator"}]}</script><link rel="search" type="application/opensearchdescription+xml" title="Ken Agent" href="/ken/docs/opensearch.xml"><link rel="stylesheet" href="/ken/docs/assets/css/styles.ec1eb070.css">
-<script src="/ken/docs/assets/js/runtime~main.3ea85cd2.js" defer="defer"></script>
+<script src="/ken/docs/assets/js/runtime~main.add828d5.js" defer="defer"></script>
 <script src="/ken/docs/assets/js/main.30168277.js" defer="defer"></script>
 </head>
 <body>
@@ -56,7 +56,7 @@ follow-up questions to ask. <strong>Do not ask all questions at once.</strong> A
 time, listen, then proceed. Make reasonable assumptions whenever the user
 implies an answer.</p>
 <p>For complete intake patterns and per-style question banks, see
-<strong><a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/creative/kanban-video-orchestrator/references/intake.md" target="_blank" rel="noopener noreferrer" class="">references/intake.md</a></strong>.</p>
+<strong>references/intake.md</strong>.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-2--brief">Step 2 — Brief<a href="#step-2--brief" class="hash-link" aria-label="Direct link to Step 2 — Brief" title="Direct link to Step 2 — Brief" translate="no">​</a></h3>
 <p>Once enough is known, produce a structured <code>brief.md</code> using the template in
 <code>assets/brief.md.tmpl</code>. Stages:</p>
@@ -75,9 +75,9 @@ brief is the contract</strong> — every downstream task references it.</p>
 clone.</strong> Most videos need 4-7 profiles. The director is always present; the
 rest are picked by what the brief actually requires.</p>
 <p>For the role library and per-style team compositions, see
-<strong><a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/creative/kanban-video-orchestrator/references/role-archetypes.md" target="_blank" rel="noopener noreferrer" class="">references/role-archetypes.md</a></strong>.</p>
+<strong>references/role-archetypes.md</strong>.</p>
 <p>For mapping role → which Ken skills + toolsets it loads, see
-<strong><a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/creative/kanban-video-orchestrator/references/tool-matrix.md" target="_blank" rel="noopener noreferrer" class="">references/tool-matrix.md</a></strong>.</p>
+<strong>references/tool-matrix.md</strong>.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-4--setup">Step 4 — Setup<a href="#step-4--setup" class="hash-link" aria-label="Direct link to Step 4 — Setup" title="Direct link to Step 4 — Setup" translate="no">​</a></h3>
 <p>Generate a setup script (<code>setup.sh</code>) and run it. The script:</p>
 <ol>
@@ -90,7 +90,7 @@ rest are picked by what the brief actually requires.</p>
 <li class="">Fires the initial <code>ken kanban create</code> task assigned to the director</li>
 </ol>
 <p>Use <code>scripts/bootstrap_pipeline.py</code> to generate setup.sh from a brief +
-team-design JSON. See <strong><a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/creative/kanban-video-orchestrator/references/kanban-setup.md" target="_blank" rel="noopener noreferrer" class="">references/kanban-setup.md</a></strong>
+team-design JSON. See <strong>references/kanban-setup.md</strong>
 for the setup script structure, profile config patterns, and the critical
 &quot;shared workspace&quot; rule.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="step-5--execute">Step 5 — Execute<a href="#step-5--execute" class="hash-link" aria-label="Direct link to Step 5 — Execute" title="Direct link to Step 5 — Execute" translate="no">​</a></h3>
@@ -110,12 +110,12 @@ heartbeats. When a worker&#x27;s output fails review, the standard interventions
 <li class="">Adjust the brief&#x27;s scope and let the director re-decompose</li>
 </ol>
 <p>For diagnostic patterns, intervention recipes, and the &quot;task is stuck&quot;
-playbook, see <strong><a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/creative/kanban-video-orchestrator/references/monitoring.md" target="_blank" rel="noopener noreferrer" class="">references/monitoring.md</a></strong>.</p>
+playbook, see <strong>references/monitoring.md</strong>.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="reference-worked-examples">Reference: worked examples<a href="#reference-worked-examples" class="hash-link" aria-label="Direct link to Reference: worked examples" title="Direct link to Reference: worked examples" translate="no">​</a></h2>
 <p>Six concrete pipelines covering very different video styles — narrative film,
 product/marketing, music video, math/algorithm explainer, ASCII video, real-time
 installation — showing how the same workflow yields very different teams and
-task graphs. See <strong><a href="https://github.com/Jrudani21/ken-agent/blob/main/optional-skills/creative/kanban-video-orchestrator/references/examples.md" target="_blank" rel="noopener noreferrer" class="">references/examples.md</a></strong>.</p>
+task graphs. See <strong>references/examples.md</strong>.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="critical-rules">Critical rules<a href="#critical-rules" class="hash-link" aria-label="Direct link to Critical rules" title="Direct link to Critical rules" translate="no">​</a></h2>
 <ol>
 <li class="">

@@ -898,7 +898,7 @@ You no longer need to wrap `ken update` in `screen` or `tmux` to survive a termi
 ken version
 ```
 
-Compare against the latest release at the [GitHub releases page](https://github.com/Jrudani21/ken-agent/releases).
+Compare against the latest release at the GitHub releases page.
 
 ### Updating from Messaging Platforms
 
@@ -3200,7 +3200,7 @@ You can set `providers.<id>.request_timeout_seconds` for a provider-wide request
 
 You can also set `providers.<id>.stale_timeout_seconds` for the non-streaming stale-call detector, plus `providers.<id>.models.<model>.stale_timeout_seconds` for a model-specific override. This wins over the legacy `KEN_API_CALL_STALE_TIMEOUT` env var.
 
-Leaving these unset keeps the legacy defaults (`KEN_API_TIMEOUT=1800`s, `KEN_API_CALL_STALE_TIMEOUT=90`s, native Anthropic 900s). The non-streaming stale detector is auto-disabled for local endpoints when left implicit and can scale upward for very large contexts. Not currently wired for AWS Bedrock (both `bedrock_converse` and AnthropicBedrock SDK paths use boto3 with its own timeout configuration). See the commented example in [`cli-config.yaml.example`](https://github.com/Jrudani21/ken-agent/blob/main/cli-config.yaml.example).
+Leaving these unset keeps the legacy defaults (`KEN_API_TIMEOUT=1800`s, `KEN_API_CALL_STALE_TIMEOUT=90`s, native Anthropic 900s). The non-streaming stale detector is auto-disabled for local endpoints when left implicit and can scale upward for very large contexts. Not currently wired for AWS Bedrock (both `bedrock_converse` and AnthropicBedrock SDK paths use boto3 with its own timeout configuration). See the commented example in `cli-config.yaml.example`.
 
 ## Update Behavior
 
@@ -7928,7 +7928,7 @@ From inside the Ken container, the sidecar is reachable at `http://my-tool:<port
 
 ### Broadly useful tools — open an issue or pull request
 
-If a tool is likely to be useful to most Ken Agent users, consider contributing it upstream rather than carrying it in a private derived image. Open an issue or pull request on the [ken-agent repository](https://github.com/Jrudani21/ken-agent) describing the tool and its use case. Tools that get bundled into the official image benefit every user and avoid the maintenance overhead of a downstream fork.
+If a tool is likely to be useful to most Ken Agent users, consider contributing it upstream rather than carrying it in a private derived image. Open an issue or pull request on the ken-agent repository describing the tool and its use case. Tools that get bundled into the official image benefit every user and avoid the maintenance overhead of a downstream fork.
 
 ## Connecting to local inference servers (vLLM, Ollama, etc.)
 
@@ -8426,7 +8426,7 @@ file bridge, background jobs with no human channel) fail closed. Private keys,
 
 When set, `write_file` and `patch` may only target paths inside the listed directory prefix(es). Anything outside is **hard-blocked** — not routed through dangerous-command approval.
 
-- Set automatically in the [official Docker image](https://github.com/Jrudani21/ken-agent) (`KEN_WRITE_SAFE_ROOT=/opt/data`)
+- Set automatically in the official Docker image (`KEN_WRITE_SAFE_ROOT=/opt/data`)
 - Supports multiple roots separated by `:` on Unix or `;` on Windows
 - **Do not add to `~/.ken/.env` casually.** If you set it to a project directory, the agent cannot write to `~/.ken/cron/jobs.json`, profile skills, or other Ken state outside that prefix
 
@@ -8561,7 +8561,7 @@ docker exec -u ken ken ken pairing approve telegram ABC12DEF
 If you already ran the command as root and the user is still unauthorized,
 restart the container — the entrypoint will fix ownership on the next start.
 
-[i10270]: https://github.com/Jrudani21/ken-agent/issues/10270
+[i10270]: https://github.com/NousResearch/hermes-agent/issues/10270
 :::
 
 **Storage:** Pairing data is stored in `~/.ken/pairing/` with per-platform JSON files:
@@ -10423,7 +10423,7 @@ It exists so that skills created via the [self-improvement loop](/user-guide/fea
 
 By default (`prune_builtins: true`) the curator can archive **unused bundled built-in skills** (shipped with the repo) after `archive_after_days` of non-use, alongside the agent-created skills it primarily manages. Hub-installed skills (from [agentskills.io](https://agentskills.io)) are always off-limits. Set `curator.prune_builtins: false` to restore the old agent-created-only behavior, where bundled skills are never touched. The curator also **never auto-deletes** — the worst outcome is archival into `~/.ken/skills/.archive/`, which is recoverable.
 
-Tracks [issue #7816](https://github.com/Jrudani21/ken-agent/issues/7816).
+Tracks issue #7816.
 
 ## How it runs
 
@@ -10766,7 +10766,7 @@ The curator also refuses to run if `min_idle_hours` hasn't elapsed, so on an act
 - [Skills System](/user-guide/features/skills) — how skills work in general and the self-improvement loop that creates them
 - [Memory](/user-guide/features/memory) — a parallel background review that maintains long-term memory
 - [Bundled Skills Catalog](/reference/skills-catalog)
-- [Issue #7816](https://github.com/Jrudani21/ken-agent/issues/7816) — original proposal and design discussion
+- Issue #7816 — original proposal and design discussion
 
 ---
 
@@ -11200,7 +11200,7 @@ The legacy `ken honcho setup` command still works (it now redirects to `ken memo
 
 **Headless / remote machines:** for cloud auth on a box without a browser (SSH, remote VM), pick **device** at the wizard's auth-method prompt. The CLI prints a short code and a verification link; open the link in a browser on any other machine, approve, and setup completes — no API key copy-paste. The wizard defaults to this option automatically when it detects no usable local browser.
 
-**Config:** `$KEN_HOME/honcho.json` (profile-local) or `~/.honcho/config.json` (global). Resolution order: `$KEN_HOME/honcho.json` > `~/.ken/honcho.json` > `~/.honcho/config.json`. See the [config reference](https://github.com/Jrudani21/ken-agent/blob/main/plugins/memory/honcho/README.md) and the [Honcho integration guide](https://docs.honcho.dev/v3/guides/integrations/ken).
+**Config:** `$KEN_HOME/honcho.json` (profile-local) or `~/.honcho/config.json` (global). Resolution order: `$KEN_HOME/honcho.json` > `~/.ken/honcho.json` > `~/.honcho/config.json`. See the config reference and the [Honcho integration guide](https://docs.honcho.dev/v3/guides/integrations/ken).
 
 <details>
 <summary>Full config reference</summary>
@@ -11402,7 +11402,7 @@ Off-gateway these keys do nothing. `ken memory setup` only prompts for them when
 
 </details>
 
-See the [config reference](https://github.com/Jrudani21/ken-agent/blob/main/plugins/memory/honcho/README.md) and [Honcho integration guide](https://docs.honcho.dev/v3/guides/integrations/ken).
+See the config reference and [Honcho integration guide](https://docs.honcho.dev/v3/guides/integrations/ken).
 
 
 ---
@@ -11582,7 +11582,7 @@ The setup wizard installs dependencies automatically and only installs what's ne
 | `retain_assistant_prefix` | `Assistant` | Label used before assistant turns in auto-retained transcripts |
 | `recall_tags` | — | Tags to filter on recall |
 
-See [plugin README](https://github.com/Jrudani21/ken-agent/blob/main/plugins/memory/hindsight/README.md) for the full configuration reference.
+See plugin README for the full configuration reference.
 
 ---
 
@@ -12980,7 +12980,7 @@ SHA, and optional `subdir` supports monorepos. The bundled seed file
 
 **Submitting a plugin.** The index is maintained as a plain JSON file —
 submit a pull request to the
-[ken-agent](https://github.com/Jrudani21/ken-agent)
+ken-agent
 repository adding your entry (name, description, author, tags, `owner/repo`,
 and a pinned commit SHA). Review covers the entry's *metadata* only.
 
@@ -14382,7 +14382,7 @@ The same pattern works for any data source you can query from a script — Postg
 Ken's own `~/.ken/state.db` is an internal schema that changes between releases. Don't query it from a pre-run gate — point at your own database or feed instead.
 :::
 
-Credit: this recipe set was prompted by @iankar8's exploration in [#2654](https://github.com/Jrudani21/ken-agent/pull/2654), which proposed adding sql/file/command triggers as a parallel mechanism. The `script` + `wakeAgent` gate already covers all three cases at $0, so the work landed as documentation instead.
+Credit: this recipe set was prompted by @iankar8's exploration in #2654, which proposed adding sql/file/command triggers as a parallel mechanism. The `script` + `wakeAgent` gate already covers all three cases at $0, so the work landed as documentation instead.
 
 ### Chaining jobs: `context_from`
 
@@ -15847,7 +15847,7 @@ abandons its own. Instead, create a reconciliation card assigned to a **third,
 neutral profile** with **both** conflicted cards linked as parents: the parent
 links carry both sides' completion summaries into the reconciler's context, so
 it receives both diffs *and* both intents. The bundled
-[`merge-reconciler` skill](https://github.com/Jrudani21/ken-agent/blob/main/skills/autonomous-ai-agents/merge-reconciler/SKILL.md)
+`merge-reconciler` skill
 gives that worker the full procedure: classify each conflicted hunk, resolve
 impartially, verify, and hand back a summary naming every decision.
 
@@ -22630,7 +22630,7 @@ TELEGRAM_WEBHOOK_SECRET="$(openssl rand -hex 32)"  # required
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `TELEGRAM_WEBHOOK_URL` | Yes | Public HTTPS URL where Telegram will send updates. The URL path is auto-extracted (e.g., `/telegram` from the example above). |
-| `TELEGRAM_WEBHOOK_SECRET` | **Yes** (when `TELEGRAM_WEBHOOK_URL` is set) | Secret token that Telegram echoes in every webhook request for verification. The gateway refuses to start without it — see [GHSA-3vpc-7q5r-276h](https://github.com/Jrudani21/ken-agent/security/advisories/GHSA-3vpc-7q5r-276h). Generate with `openssl rand -hex 32`. |
+| `TELEGRAM_WEBHOOK_SECRET` | **Yes** (when `TELEGRAM_WEBHOOK_URL` is set) | Secret token that Telegram echoes in every webhook request for verification. The gateway refuses to start without it — see GHSA-3vpc-7q5r-276h. Generate with `openssl rand -hex 32`. |
 | `TELEGRAM_WEBHOOK_PORT` | No | Local port the webhook server listens on (default: `8443`). |
 
 When `TELEGRAM_WEBHOOK_URL` is set, the gateway starts an HTTP webhook server instead of polling. When unset, polling mode is used — no behavior change from previous versions.
@@ -24875,7 +24875,7 @@ Ken command with its description.
 
 Under the hood: Ken ships with a generated Slack app manifest (see
 Step 1, Option A) that declares every command in
-[`COMMAND_REGISTRY`](https://github.com/Jrudani21/ken-agent/blob/main/ken_cli/commands.py)
+`COMMAND_REGISTRY`
 as a slash command. In Socket Mode, Slack routes the command event
 through the WebSocket regardless of the manifest's `url` field.
 
@@ -27166,7 +27166,7 @@ such as `!important` remain normal chat messages.
 
 ### Bot joins rooms but silently drops every message (clock skew)
 
-**Cause**: The host's system clock is set ahead of real time. The Matrix adapter applies a 5-second startup-grace filter (`event_ts < startup_ts - 5`) to ignore events replayed from initial sync. When the wall clock is ahead, every incoming event looks "older than startup" and is dropped before reaching the message handler — the bot appears connected but never replies. See [#12614](https://github.com/Jrudani21/ken-agent/issues/12614).
+**Cause**: The host's system clock is set ahead of real time. The Matrix adapter applies a 5-second startup-grace filter (`event_ts < startup_ts - 5`) to ignore events replayed from initial sync. When the wall clock is ahead, every incoming event looks "older than startup" and is dropped before reaching the message handler — the bot appears connected but never replies. See #12614.
 
 **Symptom**: Gateway log shows `Matrix: dropped N live events as 'too old' more than 30s after startup`.
 
@@ -30542,7 +30542,7 @@ the ken-agent repo, so Nous has reviewed each entry before it shipped —
 `transport.command:` invocation.
 
 Manifests live at
-[`optional-mcps/<name>/manifest.yaml`](https://github.com/Jrudani21/ken-agent/tree/main/optional-mcps)
+`optional-mcps/<name>/manifest.yaml`
 on GitHub. The picker also prints the manifest's `source:` URL at install
 time so you can quickly verify the upstream repo. The web dashboard's MCP
 page surfaces the same detail per catalog entry — transport, auth type, the
@@ -30593,7 +30593,7 @@ MCPs are never auto-updated. Re-run `ken mcp install <name>` to refresh
 after a Ken update if a manifest version changed.
 
 To add an MCP to the catalog, open a PR against
-[`optional-mcps/`](https://github.com/Jrudani21/ken-agent/tree/main/optional-mcps).
+`optional-mcps/`.
 
 ## Two kinds of MCP servers
 
@@ -37592,7 +37592,7 @@ scripts/run_tests.sh
 - **Comments**: Only when explaining non-obvious intent, trade-offs, or API quirks
 - **Error handling**: Catch specific exceptions. Use `logger.warning()`/`logger.error()` with `exc_info=True` for unexpected errors
 - **Cross-platform**: Never assume Unix (see below)
-- **Profile-safe paths**: Never hardcode `~/.ken` — use `get_ken_home()` from `ken_constants` for code paths and `display_ken_home()` for user-facing messages. See [AGENTS.md](https://github.com/Jrudani21/ken-agent/blob/main/AGENTS.md#profiles-multi-instance-support) for full rules.
+- **Profile-safe paths**: Never hardcode `~/.ken` — use `get_ken_home()` from `ken_constants` for code paths and `display_ken_home()` for user-facing messages. See AGENTS.md for full rules.
 
 ## Cross-Platform Compatibility
 
@@ -37735,7 +37735,7 @@ When you ask Ken to review a PR in a repository that has `.agents/checks/`, tell
 
 ## Reporting Issues
 
-- Use [GitHub Issues](https://github.com/Jrudani21/ken-agent/issues)
+- Use GitHub Issues
 - Include: OS, Python version, Ken version (`ken version`), full error traceback
 - Include steps to reproduce
 - Check existing issues before creating duplicates
@@ -37749,7 +37749,7 @@ When you ask Ken to review a PR in a repository that has `.agents/checks/`, tell
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the [MIT License](https://github.com/Jrudani21/ken-agent/blob/main/LICENSE).
+By contributing, you agree that your contributions will be licensed under the MIT License.
 
 ---
 
@@ -39273,7 +39273,7 @@ gateway/platforms/                  # core base + legacy direct adapters
 
 **Deferred loading:** Bundled `kind: platform` plugins register cheap `register_deferred` loaders in `gateway/platform_registry.py` (via `ken_cli/plugins.py`) so platform SDKs import only when the gateway starts, delivers, or runs setup/status — not on plain `ken chat`. Resolution loads one adapter on lookup; full enumeration runs pending loaders only on paths that need every platform.
 
-Experimental connector-backed platforms use the generic relay adapter in `gateway/relay/` instead of a direct platform module. When `GATEWAY_RELAY_URL` or `gateway.relay_url` is configured, the gateway registers the `relay` platform, dials the connector over an outbound WebSocket, and receives `descriptor`, `inbound`, and `interrupt_inbound` frames on that same socket. The connector advertises a `CapabilityDescriptor`; Ken can send normal outbound replies, token-less `follow_up` operations, and interrupt frames back through the relay. The source-grounded wire contract lives in [`docs/relay-connector-contract.md`](https://github.com/Jrudani21/ken-agent/blob/main/docs/relay-connector-contract.md).
+Experimental connector-backed platforms use the generic relay adapter in `gateway/relay/` instead of a direct platform module. When `GATEWAY_RELAY_URL` or `gateway.relay_url` is configured, the gateway registers the `relay` platform, dials the connector over an outbound WebSocket, and receives `descriptor`, `inbound`, and `interrupt_inbound` frames on that same socket. The connector advertises a `CapabilityDescriptor`; Ken can send normal outbound replies, token-less `follow_up` operations, and interrupt frames back through the relay. The source-grounded wire contract lives in `docs/relay-connector-contract.md`.
 
 Adapters implement a common interface:
 - `connect()` / `disconnect()` — lifecycle management
@@ -44081,7 +44081,7 @@ The CLI prompts before running slash commands that throw away unsaved session st
 
 For each of these the CLI opens a three-choice modal: **Approve Once** (proceed this time), **Always Approve** (proceed and persist `approvals.destructive_slash_confirm: false` so future destructive commands run without prompting), or **Cancel**.
 
-**Inline skip:** append `now`, `--yes`, or `-y` to bypass the modal for a single invocation — e.g. `/reset now`, `/new --yes my-session`, `/clear -y`, `/undo -y`. Useful when the modal doesn't render correctly on your terminal (see [issue #30768](https://github.com/Jrudani21/ken-agent/issues/30768) for native Windows PowerShell) or when scripting against the CLI.
+**Inline skip:** append `now`, `--yes`, or `-y` to bypass the modal for a single invocation — e.g. `/reset now`, `/new --yes my-session`, `/clear -y`, `/undo -y`. Useful when the modal doesn't render correctly on your terminal (see issue #30768 for native Windows PowerShell) or when scripting against the CLI.
 
 Set `approvals.destructive_slash_confirm: false` in `~/.ken/config.yaml` to disable the prompts globally; set it back to `true` to re-enable. See [Security — Destructive slash command confirmation](../user-guide/security.md#dangerous-command-approval) for context.
 
@@ -47724,7 +47724,7 @@ If using OpenRouter, make sure your API key has credits. A 400 from OpenRouter o
 
 If your issue isn't covered here:
 
-1. **Search existing issues:** [GitHub Issues](https://github.com/Jrudani21/ken-agent/issues)
+1. **Search existing issues:** GitHub Issues
 2. **Ask the community:** [Nous Research Discord](https://discord.gg/nousresearch)
 3. **File a bug report:** Include your OS, Python version (`python3 --version`), Ken version (`ken --version`), and the full error message
 
@@ -48936,7 +48936,7 @@ written against the disk door (what you and the agent write);
 [Bundled plugins](#bundled-plugins) notes the two
 differences. No desktop plugins ship in the core tree today — reference demos
 are not currently published; see the
-[`ken-agent` plugins](https://github.com/Jrudani21/ken-agent/tree/main/plugins) directory for the plugins in the repository.
+`ken-agent` plugins directory for the plugins in the repository.
 
 ## Quick start — your first plugin
 
@@ -49491,7 +49491,7 @@ enable/disable contract as a disk plugin. The two differences:
 
 No desktop plugins ship in the core tree today; the shipped app stays uncluttered
 and demos are not currently published; see the
-[`ken-agent` plugins](https://github.com/Jrudani21/ken-agent/tree/main/plugins) directory.
+`ken-agent` plugins directory.
 
 ## Security model
 
@@ -50273,7 +50273,7 @@ Ken discovers memory providers from four sources, in this precedence order:
 
 | Source | Location | Notes |
 |---|---|---|
-| Bundled | `plugins/memory/<name>/` | Ships with Ken. Closed to new providers — see [CONTRIBUTING](https://github.com/Jrudani21/ken-agent/blob/main/CONTRIBUTING.md). |
+| Bundled | `plugins/memory/<name>/` | Ships with Ken. Closed to new providers — see CONTRIBUTING. |
 | User | `$KEN_HOME/plugins/<name>/` | Dropped in by the user, per profile. |
 | Project | `./.ken/plugins/<name>/` | Opt-in via `KEN_ENABLE_PROJECT_PLUGINS=1`. |
 | Package | `ken_agent.memory_providers` entry point | `pip install`, nothing to copy. |
@@ -51080,7 +51080,7 @@ def _paste_to_tasks(ctx, raw_args: str) -> str:
 ```
 
 A third worked example, this time with image input, is not currently
-published; see the [plugins directory](https://github.com/Jrudani21/ken-agent/tree/main/plugins)
+published; see the plugins directory
 for the plugins that ship in the repository. For the async surface (`acomplete()` /
 `acomplete_structured()` with `asyncio.gather()`), see
 `plugin-llm-async-example` (not currently published).
@@ -51389,9 +51389,9 @@ own model call — for any reason, structured or not — `ctx.llm`.
 
 ## Reference
 
-* Implementation: [`agent/plugin_llm.py`](https://github.com/Jrudani21/ken-agent/blob/main/agent/plugin_llm.py)
-* Tests: [`tests/agent/test_plugin_llm.py`](https://github.com/Jrudani21/ken-agent/blob/main/tests/agent/test_plugin_llm.py)
-* Reference plugins: see the [plugins directory](https://github.com/Jrudani21/ken-agent/tree/main/plugins)
+* Implementation: `agent/plugin_llm.py`
+* Tests: `tests/agent/test_plugin_llm.py`
+* Reference plugins: see the plugins directory
 * Auxiliary client (the engine under the hood): see
   [Provider Runtime](/developer-guide/provider-runtime).
 
@@ -51434,7 +51434,7 @@ See the full [Pluggable interfaces table](/user-guide/features/plugins#pluggable
 :::
 
 :::caution Third-party-product plugins ship standalone — not into the core tree
-Plugins that integrate **someone else's product or project** — observability/metrics backends, vendor SaaS connectors, analytics dashboards, paid-service tie-ins — are built and distributed as **standalone plugin repos**, not merged into `Jrudani21/ken-agent`. Users install them into `~/.ken/plugins/` or via a pip entry point; everything in this guide works the same way from a standalone repo. This is a coupling-and-maintenance decision (the core moves fast and we don't own your backend), not a quality bar — a plugin can be excellent and still belong in its own repo. Promote it in the Nous Research Discord `#plugins-skills-and-skins` channel. See [CONTRIBUTING.md](https://github.com/Jrudani21/ken-agent/blob/main/CONTRIBUTING.md) for the policy.
+Plugins that integrate **someone else's product or project** — observability/metrics backends, vendor SaaS connectors, analytics dashboards, paid-service tie-ins — are built and distributed as **standalone plugin repos**, not merged into `Jrudani21/ken-agent`. Users install them into `~/.ken/plugins/` or via a pip entry point; everything in this guide works the same way from a standalone repo. This is a coupling-and-maintenance decision (the core moves fast and we don't own your backend), not a quality bar — a plugin can be excellent and still belong in its own repo. Promote it in the Nous Research Discord `#plugins-skills-and-skins` channel. See CONTRIBUTING.md for the policy.
 :::
 
 ## Portable Agent Plugins v1 packages
@@ -51710,8 +51710,8 @@ arbitrary packages into Ken's shared venv is a conflict and supply-chain
 surface, so the install seam's isolation design (constraints-file installs
 against the host lock vs. per-plugin vendored dirs vs. conflict detection
 with refusal) is an explicitly deferred follow-up — see the round-2 review on
-[#64165](https://github.com/Jrudani21/ken-agent/issues/64165) and
-[#15220](https://github.com/Jrudani21/ken-agent/issues/15220). Plugin
+#64165 and
+#15220. Plugin
 packs (#64166) build on these v2 fields.
 :::
 
@@ -53128,7 +53128,7 @@ On a successful truncating submit against a durable session, the `prompt.submit`
 
 ### Pi-style RPC mapping
 
-Every command in the Pi-mono RPC spec ([issue #360](https://github.com/Jrudani21/ken-agent/issues/360)) has a TUI-gateway equivalent:
+Every command in the Pi-mono RPC spec (issue #360) has a TUI-gateway equivalent:
 
 | Pi command | Ken equivalent |
 |------------|-------------------|
@@ -54584,7 +54584,7 @@ A symlink to a divergent `node_modules` is worse than no install — the worktre
 - [Git Worktrees](/user-guide/git-worktrees) — the isolation model these helpers build on
 - [TUI](/user-guide/tui) — `ken --tui --dev` and the `KEN_TUI_DIR` prebuild path
 - [Desktop App](/user-guide/desktop) — building from source and the backend resolution ladder
-- [`apps/desktop/README.md`](https://github.com/Jrudani21/ken-agent/blob/main/apps/desktop/README.md) — dev server, sandbox script, and packaging
+- `apps/desktop/README.md` — dev server, sandbox script, and packaging
 - [Environment Variables](/reference/environment-variables) — every `KEN_*` variable Ken reads
 
 ---
@@ -56300,7 +56300,7 @@ If you've worked through this guide and the issue persists:
 
 1. Run the job with `ken cron run <job_id>` (fires on next gateway tick) and watch for errors in the chat output
 2. Check `~/.ken/logs/agent.log` for scheduler messages and `~/.ken/logs/errors.log` for warnings
-3. Open an issue at [github.com/Jrudani21/ken-agent](https://github.com/Jrudani21/ken-agent) with:
+3. Open an issue at github.com/Jrudani21/ken-agent with:
    - The job ID and schedule
    - The delivery target
    - What you expected vs. what happened
@@ -58755,7 +58755,7 @@ The Portal catalog draws on OpenRouter's model list (300+) plus models served th
 /model openai/o1-2025-12-17
 ```
 
-If a model is genuinely unavailable, [open an issue](https://github.com/Jrudani21/ken-agent/issues) — most gaps are routing config we can update.
+If a model is genuinely unavailable, open an issue — most gaps are routing config we can update.
 
 ### Billing not appearing on my Portal account
 
@@ -59621,7 +59621,7 @@ The same OAuth bearer token is also reused by every direct-to-xAI surface in Ken
 - A browser available anywhere you can open the printed verification URL
 
 :::warning xAI may restrict OAuth API access by tier
-xAI's backend enforces its own allowlist on the OAuth API surface and has been seen to reject standard SuperGrok subscribers with `HTTP 403` (see issue [#26847](https://github.com/Jrudani21/ken-agent/issues/26847)) even though the in-app subscription is active. If OAuth login succeeds in the browser but inference returns 403, set `XAI_API_KEY` and switch to the API-key path (`provider: xai`) — that surface is not subject to the same gating today.
+xAI's backend enforces its own allowlist on the OAuth API surface and has been seen to reject standard SuperGrok subscribers with `HTTP 403` (see issue #26847) even though the in-app subscription is active. If OAuth login succeeds in the browser but inference returns 403, set `XAI_API_KEY` and switch to the API-key path (`provider: xai`) — that surface is not subject to the same gating today.
 :::
 
 ## Quick Start
@@ -59791,7 +59791,7 @@ For loopback-redirect providers (Spotify, MCP servers), see [OAuth over SSH / Re
 
 OAuth completed in the browser, tokens are saved, but inference or token refresh returns `HTTP 403` with a message similar to *"The caller does not have permission to execute the specified operation"*.
 
-This is **not** a stale-token problem — re-running `ken model` won't change it. xAI's backend has been seen to restrict OAuth API access to specific SuperGrok tiers despite the in-app subscription being active (issue [#26847](https://github.com/Jrudani21/ken-agent/issues/26847)).
+This is **not** a stale-token problem — re-running `ken model` won't change it. xAI's backend has been seen to restrict OAuth API access to specific SuperGrok tiers despite the in-app subscription being active (issue #26847).
 
 **Fix:** set `XAI_API_KEY` and switch to the API-key path:
 
@@ -60132,7 +60132,7 @@ The Portal routes each model to a suitable backend — some through OpenRouter, 
 /model anthropic/claude-opus-4.6
 ```
 
-If a model is genuinely missing, [open an issue](https://github.com/Jrudani21/ken-agent/issues) — we surface the Portal's catalog to Ken and gaps usually mean a routing config we can update.
+If a model is genuinely missing, open an issue — we surface the Portal's catalog to Ken and gaps usually mean a routing config we can update.
 
 ### Bills not appearing on my Portal account
 
@@ -61239,7 +61239,7 @@ What also works because the MCP callback exposes them:
 - **`kanban_show` / `kanban_list`** — read-only board queries for the worker to check its own context.
 - **`kanban_create` / `kanban_unblock` / `kanban_link`** — orchestrator-only operations. Available for orchestrator agents running on the codex runtime that need to dispatch new tasks.
 
-The kanban tools are gated by `KEN_KANBAN_TASK` env var the dispatcher sets — that var is propagated to the codex subprocess (codex inherits env) and from there to the spawned `ken-tools` MCP server subprocess. So the tools see the right task id and gate correctly. For Codex app-server workers, Ken also passes narrow app-server sandbox overrides when `KEN_KANBAN_TASK` is present: keep `workspace-write` sandboxing, add the **board DB directory plus every Kanban path the dispatcher pinned** as extra writable roots (`KEN_KANBAN_WORKSPACES_ROOT`, `KEN_KANBAN_WORKSPACE`, legacy `KEN_KANBAN_ROOT` — deduplicated, DB-dir first), and keep network disabled by default. This avoids the brittle `:danger-no-sandbox` workaround while letting `kanban_complete` / `kanban_block` update the board DB **and** letting workers write reports/artifacts under workspace mounts that live outside the DB directory (e.g. `/media/.../kanban-workspaces/...` on a separate drive — [issue #27941](https://github.com/Jrudani21/ken-agent/issues/27941)).
+The kanban tools are gated by `KEN_KANBAN_TASK` env var the dispatcher sets — that var is propagated to the codex subprocess (codex inherits env) and from there to the spawned `ken-tools` MCP server subprocess. So the tools see the right task id and gate correctly. For Codex app-server workers, Ken also passes narrow app-server sandbox overrides when `KEN_KANBAN_TASK` is present: keep `workspace-write` sandboxing, add the **board DB directory plus every Kanban path the dispatcher pinned** as extra writable roots (`KEN_KANBAN_WORKSPACES_ROOT`, `KEN_KANBAN_WORKSPACE`, legacy `KEN_KANBAN_ROOT` — deduplicated, DB-dir first), and keep network disabled by default. This avoids the brittle `:danger-no-sandbox` workaround while letting `kanban_complete` / `kanban_block` update the board DB **and** letting workers write reports/artifacts under workspace mounts that live outside the DB directory (e.g. `/media/.../kanban-workspaces/...` on a separate drive — issue #27941).
 
 ### Cron jobs
 
@@ -61550,7 +61550,7 @@ Known limitations:
 - **No inline patch preview in approval prompts when codex doesn't track the changeset.** Codex's `fileChange` approval params don't always carry the changeset. Ken caches the data from the corresponding `item/started` notification when possible, but if approval arrives before the item has streamed, the prompt falls back to whatever `reason` codex provides.
 - **Sub-second cancellation isn't guaranteed.** Mid-stream interrupts (Ctrl+C while codex is responding) are sent via `turn/interrupt`, but if codex has already flushed the final message, you get the response anyway.
 
-If you find a bug, [open an issue](https://github.com/Jrudani21/ken-agent/issues) with the output of `ken logs --since 5m`. Mention `codex-runtime` in the title so it's easy to triage.
+If you find a bug, open an issue with the output of `ken logs --since 5m`. Mention `codex-runtime` in the title so it's easy to triage.
 
 ## Architecture
 
@@ -61597,7 +61597,7 @@ If you find a bug, [open an issue](https://github.com/Jrudani21/ken-agent/issues
         └──────────────────────────────────────────────────────────┘
 ```
 
-For implementation details, see [PR #24182](https://github.com/Jrudani21/ken-agent/pull/24182) and the [Codex app-server protocol README](https://github.com/openai/codex/blob/main/codex-rs/app-server/README.md).
+For implementation details, see PR #24182 and the [Codex app-server protocol README](https://github.com/openai/codex/blob/main/codex-rs/app-server/README.md).
 
 ---
 
@@ -62993,7 +62993,7 @@ Key points:
 - Multiple plugins can claim the same page-scoped slot. They render stacked in registration order.
 - Zero footprint when no plugin registers: the built-in page renders exactly as before.
 
-A reference plugin (see [`plugins/`](https://github.com/Jrudani21/ken-agent/tree/main/plugins)) ships a live demo that injects a banner into `sessions:top` — install it to see the pattern end-to-end.
+A reference plugin (see `plugins/`) ships a live demo that injects a banner into `sessions:top` — install it to see the pattern end-to-end.
 
 ### Slot-only plugins (`tab.hidden`)
 
@@ -63130,7 +63130,7 @@ If a plugin's script fails to load (404, syntax error, exception during IIFE), t
 
 ## Combined theme + plugin demo
 
-The [`strike-freedom-cockpit`](https://github.com/Jrudani21/ken-agent/tree/main/plugins) plugin (demo not currently published) is a complete reskin demo. It pairs a theme YAML with a slot-only plugin to produce a cockpit-style HUD without forking the dashboard.
+The `strike-freedom-cockpit` plugin (demo not currently published) is a complete reskin demo. It pairs a theme YAML with a slot-only plugin to produce a cockpit-style HUD without forking the dashboard.
 
 **What it demonstrates:**
 
@@ -63141,7 +63141,7 @@ The [`strike-freedom-cockpit`](https://github.com/Jrudani21/ken-agent/tree/main/
   - `footer-right` — a custom tagline replacing the default org line.
 - The plugin reads theme-supplied artwork via CSS vars, so swapping themes changes the hero/crest without plugin code changes.
 
-**Install:** the `strike-freedom-cockpit` demo is not currently published; use the [plugins in the repository](https://github.com/Jrudani21/ken-agent/tree/main/plugins) as a starting point.
+**Install:** the `strike-freedom-cockpit` demo is not currently published; use the plugins in the repository as a starting point.
 
 Open the dashboard, pick **Strike Freedom** from the theme switcher. The cockpit sidebar appears, the crest shows in the header, the tagline replaces the footer. Switch back to **Ken Teal** and the plugin remains installed but invisible (the `sidebar` slot only renders under the `cockpit` layout variant).
 
@@ -63286,7 +63286,7 @@ This page is the contract. It exists for two audiences:
 - **Operators** picking which lanes to wire into a board (which profiles to create, which assignees to use).
 - **Plugin / integration authors** wanting to add a new lane shape (a CLI worker that wraps Codex / Claude Code / OpenCode, a containerised review worker, a non-Ken service that pulls tasks via the API).
 
-If you're writing the worker code itself — the agent that runs *inside* a lane — the kanban lifecycle and reference details are injected into the worker's system prompt automatically (the `KANBAN_GUIDANCE` block in [`agent/prompt_builder.py`](https://github.com/Jrudani21/ken-agent/blob/main/agent/prompt_builder.py)).
+If you're writing the worker code itself — the agent that runs *inside* a lane — the kanban lifecycle and reference details are injected into the worker's system prompt automatically (the `KANBAN_GUIDANCE` block in `agent/prompt_builder.py`).
 
 ## The hierarchy
 
@@ -63376,7 +63376,7 @@ Wiring a non-Ken CLI tool (Codex CLI, Claude Code CLI, OpenCode CLI, a local cod
 
 If you're considering adding a CLI lane, open an issue describing the specific CLI and the workflow you're trying to enable. The contract above is the constraints any such lane must satisfy; the implementation shape (one plugin per CLI vs a generic CLI-runner plugin parameterised by config) is open.
 
-The historical issue for this is [#19931](https://github.com/Jrudani21/ken-agent/issues/19931) and the closed-not-merged Codex-specific PR [#19924](https://github.com/Jrudani21/ken-agent/pull/19924) — those describe the original architecture proposal but didn't land a runner.
+The historical issue for this is #19931 and the closed-not-merged Codex-specific PR #19924 — those describe the original architecture proposal but didn't land a runner.
 
 ## Failure modes the dispatcher handles
 
@@ -63393,7 +63393,7 @@ So lane authors don't have to reimplement these:
 
 - [Kanban overview](./kanban) — the user-facing intro.
 - [Kanban tutorial](./kanban-tutorial) — walkthrough with the dashboard open.
-- [`KANBAN_GUIDANCE`](https://github.com/Jrudani21/ken-agent/blob/main/agent/prompt_builder.py) — the worker + orchestrator lifecycle injected into every kanban worker's system prompt.
+- `KANBAN_GUIDANCE` — the worker + orchestrator lifecycle injected into every kanban worker's system prompt.
 
 ---
 
@@ -70138,7 +70138,7 @@ When you send a message in Open WebUI:
 
 Your agent has access to the same tools and capabilities as that API-server Ken instance. If the API server is remote, those tools are remote too.
 
-If you need tools to run against your **local** workspace today, run Ken locally and point it at a pure LLM provider or pure OpenAI-compatible model proxy (for example vLLM, LiteLLM, Ollama, llama.cpp, OpenAI, OpenRouter, etc.). A future split-runtime mode for "remote brain, local hands" is being tracked in [#18715](https://github.com/Jrudani21/ken-agent/issues/18715); it is not the behavior of the current API server.
+If you need tools to run against your **local** workspace today, run Ken locally and point it at a pure LLM provider or pure OpenAI-compatible model proxy (for example vLLM, LiteLLM, Ollama, llama.cpp, OpenAI, OpenRouter, etc.). A future split-runtime mode for "remote brain, local hands" is being tracked in #18715; it is not the behavior of the current API server.
 
 :::tip Tool Progress
 With streaming enabled (the default), you'll see brief inline indicators as tools run — the tool emoji and its key argument. These appear in the response stream before the agent's final answer, giving you visibility into what's happening behind the scenes.
@@ -72706,7 +72706,7 @@ Meta only allows **free-form messages** within a 24-hour window after the user's
 
 Ken warns the agent about this window in its system prompt, so the model knows to mention it when scheduling delayed messages.
 
-Message-template support (the workaround for outside-window sends) is not yet implemented in Ken. If you need it, please [open an issue](https://github.com/Jrudani21/ken-agent/issues) — it's planned but waiting on a clear demand signal.
+Message-template support (the workaround for outside-window sends) is not yet implemented in Ken. If you need it, please open an issue — it's planned but waiting on a clear demand signal.
 
 ### Group chats
 
