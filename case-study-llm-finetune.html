@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case study: Did my fine-tune work? Building an eval that can say no - Janak Rudani</title>
+<meta name="description" content="49 held-out questions, an exact paired test and a separate LLM judge for a QLoRA statistics model on an 8 GB GPU: the harness bugs I hit, and why the honest result so far is no significant difference.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Did my fine-tune work? Building an eval that can say no">
+<meta property="og:description" content="49 held-out questions, an exact paired test and a separate LLM judge for a QLoRA statistics model on an 8 GB GPU: the harness bugs I hit, and why the honest result so far is no significant difference.">
+<meta property="og:url" content="https://jrudani21.github.io/case-study-llm-finetune.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Did my fine-tune work? Building an eval that can say no">
+<meta name="twitter:description" content="49 held-out questions, an exact paired test and a separate LLM judge for a QLoRA statistics model on an 8 GB GPU: the harness bugs I hit, and why the honest result so far is no significant difference.">
+<meta name="twitter:image" content="https://jrudani21.github.io/assets/og-card.png">
+<link rel="canonical" href="https://jrudani21.github.io/case-study-llm-finetune.html">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<meta name="theme-color" content="#05050a">
+<meta property="og:site_name" content="Janak Rudani">
+<meta property="og:image" content="https://jrudani21.github.io/assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","headline":"Did my fine-tune work? Building an eval that can say no","description":"49 held-out questions, an exact paired test and a separate LLM judge for a QLoRA statistics model on an 8 GB GPU: the harness bugs I hit, and why the honest result so far is no significant difference.","url":"https://jrudani21.github.io/case-study-llm-finetune.html","image":"https://jrudani21.github.io/assets/og-card.png","author":{"@type":"Person","name":"Janak Rudani","url":"https://jrudani21.github.io/","sameAs":["https://github.com/Jrudani21","https://www.linkedin.com/in/janakrudani21"]}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #05050a; --panel: #0a0a12; --surface: #100f16;
+  --text: #f2f2f5; --dim: #9a9aa8; --muted: #565664;
+  --accent: #ff3131; --accent-dim: rgba(255,49,49,0.12);
+  --violet: #59d9ff; --amber: #f5c518; --green: #4ade80;
+  --border: rgba(255,255,255,0.07);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--void); color: var(--text); font-family: 'Space Grotesk', system-ui, sans-serif; line-height: 1.7; overflow-x: hidden; }
+.wrap { max-width: 880px; margin: 0 auto; padding: 3.5rem 1.4rem 5rem; }
+a { color: var(--violet); text-decoration: none; }
+a:hover { color: var(--accent); }
+.back { font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.back:hover { color: var(--accent); }
+.eyebrow { font-family: 'VT323', monospace; font-size: 15px; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin: 2.2rem 0 0.7rem; }
+h1 { font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: clamp(1.7rem, 4.4vw, 2.85rem); line-height: 1.12; letter-spacing: -0.01em; }
+.dek { color: var(--dim); font-size: 1.06rem; margin-top: 1.1rem; max-width: 720px; }
+.dek b { color: var(--amber); }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin: 2.4rem 0 0.4rem; }
+@media (max-width: 660px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.stat { background: linear-gradient(135deg, rgba(16,16,24,0.95), rgba(10,10,16,0.95)); padding: 1.2rem 1.3rem; }
+.stat b { display: block; font-family: 'VT323', monospace; font-size: 1.9rem; color: var(--accent); line-height: 1.1; }
+.stat span { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.03em; }
+h2 { font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 1.25rem; margin: 3rem 0 0.9rem; }
+h2::before { content: '// '; color: var(--muted); font-family: 'VT323', monospace; }
+p { color: var(--dim); margin: 0.75rem 0; }
+p b, li b, td b { color: var(--text); }
+code { font-family: 'VT323', monospace; font-size: 15px; color: var(--violet); background: rgba(255,255,255,0.05); padding: 1px 6px; border-radius: 6px; }
+pre { background: var(--panel); border: 1px solid var(--border); border-left: 2px solid var(--accent); border-radius: 12px; padding: 1.1rem 1.2rem; overflow-x: auto; margin: 1.2rem 0; font-family: 'VT323', monospace; font-size: 15px; line-height: 1.65; color: var(--dim); }
+pre .ok { color: var(--green); } pre .hl { color: var(--amber); } pre .c { color: var(--muted); } pre .bad { color: var(--accent); }
+table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: 0.92rem; }
+th, td { text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--border); color: var(--dim); vertical-align: top; }
+th { font-family: 'VT323', monospace; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 400; }
+td:first-child { color: var(--text); white-space: nowrap; }
+ol, ul { margin: 0.8rem 0 0.8rem 1.3rem; color: var(--dim); }
+li { margin: 0.4rem 0; }
+.callout { border-left: 2px solid var(--amber); background: rgba(245,197,24,0.05); padding: 0.9rem 1.2rem; border-radius: 0 12px 12px 0; margin: 1.4rem 0; font-size: 0.95rem; color: var(--dim); }
+.callout b { color: var(--amber); }
+figure { margin: 1.6rem 0; border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 1rem; background: linear-gradient(135deg, rgba(16,16,24,0.85), rgba(10,10,16,0.85)); }
+figure img { display: block; width: 100%; height: auto; border-radius: 8px; }
+figcaption { font-family: 'VT323', monospace; font-size: 14px; color: var(--muted); text-align: center; margin-top: 0.8rem; letter-spacing: 0.05em; }
+svg { display: block; width: 100%; height: auto; }
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1.6rem 0 0; }
+.tag { font-family: 'VT323', monospace; font-size: 13px; padding: 3px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--dim); }
+.tag.hl { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.links { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; margin: 1.4rem 0 0; font-family: 'VT323', monospace; font-size: 16px; }
+.foot { margin-top: 3.4rem; padding-top: 1.6rem; border-top: 1px solid var(--border); font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: space-between; }
+@media (max-width: 560px) { .wrap { padding-top: 2.4rem; } table { font-size: 0.85rem; } th, td { padding: 0.5rem 0.4rem; } td:first-child { white-space: normal; } }
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: 0.25s ease both vt-out; }
+::view-transition-new(root) { animation: 0.4s cubic-bezier(0.22,1,0.36,1) both vt-in; }
+@keyframes vt-out { to { opacity: 0; transform: translateY(-8px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(12px); } }
+@media (prefers-reduced-motion: reduce) { ::view-transition-old(root), ::view-transition-new(root) { animation: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <a class="back" href="index.html#projects">&larr; back to the imperial archives</a>
+
+  <p class="eyebrow">case study // LLM evaluation // 2026</p>
+  <h1>Did my fine-tune work? Building an eval that can say no</h1>
+  <p class="dek">I fine-tuned a small model on statistics questions. Before claiming it helped, I built a held-out
+    test with an <b>exact paired significance test and a separate LLM judge</b>. The harness is done and tested.
+    The honest result so far is <b>no significant difference</b>, and this page explains why that is still worth showing.</p>
+
+  <div class="stats">
+    <div class="stat"><b>49</b><span>held-out questions (30 easy, 19 hard)</span></div>
+    <div class="stat"><b>2</b><span>scoring methods: keywords and a judge</span></div>
+    <div class="stat"><b>p = 1.0</b><span>McNemar, both question sets</span></div>
+    <div class="stat"><b>0</b><span>failed calls in the final run</span></div>
+  </div>
+
+  <h2>First, what this is not</h2>
+  <p>It is <b>not evidence that the fine-tune works</b>. The tuned model is not on the machine I ran this from, so
+    both columns below are <b>two base models</b>: <code>qwen3-8b</code> in the "base" column and
+    <code>qwen3.5-9b</code> in the "tuned" column. I used them to test the harness itself. The real comparison is
+    still to run.</p>
+
+  <h2>The project</h2>
+  <p>A pipeline that fine-tunes Qwen2.5 on applied statistics (Poisson and negative binomial regression, SARIMA,
+    hypothesis tests, fraud modelling) using QLoRA on an 8 GB RTX 4060. It generates 240 training pairs locally,
+    reviews them with an automated gate, trains and exports to Ollama. What it lacked was any measurement of
+    whether the tuned model beats the base.</p>
+
+  <h2>The harness</h2>
+  <ol>
+    <li><b>Held-out questions</b> the model never trained on, each with accepted keywords.</li>
+    <li><b>Exact McNemar test</b> on paired pass/fail, written with <code>math.comb</code>, no stats library.</li>
+    <li><b>A separate judge model</b> (<code>gpt-oss-20b</code>) that grades each answer 1 to 5 against a reference answer, then a paired sign test.</li>
+    <li><b>One model loaded at a time</b>, because alternating models on 8 GB of VRAM crashed the server.</li>
+    <li><b>Unit tests</b> for keyword hit and miss, a known McNemar value, the judge-reply parser and the question file.</li>
+  </ol>
+
+  <h2>What went wrong, and what I changed</h2>
+  <table>
+    <tr><th>problem</th><th>how I found it</th><th>fix</th></tr>
+    <tr><td>First harness came from a small free model and reported success</td><td>The question file was not valid JSONL, it imported a library I did not use, and the Ollama options were in the wrong place</td><td>I rewrote the harness and tests myself instead of looping the weak model</td></tr>
+    <tr><td>"Wrong" markers on correct answers</td><td>Reading the question file</td><td>Removed them</td></tr>
+    <tr><td>A model scored 5% on the hard set</td><td>All 19 calls had failed with HTTP 500, and the one-letter keyword <code>h</code> matched the text "HTTP"</td><td>A failed call never passes, is excluded from the test, and prints a warning. Retries added.</td></tr>
+    <tr><td>Judge gave every answer a 5</td><td>I fed it a correct, an off-topic and a wrong answer: it scored 5, 1 and 1</td><td>The judge was fine. The questions were too easy, so I wrote a harder set.</td></tr>
+  </table>
+  <div class="callout">
+    <b>The lesson.</b> A harness that reports a number is not a harness that works. The 5% looked like a finding
+    until I read the answers.
+  </div>
+
+  <h2>Results</h2>
+  <table>
+    <tr><th>question set</th><th>keyword pass</th><th>judge mean (1 to 5)</th></tr>
+    <tr><td>Easy, n = 30</td><td>97% vs 100%, McNemar p = 1.0</td><td>5.0 vs 5.0, all 30 tied</td></tr>
+    <tr><td>Hard, n = 19</td><td>89% vs 84%, McNemar p = 1.0</td><td>4.05 vs 4.47, sign test p = 0.69 (2 / 4 / 13 ties)</td></tr>
+  </table>
+  <ul>
+    <li>The easy set could not tell the models apart, so it stopped being useful. The hard set has reference answers and tighter keywords.</li>
+    <li>Keywords and the judge disagreed on two questions, which is why I report both and do not pick the favourable one.</li>
+    <li>With 19 questions, a gap this size cannot be separated from noise.</li>
+  </ul>
+
+  <h2>What I would claim, and what I would not</h2>
+  <p>I would claim: the harness runs end to end, treats failed calls safely, and reports "not significant" when
+    that is the answer.</p>
+  <p>I would not claim: that the fine-tune beats its base, or that these two base models differ. The reference
+    answers and keywords are mine and have not been reviewed by a statistician, and one judge model is one
+    opinion.</p>
+
+  <div class="links">
+    <a href="https://github.com/Jrudani21/llm-finetune" target="_blank" rel="noopener">the repo &rarr;</a>
+    <a href="case-study-escalation.html">another benchmark, scored with hidden tests &rarr;</a>
+  </div>
+
+  <div class="tags">
+    <span class="tag hl">LLM evaluation</span><span class="tag">QLoRA</span><span class="tag">Python</span>
+    <span class="tag">McNemar test</span><span class="tag">LLM-as-judge</span>
+  </div>
+
+  <div class="foot">
+    <a href="index.html#projects">&larr; all projects</a>
+    <span>Janak Rudani &middot; Winnipeg &middot; 2026</span>
+  </div>
+
+</div>
+</body>
+</html>
