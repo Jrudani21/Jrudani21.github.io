@@ -170,7 +170,7 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 
   <!-- med-demo -->
   <h2>Move the cutoff</h2>
-  <p>Pick where to draw the referral line. Every row is a real flagged provider from the repo's database, scored by
+  <p>Pick where to draw the referral line. Every row is a real flagged provider from the database as it was shipped, scored by
     the repo's own query. A higher cutoff means fewer false alarms and more missed cases.</p>
   <div class="md" id="md">
     <div class="md-ctl">
@@ -245,9 +245,29 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
   <div class="callout"><b>Why this matters:</b> a score that silently ignores one of its inputs still produces a tidy
     ranked list. Re-running a pipeline against its own claims is how these show up.</div>
 
+  <h2>What I changed, and what the fixed version shows</h2>
+  <p>I fixed the date arithmetic, rebuilt the database from the CSV, and added a rule-free check next to the overlap
+    rule: a z-score of each provider's average charge ratio against peers in the same specialty. The generator also
+    records which providers it planted, so both can be scored. On the rebuilt data (9,936 claims, 2,000 providers,
+    200 planted):</p>
+  <table>
+    <tr><th>Detector</th><th>Flagged</th><th>Precision</th><th>Recall</th></tr>
+    <tr><td>Overlap rule</td><td>200</td><td>1.00</td><td>1.00</td></tr>
+    <tr><td>Peer outliers, z at least 1</td><td>201</td><td>0.83</td><td>0.83</td></tr>
+    <tr><td>Peer outliers, z at least 2</td><td>107</td><td>0.99</td><td>0.53</td></tr>
+    <tr><td>Peer outliers, z at least 3</td><td>49</td><td>1.00</td><td>0.24</td></tr>
+  </table>
+  <div class="callout"><b>Read this carefully:</b> the overlap rule scores perfectly because the generator plants
+    exactly that pattern. It tests the plumbing, not real-world accuracy. The peer screen never looks at country or
+    dates, so catching 83% of the planted providers is the more honest signal. Real work would need real labels,
+    such as the OIG exclusion list.</div>
+  <p>Published work on Part B data takes the same route: outlier screening first, then models trained on exclusion
+    list labels, with heavy class imbalance. CMS's own Fraud Prevention System savings were disputed, with CMS
+    reporting 5 to 1 and OIG's adjusted figure $1.34 per dollar, so outcomes need tracking whatever the model.</p>
+
   <h2>How I would catch more</h2>
   <ul>
-    <li><b>Fix the dates first</b>, then add foreign-to-foreign pairs and a travel-time check, not just US against foreign.</li>
+    <li><b>Foreign-to-foreign pairs and a travel-time check</b>, not just US against foreign.</li>
     <li><b>Impossible workload:</b> more than 24 hours of time-based services billed for one provider in one day.</li>
     <li><b>Upcoding against peers:</b> each provider's share of top-level visit codes against their specialty norm.</li>
     <li><b>Links between providers:</b> shared addresses, bank accounts or referring NPIs, as a graph.</li>
@@ -256,7 +276,7 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
   </ul>
 
   <div class="links">
-    <a href="https://github.com/Jrudani21/medicare-fraud-detector">the SQL, data and dashboard on GitHub &rarr;</a>
+    <a href="https://github.com/Jrudani21/medicare-fraud-detector">the SQL, data, checks and dashboard on GitHub &rarr;</a>
     <a href="case-study-delivery-gate.html">an independent check on a pipeline's own report &rarr;</a>
     <a href="case-study-escalation.html">the same measure-before-claiming rule, applied to model routing &rarr;</a>
   </div>
