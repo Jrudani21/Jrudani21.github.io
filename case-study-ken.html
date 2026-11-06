@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; base-uri 'none'; form-action 'none'">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Case study: how I run a 34-bot agent fleet on one PC — Janak Rudani</title>
+<title>Case study: how I run a 34-bot agent fleet on one PC | Janak Rudani</title>
 <meta name="description" content="Ken is a fork of Hermes Agent I extended and operate as an unattended fleet: 34 bots, 9 cron jobs, 659 recorded executions, 203 skills, and $0.0037 of measured spend.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="How I run a 34-bot agent fleet on one PC">
-<meta property="og:description" content="298 commits on top of an open-source agent framework, plus the operations layer that keeps it running unattended — with the numbers taken from the thing itself.">
+<meta property="og:description" content="298 commits on top of an open-source agent framework, plus the operations layer that keeps it running unattended, with the numbers taken from the thing itself.">
 <meta property="og:url" content="https://jrudani21.github.io/case-study-ken.html">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="How I run a 34-bot agent fleet on one PC">
 <meta name="twitter:description" content="298 commits on top of an open-source agent framework, plus the operations layer that keeps it running unattended.">
 <meta name="twitter:image" content="https://jrudani21.github.io/assets/og-card.png">
 <link rel="canonical" href="https://jrudani21.github.io/case-study-ken.html">
-<link rel="icon" href="/favicon.ico" sizes="any">
-<meta name="theme-color" content="#05050a">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#ffffff">
 <meta property="og:site_name" content="Janak Rudani">
 <meta property="og:image" content="https://jrudani21.github.io/assets/og-card.png">
+<meta property="og:image:alt" content="Janak Rudani - statistics, data science and automation">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <script type="application/ld+json">
@@ -25,75 +27,108 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --void: #05050a; --panel: #0a0a12; --surface: #100f16;
-  --text: #f2f2f5; --dim: #9a9aa8; --muted: #565664;
-  --accent: #ff3131; --accent-dim: rgba(255,49,49,0.12);
-  --violet: #59d9ff; --amber: #f5c518; --green: #4ade80;
-  --border: rgba(255,255,255,0.07);
+  --void: #ffffff; --panel: #f4f4f2; --surface: #f4f4f2;
+  --text: #0a0a0a; --dim: #333333; --muted: #6a6a6a;
+  --accent: #e10600; --accent-dim: #fde7e5;
+  --violet: #0a0a0a; --amber: #e10600; --green: #0a0a0a;
+  --border: #d4d4d0; --glow: none;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: var(--void); color: var(--text); font-family: 'Space Grotesk', system-ui, sans-serif; line-height: 1.7; overflow-x: hidden; }
+body { background: var(--void); color: var(--text); font-family: 'Space Grotesk', system-ui, sans-serif; line-height: 1.6; overflow-x: hidden; }
 .wrap { max-width: 880px; margin: 0 auto; padding: 3.5rem 1.4rem 5rem; }
 a { color: var(--violet); text-decoration: none; }
 a:hover { color: var(--accent); }
-.back { font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.back { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 17px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
 .back:hover { color: var(--accent); }
-.eyebrow { font-family: 'VT323', monospace; font-size: 15px; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin: 2.2rem 0 0.7rem; }
-h1 { font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: clamp(1.7rem, 4.4vw, 2.85rem); line-height: 1.12; letter-spacing: -0.01em; }
+.eyebrow { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 17px; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin: 2.2rem 0 0.7rem; }
+h1 { font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: clamp(1.7rem, 4.4vw, 2.85rem); line-height: 1.12; letter-spacing: -0.01em; }
 .dek { color: var(--dim); font-size: 1.06rem; margin-top: 1.1rem; max-width: 720px; }
 .dek b { color: var(--amber); }
 .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin: 2.4rem 0 0.4rem; }
 @media (max-width: 660px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.stat { background: linear-gradient(135deg, rgba(16,16,24,0.95), rgba(10,10,16,0.95)); padding: 1.2rem 1.3rem; }
-.stat b { display: block; font-family: 'VT323', monospace; font-size: 1.9rem; color: var(--accent); line-height: 1.1; }
+.stat { background: var(--panel); padding: 1.2rem 1.3rem; }
+.stat b { display: block; font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 1.9rem; color: var(--accent); line-height: 1.1; }
 .stat span { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.03em; }
 h2 { font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 1.25rem; margin: 3rem 0 0.9rem; }
-h2::before { content: '// '; color: var(--muted); font-family: 'VT323', monospace; }
+h2::before { content: '// '; color: var(--muted); font-family: 'Space Grotesk', system-ui, sans-serif; }
 h3 { font-size: 1.02rem; margin: 1.6rem 0 0.4rem; }
 p { color: var(--dim); margin: 0.75rem 0; }
 p b, li b, td b { color: var(--text); }
-code { font-family: 'VT323', monospace; font-size: 15px; color: var(--violet); background: rgba(255,255,255,0.05); padding: 1px 6px; border-radius: 6px; }
-pre { background: var(--panel); border: 1px solid var(--border); border-left: 2px solid var(--accent); border-radius: 12px; padding: 1.1rem 1.2rem; overflow-x: auto; margin: 1.2rem 0; font-family: 'VT323', monospace; font-size: 15px; line-height: 1.65; color: var(--dim); }
+code { font-family: ui-monospace, 'Cascadia Code', Consolas, monospace; font-size: 17px; color: var(--violet); background: rgba(255,255,255,0.05); padding: 1px 6px; border-radius: 6px; }
+pre { background: var(--panel); border: 1px solid var(--border); border-left: 2px solid var(--accent); border-radius: 12px; padding: 1.1rem 1.2rem; overflow-x: auto; margin: 1.2rem 0; font-family: ui-monospace, 'Cascadia Code', Consolas, monospace; font-size: 17px; line-height: 1.65; color: var(--dim); }
 pre .ok { color: var(--green); } pre .hl { color: var(--amber); } pre .c { color: var(--muted); }
 table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: 0.92rem; }
 th, td { text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--border); color: var(--dim); vertical-align: top; }
-th { font-family: 'VT323', monospace; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 400; }
+th { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 400; }
 td:first-child { color: var(--text); white-space: nowrap; }
 ol, ul { margin: 0.8rem 0 0.8rem 1.3rem; color: var(--dim); }
 li { margin: 0.4rem 0; }
-.card { border: 1px solid var(--border); border-radius: 14px; padding: 1.3rem 1.5rem; background: linear-gradient(135deg, rgba(16,16,24,0.9), rgba(10,10,16,0.9)); margin: 1.1rem 0; }
-.card .tagline { font-family: 'VT323', monospace; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+.card { border: 1px solid var(--border); border-radius: 14px; padding: 1.3rem 1.5rem; background: var(--panel); margin: 1.1rem 0; }
+.card .tagline { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 16px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
 .card p { margin: 0.35rem 0 0; font-size: 0.95rem; }
 .callout { border-left: 2px solid var(--amber); background: rgba(245,197,24,0.05); padding: 0.9rem 1.2rem; border-radius: 0 12px 12px 0; margin: 1.4rem 0; font-size: 0.95rem; color: var(--dim); }
 .callout b { color: var(--amber); }
-figure { margin: 1.6rem 0; border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 1rem; background: linear-gradient(135deg, rgba(16,16,24,0.85), rgba(10,10,16,0.85)); }
-figcaption { font-family: 'VT323', monospace; font-size: 14px; color: var(--muted); text-align: center; margin-top: 0.8rem; letter-spacing: 0.05em; }
+figure { margin: 1.6rem 0; border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 1rem; background: var(--panel); }
+figcaption { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 16px; color: var(--muted); text-align: center; margin-top: 0.8rem; letter-spacing: 0.05em; }
 svg { display: block; width: 100%; height: auto; }
 .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1.6rem 0 0; }
-.tag { font-family: 'VT323', monospace; font-size: 13px; padding: 3px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--dim); }
+.tag { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 16px; padding: 3px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--dim); }
 .tag.hl { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
-.links { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; margin: 1.4rem 0 0; font-family: 'VT323', monospace; font-size: 16px; }
-.foot { margin-top: 3.4rem; padding-top: 1.6rem; border-top: 1px solid var(--border); font-family: 'VT323', monospace; font-size: 15px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: space-between; }
+.links { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; margin: 1.4rem 0 0; font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 18px; }
+.foot { margin-top: 3.4rem; padding-top: 1.6rem; border-top: 1px solid var(--border); font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 17px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: space-between; }
 @media (max-width: 560px) { .wrap { padding-top: 2.4rem; } table { font-size: 0.85rem; } th, td { padding: 0.5rem 0.4rem; } }
 @view-transition { navigation: auto; }
 ::view-transition-old(root) { animation: 0.25s ease both vt-out; }
 ::view-transition-new(root) { animation: 0.4s cubic-bezier(0.22,1,0.36,1) both vt-in; }
 @keyframes vt-out { to { opacity: 0; transform: translateY(-8px); } }
 @keyframes vt-in { from { opacity: 0; transform: translateY(12px); } }
+@media (prefers-reduced-motion: reduce) { ::view-transition-old(root), ::view-transition-new(root) { animation: none; } }
+b, strong { font-weight: 600; }
+html { font-size: 112.5%; }
+/* swiss theme: matches the home page */
+body { background: #fff; color: #0a0a0a; }
+a { color: #0a0a0a; text-decoration: underline; text-decoration-color: #e10600; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: #e10600; }
+.back { color: #6a6a6a; text-decoration: none; }
+.back:hover { color: #e10600; }
+.stats { background: #d4d4d0; border: 0; border-top: 2px solid #0a0a0a; border-radius: 0; }
+.stat { background: #f4f4f2; }
+.stat b { color: #e10600; }
+.card, .callout, pre, figure, figure img, .tag, code, .links, .gate-panel, .gate-verdict, .gate-chip, .gate-run { border-radius: 0; }
+.card { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
+.callout { background: #f4f4f2; border: 0; border-left: 3px solid #e10600; }
+pre { background: #f4f4f2; color: #0a0a0a; border: 0; border-top: 2px solid #0a0a0a; }
+pre .ok { color: #0a0a0a; font-weight: 600; }
+pre .bad { color: #e10600; font-weight: 600; }
+pre .warn { color: #6a6a6a; font-weight: 600; }
+pre .c { color: #6a6a6a; }
+code { background: #ebebe8; color: #0a0a0a; }
+pre code { background: none; }
+th { color: #6a6a6a; }
+.tag { background: #fff; border: 1px solid #0a0a0a; color: #0a0a0a; }
+.gate-panel, .gate-verdict { background: #f4f4f2; border-top: 2px solid #0a0a0a; }
+.gate-chip { background: #fff; border-color: #0a0a0a; color: #0a0a0a; }
+.gate-chip:hover { border-color: #e10600; color: #e10600; }
+.gate-chip.on { background: #e10600; border-color: #e10600; color: #fff; }
+.gate-claim { color: #0a0a0a; }
+.gate-item.warn .gate-badge, .gate-item.warn .gate-code { color: #0a0a0a; }
+.gate-verdict.pass b { color: #0a0a0a; }
+figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
+/* end swiss theme */
 </style>
 </head>
 <body>
-<div class="wrap">
+<main class="wrap">
 
   <a class="back" href="index.html#projects">← back to the imperial archives</a>
 
   <p class="eyebrow">case study // agent engineering // 2026</p>
   <h1>How I run a 34-bot agent fleet on one gaming PC</h1>
   <p class="dek">Ken is my fork of an open-source agent framework. On top of it I built the desktop app, the
-    operations layer and the skills library — then left 34 bots running unattended. Every number below is
+    operations layer and the skills library, then left 34 bots running unattended. Every number below is
     read out of the thing itself: the git history, the cost ledger, the cron database. <b>Including the
     ones that keep me honest.</b></p>
 
@@ -111,7 +146,7 @@ svg { display: block; width: 100%; height: auto; }
   <p>What those 298 commits actually are, by how often I touched the file:</p>
   <table>
     <tr><th>area</th><th>what I did to it</th></tr>
-    <tr><td><code>WORKLOG.md</code></td><td>20 dated entries, 446 lines — the build written down as it happened</td></tr>
+    <tr><td><code>WORKLOG.md</code></td><td>20 dated entries, 446 lines, the build written down as it happened</td></tr>
     <tr><td><code>ken_cli/</code></td><td>web server, CLI surface, banner and branding</td></tr>
     <tr><td><code>apps/desktop/</code></td><td>desktop app work, including English + Chinese i18n and its type layer</td></tr>
     <tr><td><code>agent/</code></td><td>the conversation loop and the auxiliary-model client</td></tr>
@@ -123,24 +158,24 @@ svg { display: block; width: 100%; height: auto; }
   </div>
 
   <h2>The fleet</h2>
-  <p>34 bots organised into 4 fleets with a coordinator each, assigned to six tiers of model — free tiers
+  <p>34 bots organised into 4 fleets with a coordinator each, assigned to six tiers of model, free tiers
     and a <b>locally hosted</b> model first, paid capacity last. The dashboard reads a real ledger rather
     than a mock-up, which is the only reason these numbers exist.</p>
   <table>
     <tr><th>tier</th><th>bots</th><th>what it is</th></tr>
     <tr><td>flash</td><td>17</td><td>cheap hosted models for high-volume work</td></tr>
     <tr><td>pro</td><td>4</td><td>stronger models, reserved for reasoning</td></tr>
-    <tr><td>local</td><td>4</td><td>qwen3:8b on my own GPU — zero marginal cost</td></tr>
+    <tr><td>local</td><td>4</td><td>qwen3:8b on my own GPU, zero marginal cost</td></tr>
     <tr><td>groq / openrouter</td><td>4</td><td>fallback providers when a tier rate-limits</td></tr>
     <tr><td>unassigned</td><td>5</td><td>on-demand agents that pick a tier at call time</td></tr>
   </table>
-  <pre><span class="c"># measured, not estimated — from the fleet cost ledger</span>
+  <pre><span class="c"># measured, not estimated: from the fleet cost ledger</span>
 25 recorded calls   <span class="hl">$0.003721</span> total
 20,046 prompt tokens / 5,363 completion tokens
 7 distinct models, incl. <span class="ok">qwen3:8b running locally</span></pre>
   <p>The cost headline only means something because of the routing rule behind it: try the free and local
     tiers first, escalate to paid providers only when a job needs more than they can give. That rule is
-    also why the ledger is small — most of the fleet's work never reaches a metered API at all.</p>
+    also why the ledger is small; most of the fleet's work never reaches a metered API at all.</p>
 
   <h2>The part that makes it unattended</h2>
   <p>A fleet that only runs when you watch it is a demo. The operations layer is what I built on top:</p>
@@ -151,7 +186,7 @@ svg { display: block; width: 100%; height: auto; }
           <path d="M0,0 L9,4.5 L0,9 z" fill="#565664"/>
         </marker>
       </defs>
-      <g font-family="VT323, monospace" font-size="14" fill="#9a9aa8">
+      <g font-family="Space Grotesk, sans-serif" font-size="14" fill="#9a9aa8">
         <!-- interfaces -->
         <rect x="14" y="26" width="150" height="46" rx="10" fill="#100f16" stroke="rgba(255,255,255,0.12)"/>
         <text x="89" y="46" text-anchor="middle" fill="#f2f2f5">desktop app</text>
@@ -200,25 +235,25 @@ svg { display: block; width: 100%; height: auto; }
   </figure>
   <ol>
     <li><b>9 scheduled jobs</b> (8 enabled) with <b>659 recorded executions</b> in a SQLite history I can query when something looks wrong.</li>
-    <li><b>Watchdogs that stay silent when healthy</b> — a job that pings on success trains you to ignore it. Mine only speak when a check fails.</li>
-    <li><b>Independent verification</b> — the delivery gate that refuses a bad output before it reaches a customer, written up separately on this site.</li>
-    <li><b>One source of truth per tool</b> — two pipelines used to carry their own drifting copy of that gate; now both call the published one.</li>
+    <li><b>Watchdogs that stay silent when healthy</b>: a job that pings on success trains you to ignore it. Mine only speak when a check fails.</li>
+    <li><b>Independent verification</b>: the delivery gate that refuses a bad output before it reaches a customer, written up separately on this site.</li>
+    <li><b>One source of truth per tool</b>: two pipelines used to carry their own drifting copy of that gate; now both call the published one.</li>
   </ol>
 
   <h2>Skills as procedural memory</h2>
   <p>The part I underestimated: <b>203 SKILL.md files across 32 categories</b>, plus 2 plugins. Each one is
     a task I got wrong once and wrote down, so the next run starts from the fix. That library is also why
-    sessions behave consistently — the agent loads the relevant skill before touching a task instead of
+    sessions behave consistently: the agent loads the relevant skill before touching a task instead of
     rediscovering the sharp edges.</p>
 
   <h2>What this adds up to</h2>
   <p>Not "I wrote an agent framework." It is: I forked one, shipped 298 commits of real changes into it,
     built and ran an operations layer that survives unattended, and instrumented it well enough to quote
-    its own spend to six decimal places. The interesting engineering isn't the chatbot — it's everything
+    its own spend to six decimal places. The interesting engineering isn't the chatbot; it's everything
     around it that makes the chatbot something you can leave running while you sleep.</p>
   <div class="callout">
     <b>Read it, then check it.</b> The fleet monitor shows the live dashboard, the docs site shows the
-    system, and the fork is public — the commit count and file history are one click away.
+    system, and the fork is public; the commit count and file history are one click away.
   </div>
 
   <div class="links">
@@ -237,6 +272,6 @@ svg { display: block; width: 100%; height: auto; }
     <span>Janak Rudani · Winnipeg · 2026</span>
   </div>
 
-</div>
+</main>
 </body>
 </html>

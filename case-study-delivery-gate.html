@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-fpxlXGjNQqii7M90X/jwS8MzCF5QJt8G5QneDbUCNMQ='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; base-uri 'none'; form-action 'none'">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Case study: the pipeline that reported success while shipping junk — Janak Rudani</title>
+<title>Case study: the pipeline that reported success while shipping junk | Janak Rudani</title>
 <meta name="description" content="Case study: a nightly lead-gen pipeline reported success while shipping wrong-niche data. How I found it, root-caused it, and built an independent delivery gate.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Case study: the pipeline that reported success while shipping junk">
@@ -14,10 +15,11 @@
 <meta name="twitter:description" content="A manifest said status: ok on a delivery whose rows were 1 of 8 on-target. Two live probes found the redirect; an independent gate now refuses bad deliveries.">
 <meta name="twitter:image" content="https://jrudani21.github.io/assets/og-card.png">
 <link rel="canonical" href="https://jrudani21.github.io/case-study-delivery-gate.html">
-<link rel="icon" href="/favicon.ico" sizes="any">
-<meta name="theme-color" content="#05050a">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#ffffff">
 <meta property="og:site_name" content="Janak Rudani">
 <meta property="og:image" content="https://jrudani21.github.io/assets/og-card.png">
+<meta property="og:image:alt" content="Janak Rudani - statistics, data science and automation">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <script type="application/ld+json">
@@ -25,42 +27,35 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --void: #05050a;
-  --panel: #0a0a12;
-  --surface: #100f16;
-  --text: #f2f2f5;
-  --dim: #9a9aa8;
-  --muted: #565664;
-  --accent: #ff3131;
-  --accent-dim: rgba(255,49,49,0.12);
-  --violet: #59d9ff;
-  --amber: #f5c518;
-  --border: rgba(255,255,255,0.07);
-  --glow: 0 0 24px rgba(255,49,49,0.3);
+  --void: #ffffff; --panel: #f4f4f2; --surface: #f4f4f2;
+  --text: #0a0a0a; --dim: #333333; --muted: #6a6a6a;
+  --accent: #e10600; --accent-dim: #fde7e5;
+  --violet: #0a0a0a; --amber: #e10600; --green: #0a0a0a;
+  --border: #d4d4d0; --glow: none;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   background: var(--void); color: var(--text);
   font-family: 'Space Grotesk', system-ui, sans-serif;
-  line-height: 1.7; overflow-x: hidden;
+  line-height: 1.6; overflow-x: hidden;
 }
 .wrap { max-width: 860px; margin: 0 auto; padding: 3.5rem 1.4rem 5rem; }
 a { color: var(--violet); text-decoration: none; }
 a:hover { color: var(--accent); }
 .back {
-  font-family: 'VT323', monospace; font-size: 15px;
+  font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 17px;
   color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase;
 }
 .back:hover { color: var(--accent); }
 .eyebrow {
-  font-family: 'VT323', monospace; font-size: 15px; color: var(--accent);
+  font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 17px; color: var(--accent);
   letter-spacing: 0.14em; text-transform: uppercase; margin: 2.2rem 0 0.7rem;
 }
 h1 {
-  font-family: 'Unbounded', sans-serif; font-weight: 700;
+  font-family: 'Unbounded', sans-serif; font-weight: 600;
   font-size: clamp(1.7rem, 4.4vw, 2.9rem); line-height: 1.12; letter-spacing: -0.01em;
 }
 .dek { color: var(--dim); font-size: 1.06rem; margin-top: 1.1rem; max-width: 700px; }
@@ -71,9 +66,9 @@ h1 {
   border-radius: 14px; overflow: hidden; margin: 2.4rem 0 0.4rem;
 }
 @media (max-width: 660px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.stat { background: linear-gradient(135deg, rgba(16,16,24,0.95), rgba(10,10,16,0.95)); padding: 1.2rem 1.3rem; }
+.stat { background: var(--panel); padding: 1.2rem 1.3rem; }
 .stat b {
-  display: block; font-family: 'VT323', monospace; font-size: 1.9rem;
+  display: block; font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 1.9rem;
   color: var(--accent); line-height: 1.1;
 }
 .stat span { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.03em; }
@@ -81,18 +76,18 @@ h2 {
   font-family: 'Unbounded', sans-serif; font-weight: 600;
   font-size: 1.25rem; margin: 3rem 0 0.9rem; letter-spacing: -0.005em;
 }
-h2::before { content: '// '; color: var(--muted); font-family: 'VT323', monospace; }
+h2::before { content: '// '; color: var(--muted); font-family: 'Space Grotesk', system-ui, sans-serif; }
 h3 { font-size: 1.02rem; margin: 1.6rem 0 0.4rem; color: var(--text); }
 p { color: var(--dim); margin: 0.75rem 0; }
 p b, li b { color: var(--text); }
 code {
-  font-family: 'VT323', monospace; font-size: 15px; color: var(--violet);
+  font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 17px; color: var(--violet);
   background: rgba(255,255,255,0.05); padding: 1px 6px; border-radius: 6px;
 }
 pre {
   background: var(--panel); border: 1px solid var(--border); border-left: 2px solid var(--accent);
   border-radius: 12px; padding: 1.1rem 1.2rem; overflow-x: auto; margin: 1.2rem 0;
-  font-family: 'VT323', monospace; font-size: 15px; line-height: 1.65; color: var(--dim);
+  font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 17px; line-height: 1.65; color: var(--dim);
 }
 pre .ok { color: var(--violet); }
 pre .bad { color: var(--accent); }
@@ -101,11 +96,11 @@ ol, ul { margin: 0.8rem 0 0.8rem 1.3rem; color: var(--dim); }
 li { margin: 0.4rem 0; }
 .card {
   border: 1px solid var(--border); border-radius: 14px; padding: 1.3rem 1.5rem;
-  background: linear-gradient(135deg, rgba(16,16,24,0.9), rgba(10,10,16,0.9));
+  background: var(--panel);
   margin: 1.1rem 0;
 }
 .card .tagline {
-  font-family: 'VT323', monospace; font-size: 14px; letter-spacing: 0.1em;
+  font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 16px; letter-spacing: 0.1em;
   text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem;
 }
 .card p { margin: 0.35rem 0 0; font-size: 0.95rem; }
@@ -117,14 +112,14 @@ li { margin: 0.4rem 0; }
 .callout b { color: var(--amber); }
 .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1.6rem 0 0; }
 .tag {
-  font-family: 'VT323', monospace; font-size: 13px; padding: 3px 10px;
+  font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 16px; padding: 3px 10px;
   border: 1px solid var(--border); border-radius: 20px; color: var(--dim);
 }
 .tag.hl { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
-.links { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; margin: 1.4rem 0 0; font-family: 'VT323', monospace; font-size: 16px; }
+.links { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; margin: 1.4rem 0 0; font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 18px; }
 .foot {
   margin-top: 3.4rem; padding-top: 1.6rem; border-top: 1px solid var(--border);
-  font-family: 'VT323', monospace; font-size: 15px; color: var(--muted);
+  font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 17px; color: var(--muted);
   display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: space-between;
 }
 @media (max-width: 560px) { .wrap { padding-top: 2.4rem; } }
@@ -133,10 +128,82 @@ li { margin: 0.4rem 0; }
 ::view-transition-new(root) { animation: 0.4s cubic-bezier(0.22,1,0.36,1) both vt-in; }
 @keyframes vt-out { to { opacity: 0; transform: translateY(-8px); } }
 @keyframes vt-in { from { opacity: 0; transform: translateY(12px); } }
+@media (prefers-reduced-motion: reduce) { ::view-transition-old(root), ::view-transition-new(root) { animation: none; } }
+b, strong { font-weight: 600; }
+html { font-size: 112.5%; }
+/* swiss theme: matches the home page */
+body { background: #fff; color: #0a0a0a; }
+a { color: #0a0a0a; text-decoration: underline; text-decoration-color: #e10600; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: #e10600; }
+.back { color: #6a6a6a; text-decoration: none; }
+.back:hover { color: #e10600; }
+.stats { background: #d4d4d0; border: 0; border-top: 2px solid #0a0a0a; border-radius: 0; }
+.stat { background: #f4f4f2; }
+.stat b { color: #e10600; }
+.card, .callout, pre, figure, figure img, .tag, code, .links, .gate-panel, .gate-verdict, .gate-chip, .gate-run { border-radius: 0; }
+.card { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
+.callout { background: #f4f4f2; border: 0; border-left: 3px solid #e10600; }
+pre { background: #f4f4f2; color: #0a0a0a; border: 0; border-top: 2px solid #0a0a0a; }
+pre .ok { color: #0a0a0a; font-weight: 600; }
+pre .bad { color: #e10600; font-weight: 600; }
+pre .warn { color: #6a6a6a; font-weight: 600; }
+pre .c { color: #6a6a6a; }
+code { background: #ebebe8; color: #0a0a0a; }
+pre code { background: none; }
+th { color: #6a6a6a; }
+.tag { background: #fff; border: 1px solid #0a0a0a; color: #0a0a0a; }
+.gate-panel, .gate-verdict { background: #f4f4f2; border-top: 2px solid #0a0a0a; }
+.gate-chip { background: #fff; border-color: #0a0a0a; color: #0a0a0a; }
+.gate-chip:hover { border-color: #e10600; color: #e10600; }
+.gate-chip.on { background: #e10600; border-color: #e10600; color: #fff; }
+.gate-claim { color: #0a0a0a; }
+.gate-item.warn .gate-badge, .gate-item.warn .gate-code { color: #0a0a0a; }
+.gate-verdict.pass b { color: #0a0a0a; }
+figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
+/* end swiss theme */
+/* gate demo */
+.gate { margin: 1.2rem 0 0.4rem; }
+.gate-pick { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 1rem; }
+.gate-chip { font: inherit; font-size: 1rem; font-weight: 500; min-height: 44px; padding: 0.4rem 1rem; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; transition: background-color 150ms ease, border-color 150ms ease; }
+.gate-chip:hover { border-color: var(--accent); }
+.gate-chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.gate-story { color: var(--dim); margin: 0 0 1rem; max-width: 62ch; }
+.gate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+@media (max-width: 660px) { .gate-grid { grid-template-columns: 1fr; } }
+.gate-panel { background: var(--surface); border-radius: 12px; padding: 1rem 1.2rem; margin-bottom: 1rem; }
+.gate-grid .gate-panel { margin-bottom: 0; }
+.gate-panel h3 { font-size: 1rem; font-weight: 600; color: var(--muted); margin: 0 0 0.6rem; }
+.gate dl { display: grid; grid-template-columns: max-content 1fr; gap: 0.25rem 1rem; }
+.gate dt { color: var(--muted); }
+.gate dd { color: var(--text); overflow-wrap: anywhere; }
+.gate-claim { color: var(--amber); font-weight: 600; }
+.gate-note { color: var(--muted); margin-top: 0.4rem; }
+.gate-scroll { overflow-x: auto; }
+.gate table { border-collapse: collapse; font-size: 0.95rem; }
+.gate th, .gate td { text-align: left; padding: 0.35rem 1rem 0.35rem 0; white-space: nowrap; }
+.gate th { color: var(--muted); font-weight: 600; }
+.gate-run { font: inherit; font-weight: 600; font-size: 1.05rem; min-height: 48px; padding: 0.5rem 1.6rem; border: 0; border-radius: 10px; background: var(--accent); color: #fff; cursor: pointer; margin: 0.4rem 0 1.2rem; }
+.gate-run:disabled { opacity: 0.55; cursor: default; }
+.gate-list { list-style: none; display: grid; gap: 0.6rem; margin-bottom: 1rem; }
+.gate-item { display: grid; grid-template-columns: 4.5rem max-content 1fr; gap: 0.2rem 0.9rem; align-items: baseline; }
+@media (max-width: 660px) { .gate-item { grid-template-columns: 4.5rem 1fr; } .gate-msg { grid-column: 1 / -1; } }
+.gate-badge { font-weight: 600; }
+.gate-item.fail .gate-badge, .gate-item.fail .gate-code { color: var(--accent); }
+.gate-item.warn .gate-badge, .gate-item.warn .gate-code { color: var(--amber); }
+.gate-msg { color: var(--dim); overflow-wrap: anywhere; }
+.gate-facts { margin: 0 0 1rem; font-size: 0.95rem; }
+.gate-verdict { padding: 1rem 1.2rem; border-radius: 12px; background: var(--surface); }
+.gate-verdict b { display: block; font-family: 'Unbounded', sans-serif; font-size: 1.4rem; }
+.gate-verdict.fail b { color: var(--accent); }
+.gate-verdict.pass b { color: var(--violet); }
+.gate-in { opacity: 0; transform: translateY(8px); transition: opacity 200ms ease-out, transform 200ms ease-out; }
+.gate-in.show { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .gate-in, .gate-chip { transition: none; transform: none; } }
+/* end gate demo */
 </style>
 </head>
 <body>
-<div class="wrap">
+<main class="wrap">
 
   <a class="back" href="index.html#projects">← back to the imperial archives</a>
 
@@ -163,11 +230,11 @@ li { margin: 0.4rem 0; }
     <b>it is a self-report, and nothing independently checked it.</b></p>
 
   <h2>What was actually wrong</h2>
-  <p>Three separate faults had piled up, and they had nothing to do with each other — which is why the
+  <p>Three separate faults had piled up, and they had nothing to do with each other, which is why the
     first fix attempt (a rebuild of the job) didn't help.</p>
 
   <div class="card">
-    <p class="tagline">fault 1 — the data was wrong</p>
+    <p class="tagline">fault 1: the data was wrong</p>
     <p>An order for <b>pest control in New York</b> was delivered as orthodontists, an escape room and a
       moving company. One of its eight rows was on-target. An order for <b>moving companies</b> received
       the same buildings back. The cause wasn't the scraper's parsing: the search URL carried a state
@@ -178,7 +245,7 @@ GET /search/new-york/pest-control      <span class="ok">→ 200, 16 pest-control
   </div>
 
   <div class="card">
-    <p class="tagline">fault 2 — success was unfalsifiable</p>
+    <p class="tagline">fault 2: success was unfalsifiable</p>
     <p>The nightly job ran a pipeline that <b>exits 0 after scraping zero records</b> and writes no file
       at all. The return code could not distinguish "delivered 500 leads" from "delivered nothing", so
       the order was filed as completed either way. A job that cannot fail is not a job, it's a
@@ -186,17 +253,17 @@ GET /search/new-york/pest-control      <span class="ok">→ 200, 16 pest-control
   </div>
 
   <div class="card">
-    <p class="tagline">fault 3 — the failures were invisible</p>
+    <p class="tagline">fault 3: the failures were invisible</p>
     <p>One job delivered to a local log nobody read, and another had been pinned to a model that no
       longer existed. Between them they failed <b>16 times in nine days</b> with no notification
-      anywhere, because there was no failure alert to receive — only a delivery channel.</p>
+      anywhere, because there was no failure alert to receive, only a delivery channel.</p>
   </div>
 
   <h2>How I found it</h2>
   <p>Not by reading the code first, but by asking the durable run history what had actually happened.
     The job table said "ok" in places, the execution records said otherwise, and one delivery's own
     rows contradicted its manifest:</p>
-<pre><span class="bad">FAIL</span> delivery verification — order fvr-20260831-cronlive01
+<pre><span class="bad">FAIL</span> delivery verification: order fvr-20260831-cronlive01
   <span class="bad">FAIL</span> NICHE_MOSTLY_WRONG: only 1/8 rows match the ordered niche
        delivered {'dental-care': 1, 'entertainment-industry': 1, 'moving-and-storage': 1}</pre>
   <div class="callout">
@@ -207,9 +274,93 @@ GET /search/new-york/pest-control      <span class="ok">→ 200, 16 pest-control
     produced nothing. Each one became a test case rather than a story.
   </div>
 
+  
+  
+  <!-- gate-demo -->
+  <h2>Run the gate</h2>
+  <p>Pick a delivery, then run the check. Each scenario is a real run of the unmodified
+    <a href="https://github.com/Jrudani21/delivery-gate" target="_blank" rel="noopener">delivery_gate.py</a> on a modified copy of the repo's bundled
+    sample. File paths are shortened and long dashes in its messages are shown as colons. Nothing below is simulated.</p>
+  <div class="gate" id="gate">
+    <div class="gate-pick" id="gatePick" role="group" aria-label="Choose a delivery"></div>
+    <p class="gate-story" id="gateStory"></p>
+    <div class="gate-grid">
+      <div class="gate-panel"><h3>The order</h3><dl id="gateOrder"></dl></div>
+      <div class="gate-panel"><h3>The manifest says</h3><div id="gateManifest"></div></div>
+    </div>
+    <div class="gate-panel"><h3>What was delivered</h3><div class="gate-scroll"><table id="gateRows"></table></div></div>
+    <button type="button" class="gate-run" id="gateRun">Run the gate</button>
+    <div class="gate-out" id="gateOut" aria-live="polite"></div>
+    <noscript><p>This demo needs JavaScript. The failing run above shows what the gate prints.</p></noscript>
+  </div>
+  <script type="application/json" id="gate-data">[{"key": "clean", "label": "Clean delivery", "story": "Two roofers in Chicago, manifest and rows agree.", "exit": 0, "order": {"niche": "roofers", "location": "Chicago, IL", "target": 2, "fields": "business_name, phone, address, website", "source": "sample"}, "manifest": {"status": "ok", "records": 2}, "header": ["business_name", "phone", "address", "website", "source_url"], "rows": [["Sample Roofer One", "+13125550101", "1 Example St Chicago", "sample-roofer-one.example.com", "https://www.hotfrog.com/company/aaa111/sample-roofer-one/chicago/roofing"], ["Sample Roofer Two", "+13125550102", "2 Example St Chicago", "sample-roofer-two.example.com", "https://www.hotfrog.com/company/bbb222/sample-roofer-two/chicago/roofing"]], "fails": [], "warns": [{"code": "DEMO_DATA_SAMPLE", "msg": "0 fake-555 phones, 2 example.com domains, 0 rows enrich_source=sample"}], "facts": [{"k": "deliverables", "v": "['clean_leads.csv']"}, {"k": "columns", "v": "5"}, {"k": "records_in_csv", "v": "2"}, {"k": "contactable_pct", "v": "100.0"}, {"k": "niche_source", "v": "source-url"}, {"k": "source_categories", "v": "{'roofing': 2}"}]}, {"key": "wrong-niche", "label": "Wrong niche, manifest says ok", "story": "The scraper drifted to another category. The manifest still reports success.", "exit": 1, "order": {"niche": "roofers", "location": "Chicago, IL", "target": 2, "fields": "business_name, phone, address, website", "source": "sample"}, "manifest": {"status": "ok", "records": 2}, "header": ["business_name", "phone", "address", "website", "source_url"], "rows": [["Not A Roofer", "+13125550101", "1 Example St Chicago", "sample-roofer-one.example.com", "https://www.hotfrog.com/company/aaa111/sample-roofer-one/chicago/dental-care"], ["Not A Roofer", "+13125550102", "2 Example St Chicago", "sample-roofer-two.example.com", "https://www.hotfrog.com/company/bbb222/sample-roofer-two/chicago/dental-care"]], "fails": [{"code": "NICHE_MISMATCH", "msg": "no delivered row matches the ordered niche: niche 'roofers' expects ['roofer', 'roofing', 'roofs-and-ceilings', 'roofs-ceilings']; delivered {'dental-care': 2}"}], "warns": [{"code": "DEMO_DATA_SAMPLE", "msg": "0 fake-555 phones, 2 example.com domains, 0 rows enrich_source=sample"}], "facts": [{"k": "deliverables", "v": "['wrong-niche_leads.csv']"}, {"k": "columns", "v": "5"}, {"k": "records_in_csv", "v": "2"}, {"k": "contactable_pct", "v": "100.0"}, {"k": "niche_source", "v": "source-url"}, {"k": "source_categories", "v": "{'dental-care': 2}"}]}, {"key": "masked-phones", "label": "Phones masked", "story": "Numbers were redacted before delivery.", "exit": 1, "order": {"niche": "roofers", "location": "Chicago, IL", "target": 2, "fields": "business_name, phone, address, website", "source": "sample"}, "manifest": {"status": "ok", "records": 2}, "header": ["business_name", "phone", "address", "website", "source_url"], "rows": [["Sample Roofer One", "+121****8235", "1 Example St Chicago", "sample-roofer-one.example.com", "https://www.hotfrog.com/company/aaa111/sample-roofer-one/chicago/roofing"], ["Sample Roofer Two", "+121****8235", "2 Example St Chicago", "sample-roofer-two.example.com", "https://www.hotfrog.com/company/bbb222/sample-roofer-two/chicago/roofing"]], "fails": [{"code": "REDACTED_PHONE", "msg": "2/2 rows have masked phone (e.g. '+121****8235'): unusable lead data"}, {"code": "DUPLICATES", "msg": "1 duplicate phone values (e.g. ['+121****8235'])"}], "warns": [{"code": "DEMO_DATA_SAMPLE", "msg": "0 fake-555 phones, 2 example.com domains, 0 rows enrich_source=sample"}], "facts": [{"k": "deliverables", "v": "['masked-phones_leads.csv']"}, {"k": "columns", "v": "5"}, {"k": "records_in_csv", "v": "2"}, {"k": "contactable_pct", "v": "100.0"}, {"k": "niche_source", "v": "source-url"}, {"k": "source_categories", "v": "{'roofing': 2}"}]}, {"key": "no-file", "label": "Nothing delivered", "story": "The job exited 0 after scraping zero records and wrote no file.", "exit": 1, "order": {"niche": "roofers", "location": "Chicago, IL", "target": 2, "fields": "business_name, phone, address, website", "source": "sample"}, "manifest": {"status": "ok", "records": 0}, "header": ["business_name", "phone", "address", "website", "source_url"], "rows": [["Sample Roofer One", "+13125550101", "1 Example St Chicago", "sample-roofer-one.example.com", "https://www.hotfrog.com/company/aaa111/sample-roofer-one/chicago/roofing"], ["Sample Roofer Two", "+13125550102", "2 Example St Chicago", "sample-roofer-two.example.com", "https://www.hotfrog.com/company/bbb222/sample-roofer-two/chicago/roofing"]], "fails": [{"code": "NO_DELIVERABLE", "msg": "no CSV in deliveries/no-file"}, {"code": "FORMAT_MISMATCH", "msg": "order asked 'csv', delivered nothing"}], "warns": [], "facts": [{"k": "deliverables", "v": "none"}]}, {"key": "too-few", "label": "Too few rows", "story": "Ordered 2 records, delivered 1. On this sample order the gate only warns; on a paid order the same shortfall is a failure.", "exit": 0, "order": {"niche": "roofers", "location": "Chicago, IL", "target": 2, "fields": "business_name, phone, address, website", "source": "sample"}, "manifest": {"status": "ok", "records": 1}, "header": ["business_name", "phone", "address", "website", "source_url"], "rows": [["Sample Roofer One", "+13125550101", "1 Example St Chicago", "sample-roofer-one.example.com", "https://www.hotfrog.com/company/aaa111/sample-roofer-one/chicago/roofing"]], "fails": [], "warns": [{"code": "RECORDS_SHORT_SAMPLE", "msg": "target 2 records, delivered 1"}, {"code": "DEMO_DATA_SAMPLE", "msg": "0 fake-555 phones, 1 example.com domains, 0 rows enrich_source=sample"}], "facts": [{"k": "deliverables", "v": "['too-few_leads.csv']"}, {"k": "columns", "v": "5"}, {"k": "records_in_csv", "v": "1"}, {"k": "contactable_pct", "v": "100.0"}, {"k": "niche_source", "v": "source-url"}, {"k": "source_categories", "v": "{'roofing': 1}"}]}, {"key": "duplicates", "label": "Duplicate phone numbers", "story": "Two rows share one number.", "exit": 1, "order": {"niche": "roofers", "location": "Chicago, IL", "target": 2, "fields": "business_name, phone, address, website", "source": "sample"}, "manifest": {"status": "ok", "records": 2}, "header": ["business_name", "phone", "address", "website", "source_url"], "rows": [["Sample Roofer One", "+13125550101", "1 Example St Chicago", "sample-roofer-one.example.com", "https://www.hotfrog.com/company/aaa111/sample-roofer-one/chicago/roofing"], ["Sample Roofer Two", "+13125550101", "2 Example St Chicago", "sample-roofer-two.example.com", "https://www.hotfrog.com/company/bbb222/sample-roofer-two/chicago/roofing"]], "fails": [{"code": "DUPLICATES", "msg": "1 duplicate phone values (e.g. ['+13125550101'])"}], "warns": [{"code": "DEMO_DATA_SAMPLE", "msg": "0 fake-555 phones, 2 example.com domains, 0 rows enrich_source=sample"}], "facts": [{"k": "deliverables", "v": "['duplicates_leads.csv']"}, {"k": "columns", "v": "5"}, {"k": "records_in_csv", "v": "2"}, {"k": "contactable_pct", "v": "100.0"}, {"k": "niche_source", "v": "source-url"}, {"k": "source_categories", "v": "{'roofing': 2}"}]}, {"key": "row-count-lie", "label": "Manifest overstates rows", "story": "The manifest claims 5 rows. The CSV holds 2.", "exit": 1, "order": {"niche": "roofers", "location": "Chicago, IL", "target": 2, "fields": "business_name, phone, address, website", "source": "sample"}, "manifest": {"status": "ok", "records": 5}, "header": ["business_name", "phone", "address", "website", "source_url"], "rows": [["Sample Roofer One", "+13125550101", "1 Example St Chicago", "sample-roofer-one.example.com", "https://www.hotfrog.com/company/aaa111/sample-roofer-one/chicago/roofing"], ["Sample Roofer Two", "+13125550102", "2 Example St Chicago", "sample-roofer-two.example.com", "https://www.hotfrog.com/company/bbb222/sample-roofer-two/chicago/roofing"]], "fails": [{"code": "ROWCOUNT_MISMATCH", "msg": "manifest claims 5, CSV holds 2"}], "warns": [{"code": "DEMO_DATA_SAMPLE", "msg": "0 fake-555 phones, 2 example.com domains, 0 rows enrich_source=sample"}], "facts": [{"k": "deliverables", "v": "['row-count-lie_leads.csv']"}, {"k": "columns", "v": "5"}, {"k": "records_in_csv", "v": "2"}, {"k": "contactable_pct", "v": "100.0"}, {"k": "niche_source", "v": "source-url"}, {"k": "source_categories", "v": "{'roofing': 2}"}]}]</script>
+  <script>
+(function () {
+  var data = JSON.parse(document.getElementById('gate-data').textContent);
+  var pick = document.getElementById('gatePick'), story = document.getElementById('gateStory'),
+      orderEl = document.getElementById('gateOrder'), manEl = document.getElementById('gateManifest'),
+      rowsEl = document.getElementById('gateRows'), runBtn = document.getElementById('gateRun'), outEl = document.getElementById('gateOut');
+  var cur = null, timers = [], reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+  function clearOut() { timers.forEach(clearTimeout); timers = []; outEl.textContent = ''; }
+  var btns = data.map(function (d) {
+    var b = el('button', 'gate-chip', d.label); b.type = 'button';
+    b.addEventListener('click', function () { choose(d.key); }); pick.appendChild(b); return b;
+  });
+  function choose(key) {
+    cur = data.filter(function (d) { return d.key === key; })[0];
+    data.forEach(function (d, i) { btns[i].classList.toggle('on', d.key === key); btns[i].setAttribute('aria-pressed', d.key === key); });
+    story.textContent = cur.story;
+    orderEl.textContent = '';
+    [['niche', cur.order.niche], ['location', cur.order.location], ['records ordered', cur.order.target], ['fields', cur.order.fields], ['order type', cur.order.source]].forEach(function (p) {
+      orderEl.appendChild(el('dt', null, p[0])); orderEl.appendChild(el('dd', null, String(p[1])));
+    });
+    manEl.textContent = '';
+    var st = el('p', 'gate-claim', 'status: ' + cur.manifest.status); manEl.appendChild(st);
+    manEl.appendChild(el('p', null, 'records_delivered: ' + cur.manifest.records));
+    manEl.appendChild(el('p', 'gate-note', 'The producer wrote this about its own work.'));
+    rowsEl.textContent = '';
+    if (cur.rows.length) {
+      var tr = el('tr'); cur.header.forEach(function (h) { tr.appendChild(el('th', null, h)); }); rowsEl.appendChild(tr);
+      cur.rows.forEach(function (r) { var t = el('tr'); r.forEach(function (c) { t.appendChild(el('td', null, c)); }); rowsEl.appendChild(t); });
+    } else { var e = el('tr'); e.appendChild(el('td', null, 'no file was written')); rowsEl.appendChild(e); }
+    clearOut(); runBtn.disabled = false;
+  }
+  function runGate() {
+    if (!cur) return;
+    clearOut(); runBtn.disabled = true;
+    var items = cur.fails.map(function (f) { return ['FAIL', f]; }).concat(cur.warns.map(function (w) { return ['WARN', w]; }));
+    var list = el('ol', 'gate-list'); outEl.appendChild(list);
+    var nodes = items.map(function (it) {
+      var li = el('li', 'gate-item ' + it[0].toLowerCase());
+      li.appendChild(el('span', 'gate-badge', it[0])); li.appendChild(el('span', 'gate-code', it[1].code)); li.appendChild(el('span', 'gate-msg', it[1].msg));
+      list.appendChild(li); return li;
+    });
+    var facts = el('dl', 'gate-facts');
+    cur.facts.forEach(function (f) { facts.appendChild(el('dt', null, f.k)); facts.appendChild(el('dd', null, f.v)); });
+    var pass = cur.exit === 0;
+    var verdict = el('div', 'gate-verdict ' + (pass ? 'pass' : 'fail'));
+    verdict.appendChild(el('b', null, pass ? (cur.warns.length ? 'PASS, with warnings' : 'PASS') : 'FAIL'));
+    var line = cur.manifest.status === 'ok' && !pass ? 'The manifest said status ok. The gate refused it anyway.' : (pass ? 'Manifest and rows agree.' : 'Exit code ' + cur.exit + '.');
+    verdict.appendChild(el('span', null, line));
+    var seq = nodes.concat([facts, verdict]);
+    seq.forEach(function (n, i) {
+      if (i >= nodes.length) outEl.appendChild(n);
+      n.classList.add('gate-in');
+      if (reduce) { n.classList.add('show'); return; }
+      timers.push(setTimeout(function () { n.classList.add('show'); }, 60 * (i + 1)));
+    });
+    timers.push(setTimeout(function () { runBtn.disabled = false; }, reduce ? 0 : 60 * (seq.length + 1) + 200));
+  }
+  runBtn.addEventListener('click', runGate);
+  choose(data[1].key);
+})();
+</script>
+<!-- /gate-demo -->
+  
   <h2>The fix</h2>
   <p>An independent gate that reads the <b>order</b>, reads the <b>delivery</b>, and refuses to take the
-    manifest's word for it. It fails on 16 conditions — wrong or partially-wrong niche, a manifest that
+    manifest's word for it. It fails on 16 conditions: wrong or partially-wrong niche, a manifest that
     lies about its own row count, masked phone numbers, fabricated sample data reaching a real order,
     duplicates, uncontactable rows, a missing deliverable, a format mismatch, an ordered column that
     isn't there. It warns on the softer signals, like emails shipped without provenance.</p>
@@ -223,18 +374,17 @@ GET /search/new-york/pest-control      <span class="ok">→ 200, 16 pest-control
 <pre>before   1/8 rows on-target   <span class="bad">manifest: status ok</span>
 after    8/8 rows on-target   <span class="ok">gate: PASS on a real scrape</span>
 tests    11/11 cases          <span class="ok">plus 4 verified failure branches</span></pre>
-  <p>The two real deliveries on disk are still there and still fail the gate — which is the correct
+  <p>The two real deliveries on disk are still there and still fail the gate, which is the correct
     answer for a historical artefact that was wrong.</p>
 
   <h2>What this means if you run automation</h2>
   <p>Every unattended pipeline eventually reports success for something it didn't do. The question is
     whether anything checks. If your delivery marks itself green, nobody will notice the day the rows
-    stop matching the order — and the person who finds out will be your customer.</p>
+    stop matching the order, and the person who finds out will be your customer.</p>
   <p>I build these checks for lead data, scraping pipelines and scheduled jobs, and I publish the tool
     this case study is about:</p>
-  <p><a href="https://github.com/Jrudani21/delivery-gate" target="_blank" rel="noopener">github.com/Jrudani21/delivery-gate ↗</a>
-    — MIT licensed, standard library only, with the eleven test cases and two runnable samples.</p>
-  <p>The decision behind that build is written up too &mdash; a source-checked note on what makes a
+  <p><a href="https://github.com/Jrudani21/delivery-gate" target="_blank" rel="noopener">github.com/Jrudani21/delivery-gate ↗</a>: MIT licensed, standard library only, with the eleven test cases and two runnable samples.</p>
+  <p>The decision behind that build is written up too: a source-checked note on what makes a
     project worth showing, every claim quoted verbatim from primary sources and verified against the
     fetched page text:
     <a href="https://github.com/Jrudani21/Jrudani21.github.io/blob/main/research/building-good-projects.md" target="_blank" rel="noopener">research/building-good-projects.md &nearr;</a></p>
@@ -255,6 +405,6 @@ tests    11/11 cases          <span class="ok">plus 4 verified failure branches<
     <span>Janak Rudani · Winnipeg · 2026-09-10</span>
   </div>
 
-</div>
+</main>
 </body>
 </html>

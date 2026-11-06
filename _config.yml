@@ -14,3 +14,6 @@ exclude:
   - PRD.md
   - SECURITY.md
   - TESTING.md
+  # Not part of the site.
+  - new-project.py
+  - research

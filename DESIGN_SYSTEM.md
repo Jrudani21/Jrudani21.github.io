@@ -1,32 +1,31 @@
 # Design system - portfolio
 
 All styling is inline in each HTML file's `<style>` block; there is no shared stylesheet,
-Tailwind, or CSS build. Tokens are duplicated (not imported) across `index.html` and the two
+Tailwind, or CSS build. Tokens are duplicated (not imported) across `index.html` and the five
 case studies, so a token change must be made in each file.
 
 ## Theme
 
-Dark only ("a terminal that got feelings" per the comment at the top of `index.html`'s
-`<style>`). `<meta name="theme-color" content="#05050a">`. No light-mode tokens exist.
+One theme: Swiss. White ground, black ink, a single red accent, flat grey panels, square corners, no gradients,
+no shadows, no blur, no emoji. `<html class="swiss">` carries the rules; the dark base tokens that remain in `:root` are
+only the fallback the Swiss rules override. `<meta name="theme-color" content="#ffffff">`. The case studies use the same
+tokens directly (white `--void`, `#f4f4f2` panels).
 
 ## Colour tokens (`:root` in `index.html`)
 
 | Token | Value | Use (observed) |
 |---|---|---|
-| `--void` | `#05050a` | page background, scrollbar track |
-| `--panel` | `#0a0a12` | panels |
-| `--surface` | `#100f16` | cards |
-| `--elevated` | `#181624` | raised surfaces |
-| `--text` | `#f2f2f5` | body text |
-| `--dim` | `#9a9aa8` | secondary text (project descriptions, modal copy) |
-| `--muted` | `#565664` | tertiary text, private-repo card hover |
-| `--accent` / `--red` | `#ff3131` | primary accent, hover borders, highlighted tags |
-| `--accent-dim` | `rgba(255,49,49,0.12)` | highlighted tag background |
-| `--violet` | `#59d9ff` | secondary accent (note: the value is cyan despite the name) |
-| `--amber` | `#f5c518` | jokes/stat highlights, private-repo links |
-| `--border` | `rgba(255,255,255,0.07)` | hairline borders |
-| `--ring` | `rgba(255,49,49,0.18)` | focus/hover ring |
-| `--glow` | `0 0 24px rgba(255,49,49,0.3)` | hover glow shadow |
+| `--void` | `#ffffff` | page background |
+| `--panel` | `#f4f4f2` | flat grey panels and cards |
+| `--surface` / `--elevated` | `#ffffff` | raised surfaces |
+| `--text` | `#0a0a0a` | body text |
+| `--dim` | `#333333` | secondary text |
+| `--muted` | `#6a6a6a` | tertiary text |
+| `--accent` / `--red` | `#e10600` | the one accent: figures, links on hover, active chips |
+| `--accent-dim` | `#fde7e5` | highlighted tag background |
+| `--violet` | `#0a0a0a` | ink (kept as a name for older rules) |
+| `--amber` | `#e10600` | alias of the accent |
+| `--border` | `#d4d4d0` | hairline borders |
 
 `case-study-delivery-gate.html` and `case-study-ken.html` redeclare the same values (minus
 `--elevated`, `--red`, `--ring`); `case-study-ken.html` adds `--green: #4ade80`.
@@ -51,10 +50,10 @@ Headings use `clamp()` for fluid sizing (e.g. `.modal h2 { font-size: clamp(2.5r
 - `.project` card (+ `.project-num`, `.project-side`, `.project-score`, `.project-link`);
   `.project.is-private` variant with dashed border and amber link.
 - `.tag` / `.tag.hl` pill tags.
-- `.float-btn` floating action buttons (sound, compliment, panic).
+- `.float-btn` floating action buttons: square 44px Lucide icon buttons with real tooltips (recruiter mode, sound, compliment, panic).
 - `.modal` / `.modal.active` / `.modal-close` full-screen overlay.
 - `.ticker-wrap` / `.ticker` scrolling marquee (pauses on hover).
-- `.section-title`, `.gradient-text`, `.band-dark` / `.band-inner` section bands.
+- `.section-title`, `.gradient-text` (now a solid accent), `.band-dark` / `.band-inner` section bands.
 - `.terminal-widget`, `.terminal-body`, `.term-input` fake terminal.
 - `.fade-in`, `.stagger` reveal-on-scroll helpers.
 
@@ -74,3 +73,10 @@ Most common radii: `10px`, `16px`, `50%` (circles).
 `index.html` (`:root` lines 35-51, component CSS lines 100-900, media queries),
 `case-study-delivery-gate.html` and `case-study-ken.html` `:root` blocks,
 `grep -n 'border-radius' index.html`.
+
+### Motion tokens
+
+- Durations: 100 / 150 / 200 / 300ms only (`--motion-*`). Enter eases out, exit eases in; no bounce on chrome.
+- Chrome and reveals animate `transform` and `opacity` only (scroll progress, nav underline and skill meters use `scaleX`).
+- Scroll reveals translate 8px; list stagger is 30ms per item, 6 items max.
+- Documented exceptions: the hero name/intro entrance (longer, once per load) and the meme and game widgets (looping emoji, shakes, confetti, rainbow text). All of it stops under `prefers-reduced-motion: reduce`.
