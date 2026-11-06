@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-j42UOIToqXLFtRRTjI6XUcXTVcWp2XHjMKHcs1MoY7g='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; base-uri 'none'; form-action 'none'">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case study: Can SQL alone catch Medicare providers billing from two countries at once? - Janak Rudani</title>
+<meta name="description" content="A risk-scoring query over synthetic Medicare claims, with a cutoff you can move, and what re-running it found: a date bug, a stale database and a README that does not match.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Can SQL alone catch Medicare providers billing from two countries at once?">
+<meta property="og:description" content="A risk-scoring query over synthetic Medicare claims, with a cutoff you can move, and what re-running it found: a date bug, a stale database and a README that does not match.">
+<meta property="og:url" content="https://jrudani21.github.io/case-study-medicare.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Can SQL alone catch Medicare providers billing from two countries at once?">
+<meta name="twitter:description" content="A risk-scoring query over synthetic Medicare claims, with a cutoff you can move, and what re-running it found: a date bug, a stale database and a README that does not match.">
+<meta name="twitter:image" content="https://jrudani21.github.io/assets/og-card.png">
+<link rel="canonical" href="https://jrudani21.github.io/case-study-medicare.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:site_name" content="Janak Rudani">
+<meta property="og:image" content="https://jrudani21.github.io/assets/og-card.png">
+<meta property="og:image:alt" content="Janak Rudani - statistics, data science and automation">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","headline":"Can SQL alone catch Medicare providers billing from two countries at once?","description":"A risk-scoring query over synthetic Medicare claims, with a cutoff you can move, and what re-running it found: a date bug, a stale database and a README that does not match.","url":"https://jrudani21.github.io/case-study-medicare.html","image":"https://jrudani21.github.io/assets/og-card.png","author":{"@type":"Person","name":"Janak Rudani","url":"https://jrudani21.github.io/","sameAs":["https://github.com/Jrudani21","https://www.linkedin.com/in/janakrudani21"]}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #ffffff; --panel: #f4f4f2; --surface: #f4f4f2;
+  --text: #0a0a0a; --dim: #333333; --muted: #6a6a6a;
+  --accent: #e10600; --accent-dim: #fde7e5;
+  --violet: #0a0a0a; --amber: #e10600; --green: #0a0a0a;
+  --border: #d4d4d0; --glow: none;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--void); color: var(--text); font-family: 'Space Grotesk', system-ui, sans-serif; line-height: 1.6; overflow-x: hidden; }
+.wrap { max-width: 880px; margin: 0 auto; padding: 3.5rem 1.4rem 5rem; }
+a { color: var(--violet); text-decoration: none; }
+a:hover { color: var(--accent); }
+.back { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 17px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.back:hover { color: var(--accent); }
+.eyebrow { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 17px; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin: 2.2rem 0 0.7rem; }
+h1 { font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: clamp(1.7rem, 4.4vw, 2.85rem); line-height: 1.12; letter-spacing: -0.01em; }
+.dek { color: var(--dim); font-size: 1.06rem; margin-top: 1.1rem; max-width: 720px; }
+.dek b { color: var(--amber); }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin: 2.4rem 0 0.4rem; }
+@media (max-width: 660px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.stat { background: var(--panel); padding: 1.2rem 1.3rem; }
+.stat b { display: block; font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 1.9rem; color: var(--accent); line-height: 1.1; }
+.stat span { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.03em; }
+h2 { font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 1.25rem; margin: 3rem 0 0.9rem; }
+h2::before { content: '// '; color: var(--muted); font-family: 'Space Grotesk', system-ui, sans-serif; }
+p { color: var(--dim); margin: 0.75rem 0; }
+p b, li b, td b { color: var(--text); }
+code { font-family: ui-monospace, 'Cascadia Code', Consolas, monospace; font-size: 17px; color: var(--violet); background: rgba(255,255,255,0.05); padding: 1px 6px; border-radius: 6px; }
+pre { background: var(--panel); border: 1px solid var(--border); border-left: 2px solid var(--accent); border-radius: 12px; padding: 1.1rem 1.2rem; overflow-x: auto; margin: 1.2rem 0; font-family: ui-monospace, 'Cascadia Code', Consolas, monospace; font-size: 17px; line-height: 1.65; color: var(--dim); }
+pre .ok { color: var(--green); } pre .hl { color: var(--amber); } pre .c { color: var(--muted); } pre .bad { color: var(--accent); }
+table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: 0.92rem; }
+th, td { text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--border); color: var(--dim); vertical-align: top; }
+th { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 400; }
+td:first-child { color: var(--text); white-space: nowrap; }
+ol, ul { margin: 0.8rem 0 0.8rem 1.3rem; color: var(--dim); }
+li { margin: 0.4rem 0; }
+.callout { border-left: 2px solid var(--amber); background: rgba(245,197,24,0.05); padding: 0.9rem 1.2rem; border-radius: 0 12px 12px 0; margin: 1.4rem 0; font-size: 0.95rem; color: var(--dim); }
+.callout b { color: var(--amber); }
+figure { margin: 1.6rem 0; border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 1rem; background: var(--panel); }
+figure img { display: block; width: 100%; height: auto; border-radius: 8px; }
+figcaption { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 16px; color: var(--muted); text-align: center; margin-top: 0.8rem; letter-spacing: 0.05em; }
+svg { display: block; width: 100%; height: auto; }
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1.6rem 0 0; }
+.tag { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 16px; padding: 3px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--dim); }
+.tag.hl { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.links { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; margin: 1.4rem 0 0; font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 18px; }
+.foot { margin-top: 3.4rem; padding-top: 1.6rem; border-top: 1px solid var(--border); font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 17px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: space-between; }
+@media (max-width: 560px) { .wrap { padding-top: 2.4rem; } table { font-size: 0.85rem; } th, td { padding: 0.5rem 0.4rem; } td:first-child { white-space: normal; } }
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: 0.25s ease both vt-out; }
+::view-transition-new(root) { animation: 0.4s cubic-bezier(0.22,1,0.36,1) both vt-in; }
+@keyframes vt-out { to { opacity: 0; transform: translateY(-8px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(12px); } }
+@media (prefers-reduced-motion: reduce) { ::view-transition-old(root), ::view-transition-new(root) { animation: none; } }
+b, strong { font-weight: 600; }
+html { font-size: 112.5%; }
+/* swiss theme: matches the home page */
+body { background: #fff; color: #0a0a0a; }
+a { color: #0a0a0a; text-decoration: underline; text-decoration-color: #e10600; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: #e10600; }
+.back { color: #6a6a6a; text-decoration: none; }
+.back:hover { color: #e10600; }
+.stats { background: #d4d4d0; border: 0; border-top: 2px solid #0a0a0a; border-radius: 0; }
+.stat { background: #f4f4f2; }
+.stat b { color: #e10600; }
+.card, .callout, pre, figure, figure img, .tag, code, .links, .gate-panel, .gate-verdict, .gate-chip, .gate-run { border-radius: 0; }
+.card { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
+.callout { background: #f4f4f2; border: 0; border-left: 3px solid #e10600; }
+pre { background: #f4f4f2; color: #0a0a0a; border: 0; border-top: 2px solid #0a0a0a; }
+pre .ok { color: #0a0a0a; font-weight: 600; }
+pre .bad { color: #e10600; font-weight: 600; }
+pre .warn { color: #6a6a6a; font-weight: 600; }
+pre .c { color: #6a6a6a; }
+code { background: #ebebe8; color: #0a0a0a; }
+pre code { background: none; }
+th { color: #6a6a6a; }
+.tag { background: #fff; border: 1px solid #0a0a0a; color: #0a0a0a; }
+.gate-panel, .gate-verdict { background: #f4f4f2; border-top: 2px solid #0a0a0a; }
+.gate-chip { background: #fff; border-color: #0a0a0a; color: #0a0a0a; }
+.gate-chip:hover { border-color: #e10600; color: #e10600; }
+.gate-chip.on { background: #e10600; border-color: #e10600; color: #fff; }
+.gate-claim { color: #0a0a0a; }
+.gate-item.warn .gate-badge, .gate-item.warn .gate-code { color: #0a0a0a; }
+.gate-verdict.pass b { color: #0a0a0a; }
+figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
+/* end swiss theme */
+/* medicare cutoff */
+.md { margin: 1.2rem 0 0.4rem; }
+.md-ctl { display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; margin-bottom: 1rem; }
+.md-modes { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.md-chip { font: inherit; font-weight: 500; min-height: 44px; padding: 0.4rem 1rem; background: #fff; color: #0a0a0a; border: 1px solid #0a0a0a; cursor: pointer; transition: background-color 150ms ease, border-color 150ms ease; }
+.md-chip:hover { border-color: #e10600; color: #e10600; }
+.md-chip.on { background: #e10600; border-color: #e10600; color: #fff; }
+.md-slider { display: flex; align-items: center; gap: 0.8rem; flex: 1 1 18rem; min-height: 44px; }
+.md-slider label { font-weight: 600; white-space: nowrap; }
+.md-slider input[type=range] { flex: 1; min-height: 44px; accent-color: #e10600; }
+.md-slider output { font-weight: 600; color: #e10600; min-width: 2ch; }
+.md-out { font-weight: 600; margin: 0.4rem 0 1rem; max-width: 70ch; }
+.md-list { list-style: none; display: grid; gap: 0.9rem; background: #f4f4f2; border-top: 2px solid #0a0a0a; padding: 1.1rem 1.3rem; }
+.md-head { display: flex; flex-wrap: wrap; gap: 0.2rem 1rem; align-items: baseline; }
+.md-npi { font-family: ui-monospace, 'Cascadia Code', Consolas, monospace; }
+.md-spec { color: var(--muted); flex: 1; }
+.md-track { height: 14px; background: #ebebe8; margin-top: 0.3rem; }
+.md-bar { height: 100%; background: #6a6a6a; transform-origin: left center; transition: background-color 150ms ease; }
+.md-row { opacity: 0.55; transition: opacity 150ms ease; }
+.md-row.hit { opacity: 1; }
+.md-row.hit .md-bar { background: #e10600; }
+.md-meta { color: var(--dim); font-size: 0.9rem; margin-top: 0.25rem; }
+@media (prefers-reduced-motion: reduce) { .md-chip, .md-bar, .md-row { transition: none; } }
+/* end medicare cutoff */
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <a class="back" href="index.html#projects">&larr; back to the imperial archives</a>
+
+  <p class="eyebrow">case study // data analysis // SQL</p>
+  <h1>Can SQL alone catch Medicare providers billing from two countries at once?</h1>
+  <p class="dek">A provider cannot be in two countries at once. So I joined the claims table to itself, looked for a US claim
+    and a foreign claim for the same provider with overlapping dates, and scored what turned up. Then I re-ran it and
+    found three things that did not add up. <b>All data here is synthetic.</b></p>
+
+  <div class="stats">
+    <div class="stat"><b>9,976</b><span>synthetic claims</span></div>
+    <div class="stat"><b>2,000</b><span>providers (NPIs)</span></div>
+    <div class="stat"><b>18</b><span>flagged by the query</span></div>
+    <div class="stat"><b>1</b><span>score HIGH (12 or more)</span></div>
+  </div>
+
+  <h2>How the score works</h2>
+  <p>Each flagged provider gets points for each overlapping US and foreign claim pair, for overlap days, for charges
+    above five times the Medicare allowed amount, for large payments, and for appearing in three or more countries.
+    The query is <code>queries/03_risk_scoring.sql</code> in the repo, unchanged.</p>
+<pre><span class="c">score = 3 per pair + min(overlap days, 15) per pair
+      + 2 if max charge ratio &gt; 5
+      + 2 if payments &gt; $10,000
+      + 3 if 3 or more countries</span></pre>
+
+  <!-- med-demo -->
+  <h2>Move the cutoff</h2>
+  <p>Pick where to draw the referral line. Every row is a real flagged provider from the repo's database, scored by
+    the repo's own query. A higher cutoff means fewer false alarms and more missed cases.</p>
+  <div class="md" id="md">
+    <div class="md-ctl">
+      <div class="md-modes" id="mdMode" role="group" aria-label="Scoring version"></div>
+      <div class="md-slider"><label for="mdRange">Refer at score</label>
+        <input type="range" id="mdRange" min="0" max="20" step="1" value="12"><output id="mdVal" for="mdRange">12</output></div>
+    </div>
+    <p class="md-out" id="mdOut" aria-live="polite"></p>
+    <ul class="md-list" id="mdList" aria-label="Flagged providers by risk score"></ul>
+    <noscript><p>This explorer needs JavaScript.</p></noscript>
+  </div>
+  <script type="application/json" id="md-data">{"claims": 9976, "npis": 2000, "total": 37225, "items": [{"npi": "1159864820", "spec": "Anesthesiology", "pairs": 4, "pay": 893, "ratio": 6.6, "od": 43, "s1": 14, "s2": 57}, {"npi": "1165649355", "spec": "Obstetrics/Gynecology", "pairs": 3, "pay": 2247, "ratio": 6.7, "od": 42, "s1": 11, "s2": 53}, {"npi": "1229811265", "spec": "General Surgery", "pairs": 3, "pay": 1021, "ratio": 5.92, "od": 6, "s1": 11, "s2": 17}, {"npi": "1386885820", "spec": "Anesthesiology", "pairs": 3, "pay": 563, "ratio": 6.24, "od": 12, "s1": 11, "s2": 23}, {"npi": "1456821541", "spec": "Ophthalmology", "pairs": 3, "pay": 2593, "ratio": 7.42, "od": 6, "s1": 11, "s2": 17}, {"npi": "1630255045", "spec": "Ophthalmology", "pairs": 3, "pay": 5262, "ratio": 6.12, "od": 14, "s1": 11, "s2": 25}, {"npi": "1102854594", "spec": "Nephrology", "pairs": 2, "pay": 231, "ratio": 6.9, "od": 6, "s1": 8, "s2": 14}, {"npi": "1160295091", "spec": "Dermatology", "pairs": 2, "pay": 1601, "ratio": 6.95, "od": 12, "s1": 8, "s2": 20}, {"npi": "1389704793", "spec": "Ophthalmology", "pairs": 2, "pay": 1730, "ratio": 5.17, "od": 10, "s1": 8, "s2": 18}, {"npi": "1760763076", "spec": "Neurology", "pairs": 2, "pay": 826, "ratio": 5.53, "od": 14, "s1": 8, "s2": 22}, {"npi": "1882857797", "spec": "Neurology", "pairs": 2, "pay": 428, "ratio": 5.73, "od": 12, "s1": 8, "s2": 20}, {"npi": "1170871555", "spec": "Ophthalmology", "pairs": 1, "pay": 18027, "ratio": 6.41, "od": 2, "s1": 7, "s2": 9}, {"npi": "1741963122", "spec": "Nephrology", "pairs": 2, "pay": 264, "ratio": 4.23, "od": 27, "s1": 6, "s2": 33}, {"npi": "1664504351", "spec": "Gastroenterology", "pairs": 1, "pay": 253, "ratio": 5.93, "od": 15, "s1": 5, "s2": 20}, {"npi": "1869391361", "spec": "Obstetrics/Gynecology", "pairs": 1, "pay": 162, "ratio": 6.16, "od": 10, "s1": 5, "s2": 15}, {"npi": "1973362811", "spec": "Anesthesiology", "pairs": 1, "pay": 741, "ratio": 6.08, "od": 9, "s1": 5, "s2": 14}, {"npi": "1084466282", "spec": "Psychiatry", "pairs": 1, "pay": 251, "ratio": 4.95, "od": 3, "s1": 3, "s2": 6}, {"npi": "1630078629", "spec": "Gastroenterology", "pairs": 1, "pay": 132, "ratio": 4.38, "od": 2, "s1": 3, "s2": 5}]}</script>
+  <script>
+(function () {
+  var D = JSON.parse(document.getElementById('md-data').textContent), items = D.items;
+  var listEl = document.getElementById('mdList'), outEl = document.getElementById('mdOut'), modeEl = document.getElementById('mdMode');
+  var rng = document.getElementById('mdRange'), val = document.getElementById('mdVal');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var mode = 's1', maxS = 1, rows = [];
+  function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }
+  function money(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+  var modes = [['s1', 'Query as shipped'], ['s2', 'Dates fixed']];
+  var chips = modes.map(function (m) {
+    var b = el('button', 'md-chip', m[1]); b.type = 'button';
+    b.addEventListener('click', function () { mode = m[0]; build(); }); modeEl.appendChild(b); return b;
+  });
+  function build() {
+    chips.forEach(function (b, i) { b.classList.toggle('on', modes[i][0] === mode); b.setAttribute('aria-pressed', modes[i][0] === mode); });
+    maxS = Math.max.apply(null, items.map(function (i) { return i[mode]; }));
+    rng.max = maxS; if (+rng.value > maxS) rng.value = maxS;
+    var sorted = items.slice().sort(function (a, b) { return b[mode] - a[mode] || b.pay - a.pay; });
+    listEl.textContent = ''; rows = [];
+    sorted.forEach(function (it) {
+      var li = el('li', 'md-row'), head = el('div', 'md-head');
+      head.appendChild(el('span', 'md-npi', it.npi)); head.appendChild(el('span', 'md-spec', it.spec));
+      head.appendChild(el('b', 'md-score', 'score ' + it[mode]));
+      var tr = el('div', 'md-track'), bar = el('div', 'md-bar'); bar.style.transform = 'scaleX(' + (it[mode] / maxS) + ')'; tr.appendChild(bar);
+      li.appendChild(head); li.appendChild(tr);
+      li.appendChild(el('div', 'md-meta', it.pairs + ' overlapping pair' + (it.pairs > 1 ? 's' : '') + ' | max charge ratio ' + it.ratio + 'x | ' + money(it.pay) + ' paid | ' + it.od + ' overlap days'));
+      listEl.appendChild(li); rows.push([it, li]);
+    });
+    update();
+  }
+  function update() {
+    var t = +rng.value, n = 0, cash = 0;
+    val.textContent = t;
+    rows.forEach(function (r) {
+      var on = r[0][mode] >= t; r[1].classList.toggle('hit', on);
+      if (on) { n++; cash += r[0].pay; }
+    });
+    var pct = Math.round(100 * cash / D.total);
+    outEl.textContent = 'Refer at score ' + t + ' or more: ' + n + ' of ' + items.length + ' flagged providers, covering ' + money(cash) + ' of ' + money(D.total) + ' suspicious payments (' + pct + '%). ' + (items.length - n) + ' flagged providers go unreviewed.';
+  }
+  rng.addEventListener('input', update);
+  build();
+})();
+</script>
+<!-- /med-demo -->
+
+  <h2>What re-running it found</h2>
+  <ol>
+    <li><b>The overlap days are always zero.</b> The query subtracts two ISO date strings, and SQLite turns each into
+      a number by reading only the leading year, so the result is 0 for every pair in the shipped database. The
+      "plus one per overlap day" part of the score never fires. Switch the demo to "Dates fixed" to see the scores with
+      <code>julianday()</code> doing the subtraction: 18 of the 18 providers change score and 15 reach HIGH. With real overlap days nearly everyone clears the HIGH line of 12, so the 12 and 6 cutoffs would need recalibrating too.</li>
+    <li><b>The README does not match the database.</b> It says 7 providers score HIGH. The shipped
+      <code>claims.db</code> gives 1, and with dates fixed 15.</li>
+    <li><b>The database is older than the data generator.</b> The generator was fixed in September to create genuinely
+      overlapping windows and the CSV was regenerated (9,936 claims). The database was not, so the dashboard and the
+      README describe the older data. Loading the CSV the way the README says gives 200 flagged providers, not 18.</li>
+  </ol>
+  <div class="callout"><b>Why this matters:</b> a score that silently ignores one of its inputs still produces a tidy
+    ranked list. Re-running a pipeline against its own claims is how these show up.</div>
+
+  <h2>How I would catch more</h2>
+  <ul>
+    <li><b>Fix the dates first</b>, then add foreign-to-foreign pairs and a travel-time check, not just US against foreign.</li>
+    <li><b>Impossible workload:</b> more than 24 hours of time-based services billed for one provider in one day.</li>
+    <li><b>Upcoding against peers:</b> each provider's share of top-level visit codes against their specialty norm.</li>
+    <li><b>Links between providers:</b> shared addresses, bank accounts or referring NPIs, as a graph.</li>
+    <li><b>External lists:</b> the OIG exclusion list, and claims for deceased patients.</li>
+    <li><b>A model on top</b> of these features, judged by precision among the top 20 referrals, not accuracy.</li>
+  </ul>
+
+  <div class="links">
+    <a href="https://github.com/Jrudani21/medicare-fraud-detector">the SQL, data and dashboard on GitHub &rarr;</a>
+    <a href="case-study-delivery-gate.html">an independent check on a pipeline's own report &rarr;</a>
+    <a href="case-study-escalation.html">the same measure-before-claiming rule, applied to model routing &rarr;</a>
+  </div>
+
+  <div class="tags">
+    <span class="tag hl">SQL</span><span class="tag">SQLite</span><span class="tag">CTEs</span>
+    <span class="tag">Risk scoring</span><span class="tag">Streamlit</span>
+  </div>
+
+  <div class="foot">
+    <a href="index.html#projects">&larr; all projects</a>
+    <span>Janak Rudani &middot; Winnipeg &middot; 2026</span>
+  </div>
+
+</main>
+</body>
+</html>
