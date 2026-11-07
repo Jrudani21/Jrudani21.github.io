@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Janak Rudani. All rights reserved.
+# Provenance: Jrudani21/Jrudani21.github.io/new-project.py f725e9864dd2fbae
 """Add a project card to index.html.
 
   python new-project.py <github-repo-or-url> "<title>" <model|forecast|apps|ai|auto> "<metric>" "<one-line blurb>" [tag ...]
