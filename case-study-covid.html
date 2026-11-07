@@ -265,16 +265,19 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
   <div class="callout"><b>Why this matters:</b> a dashboard can be correct code over a dead feed. The charts render, the
     caption looks fresh and nothing fails. Showing the data's own last date is the cheapest guard.</div>
 
-  <h2>What I would change</h2>
+  <h2>What I changed</h2>
+  <p>The fixes are on the <a href="https://github.com/Jrudani21/covid-dashboard/commit/1446cac">dashboard repo's master branch</a>:</p>
   <ul>
-    <li><b>Print the data's last date</b> beside the title and compute the trend window from it, not from the call.</li>
-    <li><b>Drop Recovered</b> from the picker, or label it as discontinued.</li>
-    <li><b>Show new cases per day</b> (a 7-day average) next to the cumulative curve; the cumulative line hides every wave.</li>
-    <li><b>Add a timeout, a status check and a visible error</b> to each fetch.</li>
-    <li><b>Rank per million</b> as a second bar chart, since total counts mostly rank population.</li>
-    <li><b>Archive a snapshot</b> so the page still works, and says so, when the API does not.</li>
+    <li><b>The data's last date</b> is printed in the caption and the trend title, and the window is taken from the feed itself.</li>
+    <li><b>Recovered is gone</b> from the picker, since the feed reports zero for it.</li>
+    <li><b>Every fetch has a 15-second timeout, a status check and a visible error</b> instead of a traceback.</li>
+    <li><b>A second bar chart ranks by cases per million</b> for countries with at least 1 million people.</li>
+    <li><b>The date window logic has a small test</b> that runs without the network or Streamlit.</li>
   </ul>
-  <p>I have not changed the dashboard repo. These are the fixes I would make next.</p>
+  <div class="callout"><b>Not verified:</b> I could not start Streamlit here (the installed version fails to import), so the page
+    itself has not been run. The helper and the per-million table were checked against the saved API response.</div>
+  <p>Still open: showing a 7-day average of new cases beside the cumulative curve, and archiving a snapshot so the page can
+    say so when the API is down.</p>
 
   <div class="links">
     <a href="https://github.com/Jrudani21/covid-dashboard">the dashboard on GitHub &rarr;</a>
