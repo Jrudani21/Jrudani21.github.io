@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-IBdB682XzmGl93cfOBpN7d+U17h1RHkFFn5X0HldtMc='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; base-uri 'none'; form-action 'none'">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case study: Can clustering anonymous card transactions point at fraud? - Janak Rudani</title>
+<meta name="description" content="284,807 anonymised card transactions, 12 unsupervised clusters, and a slider for how many clusters to review: one cluster of 243 transactions is 84 percent fraud. The clusters are not rings, and the page says why.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Can clustering anonymous card transactions point at fraud?">
+<meta property="og:description" content="284,807 anonymised card transactions, 12 unsupervised clusters, and a slider for how many clusters to review: one cluster of 243 transactions is 84 percent fraud. The clusters are not rings, and the page says why.">
+<meta property="og:url" content="https://jrudani21.github.io/case-study-fraud-graph.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Can clustering anonymous card transactions point at fraud?">
+<meta name="twitter:description" content="284,807 anonymised card transactions, 12 unsupervised clusters, and a slider for how many clusters to review: one cluster of 243 transactions is 84 percent fraud. The clusters are not rings, and the page says why.">
+<meta name="twitter:image" content="https://jrudani21.github.io/assets/og-card.png">
+<link rel="canonical" href="https://jrudani21.github.io/case-study-fraud-graph.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:site_name" content="Janak Rudani">
+<meta property="og:image" content="https://jrudani21.github.io/assets/og-card.png">
+<meta property="og:image:alt" content="Janak Rudani - statistics, data science and automation">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","headline":"Can clustering anonymous card transactions point at fraud?","description":"284,807 anonymised card transactions, 12 unsupervised clusters, and a slider for how many clusters to review: one cluster of 243 transactions is 84 percent fraud. The clusters are not rings, and the page says why.","url":"https://jrudani21.github.io/case-study-fraud-graph.html","image":"https://jrudani21.github.io/assets/og-card.png","author":{"@type":"Person","name":"Janak Rudani","url":"https://jrudani21.github.io/","sameAs":["https://github.com/Jrudani21","https://www.linkedin.com/in/janakrudani21"]}}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #ffffff; --panel: #f4f4f2; --surface: #f4f4f2;
+  --text: #0a0a0a; --dim: #333333; --muted: #6a6a6a;
+  --accent: #e10600; --accent-dim: #fde7e5;
+  --violet: #0a0a0a; --amber: #e10600; --green: #0a0a0a;
+  --border: #d4d4d0; --glow: none;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--void); color: var(--text); font-family: 'Space Grotesk', system-ui, sans-serif; line-height: 1.6; overflow-x: hidden; }
+.wrap { max-width: 880px; margin: 0 auto; padding: 3.5rem 1.4rem 5rem; }
+a { color: var(--violet); text-decoration: none; }
+a:hover { color: var(--accent); }
+.back { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 17px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.back:hover { color: var(--accent); }
+.eyebrow { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 17px; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; margin: 2.2rem 0 0.7rem; }
+h1 { font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: clamp(1.7rem, 4.4vw, 2.85rem); line-height: 1.12; letter-spacing: -0.01em; }
+.dek { color: var(--dim); font-size: 1.06rem; margin-top: 1.1rem; max-width: 720px; }
+.dek b { color: var(--amber); }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin: 2.4rem 0 0.4rem; }
+@media (max-width: 660px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.stat { background: var(--panel); padding: 1.2rem 1.3rem; }
+.stat b { display: block; font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 1.9rem; color: var(--accent); line-height: 1.1; }
+.stat span { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.03em; }
+h2 { font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 1.25rem; margin: 3rem 0 0.9rem; }
+h2::before { content: '// '; color: var(--muted); font-family: 'Space Grotesk', system-ui, sans-serif; }
+p { color: var(--dim); margin: 0.75rem 0; }
+p b, li b, td b { color: var(--text); }
+code { font-family: ui-monospace, 'Cascadia Code', Consolas, monospace; font-size: 17px; color: var(--violet); background: rgba(255,255,255,0.05); padding: 1px 6px; border-radius: 6px; }
+pre { background: var(--panel); border: 1px solid var(--border); border-left: 2px solid var(--accent); border-radius: 12px; padding: 1.1rem 1.2rem; overflow-x: auto; margin: 1.2rem 0; font-family: ui-monospace, 'Cascadia Code', Consolas, monospace; font-size: 17px; line-height: 1.65; color: var(--dim); }
+pre .ok { color: var(--green); } pre .hl { color: var(--amber); } pre .c { color: var(--muted); } pre .bad { color: var(--accent); }
+table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: 0.92rem; }
+th, td { text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--border); color: var(--dim); vertical-align: top; }
+th { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 400; }
+td:first-child { color: var(--text); white-space: nowrap; }
+ol, ul { margin: 0.8rem 0 0.8rem 1.3rem; color: var(--dim); }
+li { margin: 0.4rem 0; }
+.callout { border-left: 2px solid var(--amber); background: rgba(245,197,24,0.05); padding: 0.9rem 1.2rem; border-radius: 0 12px 12px 0; margin: 1.4rem 0; font-size: 0.95rem; color: var(--dim); }
+.callout b { color: var(--amber); }
+figure { margin: 1.6rem 0; border: 1px solid var(--border); border-radius: 14px; padding: 1.2rem 1rem; background: var(--panel); }
+figure img { display: block; width: 100%; height: auto; border-radius: 8px; }
+figcaption { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 16px; color: var(--muted); text-align: center; margin-top: 0.8rem; letter-spacing: 0.05em; }
+svg { display: block; width: 100%; height: auto; }
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1.6rem 0 0; }
+.tag { font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 16px; padding: 3px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--dim); }
+.tag.hl { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.links { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; margin: 1.4rem 0 0; font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 18px; }
+.foot { margin-top: 3.4rem; padding-top: 1.6rem; border-top: 1px solid var(--border); font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 17px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 1.2rem; justify-content: space-between; }
+@media (max-width: 560px) { .wrap { padding-top: 2.4rem; } table { font-size: 0.85rem; } th, td { padding: 0.5rem 0.4rem; } td:first-child { white-space: normal; } }
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: 0.25s ease both vt-out; }
+::view-transition-new(root) { animation: 0.4s cubic-bezier(0.22,1,0.36,1) both vt-in; }
+@keyframes vt-out { to { opacity: 0; transform: translateY(-8px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(12px); } }
+@media (prefers-reduced-motion: reduce) { ::view-transition-old(root), ::view-transition-new(root) { animation: none; } }
+b, strong { font-weight: 600; }
+html { font-size: 112.5%; }
+/* swiss theme: matches the home page */
+body { background: #fff; color: #0a0a0a; }
+a { color: #0a0a0a; text-decoration: underline; text-decoration-color: #e10600; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: #e10600; }
+.back { color: #6a6a6a; text-decoration: none; }
+.back:hover { color: #e10600; }
+.stats { background: #d4d4d0; border: 0; border-top: 2px solid #0a0a0a; border-radius: 0; }
+.stat { background: #f4f4f2; }
+.stat b { color: #e10600; }
+.card, .callout, pre, figure, figure img, .tag, code, .links, .gate-panel, .gate-verdict, .gate-chip, .gate-run { border-radius: 0; }
+.card { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
+.callout { background: #f4f4f2; border: 0; border-left: 3px solid #e10600; }
+pre { background: #f4f4f2; color: #0a0a0a; border: 0; border-top: 2px solid #0a0a0a; }
+pre .ok { color: #0a0a0a; font-weight: 600; }
+pre .bad { color: #e10600; font-weight: 600; }
+pre .warn { color: #6a6a6a; font-weight: 600; }
+pre .c { color: #6a6a6a; }
+code { background: #ebebe8; color: #0a0a0a; }
+pre code { background: none; }
+th { color: #6a6a6a; }
+.tag { background: #fff; border: 1px solid #0a0a0a; color: #0a0a0a; }
+.gate-panel, .gate-verdict { background: #f4f4f2; border-top: 2px solid #0a0a0a; }
+.gate-chip { background: #fff; border-color: #0a0a0a; color: #0a0a0a; }
+.gate-chip:hover { border-color: #e10600; color: #e10600; }
+.gate-chip.on { background: #e10600; border-color: #e10600; color: #fff; }
+.gate-claim { color: #0a0a0a; }
+.gate-item.warn .gate-badge, .gate-item.warn .gate-code { color: #0a0a0a; }
+.gate-verdict.pass b { color: #0a0a0a; }
+figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
+/* end swiss theme */
+/* covid explorer */
+.cv { margin: 1.2rem 0 0.4rem; }
+.cv-ctl { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin-bottom: 1rem; }
+.cv-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.cv-chip { font: inherit; font-weight: 500; min-height: 44px; padding: 0.4rem 1rem; background: #fff; color: #0a0a0a; border: 1px solid #0a0a0a; cursor: pointer; transition: background-color 150ms ease, border-color 150ms ease; }
+.cv-chip:hover { border-color: #e10600; color: #e10600; }
+.cv-chip.on { background: #e10600; border-color: #e10600; color: #fff; }
+.cv-plot { background: #f4f4f2; border-top: 2px solid #0a0a0a; padding: 1rem 1.1rem 0.6rem; }
+.cv-plot input[type=range] { width: 100%; min-height: 44px; accent-color: #e10600; margin-top: 0.4rem; }
+.cv-out { font-weight: 600; margin: 0.6rem 0 0.2rem; max-width: 70ch; }
+.cv-list { list-style: none; display: grid; gap: 0.7rem; background: #f4f4f2; border-top: 2px solid #0a0a0a; padding: 1.1rem 1.3rem; }
+.cv-head { display: flex; gap: 0.8rem; align-items: baseline; }
+.cv-pos { color: #6a6a6a; min-width: 2ch; }
+.cv-name { flex: 1; }
+.cv-track { height: 12px; background: #ebebe8; margin-top: 0.25rem; }
+.cv-bar { height: 100%; background: #e10600; transform-origin: left center; }
+@media (prefers-reduced-motion: reduce) { .cv-chip { transition: none; } }
+/* end covid explorer */
+/* fraud explorer */
+.fg-ctl { display: flex; align-items: center; gap: 0.8rem; min-height: 44px; margin-bottom: 0.8rem; }
+.fg-ctl label { font-weight: 600; white-space: nowrap; }
+.fg-ctl input[type=range] { flex: 1; min-height: 44px; accent-color: #e10600; }
+.fg-ctl output { font-weight: 600; color: #e10600; min-width: 2ch; }
+.fg-row { opacity: 0.55; transition: opacity 150ms ease; }
+.fg-row.hit { opacity: 1; }
+.fg-meta { color: var(--dim); font-size: 0.9rem; margin-top: 0.25rem; }
+@media (prefers-reduced-motion: reduce) { .fg-row { transition: none; } }
+/* end fraud explorer */
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <a class="back" href="index.html#projects">&larr; back to the imperial archives</a>
+
+  <p class="eyebrow">case study // fraud analytics // clustering</p>
+  <h1>Can clustering anonymous card transactions point at fraud?</h1>
+  <p class="dek">I wanted a fraud-ring graph. The public credit-card fraud dataset has no card, device or IP column, so there
+    are no rings to find. Instead I clustered the 28 anonymised features, kept the fraud label out of the clustering, and
+    checked afterwards where the fraud landed. <b>These are pseudo-entities, not rings.</b></p>
+
+  <div class="stats">
+    <div class="stat"><b>284,807</b><span>transactions</span></div>
+    <div class="stat"><b>492</b><span>fraud (0.17%)</span></div>
+    <div class="stat"><b>12</b><span>clusters (KMeans)</span></div>
+    <div class="stat"><b>84%</b><span>fraud in the top cluster</span></div>
+  </div>
+
+  <h2>What I did</h2>
+  <p>The pipeline in the repo scales <code>V1</code> to <code>V28</code>, picks the cluster count by silhouette score, and
+    fits KMeans. <code>Class</code> is never a feature. After the fit, each cluster's fraud rate is compared to the
+    dataset's 0.17% baseline. I ran those steps on the real file. The Neo4j graph load and the local-LLM summary were not
+    run for these numbers: they store and describe the same clusters, and neither service was running.</p>
+
+  <h2>Try the review budget</h2>
+  <p>Clusters are ranked by fraud rate. Slide to choose how many to send for manual review and see what you catch and what it costs.</p>
+  <div class="cv">
+    <div class="fg-ctl"><label for="fgRange">Review top clusters</label>
+      <input type="range" id="fgRange" min="0" max="12" step="1" value="1"><output id="fgVal" for="fgRange">1</output></div>
+    <p class="cv-out" id="fgOut" aria-live="polite"></p>
+    <ul class="cv-list" id="fgList" aria-label="Clusters ranked by fraud rate"></ul>
+    <noscript><p>This explorer needs JavaScript.</p></noscript>
+  </div>
+  <script type="application/json" id="fg-data">{"rows":284807,"fraud":492,"k":12,"clusters":[{"id":8,"n":243,"fraud":203},{"id":10,"n":1706,"fraud":14},{"id":6,"n":22877,"fraud":162},{"id":0,"n":1259,"fraud":4},{"id":4,"n":35037,"fraud":41},{"id":7,"n":56723,"fraud":43},{"id":9,"n":24338,"fraud":5},{"id":1,"n":87305,"fraud":17},{"id":3,"n":19279,"fraud":3},{"id":2,"n":16659,"fraud":0},{"id":5,"n":16353,"fraud":0},{"id":11,"n":3028,"fraud":0}]}</script>
+  <script>
+(function () {
+  var D = JSON.parse(document.getElementById('fg-data').textContent), cl = D.clusters;
+  var rng = document.getElementById('fgRange'), val = document.getElementById('fgVal'), out = document.getElementById('fgOut'), list = document.getElementById('fgList');
+  function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }
+  function num(n) { return Math.round(n).toLocaleString('en-US'); }
+  function pct(a, b, d) { return (100 * a / b).toFixed(d == null ? 1 : d) + '%'; }
+  rng.max = cl.length; var rows = [];
+  var maxRate = Math.max.apply(null, cl.map(function (c) { return c.fraud / c.n; }));
+  cl.forEach(function (c, i) {
+    var li = el('li', 'fg-row'), hd = el('div', 'cv-head');
+    hd.appendChild(el('span', 'cv-pos', String(i + 1))); hd.appendChild(el('span', 'cv-name', 'Cluster ' + c.id));
+    hd.appendChild(el('b', null, pct(c.fraud, c.n, c.fraud / c.n < 0.01 ? 2 : 1) + ' fraud'));
+    var tr = el('div', 'cv-track'), bar = el('div', 'cv-bar'); bar.style.transform = 'scaleX(' + (c.fraud / c.n / maxRate) + ')'; tr.appendChild(bar);
+    li.appendChild(hd); li.appendChild(tr);
+    li.appendChild(el('div', 'fg-meta', num(c.n) + ' transactions | ' + num(c.fraud) + ' fraud'));
+    list.appendChild(li); rows.push(li);
+  });
+  function upd() {
+    var n = +rng.value, tx = 0, fr = 0;
+    val.textContent = n;
+    rows.forEach(function (li, i) { li.classList.toggle('hit', i < n); });
+    for (var i = 0; i < n; i++) { tx += cl[i].n; fr += cl[i].fraud; }
+    out.textContent = n === 0 ? 'Review nothing: no fraud found.' :
+      'Review the top ' + n + ' cluster' + (n > 1 ? 's' : '') + ': ' + num(tx) + ' transactions (' + pct(tx, D.rows, 2) + ' of all), ' +
+      num(fr) + ' of ' + num(D.fraud) + ' frauds caught (' + pct(fr, D.fraud) + '). ' + pct(fr, tx, 1) + ' of the reviewed transactions are fraud.';
+  }
+  rng.addEventListener('input', upd); upd();
+})();
+</script>
+
+  <h2>What came out</h2>
+  <ol>
+    <li><b>One small cluster is almost all fraud.</b> Cluster 8 has 243 transactions, 203 of them fraud (84%), which is
+      41% of every fraud in the file. Re-fitting with three other random seeds gave a top cluster of 243 to 302 transactions
+      and 83 to 86% fraud each time.</li>
+    <li><b>The third cluster is where the cost is.</b> Adding cluster 6 brings in 22,877 more transactions for 162 more frauds.
+      Recall goes from 44% (top two clusters) to 77%, but only 1.5% of what you review is fraud.</li>
+    <li><b>36,040 transactions can be set aside.</b> Three clusters hold no fraud at all, about 13% of the volume.</li>
+  </ol>
+  <div class="callout"><b>Read this carefully:</b> everything here is measured on the same data the clusters were fitted on.
+    There is no held-out period, and the cluster count was chosen without looking at the labels but the evaluation was not
+    held out either. Treat 84% as "the structure exists", not as an expected hit rate on new transactions.</div>
+
+  <h2>What this does not show</h2>
+  <ul>
+    <li><b>Clusters are not rings.</b> The features are PCA components with no meaning I can name, and nothing links two transactions
+      to a shared card or device. A real ring graph needs those identifiers.</li>
+    <li><b>No comparison to a plain model.</b> A supervised classifier would likely beat clustering at ranking fraud. The clusters
+      are interesting because they used no labels.</li>
+    <li><b>The file has 1,081 duplicate rows</b>, which I left in, as the repo's loader does.</li>
+  </ul>
+
+  <h2>How I would take it further</h2>
+  <ul>
+    <li><b>Fit on the early transactions and score the later ones</b> using the <code>Time</code> column, to get an honest hit rate.</li>
+    <li><b>Add a supervised baseline</b> and report both on precision among the top reviewed transactions.</li>
+    <li><b>Use a dataset with real identifiers</b> before calling anything a ring.</li>
+  </ul>
+
+  <div class="links">
+    <a href="https://github.com/Jrudani21/fraud-graph">the pipeline on GitHub &rarr;</a>
+    <a href="case-study-medicare.html">fraud with real dates and a labelled check &rarr;</a>
+    <a href="case-study-covid.html">another project re-run against its real data &rarr;</a>
+  </div>
+
+  <div class="tags">
+    <span class="tag hl">KMeans</span><span class="tag">scikit-learn</span><span class="tag">Neo4j</span>
+    <span class="tag">Fraud detection</span><span class="tag">Unsupervised</span>
+  </div>
+
+  <div class="foot">
+    <a href="index.html#projects">&larr; all projects</a>
+    <span>Janak Rudani &middot; Winnipeg &middot; 2026</span>
+  </div>
+
+</main>
+</body>
+</html>
