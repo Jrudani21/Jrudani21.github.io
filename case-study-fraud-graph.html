@@ -5,14 +5,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Case study: Can clustering anonymous card transactions point at fraud? - Janak Rudani</title>
-<meta name="description" content="284,807 anonymised card transactions, 12 unsupervised clusters, and a slider for how many clusters to review: one cluster of 243 transactions is 84 percent fraud. The clusters are not rings, and the page says why.">
+<meta name="description" content="284,807 anonymised card transactions, 12 unsupervised clusters, and a slider for how many clusters to review: one cluster of 243 transactions is 84 percent fraud. On later transactions it stays pure but small, and a plain model beats it.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Can clustering anonymous card transactions point at fraud?">
-<meta property="og:description" content="284,807 anonymised card transactions, 12 unsupervised clusters, and a slider for how many clusters to review: one cluster of 243 transactions is 84 percent fraud. The clusters are not rings, and the page says why.">
+<meta property="og:description" content="284,807 anonymised card transactions, 12 unsupervised clusters, and a slider for how many clusters to review: one cluster of 243 transactions is 84 percent fraud. On later transactions it stays pure but small, and a plain model beats it.">
 <meta property="og:url" content="https://jrudani21.github.io/case-study-fraud-graph.html">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Can clustering anonymous card transactions point at fraud?">
-<meta name="twitter:description" content="284,807 anonymised card transactions, 12 unsupervised clusters, and a slider for how many clusters to review: one cluster of 243 transactions is 84 percent fraud. The clusters are not rings, and the page says why.">
+<meta name="twitter:description" content="284,807 anonymised card transactions, 12 unsupervised clusters, and a slider for how many clusters to review: one cluster of 243 transactions is 84 percent fraud. On later transactions it stays pure but small, and a plain model beats it.">
 <meta name="twitter:image" content="https://jrudani21.github.io/assets/og-card.png">
 <link rel="canonical" href="https://jrudani21.github.io/case-study-fraud-graph.html">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
@@ -23,7 +23,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"TechArticle","headline":"Can clustering anonymous card transactions point at fraud?","description":"284,807 anonymised card transactions, 12 unsupervised clusters, and a slider for how many clusters to review: one cluster of 243 transactions is 84 percent fraud. The clusters are not rings, and the page says why.","url":"https://jrudani21.github.io/case-study-fraud-graph.html","image":"https://jrudani21.github.io/assets/og-card.png","author":{"@type":"Person","name":"Janak Rudani","url":"https://jrudani21.github.io/","sameAs":["https://github.com/Jrudani21","https://www.linkedin.com/in/janakrudani21"]}}
+{"@context":"https://schema.org","@type":"TechArticle","headline":"Can clustering anonymous card transactions point at fraud?","description":"284,807 anonymised card transactions, 12 unsupervised clusters, and a slider for how many clusters to review: one cluster of 243 transactions is 84 percent fraud. On later transactions it stays pure but small, and a plain model beats it.","url":"https://jrudani21.github.io/case-study-fraud-graph.html","image":"https://jrudani21.github.io/assets/og-card.png","author":{"@type":"Person","name":"Janak Rudani","url":"https://jrudani21.github.io/","sameAs":["https://github.com/Jrudani21","https://www.linkedin.com/in/janakrudani21"]}}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -219,24 +219,37 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
       Recall goes from 44% (top two clusters) to 77%, but only 1.5% of what you review is fraud.</li>
     <li><b>36,040 transactions can be set aside.</b> Three clusters hold no fraud at all, about 13% of the volume.</li>
   </ol>
-  <div class="callout"><b>Read this carefully:</b> everything here is measured on the same data the clusters were fitted on.
-    There is no held-out period, and the cluster count was chosen without looking at the labels but the evaluation was not
-    held out either. Treat 84% as "the structure exists", not as an expected hit rate on new transactions.</div>
+  <div class="callout"><b>Read this carefully:</b> the numbers above are measured on the data the clusters were fitted on.
+    The next section is the honest test.</div>
+
+  <h2>Does it hold on later transactions?</h2>
+  <p>I sorted by <code>Time</code>, fitted the scaler and KMeans (12 clusters) on the first 70% (199,364 transactions, 384 fraud),
+    ranked clusters by their fraud rate in that part only, and applied them to the last 30% (85,443 transactions, 108 fraud).</p>
+  <table>
+    <tr><th>Review</th><th>Transactions</th><th>Fraud caught</th><th>Fraud among reviewed</th></tr>
+    <tr><td>Top cluster (3 seeds)</td><td>10 to 13</td><td>10 to 13 of 108</td><td>100%</td></tr>
+    <tr><td>Top 2 clusters (3 seeds)</td><td>247 to 2,473</td><td>14 to 68 of 108</td><td>2.7% to 5.7%</td></tr>
+    <tr><td>Logistic regression, 13 transactions</td><td>13</td><td>12 of 108</td><td>92%</td></tr>
+    <tr><td>Logistic regression, 393 transactions</td><td>393</td><td>91 of 108</td><td>23%</td></tr>
+  </table>
+  <p>The top cluster stays pure out of time, but it is tiny: 13 transactions out of 85,443. The same 13 or so frauds are
+    found by a logistic regression trained on the labels, and at a 393-transaction budget the regression catches 91 of 108
+    frauds where the top two clusters catch 14. The in-sample 41% recall does not carry over.</p>
+  <div class="callout"><b>So what is it good for?</b> Finding a compact, stable group of near-certain fraud without any labels. It
+    is not a competitive detector. Supervised models win once you have labels.</div>
 
   <h2>What this does not show</h2>
   <ul>
     <li><b>Clusters are not rings.</b> The features are PCA components with no meaning I can name, and nothing links two transactions
       to a shared card or device. A real ring graph needs those identifiers.</li>
-    <li><b>No comparison to a plain model.</b> A supervised classifier would likely beat clustering at ranking fraud. The clusters
-      are interesting because they used no labels.</li>
+    <li><b>One split, one baseline.</b> A single time cut and an untuned logistic regression. A boosted model would likely score higher still.</li>
     <li><b>The file has 1,081 duplicate rows</b>, which I left in, as the repo's loader does.</li>
   </ul>
 
   <h2>How I would take it further</h2>
   <ul>
-    <li><b>Fit on the early transactions and score the later ones</b> using the <code>Time</code> column, to get an honest hit rate.</li>
-    <li><b>Add a supervised baseline</b> and report both on precision among the top reviewed transactions.</li>
-    <li><b>Use a dataset with real identifiers</b> before calling anything a ring.</li>
+    <li><b>Use a dataset with real identifiers</b> (card, device, IP) before calling anything a ring.</li>
+    <li><b>Feed the cluster id to the supervised model as a feature</b> and see whether it adds anything.</li>
   </ul>
 
   <div class="links">
