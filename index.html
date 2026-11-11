@@ -1852,6 +1852,14 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
 .faq-list summary::after { content: '+'; margin-left: auto; color: var(--accent); font-family: 'VT323', monospace; font-size: 1.4rem; }
 .faq-list details[open] summary::after { content: '\2212'; }
 .faq-list p { color: var(--dim); margin: 0.8rem 0 0 2.2rem; max-width: 40rem; }
+
+/* ---------- hover: the label lifts to ink, the chart goes 95% to 100% ----------
+   Linear's measured pattern: dim at rest, full on hover, no movement. */
+.project-link { transition: color 150ms var(--ease-out); }
+.project:hover .project-link { color: var(--text); }
+html.swiss .project:hover .project-link { color: #0a0a0a; }
+.proj-fig { opacity: 0.95; transition: opacity 150ms var(--ease-out); }
+.project:hover .proj-fig, .project:focus-within .proj-fig { opacity: 1; }
 </style>
 <section id="faq">
   <div class="section-header fade-in">
