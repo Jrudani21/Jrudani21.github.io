@@ -155,6 +155,9 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 .fg-ctl { flex-wrap: wrap; }
 .fg-ctl label { white-space: normal; }
 .fg-ctl input[type=range] { min-width: 0; flex: 1 1 9rem; }
+
+/* focus rings: designed, not the browser default (was a 1px UA outline) */
+:focus-visible { outline: 2px solid #e10600; outline-offset: 3px; }
 </style>
 </head>
 <body>

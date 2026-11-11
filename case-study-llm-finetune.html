@@ -123,6 +123,9 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 .table-scroll:focus-visible { outline: 2px solid #e10600; outline-offset: 2px; }
 @media (max-width: 760px) { td:first-child { white-space: normal; } }
 @media (max-width: 560px) { th { letter-spacing: 0.02em; } }
+
+/* focus rings: designed, not the browser default (was a 1px UA outline) */
+:focus-visible { outline: 2px solid #e10600; outline-offset: 3px; }
 </style>
 </head>
 <body>

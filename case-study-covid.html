@@ -135,6 +135,9 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 .cv-bar { height: 100%; background: #e10600; transform-origin: left center; }
 @media (prefers-reduced-motion: reduce) { .cv-chip { transition: none; } }
 /* end covid explorer */
+
+/* focus rings: designed, not the browser default (was a 1px UA outline) */
+:focus-visible { outline: 2px solid #e10600; outline-offset: 3px; }
 </style>
 </head>
 <body>
