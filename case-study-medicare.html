@@ -157,6 +157,16 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 
 /* touch target: standalone back link, 44px tall (was 22px) */
 .back { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* view switches: one segmented control, not a row of loose chips.
+   These groups redraw one panel, so they keep role="group" + aria-pressed;
+   aria-selected would claim a tab panel that does not exist. */
+.md-modes { display: inline-flex; flex-wrap: nowrap; gap: 0; border: 2px solid #0a0a0a; background: #fff; max-width: 100%; overflow-x: auto; }
+.md-modes > button { border: 0; border-right: 1px solid #0a0a0a; border-radius: 0; min-height: 44px; white-space: nowrap; padding: 0.4rem 1rem; }
+.md-modes > button:last-child { border-right: 0; }
+.md-modes > button:hover { background: #f4f4f2; color: #0a0a0a; border-color: #0a0a0a; }
+.md-modes > button.on { background: #0a0a0a; border-color: #0a0a0a; color: #fff; }
+.md-modes > button.on:hover { background: #0a0a0a; color: #fff; }
 </style>
 </head>
 <body>
