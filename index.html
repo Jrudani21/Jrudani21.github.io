@@ -1125,6 +1125,67 @@ html.swiss .hover-joke, html.swiss #projectList .project p { font-size: 1rem; }
 html.swiss .skill-meter .sm-name { font-size: 1.125rem; }
 @media (max-width: 768px) { html.swiss .nav-links a { font-size: 17px; } }
 </style>
+<style id="mobile-projects">
+/* ===== phone layout: projects become a swipe carousel ===== */
+.proj-pager { display: none; }
+.proj-pager[hidden] { display: none !important; }
+@media (max-width: 768px) {
+  /* tighter gutters: 40px each side wastes a fifth of a 390px screen */
+  section { padding: 4.5rem 1.25rem; }
+  .section-header { margin-bottom: 2rem; }
+
+  /* nav strip scrolls sideways; fade the right edge so it reads as scrollable */
+  .nav-links { -webkit-mask-image: linear-gradient(to right, #000 82%, transparent); mask-image: linear-gradient(to right, #000 82%, transparent); padding-right: 1.5rem; }
+
+  /* category chips: one swipeable row instead of three wrapped rows */
+  .proj-chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-left: -1.25rem; margin-right: -1.25rem; padding: 0 1.25rem; }
+  .proj-chips::-webkit-scrollbar { display: none; }
+  .proj-chips .chip { flex: none; }
+
+  /* the carousel: cards sit side by side, the next one peeks in */
+  html.swiss #projectList {
+    display: flex; gap: 12px; position: relative;
+    overflow-x: auto; overflow-y: hidden;
+    scroll-snap-type: x mandatory; scroll-padding: 0 1.25rem;
+    overscroll-behavior-x: contain; scrollbar-width: none;
+    margin: 0 -1.25rem; padding: 0 1.25rem 4px;
+    transition: height 200ms ease; /* height follows the card on screen, set by the carousel script */
+  }
+  html.swiss #projectList::-webkit-scrollbar { display: none; }
+  html.swiss #projectList .project {
+    flex: 0 0 calc(100% - 1.6rem); min-width: 0; align-self: flex-start;
+    scroll-snap-align: start; scroll-snap-stop: always;
+    padding: 1.4rem 1.1rem 1.5rem;
+    /* plain 1fr lets the widest child (tag row, chart) stretch the card past its width */
+    grid-template-columns: minmax(0, 1fr); overflow: hidden;
+  }
+  html.swiss #projectList .project > * { min-width: 0; }
+  html.swiss #projectList .project p { font-size: 1rem; }
+  html.swiss #projectList .project h3 { overflow-wrap: anywhere; }
+
+  .proj-pager { display: flex; align-items: center; gap: 0.75rem; margin: 0 0 1rem; }
+  .proj-pager button {
+    flex: none; width: 52px; min-height: 52px; background: #fff; color: #0a0a0a;
+    border: 1px solid #0a0a0a; border-radius: 0; cursor: pointer;
+    font: 600 1.6rem/1 'Space Grotesk', system-ui, sans-serif;
+    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+  }
+  .proj-pager button:active { background: #e10600; color: #fff; border-color: #e10600; }
+  .proj-pager button:disabled { opacity: 0.3; pointer-events: none; }
+  .proj-pager button:focus-visible { outline: 2px solid #e10600; outline-offset: 2px; }
+  .proj-mid { flex: 1; min-width: 0; text-align: center; }
+  .proj-pos { display: block; font: 600 1.05rem/1.2 'Space Grotesk', system-ui, sans-serif; color: #e10600; margin-bottom: 0.45rem; }
+  .proj-progress { display: block; height: 3px; background: #d4d4d0; }
+  .proj-progress i { display: block; height: 100%; width: 0; background: #0a0a0a; transition: width 200ms ease; }
+
+  /* the fixed options button covered the hero buttons on the first screen */
+  .float-btns { right: 0.75rem; bottom: 0.75rem; }
+  .float-btns.at-top:not(.open) { visibility: hidden; }
+}
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  .proj-pager button, .proj-progress i, html.swiss #projectList { transition: none; }
+}
+</style>
 </head>
 <body>
 
@@ -3032,6 +3093,7 @@ console.log('%c Also: click the meme. i dare you.', 'color:#ffd166;');
     clearBtn.hidden = !q && cat === 'all';
     empty.textContent = q ? 'no relics match "' + input.value.trim() + '", the archive has no record.' : '';
     empty.classList.toggle('show', q !== '' && shown === 0);
+    list.dispatchEvent(new Event('projfilter')); // lets the phone carousel reset and recount
   }
   document.getElementById('projChips').addEventListener('click', (e) => {
     const b = e.target.closest('.chip'); if (!b) return;
@@ -3047,6 +3109,86 @@ console.log('%c Also: click the meme. i dare you.', 'color:#ffd166;');
 })();
 </script>
 
+
+<script>
+/* ================= PHONE PROJECT CAROUSEL ================= */
+(function () {
+  const list = document.getElementById('projectList');
+  if (!list) return;
+  const mq = window.matchMedia('(max-width: 768px)');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const pager = document.createElement('div');
+  pager.className = 'proj-pager';
+  pager.setAttribute('role', 'group');
+  pager.setAttribute('aria-label', 'Browse projects');
+  pager.innerHTML = '<button type="button" class="proj-prev" aria-label="Previous project">&lsaquo;</button>' +
+    '<div class="proj-mid"><span class="proj-pos" role="status" aria-live="polite"></span>' +
+    '<span class="proj-progress" aria-hidden="true"><i></i></span></div>' +
+    '<button type="button" class="proj-next" aria-label="Next project">&rsaquo;</button>';
+  list.before(pager); // above the cards, so it stays put while card heights change
+  const prev = pager.querySelector('.proj-prev'), next = pager.querySelector('.proj-next');
+  const pos = pager.querySelector('.proj-pos'), bar = pager.querySelector('.proj-progress i');
+
+  const shownCards = () => Array.from(list.querySelectorAll('.project:not(.filtered-out)'));
+  const padLeft = () => parseFloat(getComputedStyle(list).paddingLeft) || 0;
+  function index(cards) {
+    // the card whose snap position is closest to where the list is scrolled
+    let best = 0, dist = Infinity;
+    cards.forEach((c, i) => { const d = Math.abs(c.offsetLeft - padLeft() - list.scrollLeft); if (d < dist) { dist = d; best = i; } });
+    return best;
+  }
+  function update() {
+    const cards = shownCards(), n = cards.length;
+    pager.hidden = !mq.matches || n < 2;
+    if (!mq.matches) { list.style.height = ''; return; }
+    if (n === 0) return;
+    const i = index(cards);
+    list.style.height = (cards[i].offsetHeight + 4) + 'px'; // card heights differ a lot, so the list follows the visible one
+    if (pager.hidden) return;
+    pos.textContent = (i + 1) + ' / ' + n;
+    bar.style.width = ((i + 1) / n * 100) + '%';
+    prev.disabled = i === 0;
+    next.disabled = i === n - 1;
+  }
+  function go(step) {
+    const cards = shownCards();
+    const target = cards[Math.max(0, Math.min(cards.length - 1, index(cards) + step))];
+    if (target) list.scrollTo({ left: target.offsetLeft - padLeft(), behavior: reduce.matches ? 'auto' : 'smooth' });
+  }
+  // after a swipe settles on a new project, make sure its top is on screen (the old card may have been tall)
+  let settled = 0, settleTimer = 0;
+  function settle() {
+    if (!mq.matches) return;
+    const i = index(shownCards());
+    if (i === settled) return;
+    settled = i;
+    const navH = (document.getElementById('nav') || { offsetHeight: 0 }).offsetHeight;
+    const top = pager.getBoundingClientRect().top;
+    if (top < navH) window.scrollTo({ top: window.scrollY + top - navH - 8, behavior: reduce.matches ? 'instant' : 'smooth' });
+  }
+  prev.addEventListener('click', () => go(-1));
+  next.addEventListener('click', () => go(1));
+  let raf = 0;
+  list.addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(update); clearTimeout(settleTimer); settleTimer = setTimeout(settle, 180); }, { passive: true });
+  list.addEventListener('projfilter', () => { list.scrollLeft = 0; settled = 0; update(); });
+  (mq.addEventListener ? mq.addEventListener('change', update) : mq.addListener(update));
+  window.addEventListener('resize', update);
+  update();
+  // a chart view change or a font load can resize the visible card
+  if ('ResizeObserver' in window) {
+    const ro = new ResizeObserver(() => { cancelAnimationFrame(raf); raf = requestAnimationFrame(update); });
+    list.querySelectorAll('.project').forEach(c => ro.observe(c));
+  }
+
+  // hide the options button on the first screen of a phone so it cannot cover the hero buttons
+  const fb = document.getElementById('floatBtns');
+  if (fb) {
+    const top = () => fb.classList.toggle('at-top', window.scrollY < 120);
+    window.addEventListener('scroll', top, { passive: true });
+    top();
+  }
+})();
+</script>
 
 <script>
 // active nav link follows the section in view
