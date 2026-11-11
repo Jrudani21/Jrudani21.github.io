@@ -182,8 +182,6 @@ nav.scrolled {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 .modal-close:hover { transform: scale(1.05); box-shadow: var(--glow); }
-.compliment-btn { font-size: 1.3rem; padding: 1rem 2rem; background: var(--accent); border: none; border-radius: 12px; color: var(--void); font-weight: 600; cursor: pointer; font-family: 'Unbounded', sans-serif; transition: transform 0.15s; }
-.compliment-btn:active { transform: scale(0.96); }
 
 /* ---------- TOAST ---------- */
 #toast {
@@ -342,7 +340,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 .now-panel { font-family: 'VT323', monospace; font-size: 19px; color: var(--muted); margin-top: 1.6rem; min-height: 1.4em; }
 .now-panel b { color: var(--accent); font-weight: normal; }
 html.recruiter #boot, html.recruiter #particles, html.recruiter #cursor-ring,
-html.recruiter #terminal, html.recruiter #memes, html.recruiter #game, html.recruiter #circuits, html.recruiter #hobbies,
+html.recruiter #terminal, html.recruiter #game, html.recruiter #circuits, html.recruiter #hobbies,
 html.recruiter .ticker-wrap, html.recruiter .stat-joke, html.recruiter footer .console-line,
 html.recruiter #soundBtn, html.recruiter #complimentBtn, html.recruiter #panicBtn { display: none !important; }
 html.recruiter .gradient-text { animation: none; }
@@ -367,8 +365,6 @@ html.recruiter .gradient-text { animation: none; }
 .project:active, .hero-cta:active, .hero-term-btn:active { transform: scale(0.98); }
 :focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
 .section-title { text-wrap: balance; }
-@media (prefers-reduced-motion: no-preference) {
-}
 @media (prefers-reduced-motion: reduce) { ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none; } }
 
 /* ---------- BENTO PROJECTS (ref: land-book / godly grids) ---------- */
@@ -493,26 +489,6 @@ html.swiss #projectList { grid-template-columns: 1fr; }
   box-shadow: var(--glow);
 }
 
-
-/* ---------- MEME GALLERY ---------- */
-.meme-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.4rem;
-}
-.meme-card {
-  border: 1px solid var(--border); border-radius: 16px;
-  overflow: hidden; background: var(--surface);
-  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-}
-.meme-card:hover { transform: translateY(-4px) rotate(0.5deg); border-color: var(--amber); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
-.meme-card h4 {
-  font-family: 'VT323', monospace;
-  font-size: 16px; color: var(--muted);
-  padding: 0.8rem 1.3rem; border-bottom: 1px solid var(--border);
-}
-.meme-card h4::before { content: '$ '; color: var(--accent); }
-.meme-body { padding: 1.5rem; }
-
 /* Drake */
 .drake { display: flex; flex-direction: column; gap: 3px; }
 .drake-row {
@@ -525,83 +501,12 @@ html.swiss #projectList { grid-template-columns: 1fr; }
 .drake-row .label { font-size: 0.95rem; color: var(--text); font-weight: 600; }
 .drake-row .label small { display: block; color: var(--muted); font-weight: 400; font-size: 0.95rem; }
 
-/* This is fine */
-.this-is-fine { position: relative; text-align: center; }
-.this-is-fine .caption { font-size: 1rem; font-weight: 600; color: var(--amber); margin-top: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
-.tif-chart { display: block; width: 100%; max-width: 320px; height: auto; margin: 0 auto; font-family: 'Space Grotesk', sans-serif; }
-.tif-sub { font-size: 0.95rem; color: var(--muted); font-family: 'VT323', monospace; margin-top: 0.8rem; }
-
-/* Expanding brain */
-.brain-scale { display: flex; flex-direction: column; gap: 0.6rem; }
-.brain-level {
-  display: flex; align-items: center; gap: 0.9rem;
-  opacity: 0.45; transition: opacity 0.3s, transform 0.3s;
-  cursor: pointer; padding: 0.4rem 0.6rem; border-radius: 10px;
-}
-.brain-level:hover { opacity: 0.9; transform: scale(1.02); background: var(--panel); }
-.brain-level.active { opacity: 1; background: var(--accent-dim); }
-.brain-level .brain { width: 74px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-.brain-level .brain::before { content: ""; display: block; width: calc(10px + var(--s) * 11px); height: calc(10px + var(--s) * 11px); border-radius: 50%; background: var(--muted); transition: background-color 200ms var(--ease-out); }
-.brain-level.active .brain::before { background: var(--accent); }
-.brain-level .text { font-size: 0.95rem; color: var(--dim); }
-.brain-level.active .text { color: var(--text); }
-
-/* Two buttons */
-.two-btns { position: relative; text-align: center; padding: 1.2rem 0; }
-.two-btns .deadline { display: inline-block; margin-bottom: 1.2rem; font-weight: 600; color: var(--accent); }
-.two-btns .btn-pair { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-.meme-btn {
-  padding: 0.85rem 1.5rem; border-radius: 10px;
-  font-weight: 600; font-size: 0.95rem; border: none; cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s; font-family: 'Space Grotesk', sans-serif;
-}
-.meme-btn:hover { transform: scale(1.07); }
-.btn-a { background: var(--accent); color: var(--void); }
-.btn-a:hover { box-shadow: var(--glow); }
-.btn-b { background: var(--red); color: var(--void); }
-.btn-b:hover { box-shadow: 0 0 20px rgba(255,107,107,0.4); }
-.meme-result { margin-top: 1.1rem; font-size: 0.95rem; color: var(--amber); font-family: 'VT323', monospace; min-height: 1.6em; }
-
-/* Mocking */
-.mocking { font-family: 'VT323', monospace; font-size: 1.05rem; line-height: 1.9; text-align: center; cursor: pointer; transition: color 0.2s; }
-.mocking:hover { color: var(--amber); }
-.mock { text-transform: lowercase; }
-.mock::first-letter { text-transform: uppercase; }
-.mock-note { margin-top: 1rem; font-size: 0.95rem; color: var(--muted); font-family: 'VT323', monospace; text-align: center; }
-
 /* Change my mind */
 .cmm-box { border: 3px solid var(--amber); border-radius: 12px; padding: 2rem 1.2rem; background: var(--panel); text-align: center; transition: transform 0.3s, box-shadow 0.3s; }
 .cmm-box:hover { transform: scale(1.02); box-shadow: 0 0 40px rgba(255,209,102,0.15); }
 .cmm-title { font-size: 1.4rem; font-weight: 600; line-height: 1.4; }
 .cmm-title span { color: var(--muted); font-weight: 400; font-size: 0.95rem; display: block; margin-top: 0.4rem; }
 .cmm-note { margin-top: 1rem; font-size: 0.95rem; color: var(--muted); font-family: 'VT323', monospace; text-align: center; }
-
-/* P-value casino */
-.casino { text-align: center; padding: 0.5rem 0; }
-.casino-slots {
-  display: flex; gap: 0.8rem; justify-content: center;
-  font-family: 'VT323', monospace; font-size: 2.4rem;
-  font-weight: 600; margin-bottom: 1.4rem;
-}
-.casino-slot {
-  background: var(--panel); border: 1px solid var(--border);
-  border-radius: 12px; padding: 0.8rem 1.2rem; min-width: 90px;
-  color: var(--text); transition: border-color 0.3s;
-}
-.casino-slot.spinning { animation: slot-shake 0.2s linear infinite; }
-@keyframes slot-shake { 0%,100% { transform: translateY(0); } 25% { transform: translateY(-4px); } 75% { transform: translateY(4px); } }
-.casino-verdict { font-size: 0.95rem; font-family: 'VT323', monospace; min-height: 1.6em; margin-bottom: 1.2rem; }
-.casino-verdict.sig { color: var(--accent); }
-.casino-verdict.nosig { color: var(--red); }
-.casino-lever {
-  padding: 0.85rem 2rem; border-radius: 60px;
-  background: var(--violet); color: #fff; border: none;
-  font-weight: 600; font-size: 18px; cursor: pointer;
-  font-family: 'Space Grotesk', sans-serif;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.casino-lever:hover { transform: scale(1.06) rotate(-2deg); box-shadow: 0 0 30px rgba(139,124,246,0.4); }
-.casino-note { margin-top: 1rem; font-size: 0.95rem; color: var(--muted); font-family: 'VT323', monospace; }
 
 /* ---------- GAME ---------- */
 .game-section { text-align: center; }
@@ -754,17 +659,7 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
   .float-btns { right: 1rem; bottom: 1rem; }
   .terminal-body { min-height: 240px; max-height: 320px; }
 }
-/* ===== STAR WARS + PSYCHO MOVIE ADDITIONS ===== */
-.saber-wrap { display:flex; flex-direction:column; align-items:center; }
-.saber-beam { width:10px; height:150px; border-radius:5px 5px 0 0; background:linear-gradient(to top, #fff 0 8%, #ff3131 30%, #8a0000 100%); box-shadow:0 0 24px rgba(255,49,49,.9), 0 0 60px rgba(255,49,49,.45); animation:saber-hum 2.4s ease-in-out infinite; }
-@keyframes saber-hum { 0%,100% { box-shadow:0 0 24px rgba(255,49,49,.9), 0 0 60px rgba(255,49,49,.45);} 50% { box-shadow:0 0 32px rgba(255,49,49,1), 0 0 80px rgba(255,49,49,.6);} }
-.saber-hilt { width:20px; height:34px; background:linear-gradient(90deg,#1a1a1a,#444,#1a1a1a); border-radius:2px 2px 8px 8px; margin-top:-3px; box-shadow:0 2px 6px rgba(0,0,0,.6); }
-.polaroid { background:var(--panel); border:1px solid var(--border); padding:1rem 1rem 0.8rem; transform:rotate(-2deg); box-shadow:0 12px 30px rgba(0,0,0,.5); display:inline-block; }
-.polaroid p { font-family:'VT323',monospace; font-size:1rem; color:var(--dim); text-align:center; margin-top:0.6rem; }
 #matrixResult { font-size:1rem; }
-.meme-result { font-size:1rem; }
-.btn-b { background: var(--violet); color: var(--void); }
-.btn-b:hover { box-shadow: 0 0 20px rgba(89,217,255,0.4); }
 /* ===== CIRCUIT BUILDER GAME ===== */
 .circuit-section { text-align: center; }
 .circuit-wrap {
@@ -916,7 +811,7 @@ html.swiss .chip:hover { border-color: #e10600; color: #e10600; }
 html.swiss .chip.on { background: #e10600; border-color: #e10600; color: #fff; }
 
 /* cards in lower sections */
-html.swiss .meme-card, html.swiss .hobby-card, html.swiss .skill-meter { background: var(--panel); border: 0; border-top: 2px solid #0a0a0a; box-shadow: none; }
+ html.swiss .hobby-card, html.swiss .skill-meter { background: var(--panel); border: 0; border-top: 2px solid #0a0a0a; box-shadow: none; }
 html.swiss .cmm-box { background: var(--panel); border: 0; border-top: 6px solid #e10600; }
 
 /* method, faq, cta */
@@ -1001,32 +896,7 @@ html.swiss .section-num { display: none; }
   html.swiss .hero > .hero-stats { grid-column: 2; grid-row: 3 / span 3; margin-top: 0; grid-template-columns: repeat(2, minmax(0,1fr)); border-top: 0; border-left: 2px solid #0a0a0a; padding: 0 0 0 2.5rem; align-content: start; }
 }
 html.swiss .hero-name { font-size: clamp(3.6rem, 17vw, 17rem); }
-/* swiss: memes section */
-html.swiss .meme-card { padding:1.5rem; border:0; border-top:2px solid #0a0a0a; border-radius:0; background:#fff; box-shadow:none; text-shadow:none; }
-html.swiss .meme-card:hover { border:0; border-top:2px solid #0a0a0a; box-shadow:none; text-shadow:none; transform:none; }
-html.swiss .meme-card h4 { padding:0 0 0.75rem; border-bottom:0; color:#4a4a4a; font-family:'VT323',monospace; font-size:1rem; text-shadow:none; }
-html.swiss .meme-body { padding:0; font-family:'Space Grotesk',sans-serif; font-size:1rem !important; color:#4a4a4a !important; text-shadow:none; }
-html.swiss .meme-body [style*="VT323"],
-html.swiss .meme-body [style*="0.95rem"],
-html.swiss .meme-body [style*="14px"] { font-family:'Space Grotesk',sans-serif !important; font-size:1rem !important; color:#4a4a4a !important; }
-html.swiss .meme-body [style*="var("] { color:#0a0a0a !important; }
-html.swiss .caption,
-html.swiss .polaroid p,
-html.swiss .casino-verdict { font-family:'Space Grotesk',sans-serif; font-size:1rem; color:#0a0a0a; text-shadow:none; }
-html.swiss .tif-sub,
-html.swiss .mock-note,
-html.swiss .meme-result,
-html.swiss .mocking,
-html.swiss .brain-level .text,
-html.swiss .casino-slot,
-html.swiss .casino-note { font-family:'Space Grotesk',sans-serif; font-size:1rem; color:#4a4a4a; text-shadow:none; }
-html.swiss .meme-btn { min-height:48px; font-size:1rem; box-shadow:none; text-shadow:none; }
-html.swiss .meme-btn:hover,
-html.swiss .btn-a:hover,
-html.swiss .btn-b:hover { box-shadow:none; text-shadow:none; transform:none; }
-html.swiss .casino-lever { min-height:48px; font-size:1rem; box-shadow:none; text-shadow:none; }
-html.swiss .compliment-btn { min-height:48px; font-size:1rem !important; background:#e10600 !important; color:#fff !important; box-shadow:none !important; text-shadow:none; }
-html.swiss .compliment-btn:hover { box-shadow:none !important; }
+html.swiss .caption { font-family:'Space Grotesk',sans-serif; font-size:1rem; color:#0a0a0a; text-shadow:none; }
 
 </style>
 <style id="motion">
@@ -1224,7 +1094,6 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
     <a href="#client-work">client work</a>
     <a href="#terminal">terminal</a>
     <a href="#skills">skills</a>
-    <a href="#memes">memes</a>
     <a href="#game">game</a>
     <a href="#circuits">circuits</a>
     <a href="#process">method</a>
@@ -1597,7 +1466,7 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
     </div>
 
   </div>
-  <p class="section-subtitle">Shared with each client's permission. The strategy, content, brand and data belong to the clients; these notes cover only my part.</p>
+  <p class="section-subtitle">Shared with each client's permission. The strategy, content, brand and data belong to the clients; these notes cover only my part. <a href="freelance.html">How each project worked, step by step &rarr;</a></p>
 </section>
 <!-- ================= TERMINAL ================= -->
 <section id="terminal" class="band-dark"><div class="band-inner">
@@ -1654,179 +1523,6 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
 </section>
 
 
-<!-- ================= MEMES ================= -->
-<section id="memes">
-  <div class="section-header fade-in">
-    <p class="section-num">04 - holocron of memes</p>
-    <h2 class="section-title">A Data Scientist's Memes (Empire Edition)</h2>
-    <p class="section-subtitle">From a galaxy far, far away and a therapist's office. Click things.</p>
-  </div>
-    <div class="meme-grid stagger" id="memeGrid">
-
-    <!-- VADER -->
-    <div class="meme-card">
-      <h4>vader_disturbing.gif</h4>
-      <div class="meme-body">
-        <div class="saber-wrap">
-          <div class="saber-beam"></div>
-          <div class="saber-hilt"></div>
-        </div>
-        <div style="text-align:center; margin-top:1.2rem;">
-          <div style="font-size:1.3rem; font-weight:600; font-family:'Unbounded',sans-serif; line-height:1.4;">I find your lack of<br><span style="color:var(--accent);">p-values</span> disturbing</div>
-          <div style="margin-top:0.7rem; font-size:0.95rem; color:var(--muted); font-family:'VT323',monospace;">- Darth Vader, after reading your summary() output</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- THIS IS FINE -->
-    <div class="meme-card">
-      <h4>this_is_fine.png</h4>
-      <div class="meme-body">
-        <div class="this-is-fine">
-          <svg class="tif-chart" viewBox="0 0 320 110" role="img" aria-label="Training accuracy 99.9 percent, test accuracy 51 percent" xmlns="http://www.w3.org/2000/svg"><text x="0" y="26" font-size="16" fill="currentColor">train</text><rect x="64" y="8" width="214" height="26" fill="#0a0a0a"/><text x="286" y="28" font-size="18" font-weight="600" fill="#0a0a0a">99.9%</text><text x="0" y="76" font-size="16" fill="currentColor">test</text><rect x="64" y="58" width="109" height="26" fill="#e10600"/><text x="181" y="78" font-size="18" font-weight="600" fill="#e10600">51%</text></svg>
-          <div class="caption">the model is overfitting<br>but it's fine</div>
-          <div class="tif-sub">the force: imbalanced</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MATRIX -->
-    <div class="meme-card">
-      <h4>matrix_pills.sh</h4>
-      <div class="meme-body">
-        <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
-          <button class="meme-btn btn-a" onclick="matrixPill('red')">red pill</button>
-          <button class="meme-btn btn-b" onclick="matrixPill('blue')">blue pill</button>
-        </div>
-        <div class="meme-result" id="matrixResult">stay in the loop of endless revisions, or see how deep the p-hacking goes</div>
-      </div>
-    </div>
-
-    <!-- INCEPTION -->
-    <div class="meme-card">
-      <h4>inception_totem.gif</h4>
-      <div class="meme-body">
-        <div style="text-align:center;">
-          <div id="totem" role="button" tabindex="0" aria-label="Spin the totem" onclick="spinTotem()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();spinTotem()}" style="cursor:pointer; display:inline-block; user-select:none; line-height:0;"><svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="3"><circle cx="32" cy="32" r="26"/><path d="M32 6v14M32 44v14M6 32h14M44 32h14" stroke-linecap="round"/><circle cx="32" cy="32" r="5" fill="#e10600" stroke="none"/></svg></div>
-          <div style="margin-top:0.7rem; font-size:1rem; font-weight:600; line-height:1.5;">is this a real result,<br><span style="color:var(--violet);">or did I overfit it into existence?</span></div>
-          <div class="mock-note" id="totemNote">click the totem. if it stops spinning, you're in reality. if not... rerun with a different seed.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- EXPANDING BRAIN -->
-    <div class="meme-card">
-      <h4>expanding_brain.png</h4>
-      <div class="meme-body">
-        <div class="brain-scale" id="brainScale">
-          <div class="brain-level active" data-level="0"><div class="brain" style="--s:1"></div><div class="text">"I'll just use Excel"</div></div>
-          <div class="brain-level" data-level="1"><div class="brain" style="--s:2"></div><div class="text">"Linear regression solves everything"</div></div>
-          <div class="brain-level" data-level="2"><div class="brain" style="--s:3"></div><div class="text">"Wait... I should check for overdispersion"</div></div>
-          <div class="brain-level" data-level="3"><div class="brain" style="--s:4"></div><div class="text">"Negative Binomial GLM + Bayesian priors. The dark side of stats."</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- FIGHT CLUB -->
-    <div class="meme-card">
-      <h4>fight_club_rules.txt</h4>
-      <div class="meme-body">
-        <div style="text-align:center; padding:0.6rem 0;">
-          <div style="margin-top:1rem; font-size:1.05rem; font-weight:600; line-height:1.6;">The first rule of p-hacking:<br>you don't talk about p-hacking.</div>
-          <div style="margin-top:0.7rem; font-size:1.05rem; font-weight:600; color:var(--accent); line-height:1.6;">The second rule of p-hacking:<br>you DEFINITELY don't talk about p-hacking.</div>
-          <div class="mock-note">(this portfolio violates both rules. I have a problem.)</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TWO BUTTONS -->
-    <div class="meme-card">
-      <h4>two_buttons.png</h4>
-      <div class="meme-body">
-        <div class="two-btns">
-          <div class="deadline">deadline: friday, 17:00</div>
-          <div class="btn-pair">
-            <button class="meme-btn btn-a" onclick="twoButtons('ship')">Ship it</button>
-            <button class="meme-btn btn-b" onclick="twoButtons('test')">One more test</button>
-          </div>
-          <div class="meme-result" id="twoBtnsResult">choose wisely, young Padawan...</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SHINING -->
-    <div class="meme-card">
-      <h4>shining_typing.txt</h4>
-      <div class="meme-body">
-        <div id="shiningText" onclick="shiningType()" style="text-align:center; font-family:'VT323',monospace; font-size:1.05rem; line-height:1.8; color:var(--text); cursor:pointer;">all work and no p-values makes janak a dull boy</div>
-        <div class="mock-note">click to keep typing. all work. no play. no significance.</div>
-      </div>
-    </div>
-
-    <!-- MOCKING -->
-    <div class="meme-card">
-      <h4>mock.text</h4>
-      <div class="meme-body">
-        <div class="mocking" id="mocking" onclick="mockFlip()"><span class="mock">yOu CoMmItTeD aNd PuShEd WiThOuT rUnNiNg ThE tEsTs</span></div>
-        <div class="mock-note">click to cycle the roast</div>
-      </div>
-    </div>
-
-    <!-- MEMENTO -->
-        <div class="meme-card">
-          <h4>memento_seed.jpg</h4>
-          <div class="meme-body">
-            <div style="text-align:center;">
-              <div class="polaroid">
-                <p>"REMEMBER TO SET YOUR SEED...<br>wait, where am I? whose notebook is this?"</p>
-              </div>
-              <div class="mock-note">somewhere, a data scientist reruns the same cell for the 5th time.</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- COMPLIMENT BUTTON -->
-        <div class="meme-card">
-          <h4>compliment_btn.sh</h4>
-          <div class="meme-body">
-            <div style="text-align:center; padding:1.5rem 0;">
-              <button class="compliment-btn" onclick="giveCompliment()">Give me a compliment</button>
-              <div class="meme-result" id="complimentResult" style="margin-top:1.2rem; font-size:1.1rem; line-height:1.6; min-height:3rem;">click the button. you deserve it.</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- CASINO -->
-    <div class="meme-card">
-      <h4>p_value_casino.sh</h4>
-      <div class="meme-body">
-        <div class="casino">
-          <div class="casino-slots">
-            <div class="casino-slot" id="slot1">0.0</div>
-            <div class="casino-slot" id="slot2">0.0</div>
-            <div class="casino-slot" id="slot3">0.0</div>
-          </div>
-          <div class="casino-verdict" id="casinoVerdict">the Emperor demands a p-value. pull the lever.</div>
-          <button class="casino-lever" onclick="pullLever()">The Emperor demands a p-value</button>
-          <div class="casino-note">results may or may not be reproducible. the dark side has cookies.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- GIT LOG -->
-    <div class="meme-card">
-      <h4>imperial_git_log.txt</h4>
-      <div class="meme-body" style="font-family:'VT323',monospace; font-size:14px; line-height:1.9; color:var(--dim);">
-        <div><span style="color:var(--violet)">a3f9c2d</span> <span style="color:var(--amber)">(HEAD →</span> <b style="color:var(--text)">imperial data division</b><span style="color:var(--amber)">)</span> feat: declare p-values imperial property</div>
-        <div><span style="color:var(--violet)">9b1e44a</span> feat: find the rebel bug, alert the Emperor</div>
-        <div><span style="color:var(--violet)">7c0d51e</span> chore: panic about the Death Star budget, then nap</div>
-        <div><span style="color:var(--violet)">2f8a1b3</span> refactor: replaced stormtroopers with coffee (hit rate improved)</div>
-        <div><span style="color:var(--violet)">e5d3c1b</span> init: first commit (the dark side was proud)</div>
-      </div>
-    </div>
-
-  </div>
-</section>
 <!-- ================= GAME ================= -->
 <section id="game" class="game-section band-dark"><div class="band-inner">
   <div class="section-header">
@@ -2231,7 +1927,7 @@ if (window.matchMedia('(pointer: fine)').matches && !reduceMotion) {
     ring.style.top = ry + 'px';
     requestAnimationFrame(ringLoop);
   })();
-  document.querySelectorAll('a, button, .project, .hobby-card, .meme-card, .brain-level, input').forEach(el => {
+  document.querySelectorAll('a, button, .project, .hobby-card, input').forEach(el => {
     el.addEventListener('mouseenter', () => ring.classList.add('hover'));
     el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
   });
@@ -2392,80 +2088,6 @@ const meterObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('.skill-meters').forEach(el => meterObserver.observe(el));
 
 
-/* ================= BRAIN SCALE ================= */
-document.querySelectorAll('.brain-level').forEach(lvl => {
-  lvl.addEventListener('click', () => {
-    document.querySelectorAll('.brain-level').forEach(l => l.classList.remove('active'));
-    lvl.classList.add('active');
-    spawnConfetti(10);
-    blip(500 + lvl.dataset.level * 150, 0.1, 'triangle', 0.03);
-  });
-});
-
-/* ================= TWO BUTTONS ================= */
-function twoButtons(choice) {
-  const r = document.getElementById('twoBtnsResult');
-  if (choice === 'ship') {
-    r.textContent = ' Deployed to prod. The tests were going to fail anyway.';
-    spawnConfetti(12);
-    chord([523, 659], 0.2);
-  } else {
-    r.textContent = ' Added one more test... which found 3 more bugs. You monster.';
-    spawnConfetti(12);
-    blip(300, 0.2, 'sawtooth', 0.03);
-  }
-}
-
-/* ================= MOCKING ================= */
-const roasts = [
-  'yOu CoMmItTeD aNd PuShEd WiThOuT rUnNiNg ThE tEsTs',
-  'iT wOrKs On My MaChInE',
-  'hAvE yOu TrIeD tUrNiNg It OfF aNd On',
-  'jUsT aDd A cOlUmN tO tHe DaTaBaSe',
-  'tHe MoDeL wAs TrAiNeD oN dAtA fRoM tHe FuTuRe',
-  'iTs NoT a BuG iTs An UnDoCuMeNtEd FeAtUrE',
-];
-let roastIdx = 0;
-function mockFlip() {
-  roastIdx = (roastIdx + 1) % roasts.length;
-  document.querySelector('#mocking .mock').textContent = roasts[roastIdx];
-  spawnConfetti(8);
-  blip(420, 0.07, 'square', 0.03);
-}
-
-/* ================= P-VALUE CASINO ================= */
-const pValues = ['0.001', '0.019', '0.042', '0.049', '0.050', '0.051', '0.058', '0.120', '0.237', '0.410'];
-let casinoSpinning = false;
-function pullLever() {
-  if (casinoSpinning) return;
-  casinoSpinning = true;
-  const slots = [document.getElementById('slot1'), document.getElementById('slot2'), document.getElementById('slot3')];
-  const verdict = document.getElementById('casinoVerdict');
-  slots.forEach(s => s.classList.add('spinning'));
-  verdict.textContent = 'spinning the wheel of statistical fate (the dark side has cookies)...';
-  blip(200, 0.6, 'sawtooth', 0.02);
-  const values = [pValues[Math.floor(Math.random()*pValues.length)], pValues[Math.floor(Math.random()*pValues.length)], pValues[Math.floor(Math.random()*pValues.length)]];
-  setTimeout(() => {
-    slots.forEach((s, i) => {
-      s.textContent = values[i];
-      s.classList.remove('spinning');
-    });
-    const p = parseFloat(values[2]);
-    if (p < 0.05) {
-      verdict.className = 'casino-verdict sig';
-      verdict.textContent = 'p = ' + values[2] + ' - SIGNIFICANT! the Emperor approves. publish it, defend it, frame it.';
-      spawnConfetti(24);
-      chord([523, 659, 784, 1046], 0.5);
-    } else {
-      verdict.className = 'casino-verdict nosig';
-      verdict.textContent = 'p = ' + values[2] + ' - not significant. the rebellion sabotaged your sample size.';
-      spawnConfetti(8);
-      blip(180, 0.3, 'sawtooth', 0.03);
-    }
-    casinoSpinning = false;
-  }, 1400);
-}
-
 /* ================= WHACK-A-BUG ================= */
 let bugTimer = null, bugScore = 0, gameRunning = false;
 const arena = document.getElementById('gameArena');
@@ -2523,68 +2145,6 @@ function startGame() {
   }, 15000);
 }
 
-/* ================= MOVIE MEME INTERACTIONS ================= */
-function matrixPill(choice) {
-  const r = document.getElementById('matrixResult');
-  if (choice === 'red') {
-    r.textContent = 'you took the red pill. you see the truth: your p-value was 0.051. welcome to reality.';
-    spawnConfetti(18);
-    blip(220, 0.3, 'sawtooth', 0.03);
-  } else {
-    r.textContent = 'you took the blue pill. everything is fine. nothing is overfit. (this is a lie)';
-    spawnConfetti(10);
-    blip(520, 0.15, 'triangle', 0.03);
-  }
-}
-let totemSpin = null;
-function spinTotem() {
-  const t = document.getElementById('totem');
-  if (totemSpin) { clearInterval(totemSpin); totemSpin = null; }
-  let deg = 0;
-  totemSpin = setInterval(() => { deg += 30; t.style.transform = 'rotate(' + deg + 'deg)'; }, 50);
-  blip(600, 0.1, 'square', 0.03);
-  setTimeout(() => {
-    if (!totemSpin) return;
-    clearInterval(totemSpin); totemSpin = null;
-    const stillDreaming = Math.random() > 0.4;
-    if (stillDreaming) {
-      document.getElementById('totemNote').textContent = 'still spinning... you are dreaming. or overfitting. same thing.';
-      blip(300, 0.2, 'sawtooth', 0.03);
-    } else {
-      document.getElementById('totemNote').textContent = 'the totem stopped. reality confirmed. (or is it?)';
-      spawnConfetti(8);
-    }
-  }, 2500);
-}
-let shiningClicks = 0;
-function shiningType() {
-  const el = document.getElementById('shiningText');
-  shiningClicks++;
-  el.textContent += ' all work and no p-values makes janak a dull boy';
-  if (shiningClicks >= 5) el.style.color = 'var(--red)';
-  blip(200 + shiningClicks * 40, 0.06, 'square', 0.03);
-}
-const memeCompliments = [
-  "Your AUC is higher than your credit score, and that's *beautiful*.",
-  "You don't just find bugs. You *understand* them.",
-  "git blame says: everything is your fault. Translation: you *built it all*.",
-  "Negative Binomial? You handle overdispersion like a boss.",
-  "Your SARIMA forecasts are tighter than your deadlines.",
-  "253 tests. 0 sanity. 1 legend.",
-  "You teach language models statistics on an 8GB GPU. We are not the same.",
-  "The Emperor demands a p-value. You *deliver* it.",
-  "Your QLoRA pipeline runs on consumer hardware. That's not a constraint; that's *craft*.",
-  "34 bots. $0.004 spent. The T-Rex eats on pocket change.",
-];
-function giveCompliment() {
-  const r = document.getElementById('complimentResult');
-  const c = memeCompliments[Math.floor(Math.random() * memeCompliments.length)];
-  r.textContent = c;
-  spawnConfetti(22);
-  blip(523, 0.2, 'sine', 0.04);
-  setTimeout(() => blip(659, 0.2, 'sine', 0.04), 120);
-  setTimeout(() => blip(784, 0.3, 'sine', 0.04), 240);
-}
 /* ================= LIGHTSABER + VADER SOUNDS ================= */
 function sweep(f0, f1, dur) {
   if (!audioOn) return;
@@ -2687,7 +2247,6 @@ function printHelp() {
     ['whoami', 'existential self-identification'],
     ['projects', 'list the 12 receipts'],
     ['skills', 'what I bring to the table'],
-    ['memes', 'the important stuff'],
     ['hire', 'the only command that matters'],
     ['email', 'how to actually reach me'],
     ['p-value', 'statistical fortune telling'],
@@ -2724,10 +2283,6 @@ function handleCommand(raw) {
     termOut('confidence: high. sleep hygiene: low.', 'warn');
     return;
   }
-  if (cmd === 'memes') {
-    termOut('located in /memes. go scroll, you\'re on a portfolio not a terminal.', 'warn');
-    return;
-  }
   if (cmd === 'hire' || cmd === 'contact') {
     termOut('correct answer. email: janak25rudani@icloud.com', 'ok');
     spawnConfetti(20);
@@ -2760,7 +2315,7 @@ function handleCommand(raw) {
     return;
   }
   if (cmd === 'ls') {
-    termOut('projects/  skills/  memes/  hobbies/  contact/', '');
+    termOut('projects/  skills/  client-work/  hobbies/  contact/', '');
     return;
   }
   if (cmd === 'git commit' || cmd.startsWith('git commit')) {
@@ -3124,7 +2679,6 @@ console.log('%c Hey! You found the console. %cYou must be a developer. %cWe shou
   'font-size:18px; color:#00e5a0;', 'color:#ffd166;', 'color:#999;');
 console.log('%c Konami code: ↑↑↓↓←→←→BA', 'color:#ff6b6b; font-style: italic;');
 console.log('%c$_ Tip: the terminal on this page is REAL. type "hire".', 'color:#8b7cf6;');
-console.log('%c Also: click the meme. i dare you.', 'color:#ffd166;');
 </script>
 
 <script>
