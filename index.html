@@ -1653,7 +1653,7 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
         </div>
         <p class="lab-status" id="askStatus" aria-live="polite"></p>
         <div class="ai-out" id="askOut" hidden></div>
-        <p class="lab-source">Claude (Fable 5.2) reads the case studies on this site to answer. It can be wrong, so check the page it links to.</p>
+        <p class="lab-source">A free open AI model (Llama 3.3 70B, run on Cloudflare Workers AI) reads the case studies on this site to answer. It can be wrong, so check the page it links to.</p>
       </article>
 
       <article class="lab" id="labFit">
@@ -1667,7 +1667,7 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
         </div>
         <p class="lab-status" id="fitStatus" aria-live="polite"></p>
         <div class="ai-out" id="fitOut" hidden></div>
-        <p class="lab-source">The text you paste is sent to Claude (Fable 5.2) to write the answer. Do not paste anything confidential.</p>
+        <p class="lab-source">The text you paste is sent to a free open AI model (Llama 3.3 70B, run on Cloudflare Workers AI) to write the answer. Do not paste anything confidential.</p>
       </article>
 
     </div>
@@ -2972,7 +2972,7 @@ console.log('%c$_ Tip: the terminal on this page is REAL. type "hire".', 'color:
     renderList();
   })();
 
-  /* ---- C and D. Live Claude panels. They stay hidden until the page is given a proxy address:
+  /* ---- C and D. Live AI panels. They stay hidden until the page is given a proxy address:
      <section id="labs" data-endpoint="https://..."> (see _proxy/README.md). No key is ever in this page. ---- */
   (function () {
     const sec = document.getElementById('labs'), box = document.getElementById('labAI');
