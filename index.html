@@ -1192,6 +1192,18 @@ html.swiss .skill-meter .sm-name { font-size: 1.125rem; }
 @media (max-width: 768px) and (prefers-reduced-motion: reduce) {
   .proj-pager button, .proj-progress i, html.swiss #projectList { transition: none; }
 }
+<style id="client-work">
+/* client cards: same layout as the project list, but static (they are not links) */
+html.swiss .client-cards .project { display: grid; grid-template-columns: minmax(0,1fr) minmax(200px,.4fr); gap: 2rem 3rem; padding: 2.4rem 1.6rem; margin-bottom: 0; background: var(--panel); border: 0; border-top: 2px solid #0a0a0a; box-shadow: none; align-items: start; cursor: default; }
+html.swiss .client-cards .project:hover { transform: none; background: var(--panel); border-top-color: #0a0a0a; box-shadow: none; }
+html.swiss .client-cards .project:hover h3 { color: #0a0a0a; }
+html.swiss .client-cards .project:hover .project-num { color: #4a4a4a; }
+html.swiss .client-cards .project h3 { font-size: clamp(1.4rem, 2.6vw, 2.2rem); letter-spacing: -0.02em; line-height: 1.15; color: #0a0a0a; overflow-wrap: anywhere; }
+html.swiss .client-cards .project p { color: #2a2a2a; font-size: 1.05rem; }
+html.swiss .client-cards .project-side { flex-direction: column; align-items: flex-start; justify-content: flex-start; border: 0; padding: 0; gap: 1rem; }
+html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; font-size: clamp(1.3rem, 2.2vw, 1.8rem); line-height: 1.1; color: #e10600; }
+.client-cards + .section-subtitle { margin-top: 1.4rem; font-size: 0.95rem; }
+@media (max-width: 768px) { html.swiss .client-cards .project { grid-template-columns: minmax(0,1fr); gap: 1rem; padding: 1.8rem 1.2rem; } }
 </style>
 </head>
 <body>
@@ -1209,7 +1221,7 @@ html.swiss .skill-meter .sm-name { font-size: 1.125rem; }
   <a href="#" class="nav-logo" id="logo">jr._</a>
   <div class="nav-links">
     <a href="#projects">work</a>
-    <a href="freelance.html">client work</a>
+    <a href="#client-work">client work</a>
     <a href="#terminal">terminal</a>
     <a href="#skills">skills</a>
     <a href="#memes">memes</a>
@@ -1386,7 +1398,7 @@ html.swiss .skill-meter .sm-name { font-size: 1.125rem; }
   <div class="section-header fade-in">
     <p class="section-num">01 - imperial archives</p>
     <h2 class="section-title">Projects</h2>
-    <p class="section-subtitle"><span id="projTotal">12</span> relics from my Jedi training. Paid work is on the <a href="freelance.html">client work page</a>.</p>
+    <p class="section-subtitle"><span id="projTotal">12</span> relics from my Jedi training.</p>
   </div>
   <div class="proj-controls fade-in">
     <label for="projSearch" class="proj-label">filter the archive</label>
@@ -1543,6 +1555,49 @@ html.swiss .skill-meter .sm-name { font-size: 1.125rem; }
     </a>
 
   </div>
+</section>
+<!-- ================= CLIENT WORK ================= -->
+<section id="client-work">
+  <div class="section-header fade-in">
+    <p class="section-num">01b - client work</p>
+    <h2 class="section-title">Client work</h2>
+    <p class="section-subtitle">Contract support for small businesses. Their brands, content and data stay theirs, so these are described without names, numbers or samples.</p>
+  </div>
+
+  <div class="stagger client-cards">
+
+    <div class="project client-card">
+      <div>
+        <p class="project-num">A</p>
+        <h3>Data cleaning and verification</h3>
+        <p>A client had a large directory of people and companies with inconsistent, partly unverified fields. I standardized messy fields while keeping the original value beside each cleaned one, grouped job titles into consistent categories, and checked each company website against the company's name before accepting it. Every derived value carries a source and confidence label, and unknowns stay blank instead of guessed.</p>
+        <div class="tags"><span class="tag hl">Data QA</span><span class="tag">Python</span><span class="tag">Provenance</span><span class="tag">Spreadsheets</span></div>
+      </div>
+      <div class="project-side"><div class="project-score">Data QA</div></div>
+    </div>
+
+    <div class="project client-card">
+      <div>
+        <p class="project-num">B</p>
+        <h3>Content planning and production support</h3>
+        <p>A consultant wanted a steadier content rhythm. I reviewed their channels and site for inconsistencies, drafted a posting plan and a starter set of content for five platforms, gathered recurring audience questions from their own videos to shape topics, and built a small checklist script that flags claims needing review before publishing. The consultant's expertise and final decisions drove it. Regulated claims need review by a licensed professional.</p>
+        <div class="tags"><span class="tag hl">Content planning</span><span class="tag">Short video</span><span class="tag">Carousels</span><span class="tag">Review checklist</span></div>
+      </div>
+      <div class="project-side"><div class="project-score">Content</div></div>
+    </div>
+
+    <div class="project client-card">
+      <div>
+        <p class="project-num">C</p>
+        <h3>Email outreach test design</h3>
+        <p>A startup owned its offer and messaging. I helped structure a careful outreach test: a two-version design that changes only the opening line, shorter edits to their draft emails for their approval, an approval sheet and pre-send checklist covering permission and opt-outs, and sending authentication with stop rules for replies, unsubscribes and bounces.</p>
+        <div class="tags"><span class="tag hl">Email</span><span class="tag">A/B design</span><span class="tag">Compliance checklist</span><span class="tag">Deliverability</span></div>
+      </div>
+      <div class="project-side"><div class="project-score">Outreach</div></div>
+    </div>
+
+  </div>
+  <p class="section-subtitle">Shared with each client's permission. The strategy, content, brand and data belong to the clients; these notes cover only my part.</p>
 </section>
 <!-- ================= TERMINAL ================= -->
 <section id="terminal" class="band-dark"><div class="band-inner">
