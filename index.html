@@ -606,6 +606,7 @@ html.swiss #projectList { grid-template-columns: 1fr; }
 .social-link {
   font-family: 'VT323', monospace;
   font-size: 17px; color: var(--dim); text-decoration: none;
+  display: inline-flex; align-items: center; min-height: 44px;
   transition: color 0.2s; border-bottom: 1px dashed transparent;
 }
 .social-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
@@ -747,6 +748,7 @@ html.swiss .terminal-widget, html.swiss .circuit-board { box-shadow: none; borde
 /* nav + floating UI */
 html.swiss nav, html.swiss nav.scrolled { background: #fff; backdrop-filter: none; border-bottom: 1px solid #0a0a0a; }
 html.swiss .nav-logo { color: #e10600; text-shadow: none; font-weight: 600; }
+html.swiss .nav-logo { display: inline-flex; align-items: center; min-height: 44px; }
 html.swiss .nav-logo::before { color: #0a0a0a; }
 html.swiss .nav-links a { color: #0a0a0a; font-weight: 600; }
 html.swiss .nav-links a::after { background: #e10600; height: 2px; }
@@ -869,7 +871,8 @@ html.swiss .section-num, html.swiss .project-num, html.swiss .proj-label, html.s
 html.swiss .tag, html.swiss .chip, html.swiss .project-link, html.swiss .now-panel, html.swiss .float-btn { font-family: 'Space Grotesk', sans-serif; text-transform: none; letter-spacing: 0; }
 html.swiss .section-num { font-size: 1rem; font-weight: 600; color: #e10600; }
 html.swiss .proj-label { font-size: 1rem; font-weight: 600; color: #0a0a0a; }
-html.swiss .tag, html.swiss .chip { font-size: .9rem; min-height: 32px; }
+html.swiss .tag { font-size: .9rem; min-height: 32px; }
+html.swiss .chip { font-size: .9rem; min-height: 44px; display: inline-flex; align-items: center; }
 html.swiss .project-num { font-size: .95rem; color: #4a4a4a; }
 html.swiss .float-btn { font-size: 1rem; }
 html.swiss .now-panel { font-size: 1rem; color: #4a4a4a; }
