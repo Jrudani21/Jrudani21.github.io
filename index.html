@@ -1111,6 +1111,8 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
 .lab-status { min-height: 1.6em; color: #4a4a4a; margin-top: 0.7rem; }
 .lab-status.err { color: #e10600; font-weight: 600; }
 .ai-out { max-width: 70ch; background: #fff; border-left: 3px solid #e10600; padding: 0.9rem 1.1rem; margin-top: 0.6rem; color: #0a0a0a; }
+.lab-scope { color: #4a4a4a; font-size: 0.95rem; margin: 0 0 0.5rem; }
+.ai-out.refused { border-left-color: #6a6a6a; }
 .ai-out p { margin: 0 0 0.6rem; color: #0a0a0a; font-size: 1.05rem; }
 .ai-out p:last-child { margin-bottom: 0; }
 .ai-out a { text-decoration: underline; text-decoration-color: #e10600; text-decoration-thickness: 2px; text-underline-offset: 3px; }
@@ -1645,7 +1647,8 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
         <h3>Ask my portfolio</h3>
         <p class="lab-lede">Ask a question about my projects and get a short answer that links to the page it came from.</p>
         <label for="askQ" class="lab-label">Your question</label>
-        <textarea id="askQ" class="lab-text" rows="3" maxlength="400" autocomplete="off"></textarea>
+        <p class="lab-scope" id="askScope">Ask about my projects, skills, background or how to reach me. Other topics are not answered.</p>
+        <textarea id="askQ" class="lab-text" rows="3" maxlength="400" autocomplete="off" aria-describedby="askScope"></textarea>
         <div class="lab-row">
           <button type="button" class="lab-btn lab-btn--fill" id="askGo">Ask a question</button>
           <button type="button" class="lab-btn" data-fill="Which project shows how I check data quality?">Example: data quality</button>
@@ -1661,7 +1664,8 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
         <h3>Job-fit check</h3>
         <p class="lab-lede">Paste a job description and see which of my projects match it best, and where I am thin.</p>
         <label for="fitJD" class="lab-label">Job description</label>
-        <textarea id="fitJD" class="lab-text" rows="6" maxlength="4000" autocomplete="off"></textarea>
+        <p class="lab-scope" id="fitScope">Paste a real job description. Anything else is not answered.</p>
+        <textarea id="fitJD" class="lab-text" rows="6" maxlength="4000" autocomplete="off" aria-describedby="fitScope"></textarea>
         <div class="lab-row">
           <button type="button" class="lab-btn lab-btn--fill" id="fitGo">Check the fit</button>
         </div>
@@ -3016,7 +3020,7 @@ console.log('%c$_ Tip: the terminal on this page is REAL. type "hire".', 'color:
             : res.status === 503 ? 'This feature is switched off right now. Email me instead.'
             : res.status === 400 ? 'That input was not accepted. Shorten it and try again.'
             : 'That did not work. Check your connection and try again.';
-        } else { statusEl.textContent = ''; render(outEl, body.answer); }
+        } else { statusEl.textContent = ''; outEl.classList.toggle('refused', body.refused === true); render(outEl, body.answer); }
       } catch (e) {
         statusEl.className = 'lab-status err';
         statusEl.textContent = e && e.name === 'AbortError' ? 'That took too long. Try a shorter question.' : 'That did not work. Check your connection and try again.';
