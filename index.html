@@ -1860,6 +1860,22 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
 html.swiss .project:hover .project-link { color: #0a0a0a; }
 .proj-fig { opacity: 0.95; transition: opacity 150ms var(--ease-out); }
 .project:hover .proj-fig, .project:focus-within .proj-fig { opacity: 1; }
+
+/* ---------- hover: the row rule turns red, 125ms ----------
+   In normal motion the rule is #projectList .project::after (the reveal line),
+   so the selector has to match its specificity or the black background wins.
+   Under reduced motion that line is not rendered and the row's own 2px border
+   is the rule, so the border is coloured there instead. */
+html.swiss #projectList .project::after {
+  transition: transform 300ms var(--ease-out), background-color 125ms var(--ease-out);
+}
+html.swiss #projectList .project:hover::after,
+html.swiss #projectList .project:focus-within::after { background: #e10600; }
+
+@media (prefers-reduced-motion: reduce) {
+  html.swiss #projectList .project:hover,
+  html.swiss #projectList .project:focus-within { border-top-color: #e10600; }
+}
 </style>
 <section id="faq">
   <div class="section-header fade-in">
