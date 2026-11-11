@@ -77,6 +77,12 @@ td:first-child { color: var(--text); white-space: nowrap; width: 9rem; }
 @keyframes vt-out { to { opacity: 0; transform: translateY(-8px); } }
 @keyframes vt-in { from { opacity: 0; transform: translateY(12px); } }
 @media (prefers-reduced-motion: reduce) { ::view-transition-old(root), ::view-transition-new(root) { animation: none; } }
+/* tables: wrap inside the box, and scroll inside it rather than widening the page (body clips overflow) */
+.table-scroll { overflow-x: auto; max-width: 100%; margin: 1.2rem 0; }
+.table-scroll > table { margin: 0; }
+.table-scroll:focus-visible { outline: 2px solid #e10600; outline-offset: 2px; }
+@media (max-width: 760px) { td:first-child { white-space: normal; } }
+@media (max-width: 560px) { th { letter-spacing: 0.02em; } }
 </style>
 </head>
 <body>
@@ -111,12 +117,12 @@ td:first-child { color: var(--text); white-space: nowrap; width: 9rem; }
   </ul>
 
   <h3>Workflow</h3>
-  <table>
+  <div class="table-scroll" role="region" tabindex="0" aria-label="Table, scrolls sideways if it does not fit"><table>
     <tr><td>Trigger</td><td>The client needs a prospect dataset they can act on.</td></tr>
     <tr><td>Inputs</td><td>Raw records in inconsistent formats.</td></tr>
     <tr><td>What happens</td><td>Normalize, match companies to websites, verify, label provenance, audit with samples.</td></tr>
     <tr><td>Outputs</td><td>Verified datasets with source and confidence columns, plus an overview report.</td></tr>
-  </table>
+  </table></div>
 
   <div class="callout"><b>Not shown.</b> The records identify real people, so no rows, names or contact details appear on this
     page or anywhere in this repository.</div>
@@ -144,12 +150,12 @@ td:first-child { color: var(--text); white-space: nowrap; width: 9rem; }
   </ul>
 
   <h3>Workflow</h3>
-  <table>
+  <div class="table-scroll" role="region" tabindex="0" aria-label="Table, scrolls sideways if it does not fit"><table>
     <tr><td>Trigger</td><td>The client's brief.</td></tr>
     <tr><td>Inputs</td><td>The client's channels, website, video transcripts and primary sources.</td></tr>
     <tr><td>What happens</td><td>Verify, plan, produce, run the review check, hand over.</td></tr>
     <tr><td>Outputs</td><td>Strategy documents and ready-to-film content packs for five platforms.</td></tr>
-  </table>
+  </table></div>
 
   <div class="callout"><b>Not shown.</b> This page describes the process only. It does not reproduce the client's content, channels or
     subject matter, and it makes no claim about how the content performed.</div>
@@ -176,12 +182,12 @@ td:first-child { color: var(--text); white-space: nowrap; width: 9rem; }
   </ul>
 
   <h3>Workflow</h3>
-  <table>
+  <div class="table-scroll" role="region" tabindex="0" aria-label="Table, scrolls sideways if it does not fit"><table>
     <tr><td>Trigger</td><td>The client approves the copy and the plan.</td></tr>
     <tr><td>Inputs</td><td>A filtered contact list and approved copy.</td></tr>
     <tr><td>What happens</td><td>Slow daily sends on set weekdays, a reply pauses the sequence, weekly review against success rules set in advance.</td></tr>
     <tr><td>Outputs</td><td>Replies and booked calls, judged against those pre-set rules.</td></tr>
-  </table>
+  </table></div>
 
   <div class="callout"><b>Design only.</b> This is the design of the pilot. No results are shown, and no contact data or
     addresses appear here.</div>

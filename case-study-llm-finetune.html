@@ -117,6 +117,12 @@ th { color: #6a6a6a; }
 .gate-verdict.pass b { color: #0a0a0a; }
 figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 /* end swiss theme */
+/* tables: wrap inside the box, and scroll inside it rather than widening the page (body clips overflow) */
+.table-scroll { overflow-x: auto; max-width: 100%; margin: 1.2rem 0; }
+.table-scroll > table { margin: 0; }
+.table-scroll:focus-visible { outline: 2px solid #e10600; outline-offset: 2px; }
+@media (max-width: 760px) { td:first-child { white-space: normal; } }
+@media (max-width: 560px) { th { letter-spacing: 0.02em; } }
 </style>
 </head>
 <body>
@@ -159,24 +165,24 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
   </ol>
 
   <h2>What went wrong, and what I changed</h2>
-  <table>
+  <div class="table-scroll" role="region" tabindex="0" aria-label="Table, scrolls sideways if it does not fit"><table>
     <tr><th>problem</th><th>how I found it</th><th>fix</th></tr>
     <tr><td>A first draft of the harness looked finished but was broken</td><td>I ran it: the question file was not valid JSONL, one import was unused, the Ollama options were in the wrong field, and some "wrong answer" markers matched correct answers</td><td>Rewrote the harness and tests by hand</td></tr>
     <tr><td>A model scored 5% on the hard set</td><td>All 19 calls had failed with HTTP 500, and the one-letter keyword <code>h</code> matched the text "HTTP"</td><td>A failed call never passes, is excluded from the test, and prints a warning. Retries added, and the one-letter keyword removed.</td></tr>
     <tr><td>Judge gave every answer a 5</td><td>I fed it a correct, an off-topic and a wrong answer: it scored 5, 1 and 1</td><td>The judge passed that manual three-answer check. The easy set also had no reference answers, so I wrote a harder set with them.</td></tr>
     <tr><td>Keyword pass on wrong answers</td><td>I read the hard-set answers: "likelihood" passed an answer saying AIC can be compared across differencing orders, and one answer was cut off at the 400-token cap before its number</td><td>Keywords are a floor, not a grade, and the judge is the second opinion. The next run raises the token cap.</td></tr>
-  </table>
+  </table></div>
   <div class="callout">
     <b>The lesson.</b> A harness that reports a number is not a harness that works. The 5% looked like a finding
     until I read the answers.
   </div>
 
   <h2>Results</h2>
-  <table>
+  <div class="table-scroll" role="region" tabindex="0" aria-label="Table, scrolls sideways if it does not fit"><table>
     <tr><th>question set</th><th>keyword pass, qwen3-8b vs qwen3.5-9b</th><th>judge mean (1 to 5), qwen3-8b vs qwen3.5-9b</th></tr>
     <tr><td>Easy, n = 30</td><td>97% vs 100%, McNemar p = 1.0</td><td>5.0 vs 5.0, all 30 tied</td></tr>
     <tr><td>Hard, n = 19</td><td>89% vs 84%, McNemar p = 1.0</td><td>4.05 vs 4.47, sign test p = 0.69 (qwen3-8b better on 2, qwen3.5-9b on 4, 13 tied)</td></tr>
-  </table>
+  </table></div>
   <ul>
     <li>The easy set could not tell the models apart, so it stopped being useful. The hard set has a reference answer for every question.</li>
     <li>The two methods pointed opposite ways: keywords favoured qwen3-8b, the judge favoured qwen3.5-9b, and they flatly contradicted each other on 3 of the 19 hard questions. That is why I report both.</li>
@@ -189,13 +195,13 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
     This is a re-run, not the adapter from the first run. Both columns are the same 4-bit base model, with the
     adapter switched on or off, greedy decoding and the Qwen chat template. The answer cap went from 400 to 1024 tokens,
     and I wrote 24 more hard questions (73 in all) so that enough questions could split to make the exact test usable.</p>
-  <table>
+  <div class="table-scroll" role="region" tabindex="0" aria-label="Table, scrolls sideways if it does not fit"><table>
     <tr><th>question set</th><th>base (adapter off)</th><th>tuned (adapter on)</th></tr>
     <tr><td>Easy, n = 30</td><td>28</td><td>28</td></tr>
     <tr><td>Hard, n = 19</td><td>15</td><td>17</td></tr>
     <tr><td>New hard, n = 24</td><td>23</td><td>21</td></tr>
     <tr><td><strong>All, n = 73</strong></td><td><strong>66 (90%)</strong></td><td><strong>66 (90%)</strong></td></tr>
-  </table>
+  </table></div>
   <ul>
     <li><strong>No measurable difference.</strong> Keyword pass is 90% for both. Exactly 6 questions split the models, 3 each way, so the exact McNemar test gives p = 1.0.</li>
     <li>Tuned answers were shorter: about 1,200 characters against 1,930 for the base, on the first 49 questions.</li>

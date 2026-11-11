@@ -150,6 +150,12 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 @keyframes sx-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .sx-in { animation: none; } .sx-chip { transition: none; } }
 /* end sure explorer */
+/* tables: wrap inside the box, and scroll inside it rather than widening the page (body clips overflow) */
+.table-scroll { overflow-x: auto; max-width: 100%; margin: 1.2rem 0; }
+.table-scroll > table { margin: 0; }
+.table-scroll:focus-visible { outline: 2px solid #e10600; outline-offset: 2px; }
+@media (max-width: 760px) { td:first-child { white-space: normal; } }
+@media (max-width: 560px) { th { letter-spacing: 0.02em; } }
 </style>
 </head>
 <body>
@@ -195,12 +201,12 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
     <figcaption>the same four answers on the board: tier first, then the exact command, then how to undo it</figcaption>
   </figure>
   <p>Every card carries a tier that says how bad a mistake would be, and the tier decides what you may do:</p>
-  <table>
+  <div class="table-scroll" role="region" tabindex="0" aria-label="Table, scrolls sideways if it does not fit"><table>
     <tr><th>tier</th><th>meaning</th><th>your options</th></tr>
     <tr><td>easy</td><td>simple to reverse, like a package install</td><td>allow once, block, or always allow in that project</td></tr>
     <tr><td>hard</td><td>reversible only with git or a backup</td><td>allow once or block</td></tr>
     <tr><td>impossible</td><td>cannot be taken back, like a production destroy or a leaked key</td><td>block, or allow once with a second confirming click</td></tr>
-  </table>
+  </table></div>
 
   
   
@@ -317,25 +323,25 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
     <li><b>An independent audit.</b> A second model reviews the diff read-only and reports exact commands and results, not opinions.</li>
   </ol>
   <p>Those gates caught real bugs, not hypothetical ones:</p>
-  <table>
+  <div class="table-scroll" role="region" tabindex="0" aria-label="Table, scrolls sideways if it does not fit"><table>
     <tr><th>found by</th><th>bug</th></tr>
     <tr><td>old-vs-new replay</td><td>a case-sensitivity change silently dropped cards for <code>AUTH.py</code> and <code>CREDENTIALS.json</code></td></tr>
     <tr><td>speed budget</td><td>a <code>timeout</code> pattern backtracked exponentially and could stall the hook past its limit</td></tr>
     <tr><td>audit</td><td>a <code>git rm</code> pattern was quadratic: 0.145 s on a 4,000-character input, three times over budget</td></tr>
     <tr><td>audit</td><td><code>git commit -m "fix -n flag parsing"</code> raised a safety-bypass card because a flag inside a quoted message was read as a flag</td></tr>
     <tr><td>audit</td><td><code>npx @anthropic-ai/claude-code -p</code> and <code>ssh -R8080:...</code> slipped past the first version of their rules</td></tr>
-  </table>
+  </table></div>
 
   <h2>Where it sits among similar tools</h2>
   <p>I read the READMEs of three open-source projects in the same space before settling on Sure?'s scope. They overlap, but
     they make different trade-offs:</p>
-  <table>
+  <div class="table-scroll" role="region" tabindex="0" aria-label="Table, scrolls sideways if it does not fit"><table>
     <tr><th>tool</th><th>approach</th><th>pick it when</th></tr>
     <tr><td>Sure?</td><td>pattern rules as plain data, plain-English cards with an undo answer, a local approvals board</td><td>you want every risky action explained to a person, on Windows, with no dependencies</td></tr>
     <tr><td>AgentTrail Guard</td><td>74 pattern rules in 11 packs, per-rule allow lists, a transcript scan report</td><td>you want more rules today across Claude Code, Cursor and Codex</td></tr>
     <tr><td>cc-safety-net</td><td>parses what a command actually does, with presets and cloud rulebooks, 17 coding CLIs</td><td>you want real shell parsing or many different agents</td></tr>
     <tr><td>Cupcake</td><td>policy as code (OPA/Rego compiled to Wasm), allow, modify, block, warn or review</td><td>you want policy-as-code and enterprise controls</td></tr>
-  </table>
+  </table></div>
   <p>Where Sure? is behind, and the README says so: the public repo covers Claude Code only, detection is pattern matching
     and not a parser, and it has no custom-rule test runner or transcript scan yet.</p>
 

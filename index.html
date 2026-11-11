@@ -1134,9 +1134,6 @@ html.swiss .skill-meter .sm-name { font-size: 1.125rem; }
   section { padding: 4.5rem 1.25rem; }
   .section-header { margin-bottom: 2rem; }
 
-  /* nav strip scrolls sideways; fade the right edge so it reads as scrollable */
-  .nav-links { -webkit-mask-image: linear-gradient(to right, #000 82%, transparent); mask-image: linear-gradient(to right, #000 82%, transparent); padding-right: 1.5rem; }
-
   /* category chips: one swipeable row instead of three wrapped rows */
   .proj-chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-left: -1.25rem; margin-right: -1.25rem; padding: 0 1.25rem; }
   .proj-chips::-webkit-scrollbar { display: none; }
@@ -1181,6 +1178,16 @@ html.swiss .skill-meter .sm-name { font-size: 1.125rem; }
   /* the fixed options button covered the hero buttons on the first screen */
   .float-btns { right: 0.75rem; bottom: 0.75rem; }
   .float-btns.at-top:not(.open) { visibility: hidden; }
+}
+/* nav: 11 links do not fit between 769 and ~960px (landscape phones, small tablets), so the
+   swipeable strip used on phones now applies up to 960px; the right edge fades to show it scrolls */
+@media (max-width: 960px) {
+  nav { padding: 1rem 1.2rem; }
+  nav.scrolled { padding: 0.7rem 1.2rem; }
+  .nav-links { gap: 0.9rem; overflow-x: auto; scrollbar-width: none; max-width: 68vw; padding-right: 1.5rem;
+    -webkit-mask-image: linear-gradient(to right, #000 82%, transparent); mask-image: linear-gradient(to right, #000 82%, transparent); }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links a { flex: none; }
 }
 @media (max-width: 768px) and (prefers-reduced-motion: reduce) {
   .proj-pager button, .proj-progress i, html.swiss #projectList { transition: none; }
