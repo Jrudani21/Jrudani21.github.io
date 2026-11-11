@@ -158,7 +158,6 @@ nav.scrolled {
 /* options menu: five toggles collapse behind one button, every width */
 .float-btns:not(.open) .float-btn:not(#menuBtn) { display: none; }
 #menuBtn { min-height: 44px; min-width: 44px; }
-.contact-email { overflow-wrap: anywhere; }
 #panicBtn:hover { border-color: var(--red); color: var(--red); }
 #complimentBtn:hover { border-color: var(--amber); color: var(--amber); }
 #soundBtn:hover { border-color: var(--accent); color: var(--accent); }
@@ -594,8 +593,9 @@ html.swiss #projectList { grid-template-columns: 1fr; }
 /* ---------- CONTACT ---------- */
 .contact-section { text-align: center; }
 .contact-email {
-  font-size: clamp(1.5rem, 4.5vw, 3.2rem);
+  font-size: clamp(0.85rem, 4.4vw, 2.9rem);
   font-weight: 600; color: var(--accent); text-decoration: none;
+  white-space: nowrap; overflow-wrap: normal; max-width: 100%;
   letter-spacing: -0.01em; transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s, text-shadow 0.2s;
   border-bottom: 2px solid var(--accent); padding-bottom: 0.3rem;
   text-shadow: var(--glow);
@@ -825,11 +825,6 @@ html.swiss .faq-list summary::before, html.swiss .faq-list summary::after { colo
 html.swiss .contact-email { color: #e10600; }
 html.swiss .social-link { color: #0a0a0a; border-bottom: 2px solid #0a0a0a; }
 html.swiss .social-link:hover { color: #e10600; border-bottom-color: #e10600; }
-html.swiss .cta { border-top: 6px solid #e10600; background: #fff; }
-html.swiss .cta-label { color: #e10600; }
-html.swiss .cta-btn { border: 2px solid #0a0a0a; color: #0a0a0a; }
-html.swiss .cta-btn--fill { background: #e10600; border-color: #e10600; color: #fff; }
-html.swiss .cta-btn:hover, html.swiss .cta-btn:not(.cta-btn--fill):hover { background: #0a0a0a; border-color: #0a0a0a; color: #fff; box-shadow: none; }
 
 /* footer: full red slab */
 html.swiss footer { background: #e10600; border-top: 0; }
@@ -1873,43 +1868,15 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
 <section id="contact" class="contact-section">
   <div class="section-header fade-in">
     <p class="section-num">11 - open a channel</p>
-    <h2 class="section-title">Contact</h2>
-    <p class="section-subtitle">I promise I write better emails than this website copy. <b>You can also just type "email" in my terminal.</b></p>
+    <h2 class="section-title">Open to data and ML roles.</h2>
+    <p class="section-subtitle">Based in Winnipeg, working remote or hybrid. I reply within a day. <b>You can also just type "email" in my terminal.</b></p>
   </div>
   <a href="mailto:Janak25rudani@icloud.com" class="contact-email">janak25rudani@icloud.com</a>
   <div class="social-links">
-    <a href="https://github.com/Jrudani21" target="_blank" rel="noopener" class="social-link">github/Jrudani21</a>
     <a href="https://www.linkedin.com/in/janakrudani21" target="_blank" rel="noopener" class="social-link">linkedin/janakrudani21</a>
+    <a href="https://github.com/Jrudani21" target="_blank" rel="noopener" class="social-link">github/Jrudani21</a>
   </div>
 </section>
-
-<style>
-.cta{border-top:1px solid var(--border);padding:clamp(5rem,12vw,10rem) max(2.2rem,calc((100vw - 1040px)/2 + 2.2rem)) clamp(4rem,9vw,7rem);position:relative;z-index:2}
-.cta-inner{max-width:62rem;margin:0}
-.cta-label{font-family:'VT323',monospace;font-size:1.25rem;letter-spacing:.15em;color:var(--accent);margin:0 0 1.5rem}
-.cta-title{font-family:'Unbounded',sans-serif;font-weight:600;font-size:clamp(2.2rem,6.5vw,5.5rem);line-height:1.1;color:var(--text);margin:0 0 2rem;max-width:14ch}
-.cta-text{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;line-height:1.6;color:var(--dim);margin:0 0 3rem;max-width:36rem}
-.cta-actions{display:flex;flex-wrap:wrap;gap:1rem}
-.cta-btn{display:inline-block;font-family:'VT323',monospace;font-size:1.4rem;letter-spacing:.1em;text-decoration:none;padding:.8rem 1.8rem;border:1px solid var(--accent);color:var(--accent);transition:background .2s,color .2s,box-shadow .2s}
-.cta-btn:hover{box-shadow:var(--glow)}
-.cta-btn--fill{background:var(--accent);color:var(--void)}
-.cta-btn:not(.cta-btn--fill):hover{background:var(--accent);color:var(--void)}
-.cta-btn:focus-visible{outline:2px solid var(--amber);outline-offset:4px}
-@media (max-width:768px){.cta-actions{flex-direction:column}.cta-btn{text-align:center}}
-@media (prefers-reduced-motion:reduce){.cta-btn{transition:none}}
-</style>
-
-<div class="cta">
-  <div class="cta-inner">
-    <p class="cta-label">&gt; contact</p>
-    <h2 class="cta-title">Open to data and ML roles.</h2>
-    <p class="cta-text">Based in Winnipeg, working remote or hybrid. I reply within a day.</p>
-    <div class="cta-actions">
-      <a class="cta-btn cta-btn--fill" href="mailto:janak25rudani@icloud.com">Email me</a>
-      <a class="cta-btn" href="https://github.com/Jrudani21">See the code</a>
-    </div>
-  </div>
-</div>
 </main>
 
 <footer>
