@@ -1876,6 +1876,19 @@ html.swiss #projectList .project:focus-within::after { background: #e10600; }
   html.swiss #projectList .project:hover,
   html.swiss #projectList .project:focus-within { border-top-color: #e10600; }
 }
+
+/* ---------- hover: caption slides 32px and fades, hover-only ----------
+   Gated on a real pointer so touch devices never get a stuck caption, and
+   revealed on :focus-within so keyboard users are not locked out. */
+@media (hover: hover) and (pointer: fine) {
+  .project-link { opacity: 0; transform: translateY(32px);
+    transition: opacity 200ms var(--ease-out) 40ms, transform 200ms var(--ease-out) 40ms, color 150ms var(--ease-out); }
+  .project:hover .project-link, .project:focus-within .project-link { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-link, .proj-fig, .project::after { transition: none; }
+  .project-link { opacity: 1; transform: none; }
+}
 </style>
 <section id="faq">
   <div class="section-header fade-in">
