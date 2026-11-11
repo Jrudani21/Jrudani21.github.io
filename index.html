@@ -1350,6 +1350,7 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
            aria-label="Filter projects by keyword">
     <span class="proj-count" id="projCount" role="status" aria-live="polite">13 projects</span>
     <button type="button" class="proj-clear" id="projClear" hidden>clear</button>
+    <button type="button" class="proj-clear" id="eli5Btn" aria-pressed="false">plain English</button>
   </div>
 
   <div class="proj-chips fade-in" id="projChips" role="group" aria-label="Filter by category">
@@ -1367,7 +1368,8 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
       <div>
         <p class="project-num">01</p>
         <h3>Telco Churn Prediction - Logistic Regression</h3>
-        <p>Binary classification on 7,043 telecom customers. Built in R with full EDA, correlation analysis, and Type II likelihood-ratio tests to quantify churn drivers. <span class="stat-joke">My AUC is higher than my credit score.</span></p>
+        <p class="desc">Binary classification on 7,043 telecom customers. Built in R with full EDA, correlation analysis, and Type II likelihood-ratio tests to quantify churn drivers. <span class="stat-joke">My AUC is higher than my credit score.</span></p>
+        <p class="eli5">Guesses which phone customers are about to leave, and says which things push them out.</p>
         <div class="tags"><span class="tag hl">Logistic Regression</span><span class="tag">R</span><span class="tag">ROC / AUC</span><span class="tag">EDA</span><span class="tag">LRT</span></div>
       </div>
       <div class="project-side"><div class="project-score">AUC 0.84</div><div class="project-link">github ↗</div></div>
@@ -1378,7 +1380,8 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
       <div>
         <p class="project-num">02</p>
         <h3>Bike Share Demand - Count Regression (R + Python)</h3>
-        <p>731 days of Capital Bikeshare demand modelled with Poisson and Negative Binomial GLMs in R, cross-validated in Python. Diagnosed severe overdispersion and quantified weather/seasonal effects with IRRs. <span class="stat-joke">Variance was 833× the mean - "Poisson, you're fired."</span></p>
+        <p class="desc">731 days of Capital Bikeshare demand modelled with Poisson and Negative Binomial GLMs in R, cross-validated in Python. Diagnosed severe overdispersion and quantified weather/seasonal effects with IRRs. <span class="stat-joke">Variance was 833× the mean - "Poisson, you're fired."</span></p>
+        <p class="eli5">How many bikes get rented on a given day, and how much weather and season move that number.</p>
         <div class="tags"><span class="tag hl">Poisson / NB GLM</span><span class="tag">R</span><span class="tag">Python</span><span class="tag">IRR</span><span class="tag">Overdispersion</span></div>
       </div>
       <div class="project-side"><div class="project-score">ΔAIC 1,200</div><div class="project-link">github ↗</div></div>
@@ -1389,7 +1392,8 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
       <div>
         <p class="project-num">03</p>
         <h3>Airline Forecasting - Full SARIMA Pipeline (R + Python)</h3>
-        <p>Complete Box-Jenkins workflow: log-transform, ADF/KPSS stationarity testing, ACF/PACF model identification, 36-month forecast with prediction intervals, benchmarked against Facebook Prophet. <span class="stat-joke">If only I could SARIMA my deadlines.</span></p>
+        <p class="desc">Complete Box-Jenkins workflow: log-transform, ADF/KPSS stationarity testing, ACF/PACF model identification, 36-month forecast with prediction intervals, benchmarked against Facebook Prophet. <span class="stat-joke">If only I could SARIMA my deadlines.</span></p>
+        <p class="eli5">A forecast of airline passenger numbers, with a range showing how unsure the forecast is.</p>
         <div class="tags"><span class="tag hl">SARIMA</span><span class="tag">R</span><span class="tag">Python</span><span class="tag">Prophet</span><span class="tag">ADF / KPSS</span></div>
       </div>
       <div class="project-side"><div class="project-score">MAPE 8.5%</div><div class="project-link">github ↗</div></div>
@@ -1399,7 +1403,8 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
       <div>
         <p class="project-num">04</p>
         <h3>Palmer Penguins - Complete Linear Models Guide</h3>
-        <p>A comprehensive linear modeling showcase: simple/multiple regression, one-way ANOVA with Tukey post-hoc, two-way ANOVA with interaction, and ANCOVA with adjusted means. <span class="stat-joke">Penguins are surprisingly cooperative. No IRB approval needed.</span></p>
+        <p class="desc">A comprehensive linear modeling showcase: simple/multiple regression, one-way ANOVA with Tukey post-hoc, two-way ANOVA with interaction, and ANCOVA with adjusted means. <span class="stat-joke">Penguins are surprisingly cooperative. No IRB approval needed.</span></p>
+        <p class="eli5">A worked example of the core statistics models, using penguin measurements instead of a business.</p>
         <div class="tags"><span class="tag hl">ANCOVA</span><span class="tag">ANOVA</span><span class="tag">Tukey HSD</span><span class="tag">R</span></div>
       </div>
       <div class="project-side"><div class="project-score">R² = 0.79</div><div class="project-link">github ↗</div></div>
@@ -1410,7 +1415,8 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
       <div>
         <p class="project-num">05</p>
         <h3>Medicare Fraud Detection - SQL + Dashboard</h3>
-        <p>Detects phantom billing - providers claiming from US + foreign addresses simultaneously (a documented CMS OIG scheme). Six SQL queries using CTEs over 9,976 synthetic claims as the shipped database has them (9,936 after the rebuild), scored against planted labels, with a rule-free peer-outlier screen and a re-run that found a date bug: 18 flagged as shipped, 200 on the rebuilt data. Move the referral cutoff in the case study. <span class="stat-joke">I find fraud for fun. Your expense reports are safe. Probably.</span></p>
+        <p class="desc">Detects phantom billing - providers claiming from US + foreign addresses simultaneously (a documented CMS OIG scheme). Six SQL queries using CTEs over 9,976 synthetic claims as the shipped database has them (9,936 after the rebuild), scored against planted labels, with a rule-free peer-outlier screen and a re-run that found a date bug: 18 flagged as shipped, 200 on the rebuilt data. Move the referral cutoff in the case study. <span class="stat-joke">I find fraud for fun. Your expense reports are safe. Probably.</span></p>
+        <p class="eli5">Looking for fake medical billing: providers claiming to work in two countries at the same time.</p>
         <div class="tags"><span class="tag hl">SQL</span><span class="tag">Streamlit</span><span class="tag">CTEs</span><span class="tag">Outlier detection</span><span class="tag">Fraud</span></div>
       </div>
       <div class="project-side"><div class="project-score">18 flagged</div><div class="project-link">case study &rarr;</div></div>
@@ -1420,7 +1426,8 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
       <div>
         <p class="project-num">06</p>
         <h3>COVID-19 Global Dashboard - Data App</h3>
-        <p>Streamlit and Plotly dashboard on the disease.sh API: global KPIs, trends, country rankings, per-capita map, searchable table. Re-run against its real data: the history feed ends in March 2023. Case study with a trend chart and rankings you can switch. <span class="stat-joke">Built when "going viral" wasn't a marketing strategy.</span></p>
+        <p class="desc">Streamlit and Plotly dashboard on the disease.sh API: global KPIs, trends, country rankings, per-capita map, searchable table. Re-run against its real data: the history feed ends in March 2023. Case study with a trend chart and rankings you can switch. <span class="stat-joke">Built when "going viral" wasn't a marketing strategy.</span></p>
+        <p class="eli5">A dashboard of worldwide COVID numbers: totals, trends, country rankings, a map and a table.</p>
         <div class="tags"><span class="tag hl">Streamlit</span><span class="tag">Plotly</span><span class="tag">REST API</span><span class="tag">Choropleth</span></div>
       </div>
       <div class="project-side"><div class="project-score">Data ends Mar 2023</div><div class="project-link">case study &rarr;</div></div>
@@ -1430,7 +1437,8 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
       <div>
         <p class="project-num">07</p>
         <h3>Local AI Assistant - Ollama, RAG, CrewAI</h3>
-        <p>$0-cost assistant running fully offline on local hardware. Streamlit UI wrapping a complete tool-calling loop: sandboxed Python REPL, hybrid BM25+cosine RAG with numbered citations, structured memory, reminders, long-chat compaction. 253 tests, CrewAI multi-agent + Graphiti knowledge graph. <span class="stat-joke">It's not sentient (yet), but it remembers my coffee order better than I do.</span></p>
+        <p class="desc">$0-cost assistant running fully offline on local hardware. Streamlit UI wrapping a complete tool-calling loop: sandboxed Python REPL, hybrid BM25+cosine RAG with numbered citations, structured memory, reminders, long-chat compaction. 253 tests, CrewAI multi-agent + Graphiti knowledge graph. <span class="stat-joke">It's not sentient (yet), but it remembers my coffee order better than I do.</span></p>
+        <p class="eli5">An assistant that runs on my own computer with no internet and no bill, and can look things up in my files.</p>
         <div class="tags"><span class="tag hl">Ollama</span><span class="tag">RAG</span><span class="tag">CrewAI</span><span class="tag">Graphiti</span><span class="tag">253 Tests</span></div>
       </div>
       <div class="project-side"><div class="project-score">253 tests</div><div class="project-link">private repo</div></div>
@@ -1440,7 +1448,8 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
       <div>
         <p class="project-num">08</p>
         <h3>QLoRA Fine-Tuning - Consumer GPU (8GB)</h3>
-        <p>Domain-specific instruction fine-tuning pipeline built for an 8GB VRAM RTX 4060. Generates a seed stats/data-science dataset locally via a 30B model - fraud detection, count regression, time-series diagnostics - at zero API cost, using Unsloth + QLoRA. Now with a held-out eval harness (exact McNemar test + LLM judge); the fine-tune comparison is pending. <span class="stat-joke">Some people game on their RTX 4060. I teach language models statistics. We are not the same.</span></p>
+        <p class="desc">Domain-specific instruction fine-tuning pipeline built for an 8GB VRAM RTX 4060. Generates a seed stats/data-science dataset locally via a 30B model - fraud detection, count regression, time-series diagnostics - at zero API cost, using Unsloth + QLoRA. Now with a held-out eval harness (exact McNemar test + LLM judge); the fine-tune comparison is pending. <span class="stat-joke">Some people game on their RTX 4060. I teach language models statistics. We are not the same.</span></p>
+        <p class="eli5">Teaching a small language model statistics on one cheap graphics card, without paying for an API.</p>
         <div class="tags"><span class="tag hl">QLoRA</span><span class="tag">Unsloth</span><span class="tag">Ollama</span><span class="tag">8GB VRAM</span><span class="tag">Synthetic Data</span></div>
       </div>
       <div class="project-side"><div class="project-score">49 held-out Qs</div><div class="project-link">case study &rarr;</div></div>
@@ -1451,7 +1460,8 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
       <div>
         <p class="project-num">09</p>
         <h3>Delivery Gate: an unattended pipeline that lied about its own health</h3>
-        <p>A nightly lead-gen pipeline reported success while shipping wrong-niche data: a manifest said <b>status: ok</b> on a delivery whose rows were 1 of 8 on-target, and a job exited 0 after scraping nothing. I audited it, root-caused the redirect behind the junk with two live HTTP probes, then built an independent gate that refuses a delivery when the rows don't match the order. <span class="stat-joke">The manifest was fine. The manifest was lying.</span></p>
+        <p class="desc">A nightly lead-gen pipeline reported success while shipping wrong-niche data: a manifest said <b>status: ok</b> on a delivery whose rows were 1 of 8 on-target, and a job exited 0 after scraping nothing. I audited it, root-caused the redirect behind the junk with two live HTTP probes, then built an independent gate that refuses a delivery when the rows don't match the order. <span class="stat-joke">The manifest was fine. The manifest was lying.</span></p>
+        <p class="eli5">A check that refuses to hand over a data delivery when the rows are not what was ordered.</p>
         <div class="tags"><span class="tag hl">Python</span><span class="tag">Data QA</span><span class="tag">Root cause</span><span class="tag">11/11 tests</span><span class="tag">Open source</span></div>
       </div>
       <div class="project-side"><div class="project-score">1/8 → 8/8</div><div class="project-link">case study →</div></div>
@@ -1461,7 +1471,8 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
       <div>
         <p class="project-num">10</p>
         <h3>Ken: a 34-bot agent fleet on one PC</h3>
-        <p>My fork of the Hermes Agent framework: 298 commits of extension work on top of it, plus the operations layer that keeps 34 bots running unattended, 9 cron jobs, 659 recorded executions, 203 skills, and $0.0037 of measured spend. <span class="stat-joke">Most of the fleet's work never reaches a metered API. That's the point.</span> A live dashboard of the fleet, themed as Jurassic Park, is at jrudani21.github.io/jurassic-park.</p>
+        <p class="desc">My fork of the Hermes Agent framework: 298 commits of extension work on top of it, plus the operations layer that keeps 34 bots running unattended, 9 cron jobs, 659 recorded executions, 203 skills, and $0.0037 of measured spend. <span class="stat-joke">Most of the fleet's work never reaches a metered API. That's the point.</span> A live dashboard of the fleet, themed as Jurassic Park, is at jrudani21.github.io/jurassic-park.</p>
+        <p class="eli5">Software that keeps 34 small AI helpers running on one computer, mostly without paying per request.</p>
         <div class="tags"><span class="tag hl">Agent engineering</span><span class="tag">Python</span><span class="tag">Cron</span><span class="tag">Local LLMs</span><span class="tag">Open source fork</span></div>
       </div>
       <div class="project-side"><div class="project-score">34 bots</div><div class="project-link">case study →</div></div>
@@ -1471,7 +1482,8 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
       <div>
         <p class="project-num">11</p>
         <h3>Sure?: plain-English safety cards for AI coding agents</h3>
-        <p>A free, local hook for Claude Code that stays quiet on safe actions and, before a risky one, shows what will happen, why it matters, what it costs and whether it can be undone. 25 kinds of risk, tested against a labelled corpus of 640+ commands with an old-versus-new replay that must lose zero cards. Stdlib only, MIT licensed, and honest in the first paragraph about what it does not catch.</p>
+        <p class="desc">A free, local hook for Claude Code that stays quiet on safe actions and, before a risky one, shows what will happen, why it matters, what it costs and whether it can be undone. 25 kinds of risk, tested against a labelled corpus of 640+ commands with an old-versus-new replay that must lose zero cards. Stdlib only, MIT licensed, and honest in the first paragraph about what it does not catch.</p>
+        <p class="eli5">A warning that appears before an AI changes something risky, saying what will happen and whether it can be undone.</p>
         <div class="tags"><span class="tag hl">AI agent safety</span><span class="tag">Python</span><span class="tag">Test-first</span><span class="tag">Differential testing</span><span class="tag">Open source</span></div>
       </div>
       <div class="project-side"><div class="project-score">25 kinds</div><div class="project-link">case study &rarr;</div></div>
@@ -1481,7 +1493,8 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
       <div>
         <p class="project-num">12</p>
         <h3>Escalation benchmark: when does a free AI model need a critic?</h3>
-        <p>Five coding tasks drawn from real Windows bugs, scored by hidden tests with no model judging another model. Compares a free model alone, a free model with a critic, and a strong model alone. The test harness was validated with known-good and known-bad solutions first, every answer was checked against the lane that actually served it, and the write-up keeps its own weak spots in view.</p>
+        <p class="desc">Five coding tasks drawn from real Windows bugs, scored by hidden tests with no model judging another model. Compares a free model alone, a free model with a critic, and a strong model alone. The test harness was validated with known-good and known-bad solutions first, every answer was checked against the lane that actually served it, and the write-up keeps its own weak spots in view.</p>
+        <p class="eli5">A test of when a free AI model needs a second model to check its work, and when it does not.</p>
         <div class="tags"><span class="tag hl">LLM evaluation</span><span class="tag">Python</span><span class="tag">Model routing</span><span class="tag">Hidden tests</span><span class="tag">Open source</span></div>
       </div>
       <div class="project-side"><div class="project-score">5 tasks</div><div class="project-link">case study &rarr;</div></div>
@@ -1491,7 +1504,8 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
       <div>
         <p class="project-num">13</p>
         <h3>Fraud clusters: what does unsupervised grouping find in card data?</h3>
-        <p>KMeans over 284,807 anonymised card transactions with the fraud label held out. One cluster of 243 transactions is 84 percent fraud, but on later transactions it is pure and tiny, and a plain logistic regression beats it. Move a slider to see what reviewing more clusters catches and costs.</p>
+        <p class="desc">KMeans over 284,807 anonymised card transactions with the fraud label held out. One cluster of 243 transactions is 84 percent fraud, but on later transactions it is pure and tiny, and a plain logistic regression beats it. Move a slider to see what reviewing more clusters catches and costs.</p>
+        <p class="eli5">Grouping card transactions without telling the model which ones are fraud, to see what it finds on its own.</p>
         <div class="tags"><span class="tag hl">KMeans</span><span class="tag">scikit-learn</span><span class="tag">Fraud detection</span><span class="tag">Neo4j</span></div>
       </div>
       <div class="project-side"><div class="project-score">84% in top cluster</div><div class="project-link">case study &rarr;</div></div>
@@ -1889,6 +1903,15 @@ html.swiss #projectList .project:focus-within::after { background: #e10600; }
   .project-link, .proj-fig, .project::after { transition: none; }
   .project-link { opacity: 1; transform: none; }
 }
+
+/* ---------- plain English toggle: a second description per project ---------- */
+.eli5 { display: none; }
+#projectList.plain .eli5 { display: block; }
+#projectList.plain .project .desc { display: none; }
+#projectList.plain .project .eli5 { color: #0a0a0a; font-size: 1.15rem; line-height: 1.4; max-width: 46ch; }
+#eli5Btn { min-height: 44px; padding: 0 0.6rem; }
+#eli5Btn:focus-visible { outline: 2px solid #e10600; outline-offset: 2px; }
+#eli5Btn[aria-pressed="true"] { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
 </style>
 <section id="faq">
   <div class="section-header fade-in">
@@ -2891,6 +2914,16 @@ console.log('%c$_ Tip: the terminal on this page is REAL. type "hire".', 'color:
   input.addEventListener('input', apply);
   input.addEventListener('keydown', (e) => { if (e.key === 'Escape') { input.value = ''; apply(); input.blur(); } });
   clearBtn.addEventListener('click', () => { input.value = ''; cat = 'all'; document.querySelectorAll('#projChips .chip').forEach(x => { const on = x.dataset.cat === 'all'; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }); apply(); input.focus(); });
+
+  /* plain English: swap every project description for its plain version */
+  const eli5Btn = document.getElementById('eli5Btn');
+  if (eli5Btn) {
+    eli5Btn.addEventListener('click', () => {
+      const on = eli5Btn.getAttribute('aria-pressed') !== 'true';
+      eli5Btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      list.classList.toggle('plain', on);
+    });
+  }
   const pt = document.getElementById('projTotal'); if (pt) pt.textContent = total;
   apply();
 })();
