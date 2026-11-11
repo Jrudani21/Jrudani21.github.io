@@ -1353,12 +1353,12 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
   </div>
 
   <div class="proj-chips fade-in" id="projChips" role="group" aria-label="Filter by category">
-    <button type="button" class="chip on" data-cat="all">All</button>
-    <button type="button" class="chip" data-cat="model">Modelling</button>
-    <button type="button" class="chip" data-cat="forecast">Forecasting</button>
-    <button type="button" class="chip" data-cat="apps">Data apps</button>
-    <button type="button" class="chip" data-cat="ai">AI &amp; agents</button>
-    <button type="button" class="chip" data-cat="auto">Automation</button>
+    <button type="button" class="chip on" data-cat="all" aria-pressed="true">All</button>
+    <button type="button" class="chip" data-cat="model" aria-pressed="false">Modelling</button>
+    <button type="button" class="chip" data-cat="forecast" aria-pressed="false">Forecasting</button>
+    <button type="button" class="chip" data-cat="apps" aria-pressed="false">Data apps</button>
+    <button type="button" class="chip" data-cat="ai" aria-pressed="false">AI &amp; agents</button>
+    <button type="button" class="chip" data-cat="auto" aria-pressed="false">Automation</button>
   </div>
 
   <div class="stagger" id="projectList">
@@ -2845,12 +2845,15 @@ console.log('%c$_ Tip: the terminal on this page is REAL. type "hire".', 'color:
   document.getElementById('projChips').addEventListener('click', (e) => {
     const b = e.target.closest('.chip'); if (!b) return;
     cat = b.dataset.cat;
-    document.querySelectorAll('#projChips .chip').forEach(x => x.classList.toggle('on', x === b));
+    document.querySelectorAll('#projChips .chip').forEach(x => {
+      x.classList.toggle('on', x === b);
+      x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+    });
     apply();
   });
   input.addEventListener('input', apply);
   input.addEventListener('keydown', (e) => { if (e.key === 'Escape') { input.value = ''; apply(); input.blur(); } });
-  clearBtn.addEventListener('click', () => { input.value = ''; cat = 'all'; document.querySelectorAll('#projChips .chip').forEach(x => x.classList.toggle('on', x.dataset.cat === 'all')); apply(); input.focus(); });
+  clearBtn.addEventListener('click', () => { input.value = ''; cat = 'all'; document.querySelectorAll('#projChips .chip').forEach(x => { const on = x.dataset.cat === 'all'; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }); apply(); input.focus(); });
   const pt = document.getElementById('projTotal'); if (pt) pt.textContent = total;
   apply();
 })();
