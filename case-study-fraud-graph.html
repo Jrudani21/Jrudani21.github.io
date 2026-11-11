@@ -145,6 +145,16 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 .fg-meta { color: var(--dim); font-size: 0.9rem; margin-top: 0.25rem; }
 @media (prefers-reduced-motion: reduce) { .fg-row { transition: none; } }
 /* end fraud explorer */
+/* tables: wrap inside the box, and scroll inside it rather than widening the page (body clips overflow) */
+.table-scroll { overflow-x: auto; max-width: 100%; margin: 1.2rem 0; }
+.table-scroll > table { margin: 0; }
+.table-scroll:focus-visible { outline: 2px solid #e10600; outline-offset: 2px; }
+@media (max-width: 760px) { td:first-child { white-space: normal; } }
+@media (max-width: 560px) { th { letter-spacing: 0.02em; } }
+/* slider fits the screen: label may wrap, track may shrink, so the row never exceeds the page */
+.fg-ctl { flex-wrap: wrap; }
+.fg-ctl label { white-space: normal; }
+.fg-ctl input[type=range] { min-width: 0; flex: 1 1 9rem; }
 </style>
 </head>
 <body>
@@ -227,13 +237,13 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
   <h2>Does it hold on later transactions?</h2>
   <p>I sorted by <code>Time</code>, fitted the scaler and KMeans (12 clusters) on the first 70% (199,364 transactions, 384 fraud),
     ranked clusters by their fraud rate in that part only, and applied them to the last 30% (85,443 transactions, 108 fraud).</p>
-  <table>
+  <div class="table-scroll" role="region" tabindex="0" aria-label="Table, scrolls sideways if it does not fit"><table>
     <tr><th>Review</th><th>Transactions</th><th>Fraud caught</th><th>Fraud among reviewed</th></tr>
     <tr><td>Top cluster (3 seeds)</td><td>10 to 13</td><td>10 to 13 of 108</td><td>100%</td></tr>
     <tr><td>Top 2 clusters (3 seeds)</td><td>247 to 2,473</td><td>14 to 68 of 108</td><td>2.7% to 5.7%</td></tr>
     <tr><td>Logistic regression, 13 transactions</td><td>13</td><td>12 of 108</td><td>92%</td></tr>
     <tr><td>Logistic regression, 393 transactions</td><td>393</td><td>91 of 108</td><td>23%</td></tr>
-  </table>
+  </table></div>
   <p>The top cluster stays pure out of time, but it is tiny: 13 transactions out of 85,443. The same 13 or so frauds are
     found by a logistic regression trained on the labels, and at a 393-transaction budget the regression catches 91 of 108
     frauds where the top two clusters catch 14. The in-sample 41% recall does not carry over.</p>

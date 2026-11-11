@@ -120,6 +120,12 @@ th { color: #6a6a6a; }
 .gate-verdict.pass b { color: #0a0a0a; }
 figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 /* end swiss theme */
+/* tables: wrap inside the box, and scroll inside it rather than widening the page (body clips overflow) */
+.table-scroll { overflow-x: auto; max-width: 100%; margin: 1.2rem 0; }
+.table-scroll > table { margin: 0; }
+.table-scroll:focus-visible { outline: 2px solid #e10600; outline-offset: 2px; }
+@media (max-width: 760px) { td:first-child { white-space: normal; } }
+@media (max-width: 560px) { th { letter-spacing: 0.02em; } }
 </style>
 </head>
 <body>
@@ -146,13 +152,13 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
     22,536 commits from dozens of contributors; mine is <b>298</b> of them. Publishing a page that implied
     otherwise would be a lie that a single click on the repo would expose.</p>
   <p>What those 298 commits actually are, by how often I touched the file:</p>
-  <table>
+  <div class="table-scroll" role="region" tabindex="0" aria-label="Table, scrolls sideways if it does not fit"><table>
     <tr><th>area</th><th>what I did to it</th></tr>
     <tr><td><code>WORKLOG.md</code></td><td>20 dated entries, 446 lines, the build written down as it happened</td></tr>
     <tr><td><code>ken_cli/</code></td><td>web server, CLI surface, banner and branding</td></tr>
     <tr><td><code>apps/desktop/</code></td><td>desktop app work, including English + Chinese i18n and its type layer</td></tr>
     <tr><td><code>agent/</code></td><td>the conversation loop and the auxiliary-model client</td></tr>
-  </table>
+  </table></div>
   <div class="callout">
     <b>Why lead with the caveat?</b> Anyone technical checks the repo before they believe a portfolio page.
     Claiming authorship of a 22k-commit framework takes ten seconds to disprove; describing exactly what
@@ -163,14 +169,14 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
   <p>34 bots organised into 4 fleets with a coordinator each, assigned to six tiers of model, free tiers
     and a <b>locally hosted</b> model first, paid capacity last. The dashboard reads a real ledger rather
     than a mock-up, which is the only reason these numbers exist.</p>
-  <table>
+  <div class="table-scroll" role="region" tabindex="0" aria-label="Table, scrolls sideways if it does not fit"><table>
     <tr><th>tier</th><th>bots</th><th>what it is</th></tr>
     <tr><td>flash</td><td>17</td><td>cheap hosted models for high-volume work</td></tr>
     <tr><td>pro</td><td>4</td><td>stronger models, reserved for reasoning</td></tr>
     <tr><td>local</td><td>4</td><td>qwen3:8b on my own GPU, zero marginal cost</td></tr>
     <tr><td>groq / openrouter</td><td>4</td><td>fallback providers when a tier rate-limits</td></tr>
     <tr><td>unassigned</td><td>5</td><td>on-demand agents that pick a tier at call time</td></tr>
-  </table>
+  </table></div>
   <pre><span class="c"># measured, not estimated: from the fleet cost ledger</span>
 25 recorded calls   <span class="hl">$0.003721</span> total
 20,046 prompt tokens / 5,363 completion tokens

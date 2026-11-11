@@ -141,6 +141,16 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 .md-meta { color: var(--dim); font-size: 0.9rem; margin-top: 0.25rem; }
 @media (prefers-reduced-motion: reduce) { .md-chip, .md-bar, .md-row { transition: none; } }
 /* end medicare cutoff */
+/* tables: wrap inside the box, and scroll inside it rather than widening the page (body clips overflow) */
+.table-scroll { overflow-x: auto; max-width: 100%; margin: 1.2rem 0; }
+.table-scroll > table { margin: 0; }
+.table-scroll:focus-visible { outline: 2px solid #e10600; outline-offset: 2px; }
+@media (max-width: 760px) { td:first-child { white-space: normal; } }
+@media (max-width: 560px) { th { letter-spacing: 0.02em; } }
+/* slider fits the screen: label may wrap, track may shrink, so the row never exceeds the page */
+.md-slider { flex: 1 1 min(18rem, 100%); min-width: 0; flex-wrap: wrap; }
+.md-slider label { white-space: normal; }
+.md-slider input[type=range] { min-width: 0; flex: 1 1 9rem; }
 </style>
 </head>
 <body>
@@ -252,13 +262,13 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
     rule: a z-score of each provider's average charge ratio against peers in the same specialty. The generator also
     records which providers it planted, so both can be scored. On the rebuilt data (9,936 claims, 2,000 providers,
     200 planted):</p>
-  <table>
+  <div class="table-scroll" role="region" tabindex="0" aria-label="Table, scrolls sideways if it does not fit"><table>
     <tr><th>Detector</th><th>Flagged</th><th>Precision</th><th>Recall</th></tr>
     <tr><td>Overlap rule</td><td>200</td><td>1.00</td><td>1.00</td></tr>
     <tr><td>Peer outliers, z at least 1</td><td>201</td><td>0.83</td><td>0.83</td></tr>
     <tr><td>Peer outliers, z at least 2</td><td>107</td><td>0.99</td><td>0.53</td></tr>
     <tr><td>Peer outliers, z at least 3</td><td>49</td><td>1.00</td><td>0.24</td></tr>
-  </table>
+  </table></div>
   <div class="callout"><b>Read this carefully:</b> the overlap rule scores perfectly because the generator plants
     exactly that pattern. It tests the plumbing, not real-world accuracy. The peer screen never looks at country or
     dates, so catching 83% of the planted providers is the more honest signal. Real work would need real labels,
