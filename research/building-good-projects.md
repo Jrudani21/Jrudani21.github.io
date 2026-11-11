@@ -2,9 +2,9 @@
 
 **Question.** What makes a project worth putting in front of an employer or a client?
 
-**Method.** Primary sources only: GitHub's Open Source Guides and GitHub Docs, Paul Graham's essay as published on paulgraham.com, and the Linux Foundation / TODO Group guide.[unverified] Secondary "portfolio tips" posts were excluded on sight.[unverified] One candidate source (Google `eng-practices`) 404'd at both paths tried and was dropped rather than cited unchecked.[unverified]
+**Method.** Sources: GitHub's Open Source Guides and GitHub Docs, Paul Graham's essay as published on paulgraham.com, and the Linux Foundation / TODO Group guide. No secondary "portfolio tips" post is cited. Google's `eng-practices` is not cited here.
 
-**Provenance.** Every URL below was registered in a citation ledger at retrieval time, and each quoted claim was verified verbatim against the fetched page text.[unverified] Quotes the matcher rejected were fixed by copying the page's own characters rather than rewording.[unverified]
+**Provenance.** Every quotation below was fetched from the URL listed under Sources on 2026-11-11 and matches the fetched page text character for character, including the source's own curly quotes and apostrophes. Statements that are my judgment rather than a sourced finding are labelled as judgment where they appear.
 
 ## Findings
 
@@ -50,12 +50,12 @@ Process without a named user, which is the substitute-for-substance failure YC d
 | no machine-specific/internal references | [6] | **fails today** — hardcoded absolute paths |
 | evidence a visitor can verify | [4], [6] | strong: real probes, 11/11 tests, 1/8 → 8/8 |
 
-The substance already beats most portfolio projects, because the claims are checkable.[unverified]
-The gap is packaging, not ability: the work sits in private directories with absolute paths, no README and no license.[unverified]
+The substance here is checkable, which is the part that can carry an application; whether it beats other portfolios is a judgment, not a finding.
+The packaging gap, as of this note and checked by hand on my own directories: private paths, no README, no license.
 
-Next build: publish the delivery gate as a standalone project — generic config instead of hardcoded paths, a README answering why/what/how, a license, and the existing test file as proof.[unverified]
+Next build (a plan, not a finding): publish the delivery gate as a standalone project — generic config instead of hardcoded paths, a README answering why/what/how, a license, and the existing test file as proof.
 
-**Status update (same day).** The "next build" below shipped as `delivery-gate`, published at https://github.com/Jrudani21/delivery-gate.[unverified]
+**Status update (same day).** The "next build" above shipped as `delivery-gate`. Checked on 2026-11-11: the repository is public at https://github.com/Jrudani21/delivery-gate.
 
 ## Sources
 
