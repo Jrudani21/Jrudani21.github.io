@@ -190,6 +190,9 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
     white-space: normal; max-width: 100%; }
   #mdMode > button:last-child { border-right: 2px solid #0a0a0a; }
 }
+
+/* the strip clips overflow, so the ring is drawn inside the button instead of outside. */
+#mdMode > button:focus-visible { outline-offset: -4px; }
 </style>
 </head>
 <body>
