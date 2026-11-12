@@ -158,6 +158,12 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 .plain-label { display: block; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
   color: #e10600; font-weight: 600; margin-bottom: .3rem; }
 @media (prefers-reduced-motion: reduce) { .plain { transition: none; } }
+
+/* link rows: a quiet rule that turns red on hover or keyboard focus */
+.links a { text-decoration: underline; text-decoration-thickness: 2px;
+  text-decoration-color: #d4d4d0; text-underline-offset: 3px;
+  transition: color 150ms ease, text-decoration-color 150ms ease; }
+.links a:hover, .links a:focus-visible { color: #e10600; text-decoration-color: #e10600; }
 </style>
 </head>
 <body>
