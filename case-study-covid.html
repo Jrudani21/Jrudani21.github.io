@@ -166,12 +166,19 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 .links a:hover, .links a:focus-visible { color: #e10600; text-decoration-color: #e10600; }
 
 /* narrow screens: the strip wraps and every option stays visible.
-   A sideways scroller hid 3 of the 3 groups below 620px. */
+   A sideways scroller hid options below 620px. */
 @media (max-width: 620px) {
-  #cvMetric, #cvWin, #cvSort { display: flex; flex-wrap: wrap; gap: 0.45rem; border: 0; background: transparent;
-    overflow-x: visible; max-width: 100%; }
-  #cvMetric, #cvWin, #cvSort > button { border: 2px solid #0a0a0a; min-height: 44px; white-space: normal; }
-  #cvMetric, #cvWin, #cvSort > button:last-child { border-right: 2px solid #0a0a0a; }
+  #cvMetric, #cvWin, #cvSort { display: flex; flex-wrap: wrap; gap: 0.45rem; border: 0;
+    background: transparent; overflow-x: visible; max-width: 100%; }
+  #cvMetric > button { border: 2px solid #0a0a0a; min-height: 44px;
+    white-space: normal; max-width: 100%; }
+  #cvMetric > button:last-child { border-right: 2px solid #0a0a0a; }
+  #cvWin > button { border: 2px solid #0a0a0a; min-height: 44px;
+    white-space: normal; max-width: 100%; }
+  #cvWin > button:last-child { border-right: 2px solid #0a0a0a; }
+  #cvSort > button { border: 2px solid #0a0a0a; min-height: 44px;
+    white-space: normal; max-width: 100%; }
+  #cvSort > button:last-child { border-right: 2px solid #0a0a0a; }
 }
 </style>
 </head>
