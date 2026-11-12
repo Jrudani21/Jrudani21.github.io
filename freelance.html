@@ -83,6 +83,25 @@ td:first-child { color: var(--text); white-space: nowrap; width: 9rem; }
 .table-scroll:focus-visible { outline: 2px solid #e10600; outline-offset: 2px; }
 @media (max-width: 760px) { td:first-child { white-space: normal; } }
 @media (max-width: 560px) { th { letter-spacing: 0.02em; } }
+
+/* focus rings: designed, not the browser default (was a 1px UA outline) */
+:focus-visible { outline: 2px solid #e10600; outline-offset: 3px; }
+
+/* touch target: standalone back link, 44px tall (was 22px) */
+.back { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* plain-English summary: the tinted-band treatment, 2px rule, one red label */
+.plain { background: #f4f4f2; border-top: 2px solid #0a0a0a; padding: 1rem 1.1rem;
+  margin: 1.3rem 0 1.8rem; font-size: 1.15rem; line-height: 1.45; max-width: 62ch; color: #0a0a0a; }
+.plain-label { display: block; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+  color: #e10600; font-weight: 600; margin-bottom: .3rem; }
+@media (prefers-reduced-motion: reduce) { .plain { transition: none; } }
+
+/* link rows: a quiet rule that turns red on hover or keyboard focus */
+.links a { text-decoration: underline; text-decoration-thickness: 2px;
+  text-decoration-color: #d4d4d0; text-underline-offset: 3px;
+  transition: color 150ms ease, text-decoration-color 150ms ease; }
+.links a:hover, .links a:focus-visible { color: #e10600; text-decoration-color: #e10600; }
 </style>
 </head>
 <body>
@@ -94,6 +113,9 @@ td:first-child { color: var(--text); white-space: nowrap; width: 9rem; }
   <h1>Freelance work: data cleaning, content systems and outreach design</h1>
   <p class="dek">Three client projects where the job was the same: turn a messy starting point into something
     a small business can <b>trust and reuse</b>. Each one is described by its method, not its data.</p>
+
+  <p class="plain"><span class="plain-label">In plain English</span>
+    Three freelance jobs where messy data or content was cleaned, organised and checked, so a small business could trust and reuse it.</p>
 
   <div class="callout"><b>How to read this page.</b> Clients are anonymized and shared with their agreement. No names, contacts,
     rates, accounts or client data appear here. These pages describe what I built and how it worked. They do not report

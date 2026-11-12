@@ -152,6 +152,48 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 .table-scroll:focus-visible { outline: 2px solid #e10600; outline-offset: 2px; }
 @media (max-width: 760px) { td:first-child { white-space: normal; } }
 @media (max-width: 560px) { th { letter-spacing: 0.02em; } }
+
+/* focus rings: designed, not the browser default (was a 1px UA outline) */
+:focus-visible { outline: 2px solid #e10600; outline-offset: 3px; }
+
+/* touch target: standalone back link, 44px tall (was 22px) */
+.back { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* view switches: one segmented control, not a row of loose chips.
+   These groups redraw one panel, so they keep role="group" + aria-pressed;
+   aria-selected would claim a tab panel that does not exist. */
+.eb-chips { display: inline-flex; flex-wrap: nowrap; gap: 0; border: 2px solid #0a0a0a; background: #fff; max-width: 100%; overflow-x: auto; }
+.eb-chips > button { border: 0; border-right: 1px solid #0a0a0a; border-radius: 0; min-height: 44px; white-space: nowrap; padding: 0.4rem 1rem; }
+.eb-chips > button:last-child { border-right: 0; }
+.eb-chips > button:hover { background: #f4f4f2; color: #0a0a0a; border-color: #0a0a0a; }
+.eb-chips > button.on { background: #0a0a0a; border-color: #0a0a0a; color: #fff; }
+.eb-chips > button.on:hover { background: #0a0a0a; color: #fff; }
+
+/* plain-English summary: the tinted-band treatment, 2px rule, one red label */
+.plain { background: #f4f4f2; border-top: 2px solid #0a0a0a; padding: 1rem 1.1rem;
+  margin: 1.3rem 0 1.8rem; font-size: 1.15rem; line-height: 1.45; max-width: 62ch; color: #0a0a0a; }
+.plain-label { display: block; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+  color: #e10600; font-weight: 600; margin-bottom: .3rem; }
+@media (prefers-reduced-motion: reduce) { .plain { transition: none; } }
+
+/* link rows: a quiet rule that turns red on hover or keyboard focus */
+.links a { text-decoration: underline; text-decoration-thickness: 2px;
+  text-decoration-color: #d4d4d0; text-underline-offset: 3px;
+  transition: color 150ms ease, text-decoration-color 150ms ease; }
+.links a:hover, .links a:focus-visible { color: #e10600; text-decoration-color: #e10600; }
+
+/* narrow screens: the strip wraps and every option stays visible.
+   A sideways scroller hid options below 620px. */
+@media (max-width: 620px) {
+  .eb-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; border: 0;
+    background: transparent; overflow-x: visible; max-width: 100%; }
+  .eb-chips > button { border: 2px solid #0a0a0a; min-height: 44px;
+    white-space: normal; max-width: 100%; }
+  .eb-chips > button:last-child { border-right: 2px solid #0a0a0a; }
+}
+
+/* the strip clips overflow, so the ring is drawn inside the button instead of outside. */
+.eb-chips > button:focus-visible { outline-offset: -4px; }
 </style>
 </head>
 <body>
@@ -164,6 +206,9 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
   <p class="dek">I route work to free model lanes first and escalate only when needed. I wanted numbers instead of a
     feeling, so I scored five small coding tasks with <b>hidden tests and no model judges</b>, and compared a free
     model alone, a free model with a critic, and a strong model alone.</p>
+
+  <p class="plain"><span class="plain-label">In plain English</span>
+    I compared a free AI model, the same model with a critic, and a strong model on five coding tasks, scored by hidden tests.</p>
 
   <div class="stats">
     <div class="stat"><b>5</b><span>tasks from real Windows bugs</span></div>

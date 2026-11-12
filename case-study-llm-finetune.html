@@ -123,6 +123,25 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 .table-scroll:focus-visible { outline: 2px solid #e10600; outline-offset: 2px; }
 @media (max-width: 760px) { td:first-child { white-space: normal; } }
 @media (max-width: 560px) { th { letter-spacing: 0.02em; } }
+
+/* focus rings: designed, not the browser default (was a 1px UA outline) */
+:focus-visible { outline: 2px solid #e10600; outline-offset: 3px; }
+
+/* touch target: standalone back link, 44px tall (was 22px) */
+.back { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* plain-English summary: the tinted-band treatment, 2px rule, one red label */
+.plain { background: #f4f4f2; border-top: 2px solid #0a0a0a; padding: 1rem 1.1rem;
+  margin: 1.3rem 0 1.8rem; font-size: 1.15rem; line-height: 1.45; max-width: 62ch; color: #0a0a0a; }
+.plain-label { display: block; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+  color: #e10600; font-weight: 600; margin-bottom: .3rem; }
+@media (prefers-reduced-motion: reduce) { .plain { transition: none; } }
+
+/* link rows: a quiet rule that turns red on hover or keyboard focus */
+.links a { text-decoration: underline; text-decoration-thickness: 2px;
+  text-decoration-color: #d4d4d0; text-underline-offset: 3px;
+  transition: color 150ms ease, text-decoration-color 150ms ease; }
+.links a:hover, .links a:focus-visible { color: #e10600; text-decoration-color: #e10600; }
 </style>
 </head>
 <body>
@@ -135,6 +154,9 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
   <p class="dek">I fine-tuned a small model on statistics questions. Before claiming it helped, I built a held-out
     test with an <b>exact paired significance test and a separate LLM judge</b>. Run on two base models, it
     correctly reports <b>no significant difference</b>. I then retrained the fine-tune and ran the real comparison: also no significant difference (see The real comparison).</p>
+
+  <p class="plain"><span class="plain-label">In plain English</span>
+    I built a test to check whether a fine-tuned model is actually better, and it found no significant difference.</p>
 
   <div class="stats">
     <div class="stat"><b>49</b><span>held-out questions (30 easy, 19 hard)</span></div>

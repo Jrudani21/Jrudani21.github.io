@@ -155,6 +155,25 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 .fg-ctl { flex-wrap: wrap; }
 .fg-ctl label { white-space: normal; }
 .fg-ctl input[type=range] { min-width: 0; flex: 1 1 9rem; }
+
+/* focus rings: designed, not the browser default (was a 1px UA outline) */
+:focus-visible { outline: 2px solid #e10600; outline-offset: 3px; }
+
+/* touch target: standalone back link, 44px tall (was 22px) */
+.back { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* plain-English summary: the tinted-band treatment, 2px rule, one red label */
+.plain { background: #f4f4f2; border-top: 2px solid #0a0a0a; padding: 1rem 1.1rem;
+  margin: 1.3rem 0 1.8rem; font-size: 1.15rem; line-height: 1.45; max-width: 62ch; color: #0a0a0a; }
+.plain-label { display: block; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+  color: #e10600; font-weight: 600; margin-bottom: .3rem; }
+@media (prefers-reduced-motion: reduce) { .plain { transition: none; } }
+
+/* link rows: a quiet rule that turns red on hover or keyboard focus */
+.links a { text-decoration: underline; text-decoration-thickness: 2px;
+  text-decoration-color: #d4d4d0; text-underline-offset: 3px;
+  transition: color 150ms ease, text-decoration-color 150ms ease; }
+.links a:hover, .links a:focus-visible { color: #e10600; text-decoration-color: #e10600; }
 </style>
 </head>
 <body>
@@ -167,6 +186,9 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
   <p class="dek">I wanted a fraud-ring graph. The public credit-card fraud dataset has no card, device or IP column, so there
     are no rings to find. Instead I clustered the 28 anonymised features, kept the fraud label out of the clustering, and
     checked afterwards where the fraud landed. <b>These are pseudo-entities, not rings.</b></p>
+
+  <p class="plain"><span class="plain-label">In plain English</span>
+    I grouped card transactions to see what unsupervised clustering finds, but the groups are not real fraud rings: the data has no card or device ids.</p>
 
   <div class="stats">
     <div class="stat"><b>284,807</b><span>transactions</span></div>
@@ -265,7 +287,6 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
   </ul>
 
   <div class="links">
-    <a href="https://github.com/Jrudani21/fraud-graph">the pipeline on GitHub &rarr;</a>
     <a href="case-study-medicare.html">fraud with real dates and a labelled check &rarr;</a>
     <a href="case-study-covid.html">another project re-run against its real data &rarr;</a>
   </div>
