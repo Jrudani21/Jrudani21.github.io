@@ -168,6 +168,13 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 .eb-chips > button:hover { background: #f4f4f2; color: #0a0a0a; border-color: #0a0a0a; }
 .eb-chips > button.on { background: #0a0a0a; border-color: #0a0a0a; color: #fff; }
 .eb-chips > button.on:hover { background: #0a0a0a; color: #fff; }
+
+/* plain-English summary: the tinted-band treatment, 2px rule, one red label */
+.plain { background: #f4f4f2; border-top: 2px solid #0a0a0a; padding: 1rem 1.1rem;
+  margin: 1.3rem 0 1.8rem; font-size: 1.15rem; line-height: 1.45; max-width: 62ch; color: #0a0a0a; }
+.plain-label { display: block; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+  color: #e10600; font-weight: 600; margin-bottom: .3rem; }
+@media (prefers-reduced-motion: reduce) { .plain { transition: none; } }
 </style>
 </head>
 <body>
@@ -180,6 +187,9 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
   <p class="dek">I route work to free model lanes first and escalate only when needed. I wanted numbers instead of a
     feeling, so I scored five small coding tasks with <b>hidden tests and no model judges</b>, and compared a free
     model alone, a free model with a critic, and a strong model alone.</p>
+
+  <p class="plain"><span class="plain-label">In plain English</span>
+    I compared a free AI model, the same model with a critic, and a strong model on five coding tasks, scored by hidden tests.</p>
 
   <div class="stats">
     <div class="stat"><b>5</b><span>tasks from real Windows bugs</span></div>

@@ -89,6 +89,13 @@ td:first-child { color: var(--text); white-space: nowrap; width: 9rem; }
 
 /* touch target: standalone back link, 44px tall (was 22px) */
 .back { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* plain-English summary: the tinted-band treatment, 2px rule, one red label */
+.plain { background: #f4f4f2; border-top: 2px solid #0a0a0a; padding: 1rem 1.1rem;
+  margin: 1.3rem 0 1.8rem; font-size: 1.15rem; line-height: 1.45; max-width: 62ch; color: #0a0a0a; }
+.plain-label { display: block; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+  color: #e10600; font-weight: 600; margin-bottom: .3rem; }
+@media (prefers-reduced-motion: reduce) { .plain { transition: none; } }
 </style>
 </head>
 <body>
@@ -100,6 +107,9 @@ td:first-child { color: var(--text); white-space: nowrap; width: 9rem; }
   <h1>Freelance work: data cleaning, content systems and outreach design</h1>
   <p class="dek">Three client projects where the job was the same: turn a messy starting point into something
     a small business can <b>trust and reuse</b>. Each one is described by its method, not its data.</p>
+
+  <p class="plain"><span class="plain-label">In plain English</span>
+    Three freelance jobs where messy data or content was cleaned, organised and checked, so a small business could trust and reuse it.</p>
 
   <div class="callout"><b>How to read this page.</b> Clients are anonymized and shared with their agreement. No names, contacts,
     rates, accounts or client data appear here. These pages describe what I built and how it worked. They do not report

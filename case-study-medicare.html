@@ -167,6 +167,13 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 .md-modes > button:hover { background: #f4f4f2; color: #0a0a0a; border-color: #0a0a0a; }
 .md-modes > button.on { background: #0a0a0a; border-color: #0a0a0a; color: #fff; }
 .md-modes > button.on:hover { background: #0a0a0a; color: #fff; }
+
+/* plain-English summary: the tinted-band treatment, 2px rule, one red label */
+.plain { background: #f4f4f2; border-top: 2px solid #0a0a0a; padding: 1rem 1.1rem;
+  margin: 1.3rem 0 1.8rem; font-size: 1.15rem; line-height: 1.45; max-width: 62ch; color: #0a0a0a; }
+.plain-label { display: block; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+  color: #e10600; font-weight: 600; margin-bottom: .3rem; }
+@media (prefers-reduced-motion: reduce) { .plain { transition: none; } }
 </style>
 </head>
 <body>
@@ -179,6 +186,9 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
   <p class="dek">A provider cannot be in two countries at once. So I joined the claims table to itself, looked for a US claim
     and a foreign claim for the same provider with overlapping dates, and scored what turned up. Then I re-ran it and
     found three things that did not add up. <b>All data here is synthetic.</b></p>
+
+  <p class="plain"><span class="plain-label">In plain English</span>
+    I used SQL to find medical providers billing from two countries at once, then found the date maths was broken and the database was out of date.</p>
 
   <div class="stats">
     <div class="stat"><b>9,976</b><span>synthetic claims as shipped (9,936 after the rebuild)</span></div>

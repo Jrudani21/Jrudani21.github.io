@@ -208,6 +208,13 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 
 /* touch target: standalone back link, 44px tall (was 22px) */
 .back { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* plain-English summary: the tinted-band treatment, 2px rule, one red label */
+.plain { background: #f4f4f2; border-top: 2px solid #0a0a0a; padding: 1rem 1.1rem;
+  margin: 1.3rem 0 1.8rem; font-size: 1.15rem; line-height: 1.45; max-width: 62ch; color: #0a0a0a; }
+.plain-label { display: block; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+  color: #e10600; font-weight: 600; margin-bottom: .3rem; }
+@media (prefers-reduced-motion: reduce) { .plain { transition: none; } }
 </style>
 </head>
 <body>
@@ -221,6 +228,9 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
     delivering rows that had nothing to do with the order, and a second job celebrated success after
     scraping <b>zero records</b>. Everything looked green for five days. Here is what was wrong, how I
     found it, and the gate I built so a delivery has to prove itself.</p>
+
+  <p class="plain"><span class="plain-label">In plain English</span>
+    A nightly pipeline reported success while delivering the wrong leads, so I built a separate check that refuses a bad delivery.</p>
 
   <div class="stats">
     <div class="stat"><b>1 / 8</b><span>rows on-target in a delivery marked "ok"</span></div>

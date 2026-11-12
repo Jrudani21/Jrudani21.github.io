@@ -132,6 +132,13 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 
 /* touch target: standalone back link, 44px tall (was 22px) */
 .back { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* plain-English summary: the tinted-band treatment, 2px rule, one red label */
+.plain { background: #f4f4f2; border-top: 2px solid #0a0a0a; padding: 1rem 1.1rem;
+  margin: 1.3rem 0 1.8rem; font-size: 1.15rem; line-height: 1.45; max-width: 62ch; color: #0a0a0a; }
+.plain-label { display: block; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+  color: #e10600; font-weight: 600; margin-bottom: .3rem; }
+@media (prefers-reduced-motion: reduce) { .plain { transition: none; } }
 </style>
 </head>
 <body>
@@ -145,6 +152,9 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
     operations layer and the skills library, then left 34 bots running unattended. Every number below is
     read out of the thing itself: the git history, the cost ledger, the cron database. <b>Including the
     ones that keep me honest.</b></p>
+
+  <p class="plain"><span class="plain-label">In plain English</span>
+    I run 34 automated bots on one computer, on a system I built on an open-source agent framework.</p>
 
   <div class="stats">
     <div class="stat"><b>298</b><span>my commits in the fork</span></div>

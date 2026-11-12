@@ -151,6 +151,13 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
 .cv-chips > button:hover { background: #f4f4f2; color: #0a0a0a; border-color: #0a0a0a; }
 .cv-chips > button.on { background: #0a0a0a; border-color: #0a0a0a; color: #fff; }
 .cv-chips > button.on:hover { background: #0a0a0a; color: #fff; }
+
+/* plain-English summary: the tinted-band treatment, 2px rule, one red label */
+.plain { background: #f4f4f2; border-top: 2px solid #0a0a0a; padding: 1rem 1.1rem;
+  margin: 1.3rem 0 1.8rem; font-size: 1.15rem; line-height: 1.45; max-width: 62ch; color: #0a0a0a; }
+.plain-label { display: block; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+  color: #e10600; font-weight: 600; margin-bottom: .3rem; }
+@media (prefers-reduced-motion: reduce) { .plain { transition: none; } }
 </style>
 </head>
 <body>
@@ -163,6 +170,9 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
   <p class="dek">My COVID-19 dashboard pulls from the public disease.sh API and says <b>live</b> in its title. I re-ran it against the
     real responses, saved on 6 Nov 2026. The history it plots ends in March 2023, one of its three chart choices is
     empty, and the freshness stamp does not measure the data.</p>
+
+  <p class="plain"><span class="plain-label">In plain English</span>
+    My COVID dashboard calls itself live, but the data stops in March 2023 and several features are broken.</p>
 
   <div class="stats">
     <div class="stat"><b>704.8M</b><span>cases, global feed</span></div>
