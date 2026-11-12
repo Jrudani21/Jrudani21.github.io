@@ -180,6 +180,15 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
   text-decoration-color: #d4d4d0; text-underline-offset: 3px;
   transition: color 150ms ease, text-decoration-color 150ms ease; }
 .links a:hover, .links a:focus-visible { color: #e10600; text-decoration-color: #e10600; }
+
+/* narrow screens: the strip wraps and every option stays visible.
+   A sideways scroller hid 1 of the 1 groups below 620px. */
+@media (max-width: 620px) {
+  #mdMode { display: flex; flex-wrap: wrap; gap: 0.45rem; border: 0; background: transparent;
+    overflow-x: visible; max-width: 100%; }
+  #mdMode > button { border: 2px solid #0a0a0a; min-height: 44px; white-space: normal; }
+  #mdMode > button:last-child { border-right: 2px solid #0a0a0a; }
+}
 </style>
 </head>
 <body>
