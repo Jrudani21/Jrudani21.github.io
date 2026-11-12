@@ -1912,6 +1912,11 @@ html.swiss #projectList .project:focus-within::after { background: #e10600; }
 #eli5Btn { min-height: 44px; padding: 0 0.6rem; }
 #eli5Btn:focus-visible { outline: 2px solid #e10600; outline-offset: 2px; }
 #eli5Btn[aria-pressed="true"] { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
+
+/* tags are categories, not filters: a red marker on the panel tint, never a filled chip */
+html.swiss .tag { background: #f4f4f2; border: 0; border-left: 4px solid #e10600;
+  color: #0a0a0a; padding: 0.2rem 0.55rem 0.2rem 0.5rem; }
+html.swiss .tag.hl { background: #f4f4f2; border-left-width: 6px; color: #0a0a0a; font-weight: 600; }
 </style>
 <section id="faq">
   <div class="section-header fade-in">
