@@ -1150,6 +1150,13 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
 </style>
 </head>
 <body>
+<noscript><style>
+  /* no JS: show everything the reveal script would have un-hidden */
+  .fade-in { opacity: 1 !important; transform: none !important; }
+  .project-link { opacity: 1 !important; transform: none !important; }
+  .section-header h2 { clip-path: none !important; }
+</style></noscript>
+
 
 <div id="boot">
   <div id="boot-lines"></div>
@@ -1924,6 +1931,11 @@ html.swiss .tag.hl { background: #f4f4f2; border-left-width: 6px; color: #0a0a0a
   .section-header.fade-in h2 { clip-path: inset(0 0 100% 0); transform: translateY(10px);
     transition: clip-path 420ms cubic-bezier(.16,1,.3,1), transform 420ms cubic-bezier(.16,1,.3,1); }
   .section-header.fade-in.visible h2 { clip-path: inset(-18% 0 -18% 0); transform: none; }
+}
+
+/* safety: if the reveal script never runs, the page still reads. */
+@media (pointer: coarse) {
+  .project-link { opacity: 1; transform: none; }
 }
 </style>
 <section id="faq">
