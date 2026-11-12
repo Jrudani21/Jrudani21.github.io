@@ -1917,6 +1917,14 @@ html.swiss #projectList .project:focus-within::after { background: #e10600; }
 html.swiss .tag { background: #f4f4f2; border: 0; border-left: 4px solid #e10600;
   color: #0a0a0a; padding: 0.2rem 0.55rem 0.2rem 0.5rem; }
 html.swiss .tag.hl { background: #f4f4f2; border-left-width: 6px; color: #0a0a0a; font-weight: 600; }
+
+/* section headers: the type rises out of a clip instead of sliding in with the block.
+   Excluded under reduced motion, and only the heading moves. */
+@media (prefers-reduced-motion: no-preference) {
+  .section-header.fade-in h2 { clip-path: inset(0 0 100% 0); transform: translateY(10px);
+    transition: clip-path 420ms cubic-bezier(.16,1,.3,1), transform 420ms cubic-bezier(.16,1,.3,1); }
+  .section-header.fade-in.visible h2 { clip-path: inset(-18% 0 -18% 0); transform: none; }
+}
 </style>
 <section id="faq">
   <div class="section-header fade-in">
