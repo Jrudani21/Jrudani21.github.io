@@ -4,8 +4,6 @@
 
 Install: `curl -fsSL https://raw.githubusercontent.com/NousResearch/ken-agent/main/scripts/install.sh | bash`  (Linux, macOS, WSL2, Termux)
 
-Repo: https://github.com/Jrudani21/ken-agent
-
 ## Getting Started
 
 - [Installation](/docs/getting-started/installation): Install Ken Agent on Linux, macOS, WSL2, native Windows, or Android via Termux

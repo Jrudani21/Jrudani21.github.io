@@ -26,7 +26,7 @@ For a command-line only install without Ken Desktop, run:
 
 #### Linux / macOS / WSL2 / Android (Termux)
 ```bash
-git clone https://github.com/Jrudani21/ken-agent
+git clone <your-ken-agent-repo-url>
 cd ken-agent
 uv pip install -e ".[all]"
 ```
@@ -36,7 +36,7 @@ uv pip install -e ".[all]"
 Run in powershell:
 
 ```powershell
-git clone https://github.com/Jrudani21/ken-agent
+git clone <your-ken-agent-repo-url>
 cd ken-agent
 uv pip install -e ".[all]"
 ```
@@ -133,7 +133,7 @@ Running Ken as a dedicated unprivileged user (e.g. a `ken` systemd service accou
 
 2. **As the unprivileged service user**, install Ken from source. Chromium goes into the user's local Playwright cache:
    ```bash
-   git clone https://github.com/Jrudani21/ken-agent
+   git clone <your-ken-agent-repo-url>
    cd ken-agent
    uv pip install -e ".[all]"
    ```
@@ -235,7 +235,7 @@ For a command-line only install without Ken Desktop, run:
 
 #### Linux / macOS / WSL2 / Android (Termux)
 ```bash
-git clone https://github.com/Jrudani21/ken-agent
+git clone <your-ken-agent-repo-url>
 cd ken-agent
 uv pip install -e ".[all]"
 ```
@@ -245,7 +245,7 @@ uv pip install -e ".[all]"
 Run in powershell:
 
 ```powershell
-git clone https://github.com/Jrudani21/ken-agent
+git clone <your-ken-agent-repo-url>
 cd ken-agent
 uv pip install -e ".[all]"
 ```
@@ -1059,7 +1059,7 @@ That does not stop Ken from working well as a phone-native CLI agent — it just
 Ken now ships a Termux-aware installer path:
 
 ```bash
-git clone https://github.com/Jrudani21/ken-agent
+git clone <your-ken-agent-repo-url>
 cd ken-agent
 uv pip install -e ".[all]"
 ```
@@ -1097,7 +1097,7 @@ Why these packages?
 ### 2. Clone Ken
 
 ```bash
-git clone https://github.com/Jrudani21/ken-agent.git
+git clone <your-ken-agent-repo-url>
 cd ken-agent
 ```
 
@@ -1304,17 +1304,17 @@ No clone needed. Nix fetches, builds, and runs everything:
 
 ```bash
 # Run the desktop app
-nix run github:Jrudani21/ken-agent#desktop
+nix run github:<owner>/ken-agent#desktop
 
 # Or install persistently
-nix profile install github:Jrudani21/ken-agent#desktop
+nix profile install github:<owner>/ken-agent#desktop
 
 # run the tui
-nix run github:Jrudani21/ken-agent -- setup
-nix run github:Jrudani21/ken-agent -- --tui
+nix run github:<owner>/ken-agent -- setup
+nix run github:<owner>/ken-agent -- --tui
 
 # or install it in your profile
-nix profile install github:Jrudani21/ken-agent
+nix profile install github:<owner>/ken-agent
 ken setup
 ken --tui
 ```
@@ -1332,7 +1332,7 @@ The `default` package adds ~700 MB to the closure. If you only need messaging pl
 <summary><strong>Running from a local clone</strong></summary>
 
 ```bash
-git clone https://github.com/Jrudani21/ken-agent.git
+git clone <your-ken-agent-repo-url>
 cd ken-agent
 nix develop
 ken setup
@@ -1357,7 +1357,7 @@ This module requires NixOS. For non-NixOS systems (macOS, other Linux distros), 
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    ken-agent.url = "github:Jrudani21/ken-agent";
+    ken-agent.url = "github:<owner>/ken-agent";
   };
 
   outputs = { nixpkgs, ken-agent, ... }: {
@@ -1996,7 +1996,7 @@ External flakes can override the package directly:
 
 ```nix
 {
-  inputs.ken-agent.url = "github:Jrudani21/ken-agent";
+  inputs.ken-agent.url = "github:<owner>/ken-agent";
   outputs = { ken-agent, nixpkgs, ... }: {
     nixpkgs.overlays = [ ken-agent.overlays.default ];
     # Then:
@@ -7304,6 +7304,11 @@ This page covers option 1. The container stores all user data (config, API keys,
 
 ## Quick start
 
+:::note No public image is published
+Build the image from the repository's `Dockerfile` (`docker build -t ken-agent .`), then use that name wherever this page shows `<your-registry>/ken-agent`.
+:::
+
+
 If this is your first time running Ken Agent, create a data directory on the host and start the container interactively to run the setup wizard:
 
 :::caution Avoid browser-based VPS consoles for the install commands
@@ -7323,7 +7328,7 @@ result before hitting Enter.
 mkdir -p ~/.ken
 docker run -it --rm \
   -v ~/.ken:/opt/data \
-  Jrudani21/ken-agent setup
+  <your-registry>/ken-agent setup
 ```
 
 This drops you into the setup wizard, which will prompt you for your API keys and write them to `~/.ken/.env`. You only need to do this once. It is highly recommended to set up a chat system for the gateway to work with at this point.
@@ -7342,7 +7347,7 @@ docker run -d \
   --restart unless-stopped \
   -v ~/.ken:/opt/data \
   -p 8642:8642 \
-  Jrudani21/ken-agent gateway run
+  <your-registry>/ken-agent gateway run
 ```
 
 Port 8642 exposes the gateway's [OpenAI-compatible API server](./features/api-server.md) and health endpoint. It's optional if you only use chat platforms (Telegram, Discord, etc.), but required if you want the dashboard or external tools to reach the gateway.
@@ -7383,7 +7388,7 @@ docker run -d \
   -e API_SERVER_HOST=0.0.0.0 \
   -e API_SERVER_KEY="$(openssl rand -hex 32)" \
   -e API_SERVER_CORS_ORIGINS='*' \
-  Jrudani21/ken-agent gateway run
+  <your-registry>/ken-agent gateway run
 ```
 
 Opening any port on an internet facing machine is a security risk. You should not do it unless you understand the risks.
@@ -7400,7 +7405,7 @@ docker run -d \
   -p 8642:8642 \
   -p 9119:9119 \
   -e KEN_DASHBOARD=1 \
-  Jrudani21/ken-agent gateway run
+  <your-registry>/ken-agent gateway run
 ```
 
 The dashboard is supervised by s6 — if it crashes, `s6-supervise` restarts it automatically after a short backoff. Dashboard stdout/stderr is forwarded to `docker logs <container>` (no prefix; the gateway's own output now lives in a per-profile s6-log file — see [Where the logs go](#where-the-logs-go) below — so the two streams don't clash).
@@ -7442,7 +7447,7 @@ To open an interactive chat session against a running data directory:
 ```sh
 docker run -it --rm \
   -v ~/.ken:/opt/data \
-  Jrudani21/ken-agent
+  <your-registry>/ken-agent
 ```
 
 Or if you have already opened a terminal in your running container (via Docker Desktop for instance), just run:
@@ -7568,7 +7573,7 @@ In those cases, declare one service per profile with distinct `container_name`, 
 ```yaml
 services:
   ken-work:
-    image: Jrudani21/ken-agent:latest
+    image: <your-registry>/ken-agent:latest
     container_name: ken-work
     restart: unless-stopped
     command: gateway run
@@ -7578,7 +7583,7 @@ services:
       - ~/.ken-work:/opt/data
 
   ken-personal:
-    image: Jrudani21/ken-agent:latest
+    image: <your-registry>/ken-agent:latest
     container_name: ken-personal
     restart: unless-stopped
     command: gateway run
@@ -7615,7 +7620,7 @@ docker run -it --rm \
   -v ~/.ken:/opt/data \
   -e ANTHROPIC_API_KEY="sk-ant-..." \
   -e OPENAI_API_KEY="sk-..." \
-  Jrudani21/ken-agent
+  <your-registry>/ken-agent
 ```
 
 Direct `-e` flags override values from `.env`. This is useful for CI/CD or secrets-manager integrations where you don't want keys on disk.
@@ -7631,7 +7636,7 @@ For persistent deployment with both the gateway and dashboard, a `docker-compose
 ```yaml
 services:
   ken:
-    image: Jrudani21/ken-agent:latest
+    image: <your-registry>/ken-agent:latest
     container_name: ken
     restart: unless-stopped
     command: gateway run
@@ -7686,7 +7691,7 @@ ctl.!default {
 Then build a small derived image with the ALSA PulseAudio plugin installed:
 
 ```dockerfile title="Dockerfile.audio"
-FROM Jrudani21/ken-agent:latest
+FROM <your-registry>/ken-agent:latest
 
 USER root
 RUN apt-get update \
@@ -7753,7 +7758,7 @@ docker run -d \
   --restart unless-stopped \
   --memory=4g --cpus=2 \
   -v ~/.ken:/opt/data \
-  Jrudani21/ken-agent gateway run
+  <your-registry>/ken-agent gateway run
 ```
 
 ## What the Dockerfile does
@@ -7825,13 +7830,13 @@ When a migration is needed, Ken writes timestamped backups next to
 `config.yaml` and `.env` first.
 
 ```sh
-docker pull Jrudani21/ken-agent:latest
+docker pull <your-registry>/ken-agent:latest
 docker rm -f ken
 docker run -d \
   --name ken \
   --restart unless-stopped \
   -v ~/.ken:/opt/data \
-  Jrudani21/ken-agent gateway run
+  <your-registry>/ken-agent gateway run
 ```
 
 Or with Docker Compose:
@@ -7868,10 +7873,10 @@ This is a good fit for tools that are quick to install and used occasionally. Fo
 
 ### Durable installs — build a derived image
 
-When a tool must be available immediately on every container start with no re-install delay, build a new image that inherits from `Jrudani21/ken-agent` and installs the tool in a layer:
+When a tool must be available immediately on every container start with no re-install delay, build a new image that inherits from `<your-registry>/ken-agent` and installs the tool in a layer:
 
 ```dockerfile
-FROM Jrudani21/ken-agent:latest
+FROM <your-registry>/ken-agent:latest
 
 USER root
 RUN apt-get update \
@@ -7892,7 +7897,7 @@ docker run -d \
   my-ken:latest gateway run
 ```
 
-The entrypoint script and `/opt/data` semantics are inherited unchanged, so the rest of this page still applies. Remember to rebuild the image when pulling a newer upstream `Jrudani21/ken-agent`.
+The entrypoint script and `/opt/data` semantics are inherited unchanged, so the rest of this page still applies. Remember to rebuild the image when pulling a newer upstream `<your-registry>/ken-agent`.
 
 ### Complex tools or multi-service stacks — run a sidecar container
 
@@ -7901,7 +7906,7 @@ For tools that bring their own service (a database, a web server, a queue, a hea
 ```yaml
 services:
   ken:
-    image: Jrudani21/ken-agent:latest
+    image: <your-registry>/ken-agent:latest
     container_name: ken
     restart: unless-stopped
     command: gateway run
@@ -7959,7 +7964,7 @@ services:
             - capabilities: [gpu]
 
   ken:
-    image: Jrudani21/ken-agent:latest
+    image: <your-registry>/ken-agent:latest
     container_name: ken
     restart: unless-stopped
     command: gateway run
@@ -8003,7 +8008,7 @@ docker run -d \
   --name ken \
   -v ~/.ken:/opt/data \
   -p 8642:8642 \
-  Jrudani21/ken-agent gateway run
+  <your-registry>/ken-agent gateway run
 ```
 
 ```yaml
@@ -8022,7 +8027,7 @@ docker run -d \
   --name ken \
   --network host \
   -v ~/.ken:/opt/data \
-  Jrudani21/ken-agent gateway run
+  <your-registry>/ken-agent gateway run
 ```
 
 ```yaml
@@ -8086,7 +8091,7 @@ docker run -d \
   --name ken \
   -e PUID=1000 -e PGID=10 \
   -v /volume1/docker/ken:/opt/data \
-  Jrudani21/ken-agent gateway run
+  <your-registry>/ken-agent gateway run
 ```
 
 `docker exec ken <cmd>` automatically drops to UID 10000 too — see [`docker exec` automatically drops to the `ken` user](#docker-exec-automatically-drops-to-the-ken-user) for details and the per-invocation opt-out.
@@ -8100,7 +8105,7 @@ docker run -d \
   --name ken \
   --shm-size=1g \
   -v ~/.ken:/opt/data \
-  Jrudani21/ken-agent gateway run
+  <your-registry>/ken-agent gateway run
 ```
 
 ### Gateway not reconnecting after network issues
@@ -8115,7 +8120,7 @@ docker restart ken
 
 ```sh
 docker logs --tail 50 ken          # Recent logs
-docker run -it --rm Jrudani21/ken-agent:latest version     # Verify version
+docker run -it --rm <your-registry>/ken-agent:latest version     # Verify version
 docker stats ken                    # Resource usage
 ```
 
@@ -8550,7 +8555,7 @@ ken pairing clear-pending
 The official Docker image runs the gateway as the unprivileged `ken` user
 (uid 10000) via `gosu`, but `docker exec` defaults to root. Approval files
 created by root are written with mode `0600 root:root` and the gateway
-cannot read them — the approval is silently ignored ([#10270][i10270]).
+cannot read them — the approval is silently ignored (issue 10270).
 
 Always pass `-u ken`:
 
@@ -8561,7 +8566,6 @@ docker exec -u ken ken ken pairing approve telegram ABC12DEF
 If you already ran the command as root and the user is still unauthorized,
 restart the container — the entrypoint will fix ownership on the next start.
 
-[i10270]: https://github.com/NousResearch/hermes-agent/issues/10270
 :::
 
 **Storage:** Pairing data is stored in `~/.ken/pairing/` with per-platform JSON files:
@@ -9502,7 +9506,7 @@ By default every profile is seeded with the bundled skill catalog, and each `ken
 **At install time** (applies to the default `~/.ken` profile):
 
 ```bash
-git clone https://github.com/Jrudani21/ken-agent
+git clone <your-ken-agent-repo-url>
 cd ken-agent
 uv pip install -e ".[all]"
 ```
@@ -12962,12 +12966,12 @@ all a bundled seed copy ships with Ken — so search works fully offline.
 {
   "name": "ken-achievements",
   "description": "Achievements plugin.",
-  "author": "Jrudani21",
+  "author": "<owner>",
   "tags": ["achievements"],
-  "repo": "Jrudani21/ken-agent",
+  "repo": "<owner>/<repo>",
   "ref": "<40-char commit SHA>",
   "subdir": "plugins/ken-achievements",
-  "homepage": "https://github.com/Jrudani21/ken-agent",
+  "homepage": "<plugin-homepage-url>",
   "capabilities": ["tools", "dashboard"],
   "api_version": 1,
   "added_at": "2026-08-12"
@@ -15921,8 +15925,8 @@ A "wake" forges a synthetic inbound message to the destination gateway agent so 
 ### Multi-profile setups: delivery is profile-owned
 
 In a one-gateway-per-profile deployment (one dispatcher, separate gateway
-processes for `writer`, `admin`, etc. — see the [multi-gateway
-guide](https://github.com/Jrudani21/ken-agent/blob/main/docs/kanban/multi-gateway.md)),
+processes for `writer`, `admin`, etc. — see the multi-gateway
+guide),
 dispatch and delivery have separate owners:
 
 - **Dispatch stays single-owner.** Exactly one gateway keeps
@@ -34753,7 +34757,7 @@ Ken isn't just a CLI tool. You can import `AIAgent` directly and use it programm
 Clone Ken and create its supported editable development environment:
 
 ```bash
-git clone https://github.com/Jrudani21/ken-agent.git
+git clone <your-ken-agent-repo-url>
 cd ken-agent
 uv sync
 ```
@@ -36458,14 +36462,14 @@ The `0 9 * * 1` is a standard cron expression: 9:00 AM every Monday.
 Monitor a repository for new issues, PRs, or releases.
 
 ```bash
-/cron add "every 6h" "Check the GitHub repository Jrudani21/ken-agent for:
+/cron add "every 6h" "Check the GitHub repository <owner>/<repo> for:
 - New issues opened in the last 6 hours
 - New PRs opened or merged in the last 6 hours
 - Any new releases
 
 Use the terminal to run gh commands:
-  gh issue list --repo Jrudani21/ken-agent --state open --json number,title,author,createdAt --limit 10
-  gh pr list --repo Jrudani21/ken-agent --state all --json number,title,author,createdAt,mergedAt --limit 10
+  gh issue list --repo <owner>/<repo> --state open --json number,title,author,createdAt --limit 10
+  gh pr list --repo <owner>/<repo> --state all --json number,title,author,createdAt,mergedAt --limit 10
 
 Filter to only items from the last 6 hours. If nothing new, respond with [SILENT].
 Otherwise, provide a concise summary of the activity." --name "Repo watcher" --deliver discord
@@ -37214,7 +37218,7 @@ ken
 Test with a simple command:
 
 ```
-Run: gh pr list --repo Jrudani21/ken-agent --state open --limit 3
+Run: gh pr list --repo <owner>/<repo> --state open --limit 3
 ```
 
 You should see a list of open PRs. If this works, you're ready.
@@ -37229,7 +37233,7 @@ Still in the chat, ask Ken to review a real PR:
 Review this pull request. Read the diff, check for bugs, security issues,
 and code quality. Be specific about line numbers and quote problematic code.
 
-Run: gh pr diff 3888 --repo Jrudani21/ken-agent
+Run: gh pr diff 3888 --repo <owner>/<repo>
 ```
 
 Ken will:
@@ -37497,7 +37501,7 @@ development environment on the same layout the CLI, updater, lazy dependency
 installer, gateway, and docs assume.
 
 ```bash
-git clone https://github.com/Jrudani21/ken-agent
+git clone <your-ken-agent-repo-url>
 cd ken-agent
 uv pip install -e ".[all]"
 
@@ -37538,7 +37542,7 @@ which silently destroys the running runtime mid-session. Keeping it outside the
 tree means no relative path from the workspace resolves to it.
 
 ```bash
-git clone https://github.com/Jrudani21/ken-agent.git
+git clone <your-ken-agent-repo-url>
 cd ken-agent
 
 # Create venv with Python 3.11, OUTSIDE the source tree
@@ -47061,7 +47065,7 @@ source ~/.bashrc
 # If you previously installed with sudo, clean up:
 sudo rm /usr/local/bin/ken
 # Then install from source
-git clone https://github.com/Jrudani21/ken-agent
+git clone <your-ken-agent-repo-url>
 cd ken-agent
 uv pip install -e ".[all]"
 ```
@@ -47618,7 +47622,7 @@ Skills with very long descriptions are truncated to 40 characters in the Telegra
 
 1. Install Ken Agent on the new machine:
    ```bash
-   git clone https://github.com/Jrudani21/ken-agent
+   git clone <your-ken-agent-repo-url>
    cd ken-agent
    uv pip install -e ".[all]"
    ```
@@ -51434,7 +51438,7 @@ See the full [Pluggable interfaces table](/user-guide/features/plugins#pluggable
 :::
 
 :::caution Third-party-product plugins ship standalone — not into the core tree
-Plugins that integrate **someone else's product or project** — observability/metrics backends, vendor SaaS connectors, analytics dashboards, paid-service tie-ins — are built and distributed as **standalone plugin repos**, not merged into `Jrudani21/ken-agent`. Users install them into `~/.ken/plugins/` or via a pip entry point; everything in this guide works the same way from a standalone repo. This is a coupling-and-maintenance decision (the core moves fast and we don't own your backend), not a quality bar — a plugin can be excellent and still belong in its own repo. Promote it in the Nous Research Discord `#plugins-skills-and-skins` channel. See CONTRIBUTING.md for the policy.
+Plugins that integrate **someone else's product or project** — observability/metrics backends, vendor SaaS connectors, analytics dashboards, paid-service tie-ins — are built and distributed as **standalone plugin repos**, not merged into the core ken-agent repository. Users install them into `~/.ken/plugins/` or via a pip entry point; everything in this guide works the same way from a standalone repo. This is a coupling-and-maintenance decision (the core moves fast and we don't own your backend), not a quality bar — a plugin can be excellent and still belong in its own repo. Promote it in the Nous Research Discord `#plugins-skills-and-skins` channel. See CONTRIBUTING.md for the policy.
 :::
 
 ## Portable Agent Plugins v1 packages
@@ -54766,9 +54770,9 @@ Label, prioritize, and summarize new issues every night. Delivers a digest to yo
 
 ```bash
 ken cron create "0 2 * * *" \
-  "You are a project manager triaging the Jrudani21/ken-agent GitHub repo.
+  "You are a project manager triaging the <owner>/<repo> GitHub repo.
 
-1. Run: gh issue list --repo Jrudani21/ken-agent --state open --json number,title,labels,author,createdAt --limit 30
+1. Run: gh issue list --repo <owner>/<repo> --state open --json number,title,labels,author,createdAt --limit 30
 2. Identify issues opened in the last 24 hours
 3. For each new issue:
    - Suggest a priority label (P0-critical, P1-high, P2-medium, P3-low)
@@ -54848,9 +54852,9 @@ Weekly scan of merged PRs to find API changes that need documentation updates.
 
 ```bash
 ken cron create "0 9 * * 1" \
-  "Scan the Jrudani21/ken-agent repo for documentation drift.
+  "Scan the <owner>/<repo> repo for documentation drift.
 
-1. Run: gh pr list --repo Jrudani21/ken-agent --state merged --json number,title,files,mergedAt --limit 30
+1. Run: gh pr list --repo <owner>/<repo> --state merged --json number,title,files,mergedAt --limit 30
 2. Filter to PRs merged in the last 7 days
 3. For each merged PR, check if it modified:
    - Tool schemas (tools/*.py) — may need docs/reference/tools-reference.md update
@@ -56300,7 +56304,7 @@ If you've worked through this guide and the issue persists:
 
 1. Run the job with `ken cron run <job_id>` (fires on next gateway tick) and watch for errors in the chat output
 2. Check `~/.ken/logs/agent.log` for scheduler messages and `~/.ken/logs/errors.log` for warnings
-3. Open an issue at github.com/Jrudani21/ken-agent with:
+3. Open an issue on the ken-agent repository with:
    - The job ID and schedule
    - The delivery target
    - What you expected vs. what happened
@@ -58845,7 +58849,7 @@ Prefer the terminal?
 On macOS/Linux/WSL2/Android, run
 
 ```bash
-git clone https://github.com/Jrudani21/ken-agent
+git clone <your-ken-agent-repo-url>
 cd ken-agent
 uv pip install -e ".[all]"
 ```
@@ -58853,7 +58857,7 @@ uv pip install -e ".[all]"
 On Windows, run
 
 ```powershell
-git clone https://github.com/Jrudani21/ken-agent
+git clone <your-ken-agent-repo-url>
 cd ken-agent
 uv pip install -e ".[all]"
 ```
@@ -75181,7 +75185,7 @@ If you prefer a real POSIX environment (for the dashboard's embedded terminal, `
 Open **PowerShell** (or Windows Terminal) and run:
 
 ```powershell
-git clone https://github.com/Jrudani21/ken-agent.git; cd ken-agent; .\scripts\install.ps1
+git clone <your-ken-agent-repo-url>; cd ken-agent; .\scripts\install.ps1
 ```
 
 The repository is private, so you must be signed in to GitHub for `git clone` to work. No admin rights required. The installer goes to `%LOCALAPPDATA%\ken\` and adds `ken` to your **User PATH** — open a new terminal after it finishes.
@@ -75554,7 +75558,7 @@ The `metadata` mount option above is important — without it, files on `/mnt/c/
 Once you have a WSL2 shell open:
 
 ```bash
-git clone https://github.com/Jrudani21/ken-agent
+git clone <your-ken-agent-repo-url>
 cd ken-agent
 uv pip install -e ".[all]"
 source ~/.bashrc
