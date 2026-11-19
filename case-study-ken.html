@@ -188,16 +188,20 @@ figure { background: #f4f4f2; border: 0; border-top: 2px solid #0a0a0a; }
   </div>
 
   <h2>The fleet</h2>
-  <p>34 bots organised into 4 fleets with a coordinator each, assigned to six tiers of model, free tiers
-    and a <b>locally hosted</b> model first, paid capacity last. The dashboard reads a real ledger rather
-    than a mock-up, which is the only reason these numbers exist.</p>
+  <p>34 bots organised into 4 fleets with a coordinator each, assigned to eight model tiers (three not yet
+    staffed), free tiers and a <b>locally hosted</b> model first, paid capacity last. The dashboard reads a
+    real ledger rather than a mock-up, which is the only reason these numbers exist.</p>
   <div class="table-scroll" role="region" tabindex="0" aria-label="Table, scrolls sideways if it does not fit"><table>
     <tr><th>tier</th><th>bots</th><th>what it is</th></tr>
     <tr><td>flash</td><td>17</td><td>cheap hosted models for high-volume work</td></tr>
     <tr><td>pro</td><td>4</td><td>stronger models, reserved for reasoning</td></tr>
     <tr><td>local</td><td>4</td><td>qwen3:8b on my own GPU, zero marginal cost</td></tr>
-    <tr><td>groq / openrouter</td><td>4</td><td>fallback providers when a tier rate-limits</td></tr>
-    <tr><td>unassigned</td><td>5</td><td>on-demand agents that pick a tier at call time</td></tr>
+    <tr><td>groq</td><td>2</td><td>fallback provider when a tier rate-limits</td></tr>
+    <tr><td>openrouter</td><td>2</td><td>fallback provider, massive-context models</td></tr>
+    <tr><td>nvidia</td><td>0</td><td>in development, not yet staffed</td></tr>
+    <tr><td>free</td><td>0</td><td>in development, not yet staffed</td></tr>
+    <tr><td>frontier (Claude)</td><td>0</td><td>in development, not yet staffed</td></tr>
+    <tr><td>none</td><td>5</td><td>deterministic agents that need no model: health checks, probes, PII scrub</td></tr>
   </table></div>
   <pre><span class="c"># measured, not estimated: from the fleet cost ledger</span>
 25 recorded calls   <span class="hl">$0.003721</span> total
