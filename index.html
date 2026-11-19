@@ -945,6 +945,12 @@ html.swiss .hero-name .ln > span { display: inline-block; }
   html.swiss .skill-meters.visible .skill-meter:nth-child(4) { animation-delay: 90ms; }
   html.swiss .skill-meters.visible .skill-meter:nth-child(5) { animation-delay: 120ms; }
 }
+/* plain English swap and FAQ open: new text fades up 4px, 200ms, ease-out; opacity and transform only */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes fade-up { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  html.plain-on .eli5-alt, #projectList.plain .eli5 { animation: fade-up var(--motion-200) var(--ease-out) both; }
+  .faq-list details[open] > p { animation: fade-up var(--motion-200) var(--ease-out) both; }
+}
 /* feedback under the hand */
 html.swiss .hero-cta, html.swiss .hero-term-btn, html.swiss .chip, html.swiss .float-btn { transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 150ms var(--ease-out); }
 html.swiss .hero-cta:active, html.swiss .hero-term-btn:active, html.swiss .chip:active, html.swiss .float-btn:active { transform: scale(0.97); }
@@ -2141,7 +2147,8 @@ function drawParticles() {
   rafId = requestAnimationFrame(drawParticles);
 }
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (!reduceMotion) { drawParticles(); } else { canvas.remove(); }
+// the Swiss theme hides the canvas with CSS, so do not pay for 90 particles and 4000 pair checks a frame to draw nothing
+if (!reduceMotion && !document.documentElement.classList.contains('swiss')) { drawParticles(); } else { canvas.remove(); }
 
 /* ================= CURSOR RING ================= */
 const ring = document.getElementById('cursor-ring');
@@ -2169,11 +2176,17 @@ if (window.matchMedia('(pointer: fine)').matches && !reduceMotion) {
 /* ================= NAV + PROGRESS ================= */
 const nav = document.getElementById('nav');
 const progressBar = document.getElementById('progress');
+let navTick = false;
 window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 50);
-  const h = document.documentElement;
-  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
-  progressBar.style.transform = 'scaleX(' + (pct / 100) + ')';
+  if (navTick) return;
+  navTick = true;
+  requestAnimationFrame(() => { // one layout read and one write per frame, not per scroll event
+    navTick = false;
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    progressBar.style.transform = 'scaleX(' + (pct / 100) + ')';
+  });
 }, { passive: true });
 
 /* ================= FADE IN / STAGGER ================= */
@@ -2183,10 +2196,14 @@ window.addEventListener('scroll', () => {
    Now: observer first, plus a plain rect check on scroll/resize so the reveal
    never depends on IntersectionObserver delivering a callback. */
 const revealTargets = Array.from(document.querySelectorAll('.fade-in, .stagger'));
+let pendingReveal = revealTargets.length;
 function revealIfInView() {
+  if (!pendingReveal) return; // everything is already shown: stop measuring on every scroll
   const limit = window.innerHeight * 0.9;
+  pendingReveal = 0;
   for (const el of revealTargets) {
     if (el.classList.contains('visible')) continue;
+    pendingReveal++;
     const b = el.getBoundingClientRect();
     if (b.top < limit && b.bottom > 0) el.classList.add('visible');
   }

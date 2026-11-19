@@ -106,8 +106,16 @@ td:first-child { color: var(--text); white-space: nowrap; width: 9rem; }
 .proj-list li { margin: 0.7rem 0; padding-bottom: 0.7rem; border-bottom: 1px solid var(--border); }
 .proj-list li:last-child { border-bottom: 0; }
 @media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } }
+/* scroll reveal: each block fades up 8px as it enters, driven by CSS only; ignored by browsers without view timelines */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    @keyframes enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    h2, .role, .proj-list li, .callout { animation: enter linear both; animation-timeline: view(); animation-range: entry 0% entry 35%; }
+  }
+}
 @media print {
   .back, .foot a, .no-print { display: none; }
+  h2, .role, .proj-list li, .callout { animation: none; opacity: 1; transform: none; }
   .wrap { padding: 0; max-width: none; }
   html { font-size: 90%; }
   h2 { break-after: avoid; margin-top: 1.6rem; }
