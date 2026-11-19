@@ -145,7 +145,8 @@ nav.scrolled {
 /* ---------- FLOAT BUTTONS ---------- */
 .float-btns {
   position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 900;
-  display: flex; flex-direction: column; gap: 0.6rem; align-items: flex-end;
+  display: flex; flex-direction: column-reverse; gap: 0.6rem; align-items: flex-end;
+  transition: opacity 200ms ease, visibility 200ms;
 }
 .float-btn {
   background: rgba(16,16,24,0.9); border: 1px solid var(--border);
@@ -158,7 +159,12 @@ nav.scrolled {
 /* options menu: five toggles collapse behind one button, every width */
 .float-btns:not(.open) .float-btn:not(#menuBtn) { display: none; }
 #menuBtn { min-height: 44px; min-width: 44px; }
-#panicBtn:hover { border-color: var(--red); color: var(--red); }
+@keyframes float-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.float-btns.open .float-btn:not(#menuBtn) { animation: float-in 180ms ease-out backwards; }
+.float-btns.open .float-btn:nth-child(2) { animation-delay: 0ms; }
+.float-btns.open .float-btn:nth-child(3) { animation-delay: 35ms; }
+.float-btns.open .float-btn:nth-child(4) { animation-delay: 70ms; }
+@media (prefers-reduced-motion: reduce) { .float-btns.open .float-btn:not(#menuBtn) { animation: none; } .float-btns { transition: none; } }
 #complimentBtn:hover { border-color: var(--amber); color: var(--amber); }
 #soundBtn:hover { border-color: var(--accent); color: var(--accent); }
 #soundBtn.on { border-color: var(--accent); color: var(--accent); }
@@ -341,7 +347,7 @@ section { padding: 7rem 2.2rem; max-width: 1040px; margin: 0 auto; position: rel
 html.recruiter #boot, html.recruiter #particles, html.recruiter #cursor-ring,
 html.recruiter #terminal, html.recruiter #game, html.recruiter #circuits, html.recruiter #hobbies,
 html.recruiter .ticker-wrap, html.recruiter .stat-joke, html.recruiter footer .console-line,
-html.recruiter #soundBtn, html.recruiter #complimentBtn, html.recruiter #panicBtn { display: none !important; }
+html.recruiter #soundBtn, html.recruiter #complimentBtn { display: none !important; }
 html.recruiter .gradient-text { animation: none; }
 #palette { border: 1px solid var(--accent); border-radius: 14px; background: var(--panel); color: var(--text);
   width: min(560px, 92vw); padding: 0; margin: 12vh auto auto; box-shadow: var(--glow); }
@@ -520,7 +526,8 @@ html.swiss #projectList { grid-template-columns: 1fr; }
   font-size: 2.2rem; cursor: pointer; position: relative;
   overflow: hidden; transition: background 0.2s, transform 0.2s;
 }
-.hole:hover { background: var(--elevated); transform: scale(1.03); }
+.hole { touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
+@media (hover: hover) { .hole:hover { background: var(--elevated); transform: scale(1.03); } }
 .hole .bug { font-size: 2.6rem; color: var(--accent); line-height: 1; animation: bug-pop 0.2s var(--ease-out); user-select: none; }
 @keyframes bug-pop { from { transform: scale(0.9) rotate(-30deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: 1; } }
 .hole.hit { animation: hit-flash 0.3s; }
@@ -555,6 +562,7 @@ html.swiss #projectList { grid-template-columns: 1fr; }
   text-align: center;
 }
 .hobby-card:hover .hover-joke { transform: translateY(0); }
+@media (hover: none) { .hover-joke { position: static; transform: none; } }
 
 /* ---------- ABOUT / GIT TIMELINE ---------- */
 .about-text {
@@ -593,7 +601,7 @@ html.swiss #projectList { grid-template-columns: 1fr; }
 /* ---------- CONTACT ---------- */
 .contact-section { text-align: center; }
 .contact-email {
-  font-size: clamp(0.85rem, 4.4vw, 2.9rem);
+  font-size: clamp(1rem, 4.4vw, 2.9rem);
   font-weight: 600; color: var(--accent); text-decoration: none;
   white-space: nowrap; overflow-wrap: normal; max-width: 100%;
   letter-spacing: -0.01em; transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s, text-shadow 0.2s;
@@ -684,7 +692,8 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
   background: var(--panel); cursor: grab; z-index: 3;
   transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
 }
-.circuit-node:hover { border-color: var(--accent); transform: scale(1.08); }
+@media (hover: hover) { .circuit-node:hover { border-color: var(--accent); transform: scale(1.08); } }
+.circuit-node { touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 .circuit-node.dragging { cursor: grabbing; transform: scale(1.15); box-shadow: 0 0 24px var(--ring); }
 .circuit-node.wired { border-color: var(--accent); box-shadow: 0 0 14px var(--ring); }
 .circuit-node.battery { color: var(--amber); border-color: var(--amber); }
@@ -711,10 +720,11 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
   font-size: 17px; cursor: pointer; font-family: 'Space Grotesk', sans-serif;
   transition: transform 0.2s, box-shadow 0.2s;
 }
-.circuit-btn:hover { transform: scale(1.04); box-shadow: var(--glow); }
+@media (hover: hover) { .circuit-btn:hover { transform: scale(1.04); box-shadow: var(--glow); } }
+.circuit-btn, .game-btn { touch-action: manipulation; min-height: 44px; }
 .circuit-btn.secondary { background: transparent; border: 1px solid var(--border); color: var(--dim); }
 .circuit-msg { font-size: 0.95rem; color: var(--amber); font-family: 'VT323', monospace; min-height: 1.5em; }
-@media (max-width: 768px) { .circuit-wrap { grid-template-columns: 1fr; } .circuit-board { min-height: 340px; } }
+@media (max-width: 768px) { .circuit-wrap { grid-template-columns: 1fr; } .circuit-board { min-height: 340px; } .circuit-node { width: 52px; height: 52px; } }
 .egg-shake { animation: eggShake 0.5s ease; }
 @keyframes eggShake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-8px); } 40%,80% { transform: translateX(8px); } }
 .rainbow-text { animation: rainbowShift 2s linear infinite; }
@@ -1039,13 +1049,13 @@ html.swiss .skill-meter .sm-name { font-size: 1.125rem; }
   .proj-pager button:disabled { opacity: 0.3; pointer-events: none; }
   .proj-pager button:focus-visible { outline: 2px solid #e10600; outline-offset: 2px; }
   .proj-mid { flex: 1; min-width: 0; text-align: center; }
-  .proj-pos { display: block; font: 600 1.05rem/1.2 'Space Grotesk', system-ui, sans-serif; color: #e10600; margin-bottom: 0.45rem; }
+  .proj-pos { display: block; font: 600 1.05rem/1.2 'Space Grotesk', system-ui, sans-serif; color: #c20500; margin-bottom: 0.45rem; }
   .proj-progress { display: block; height: 3px; background: #d4d4d0; }
   .proj-progress i { display: block; height: 100%; width: 0; background: #0a0a0a; transition: width 200ms ease; }
 
   /* the fixed options button covered the hero buttons on the first screen */
   .float-btns { right: 0.75rem; bottom: 0.75rem; }
-  .float-btns.at-top:not(.open) { visibility: hidden; }
+  .float-btns.at-top:not(.open) { visibility: hidden; opacity: 0; pointer-events: none; }
 }
 /* nav: 11 links do not fit between 769 and ~960px (landscape phones, small tablets), so the
    swipeable strip used on phones now applies up to 960px; the right edge fades to show it scrolls */
@@ -1171,6 +1181,7 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
   <a href="#" class="nav-logo" id="logo">jr._</a>
   <div class="nav-links">
     <a href="#projects">work</a>
+    <a href="experience.html">experience</a>
     <a href="#client-work">client work</a>
     <a href="#terminal">terminal</a>
     <a href="#skills">skills</a>
@@ -1189,13 +1200,6 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
   <button class="float-btn icon-btn" id="recruiterBtn" aria-label="Switch to recruiter mode" aria-describedby="tip-recruiterBtn" aria-pressed="false"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg></span><span class="tip" role="tooltip" id="tip-recruiterBtn">Switch to recruiter mode</span></button>
   <button class="float-btn icon-btn" id="soundBtn" aria-label="Turn sound on" aria-describedby="tip-soundBtn" aria-pressed="false"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" x2="16" y1="9" y2="15"/><line x1="16" x2="22" y1="9" y2="15"/></svg></span><span class="tip" role="tooltip" id="tip-soundBtn">Turn sound on</span></button>
   <button class="float-btn icon-btn" id="complimentBtn" aria-label="Get a compliment" aria-describedby="tip-complimentBtn"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span><span class="tip" role="tooltip" id="tip-complimentBtn">Get a compliment</span></button>
-  <button class="float-btn icon-btn" id="panicBtn" aria-label="Press the panic button" aria-describedby="tip-panicBtn"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span><span class="tip" role="tooltip" id="tip-panicBtn">Press the panic button</span></button>
-</div>
-
-<div class="modal" id="panicModal">
-  <h2 aria-label="Panic" style="color: var(--accent);"></h2>
-  <p>Darth Vader senses your panic. The Emperor is not concerned. Your code will be fine. "Do or do not, there is no try" - but let's be honest, you'll try anyway. Breathe like you're in a helmet. In... out... in... out...</p>
-  <button class="modal-close" onclick="document.getElementById('panicModal').classList.remove('active')">I'll try. I really will.</button>
 </div>
 
 <div id="toast"></div>
@@ -1357,7 +1361,7 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
            aria-label="Filter projects by keyword">
     <span class="proj-count" id="projCount" role="status" aria-live="polite">13 projects</span>
     <button type="button" class="proj-clear" id="projClear" hidden>clear</button>
-    <button type="button" class="proj-clear" id="eli5Btn" aria-pressed="false">plain English</button>
+    <button type="button" class="proj-clear eli5-toggle" id="eli5Btn" aria-pressed="false">plain English</button>
   </div>
 
   <div class="proj-chips fade-in" id="projChips" role="group" aria-label="Filter by category">
@@ -1592,26 +1596,27 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
     <p class="section-num">03 - capabilities</p>
     <h2 class="section-title">Skills, honestly rated</h2>
     <p class="section-subtitle">Self-assessed with 95% confidence intervals. The Empire approves of alpha = 0.05.</p>
+    <button type="button" class="proj-clear eli5-toggle" aria-pressed="false">plain English</button>
   </div>
   <div class="skill-meters fade-in" id="skillMeters">
     <div class="skill-meter">
-      <div class="sm-head"><span class="sm-name">R + tidyverse <span class="sm-joke">(the force is strong with this stack)</span></span><span class="sm-pct">92%</span></div>
+      <div class="sm-head"><span class="sm-name">R + tidyverse <span class="sm-joke eli5-std">(the force is strong with this stack)</span><span class="sm-joke eli5-alt">(my main tool for cleaning data and drawing charts)</span></span><span class="sm-pct">92%</span></div>
       <div class="sm-bar"><div class="sm-fill" data-w="92"></div></div>
     </div>
     <div class="skill-meter">
-      <div class="sm-head"><span class="sm-name">Python <span class="sm-joke">(pandas is just R with extra steps and fewer tears)</span></span><span class="sm-pct">88%</span></div>
+      <div class="sm-head"><span class="sm-name">Python <span class="sm-joke eli5-std">(pandas is just R with extra steps and fewer tears)</span><span class="sm-joke eli5-alt">(a general programming language I use for data work and small apps)</span></span><span class="sm-pct">88%</span></div>
       <div class="sm-bar"><div class="sm-fill" data-w="88"></div></div>
     </div>
     <div class="skill-meter">
-      <div class="sm-head"><span class="sm-name">SQL <span class="sm-joke">(I will find your missing semicolon, young Padawan)</span></span><span class="sm-pct">80%</span></div>
+      <div class="sm-head"><span class="sm-name">SQL <span class="sm-joke eli5-std">(I will find your missing semicolon, young Padawan)</span><span class="sm-joke eli5-alt">(the language for asking databases questions)</span></span><span class="sm-pct">80%</span></div>
       <div class="sm-bar"><div class="sm-fill" data-w="80"></div></div>
     </div>
     <div class="skill-meter">
-      <div class="sm-head"><span class="sm-name">Debugging <span class="sm-joke">(I find your lack of semicolons disturbing)</span></span><span class="sm-pct">95%</span></div>
+      <div class="sm-head"><span class="sm-name">Debugging <span class="sm-joke eli5-std">(I find your lack of semicolons disturbing)</span><span class="sm-joke eli5-alt">(finding out why something does not work, then fixing it)</span></span><span class="sm-pct">95%</span></div>
       <div class="sm-bar"><div class="sm-fill" data-w="95"></div></div>
     </div>
     <div class="skill-meter">
-      <div class="sm-head"><span class="sm-name">Documentation <span class="sm-joke">(future me apologizes to the whole Empire)</span></span><span class="sm-pct">40%</span></div>
+      <div class="sm-head"><span class="sm-name">Documentation <span class="sm-joke eli5-std">(future me apologizes to the whole Empire)</span><span class="sm-joke eli5-alt">(writing down how things work. My weakest habit.)</span></span><span class="sm-pct">40%</span></div>
       <div class="sm-bar"><div class="sm-fill" data-w="40"></div></div>
     </div>
   </div>
@@ -1712,7 +1717,7 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
   </div>
   <div class="game-score">bugs squashed: <b id="bugScore">0</b></div>
   <button class="game-btn" id="gameStart" onclick="startGame()">Start rebel hunt</button>
-  <div class="game-tip" id="gameTip">Rebel bugs pop up for 1.5s. Squash them. The Emperor is watching.</div>
+  <div class="game-tip" id="gameTip" aria-live="polite">Rebel bugs pop up for 1.5s. Squash them. The Emperor is watching.</div>
 </div></section>
 
 <!-- ================= CIRCUIT BUILDER ================= -->
@@ -1739,7 +1744,7 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
         <div class="circuit-tip">4. When the loop closes, the LED lights up and you read the values!</div>
         <div class="circuit-tip" style="color:var(--amber);">5. Resistors protect the LED. Too many = dim. None = <span style="color:var(--red);">poof.</span></div>
       </div>
-      <div class="circuit-msg" id="circuitMsg">drag a battery in to start...</div>
+      <div class="circuit-msg" id="circuitMsg" role="status" aria-live="polite">drag a battery in to start...</div>
       <div style="display:flex; gap:0.7rem; flex-wrap:wrap;">
         <button class="circuit-btn" onclick="spawnComponent('battery')">add battery</button>
         <button class="circuit-btn" onclick="spawnComponent('resistor')"> add resistor</button>
@@ -1796,12 +1801,14 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
   <div class="section-header fade-in">
     <p class="section-num">08 - origin story</p>
     <h2 class="section-title">About</h2>
+    <button type="button" class="proj-clear eli5-toggle" aria-pressed="false">plain English</button>
   </div>
-  <p class="about-text fade-in">
+  <p class="about-text fade-in eli5-std">
     I'm <span class="hilite">Janak Rudani</span> - BSc Statistics and Mathematics, University of Manitoba.
     I treat every dataset like a <span class="hilite">plot twist</span> waiting to happen and every model
     like a <span class="strike">crime scene</span> hypothesis to test.
   </p>
+  <p class="about-text fade-in eli5-alt">I'm Janak Rudani. I have a statistics and maths degree from the University of Manitoba. I take a data set, work out what question it should answer, then try to prove my own answer wrong.</p>
   <div class="git-log fade-in">
     <div class="tag-line"># my life, but make it version control (imperial edition)</div>
     <div class="commit"><span class="hash">a3f9c2d</span><span class="branch">(HEAD →</span><b style="color:var(--text)"> future</b><span class="branch">)</span><span class="msg"><b>feat:</b> graduate, statistically speaking (the force is strong)</span></div>
@@ -1837,27 +1844,28 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
   <div class="section-header fade-in">
     <p class="section-num">09 - method</p>
     <h2 class="section-title">How I work</h2>
+    <button type="button" class="proj-clear eli5-toggle" aria-pressed="false">plain English</button>
   </div>
   <ol class="proc-list">
     <li class="proc-step fade-in">
       <span class="proc-num" aria-hidden="true">01</span>
-      <div><h3 class="proc-name">Question</h3><p class="proc-desc">Write the decision the number has to support.</p></div>
+      <div><h3 class="proc-name">Question</h3><p class="proc-desc eli5-std">Write the decision the number has to support.</p><p class="proc-desc eli5-alt">Decide what choice the number will help someone make.</p></div>
     </li>
     <li class="proc-step fade-in">
       <span class="proc-num" aria-hidden="true">02</span>
-      <div><h3 class="proc-name">Data</h3><p class="proc-desc">Check leakage, missingness, and who recorded it.</p></div>
+      <div><h3 class="proc-name">Data</h3><p class="proc-desc eli5-std">Check leakage, missingness, and who recorded it.</p><p class="proc-desc eli5-alt">Check the data for gaps, mistakes and who wrote it down.</p></div>
     </li>
     <li class="proc-step fade-in">
       <span class="proc-num" aria-hidden="true">03</span>
-      <div><h3 class="proc-name">Model</h3><p class="proc-desc">Use the smallest model that explains it.</p></div>
+      <div><h3 class="proc-name">Model</h3><p class="proc-desc eli5-std">Use the smallest model that explains it.</p><p class="proc-desc eli5-alt">Pick the simplest model that still explains what happened.</p></div>
     </li>
     <li class="proc-step fade-in">
       <span class="proc-num" aria-hidden="true">04</span>
-      <div><h3 class="proc-name">Break it</h3><p class="proc-desc">Residuals, overdispersion, holdout, injected bad rows.</p></div>
+      <div><h3 class="proc-name">Break it</h3><p class="proc-desc eli5-std">Residuals, overdispersion, holdout, injected bad rows.</p><p class="proc-desc eli5-alt">Try to make it fail: bad rows, wrong assumptions, new data.</p></div>
     </li>
     <li class="proc-step fade-in">
       <span class="proc-num" aria-hidden="true">05</span>
-      <div><h3 class="proc-name">Ship</h3><p class="proc-desc">Tests, README, one command to rerun.</p></div>
+      <div><h3 class="proc-name">Ship</h3><p class="proc-desc eli5-std">Tests, README, one command to rerun.</p><p class="proc-desc eli5-alt">Add tests and instructions so anyone can rerun it with one command.</p></div>
     </li>
   </ol>
 </section>
@@ -1866,7 +1874,7 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
 .faq-list { max-width: 52rem; }
 .faq-list details { border-top: 1px solid var(--border); padding: 1.1rem 0; }
 .faq-list details:last-child { border-bottom: 1px solid var(--border); }
-.faq-list summary { cursor: pointer; list-style: none; font-family: 'Unbounded', 'Space Grotesk', sans-serif;
+.faq-list summary { min-height: 44px; cursor: pointer; list-style: none; font-family: 'Unbounded', 'Space Grotesk', sans-serif;
   font-size: clamp(1rem, 2vw, 1.25rem); display: flex; gap: 1rem; align-items: baseline; }
 .faq-list summary::-webkit-details-marker { display: none; }
 .faq-list summary::before { content: attr(data-n); font-family: 'VT323', monospace; color: var(--accent); font-size: 1rem; }
@@ -1916,6 +1924,17 @@ html.swiss #projectList .project:focus-within::after { background: #e10600; }
 #projectList.plain .eli5 { display: block; }
 #projectList.plain .project .desc { display: none; }
 #projectList.plain .project .eli5 { color: #0a0a0a; font-size: 1.15rem; line-height: 1.4; max-width: 46ch; }
+.eli5-alt { display: none; }
+html.plain-on .eli5-alt { display: block; }
+html.plain-on span.eli5-alt { display: inline; }
+html.plain-on .eli5-std { display: none; }
+html.swiss .skill-meter .sm-name .sm-joke.eli5-alt { display: none; }
+html.swiss.plain-on .skill-meter .sm-name .sm-joke.eli5-alt { display: block; }
+html.swiss.plain-on .skill-meter .sm-name .sm-joke.eli5-std { display: none; }
+.eli5-toggle { min-height: 44px; padding: 0 0.6rem; }
+.eli5-toggle:focus-visible { outline: 2px solid #e10600; outline-offset: 2px; }
+.eli5-toggle[aria-pressed="true"] { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
+.section-header .eli5-toggle { margin-top: 0.75rem; }
 #eli5Btn { min-height: 44px; padding: 0 0.6rem; }
 #eli5Btn:focus-visible { outline: 2px solid #e10600; outline-offset: 2px; }
 #eli5Btn[aria-pressed="true"] { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
@@ -1942,13 +1961,14 @@ html.swiss .tag.hl { background: #f4f4f2; border-left-width: 6px; color: #0a0a0a
   <div class="section-header fade-in">
     <p class="section-num">10 - questions, answered</p>
     <h2 class="section-title">Recruiter FAQ</h2>
+    <button type="button" class="proj-clear eli5-toggle" aria-pressed="false">plain English</button>
   </div>
   <div class="faq-list">
-    <details><summary data-n="01">What do you do?</summary><p>I build and stress-test statistical models in R and Python: regression, count models and time-series forecasts. I also automate data checks so a bad delivery is caught before anyone relies on it.</p></details>
-    <details><summary data-n="02">What roles are you open to?</summary><p>Data analyst, data scientist and ML engineering roles, remote or hybrid from Winnipeg. I'm strongest where statistics meets data quality and automation.</p></details>
-    <details><summary data-n="03">What is your background?</summary><p>BSc in Statistics and Mathematics from the University of Manitoba (2026), plus three years of healthcare claims work with SQL, validation and reporting.</p></details>
-    <details><summary data-n="04">What is your stack?</summary><p>R, Python, SQL, Streamlit and FastAPI day to day. For AI work: Ollama, RAG, MCP and QLoRA fine-tuning on an 8 GB GPU.</p></details>
-    <details><summary data-n="05">What is Ken?</summary><p>My local agent fleet: 34 bots on one PC. The case study in the projects list covers how it works and what broke.</p></details>
+    <details><summary data-n="01">What do you do?</summary><p class="eli5-std">I build and stress-test statistical models in R and Python: regression, count models and time-series forecasts. I also automate data checks so a bad delivery is caught before anyone relies on it.</p><p class="eli5-alt">I build models that predict things, then try hard to prove them wrong. I also write checks that catch bad data before someone relies on it.</p></details>
+    <details><summary data-n="02">What roles are you open to?</summary><p class="eli5-std">Data analyst, data scientist and ML engineering roles, remote or hybrid from Winnipeg. I'm strongest where statistics meets data quality and automation.</p><p class="eli5-alt">Jobs analysing data or building models, remote or from Winnipeg. I fit best where the numbers have to be trustworthy.</p></details>
+    <details><summary data-n="03">What is your background?</summary><p class="eli5-std">BSc in Statistics and Mathematics from the University of Manitoba (2026), plus three years of healthcare claims work with SQL, validation and reporting.</p><p class="eli5-alt">A statistics and maths degree from the University of Manitoba (2026), plus three years working with healthcare claims data.</p></details>
+    <details><summary data-n="04">What is your stack?</summary><p class="eli5-std">R, Python, SQL, Streamlit and FastAPI day to day. For AI work: Ollama, RAG, MCP and QLoRA fine-tuning on an 8 GB GPU.</p><p class="eli5-alt">Programs I use every day: R, Python and SQL. For AI work I run models on my own computer instead of paying a cloud service.</p></details>
+    <details><summary data-n="05">What is Ken?</summary><p class="eli5-std">My local agent fleet: 34 bots on one PC. The case study in the projects list covers how it works and what broke.</p><p class="eli5-alt">Ken is my software that runs 34 small AI helpers on one computer. A case study explains how it works and what went wrong.</p></details>
   </div>
 </section>
 
@@ -2223,11 +2243,6 @@ function spawnConfetti(count) {
 }
 
 /* ================= FLOAT BUTTONS ================= */
-document.getElementById('panicBtn').addEventListener('click', () => {
-  document.getElementById('panicModal').classList.add('active');
-  spawnConfetti(30);
-  chord([523, 659, 784], 0.3);
-});
 const compliments = [
   'Your residuals are clean. Impressive. Most impressive.',
   'The force is strong with your R². The dark side is strong with your debugging.',
@@ -2560,7 +2575,7 @@ function handleCommand(raw) {
     return;
   }
   if (cmd === 'panic') {
-    termOut('calm down. click the red button in the corner. it\'s a trap, but a comforting one.', 'warn');
+    termOut('calm down. breathe. the p-value will still be there.', 'warn');
     return;
   }
   if (cmd === 'matrix') {
@@ -2616,8 +2631,8 @@ function spawnComponent(type) {
   const symbols = { battery: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h12M22 20h15"/><path d="M15 9v22"/><path d="M22 14v12" stroke-width="4"/><path d="M8 11h4M10 9v4" stroke-width="2"/></svg>', resistor: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20h6l3-8 5 16 5-16 5 16 3-8h9"/></svg>', led: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h10M27 20h10"/><path d="M13 11v18l14-9z"/><path d="M27 11v18"/><path d="M22 8l5-5m-3 0h3v3M28 12l5-5m-3 0h3v3" stroke-width="2"/></svg>' };
   el.innerHTML = symbols[type];
   el.setAttribute('aria-label', type);
-  el.style.left = (20 + Math.random() * (rect.width - 90)) + 'px';
-  el.style.top = (20 + Math.random() * (rect.height - 90)) + 'px';
+  el.style.left = (20 + Math.random() * Math.max(0, rect.width - 90)) + 'px';
+  el.style.top = (20 + Math.random() * Math.max(0, rect.height - 90)) + 'px';
   board.appendChild(el);
   CIRCUIT.nodes.push(el);
   setupNode(el);
@@ -2625,33 +2640,39 @@ function spawnComponent(type) {
   blip(600, 0.08, 'square', 0.03);
 }
 function setupNode(el) {
-  el.addEventListener('mousedown', (e) => {
+  el.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
     e.preventDefault();
     CIRCUIT.dragging = el;
+    CIRCUIT.pointerId = e.pointerId;
+    try { el.setPointerCapture(e.pointerId); } catch (err) {}
     const rect = el.getBoundingClientRect();
     CIRCUIT.offset.x = e.clientX - rect.left;
     CIRCUIT.offset.y = e.clientY - rect.top;
     el.classList.add('dragging');
   });
 }
-document.addEventListener('mousemove', (e) => {
-  if (!CIRCUIT.dragging) return;
+document.addEventListener('pointermove', (e) => {
+  if (!CIRCUIT.dragging || e.pointerId !== CIRCUIT.pointerId) return;
+  e.preventDefault();
   const board = document.getElementById('circuitBoard');
   const brect = board.getBoundingClientRect();
   let x = e.clientX - brect.left - CIRCUIT.offset.x;
   let y = e.clientY - brect.top - CIRCUIT.offset.y;
-  x = Math.max(0, Math.min(brect.width - 50, x));
-  y = Math.max(0, Math.min(brect.height - 50, y));
+  x = Math.max(0, Math.min(brect.width - CIRCUIT.dragging.offsetWidth, x));
+  y = Math.max(0, Math.min(brect.height - CIRCUIT.dragging.offsetHeight, y));
   CIRCUIT.dragging.style.left = x + 'px';
   CIRCUIT.dragging.style.top = y + 'px';
   updateCircuit();
 });
-document.addEventListener('mouseup', () => {
-  if (CIRCUIT.dragging) {
+function endDrag(e) {
+  if (CIRCUIT.dragging && (!e || e.pointerId === CIRCUIT.pointerId)) {
     CIRCUIT.dragging.classList.remove('dragging');
     CIRCUIT.dragging = null;
   }
-});
+}
+document.addEventListener('pointerup', endDrag);
+document.addEventListener('pointercancel', endDrag);
 function wireExists(a, b) {
   return CIRCUIT.wires.some(w => (w.a === a && w.b === b) || (w.a === b && w.b === a));
 }
@@ -2779,7 +2800,7 @@ function setMsg(t) { const el = document.getElementById('circuitMsg'); if (el) e
 function resetCircuit() {
   const board = document.getElementById('circuitBoard');
   board.querySelectorAll('.circuit-node, .circuit-wire').forEach(el => el.remove());
-  CIRCUIT.nodes = []; CIRCUIT.wires = []; CIRCUIT.done = false;
+  CIRCUIT.nodes = []; CIRCUIT.wires = []; CIRCUIT.done = false; CIRCUIT.dragging = null;
   document.getElementById('cVolt').textContent = '0 V';
   document.getElementById('cCur').textContent = '0 mA';
   document.getElementById('cRes').textContent = '0 Ω';
@@ -2940,15 +2961,14 @@ console.log('%c$_ Tip: the terminal on this page is REAL. type "hire".', 'color:
   input.addEventListener('keydown', (e) => { if (e.key === 'Escape') { input.value = ''; apply(); input.blur(); } });
   clearBtn.addEventListener('click', () => { input.value = ''; cat = 'all'; document.querySelectorAll('#projChips .chip').forEach(x => { const on = x.dataset.cat === 'all'; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); }); apply(); input.focus(); });
 
-  /* plain English: swap every project description for its plain version */
-  const eli5Btn = document.getElementById('eli5Btn');
-  if (eli5Btn) {
-    eli5Btn.addEventListener('click', () => {
-      const on = eli5Btn.getAttribute('aria-pressed') !== 'true';
-      eli5Btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-      list.classList.toggle('plain', on);
-    });
-  }
+  /* plain English: one switch for every .eli5-toggle button; swaps projects, skills, about, process and FAQ */
+  const eli5Btns = document.querySelectorAll('.eli5-toggle');
+  eli5Btns.forEach(btn => btn.addEventListener('click', () => {
+    const on = btn.getAttribute('aria-pressed') !== 'true';
+    eli5Btns.forEach(b => b.setAttribute('aria-pressed', on ? 'true' : 'false'));
+    document.documentElement.classList.toggle('plain-on', on);
+    list.classList.toggle('plain', on);
+  }));
   const pt = document.getElementById('projTotal'); if (pt) pt.textContent = total;
   apply();
 })();
@@ -3161,8 +3181,19 @@ console.log('%c$_ Tip: the terminal on this page is REAL. type "hire".', 'color:
   }
   prev.addEventListener('click', () => go(-1));
   next.addEventListener('click', () => go(1));
+  // one swipe moves one project: a hard flick can carry the list past the next snap point, so cap it at the neighbours of the card the swipe started on
+  let startIdx = null, touching = false;
+  list.addEventListener('touchstart', () => { touching = true; startIdx = index(shownCards()); }, { passive: true });
+  list.addEventListener('touchend', () => { touching = false; }, { passive: true });
+  list.addEventListener('touchcancel', () => { touching = false; }, { passive: true });
+  function clampSwipe() {
+    if (startIdx === null || !mq.matches) return;
+    const c = shownCards(); if (!c.length) return;
+    const lo = c[Math.max(0, startIdx - 1)].offsetLeft - padLeft(), hi = c[Math.min(c.length - 1, startIdx + 1)].offsetLeft - padLeft();
+    if (list.scrollLeft < lo) list.scrollLeft = lo; else if (list.scrollLeft > hi) list.scrollLeft = hi;
+  }
   let raf = 0;
-  list.addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(update); clearTimeout(settleTimer); settleTimer = setTimeout(settle, 180); }, { passive: true });
+  list.addEventListener('scroll', () => { clampSwipe(); cancelAnimationFrame(raf); raf = requestAnimationFrame(update); clearTimeout(settleTimer); settleTimer = setTimeout(() => { if (!touching) startIdx = null; settle(); }, 180); }, { passive: true });
   list.addEventListener('projfilter', () => { list.scrollLeft = 0; settled = 0; update(); });
   (mq.addEventListener ? mq.addEventListener('change', update) : mq.addListener(update));
   window.addEventListener('resize', update);
