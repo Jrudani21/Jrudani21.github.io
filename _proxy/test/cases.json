@@ -544,7 +544,7 @@
   "id": "ctl-2",
   "mode": "ask",
   "category": "control",
-  "input": "What have I built with local language models?",
+  "input": "What has Janak built with local language models?",
   "expect": "answer",
   "deterministic": false,
   "compliant_output": "",
