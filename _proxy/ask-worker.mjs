@@ -246,6 +246,14 @@ const isQuota = (e) => /4006|allocation|neurons|quota|limit/i.test(String(e && e
 // Workers AI returns {response} for some models and an OpenAI style {choices:[{message:{content}}]} for others; accept both
 export const replyText = (o) => (o && typeof o.response === 'string') ? o.response : (o && o.choices && o.choices[0] && o.choices[0].message && typeof o.choices[0].message.content === 'string') ? o.choices[0].message.content : '';
 
+// ---------- answer cache: an answered question is kept 6 hours in the RATE KV, under a hash so no visitor text is stored ----------
+const CACHE_TTL = 21600; // shortcut: a site edit can take up to 6 hours to reach cached answers, lower this if that matters
+export async function cacheKey(text) {
+  const norm = text.toLowerCase().replace(/\s+/g, ' ').trim().replace(/[?.!\s]+$/, '');
+  const d = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(norm));
+  return 'ans:' + [...new Uint8Array(d)].slice(0, 16).map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
 export default {
   async fetch(request, env) {
     const origin = request.headers.get('origin') || '';
@@ -266,6 +274,11 @@ export default {
     if (!lim || typeof body.text !== 'string') return json(400, { error: 'bad_input' }, h);
     const text = normalizeInput(body.text); // layer 1
     if (text.length < lim.min || text.length > lim.max) return json(400, { error: 'bad_length' }, h);
+
+    // a question that already passed every layer and got a grounded answer is served from KV: no model call, no Neurons, not counted
+    // (only answered questions are ever stored, so this cannot be used to probe the filters; job-fit pastes are never cached)
+    const ckey = mode === 'ask' && env.RATE ? await cacheKey(text) : null;
+    if (ckey) { try { const hit = await env.RATE.get(ckey); if (hit) return json(200, { answer: hit }, { ...h, 'x-cache': 'hit' }); } catch { /* a KV hiccup just means no cache */ } }
 
     // every attempt counts toward the daily limits, so repeated probing runs out quickly
     if (!(await allow(env, request.headers.get('cf-connecting-ip') || 'unknown'))) return json(429, { error: 'rate_limited' }, h);
@@ -300,7 +313,9 @@ export default {
       answer = sanitizeLinks(cleanAnswer(answer));
       if (leaksRules(answer)) return refuse(env, h, mode, 'leak'); // layer 6
       if (!isGrounded(answer, corpus)) return refuse(env, h, mode, 'ungrounded');
-      return json(200, { answer: answer.slice(0, 1500) }, h);
+      answer = answer.slice(0, 1500);
+      if (ckey) { try { await env.RATE.put(ckey, answer, { expirationTtl: CACHE_TTL }); } catch { /* not cached, still answered */ } }
+      return json(200, { answer }, h);
     } catch (e) {
       // when the free daily allowance is used up, Workers AI errors instead of billing
       return isQuota(e) ? json(429, { error: 'rate_limited' }, h) : json(502, { error: 'upstream' }, h);
