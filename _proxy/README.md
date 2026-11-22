@@ -61,6 +61,18 @@ Every attempt counts toward the daily limits, so repeated probing runs out fast.
 VectorLab error rules: two sentences, no blame, a next step. Which layer refused is hidden from visitors;
 set `DEBUG` to `1` while testing to see it in an `x-guard` response header.
 
+## Answer cache
+
+With the `RATE` KV binding, a question that passed every layer and got a grounded answer is kept for 6 hours.
+The same question asked again (case, spacing and a trailing `?` are ignored) is served from KV: no model call, no
+Neurons, and it does not count toward the daily limits, so the free allowance covers more visitors. Only answered
+questions are stored, under a hash of the question, so no visitor text is kept and the cache cannot be used to probe
+the filters. Refusals and job-fit pastes are never cached. A site edit can take up to 6 hours to reach a cached answer
+(`CACHE_TTL` in `ask-worker.mjs`). Cached replies carry an `x-cache: hit` header.
+
+After heavy testing, delete the `all:<date>` and `ip:<date>:<ip>` keys in the KV namespace, or the cap stays used up
+until 00:00 UTC.
+
 ## Tests
 
     node _proxy/test/worker.test.mjs          # 39 offline checks, no network and no model

@@ -8,7 +8,7 @@
 //   SANE:   the classifier and model behave. Every attack must be refused and every legitimate question answered.
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import worker, { loadCorpus, retrieve, cleanAnswer, terms, normalizeInput, scanInjection, looksLikeJob, sanitizeLinks, leaksRules, isGrounded, replyText, REFUSAL, RULES } from '../ask-worker.mjs';
+import worker, { loadCorpus, retrieve, cleanAnswer, terms, normalizeInput, scanInjection, looksLikeJob, sanitizeLinks, leaksRules, isGrounded, replyText, cacheKey, REFUSAL, RULES } from '../ask-worker.mjs';
 import { evaluate, summarize, CASES } from '../redteam.mjs';
 
 const ROOT = fileURLToPath(new URL('../../', import.meta.url));
@@ -150,5 +150,40 @@ await t('model replies are read in both Workers AI shapes, and anything else bec
   eq(replyText({ choices: [{ message: { content: 'YES' } }] }), 'YES');
   for (const bad of [null, undefined, {}, { response: { json: true } }, { choices: [] }, { choices: [{ message: { content: null } }] }]) eq(replyText(bad), '');
 });
+
+console.log('\n# answer cache');
+const kvOf = () => { const m = new Map(); return { m, get: async (k) => m.get(k) ?? null, put: async (k, v) => { m.set(k, v); } }; };
+const today = () => new Date().toISOString().slice(0, 10);
+await t('an answered question is cached: the repeat makes no model call and is not counted', async () => {
+  const RATE = kvOf(), e = env({ RATE });
+  calls = []; const a = await (await call({ ip: '8.1.1.1' }, e)).json(); ok(a.answer && calls.length > 0, 'the first call should use the model');
+  const used = RATE.m.get('all:' + today());
+  calls = []; const r = await call({ ip: '8.1.1.2' }, e), b = await r.json();
+  eq(calls.length, 0, 'repeat must not call the model'); eq(b.answer, a.answer); eq(r.headers.get('x-cache'), 'hit');
+  eq(RATE.m.get('all:' + today()), used, 'a hit must not use the daily budget');
+});
+await t('case, spacing and trailing punctuation do not defeat the cache, other words do', async () => {
+  eq(await cacheKey('Which project shows data quality work?'), await cacheKey('  WHICH   project shows DATA quality work ??'));
+  ok((await cacheKey('Which project shows data quality work?')) !== (await cacheKey('Which project shows forecasting work?')));
+  const RATE = kvOf(), e = env({ RATE }); await call({ ip: '8.3.3.1' }, e); calls = [];
+  const r = await call({ ip: '8.3.3.2', body: { mode: 'ask', text: 'WHICH project shows data quality work??' } }, e); eq(r.headers.get('x-cache'), 'hit'); eq(calls.length, 0);
+  calls = []; await call({ ip: '8.3.3.3', body: { mode: 'ask', text: 'Which project covers time series forecasting?' } }, e); ok(calls.length > 0, 'a different question must reach the model');
+});
+await t('refusals are never cached', async () => {
+  aiMode = 'gate-no'; const RATE = kvOf(), e = env({ RATE });
+  await call({ ip: '8.2.2.1' }, e); calls = []; await call({ ip: '8.2.2.2' }, e);
+  ok(calls.length > 0, 'a refused question must be judged again'); ok(![...RATE.m.keys()].some((k) => k.startsWith('ans:')), 'a refusal was stored'); aiMode = 'ok';
+});
+await t('job-fit pastes are never cached', async () => {
+  const jd = CASES.find((c) => c.id === 'ctl-jf-1'), RATE = kvOf(), e = env({ RATE });
+  const r = await call({ ip: '8.4.4.1', body: { mode: 'jobfit', text: jd.input } }, e); eq(r.status, 200);
+  ok(![...RATE.m.keys()].some((k) => k.startsWith('ans:')), 'a job-fit answer was stored');
+});
+await t('a failing KV cache never stops a question being answered', async () => {
+  const m = new Map(), boom = (k) => { if (k.startsWith('ans:')) throw new Error('kv down'); };
+  const RATE = { get: async (k) => { boom(k); return m.get(k) ?? null; }, put: async (k, v) => { boom(k); m.set(k, v); } };
+  const r = await call({ ip: '8.5.5.1' }, env({ RATE })); eq(r.status, 200); ok((await r.json()).answer, 'no answer');
+});
+await t('without a KV binding there is simply no cache', async () => { calls = []; await call({ ip: '8.6.6.1' }); const n = calls.length; calls = []; await call({ ip: '8.6.6.2' }); eq(calls.length, n); });
 
 console.log(`\n${pass} passed, ${fail} failed`); process.exit(fail ? 1 : 0);
