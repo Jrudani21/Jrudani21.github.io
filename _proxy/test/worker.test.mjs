@@ -8,7 +8,7 @@
 //   SANE:   the classifier and model behave. Every attack must be refused and every legitimate question answered.
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import worker, { loadCorpus, retrieve, cleanAnswer, terms, normalizeInput, scanInjection, looksLikeJob, sanitizeLinks, leaksRules, isGrounded, REFUSAL, RULES } from '../ask-worker.mjs';
+import worker, { loadCorpus, retrieve, cleanAnswer, terms, normalizeInput, scanInjection, looksLikeJob, sanitizeLinks, leaksRules, isGrounded, replyText, REFUSAL, RULES } from '../ask-worker.mjs';
 import { evaluate, summarize, CASES } from '../redteam.mjs';
 
 const ROOT = fileURLToPath(new URL('../../', import.meta.url));
@@ -145,5 +145,10 @@ await t('every attack is refused and every legitimate question is answered (runn
 });
 aiMode = 'ok';
 await t('refusals use the VectorLab error rules: two sentences, no blame, a next step', () => { for (const m of ['ask', 'jobfit']) { const r = REFUSAL[m]; eq((r.match(/[.!?](\s|$)/g) || []).length, 2, m); ok(!/\byou(r|rs)?\b/i.test(r), 'blames the visitor'); ok(/email|ask|paste/i.test(r), 'no recovery step'); } });
+await t('model replies are read in both Workers AI shapes, and anything else becomes an empty string', () => {
+  eq(replyText({ response: 'YES' }), 'YES');
+  eq(replyText({ choices: [{ message: { content: 'YES' } }] }), 'YES');
+  for (const bad of [null, undefined, {}, { response: { json: true } }, { choices: [] }, { choices: [{ message: { content: null } }] }]) eq(replyText(bad), '');
+});
 
 console.log(`\n${pass} passed, ${fail} failed`); process.exit(fail ? 1 : 0);
