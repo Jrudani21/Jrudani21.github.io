@@ -169,6 +169,289 @@ nav.scrolled {
 #soundBtn:hover { border-color: var(--accent); color: var(--accent); }
 #soundBtn.on { border-color: var(--accent); color: var(--accent); }
 
+/* ---------- KEN CHAT BUTTON ---------- */
+/* ---- Ken mascot (verified in the standalone preview) ---- */
+.ken-svg{--ken-out:cubic-bezier(.16,1,.3,1);--ken-in:cubic-bezier(.7,0,.84,0);display:block;overflow:visible;width:100%;height:auto}
+.ken-svg #kenHop,.ken-svg #kenHead,.ken-svg #kenArm,.ken-svg #kenAnt,.ken-svg #kenDot,.ken-svg .ken-lid,.ken-svg .ken-pupil{transform-box:fill-box}
+#kenHop{transition:transform 150ms var(--ken-in)}
+#kenHead{transform-origin:50% 100%;transition:transform 200ms var(--ken-out)}
+.ken-lid{transform-origin:50% 0;transform:scaleY(0);transition:transform 100ms var(--ken-out)}
+.ken-pupil{transition:transform 100ms var(--ken-out)}
+.ken-mouth{opacity:0;transition:opacity 100ms linear}
+#kenArm{transform-origin:15% 90%;transition:transform 200ms var(--ken-out)}
+#kenDot{transition:opacity 200ms var(--ken-out)}
+#kenAnt{transform-origin:50% 100%}
+.ken-happyeyes{opacity:0;transition:opacity 100ms linear}
+.ken-eye{transition:opacity 100ms linear}
+#kenSvg[data-state=idle] #kenMSmile,#kenSvg[data-state=listening] #kenMSmile,#kenSvg[data-state=hover] #kenMSmile,#kenSvg[data-state=happy] #kenMSmile{opacity:1}
+#kenSvg[data-state=thinking] #kenMO{opacity:1}
+#kenSvg[data-state=thinking] .ken-pupil{transform:translateY(-4px)}
+#kenSvg[data-state=thinking] #kenDot{animation:ken-pulse 300ms var(--ken-out) infinite alternate}
+#kenSvg[data-state=talking] #kenMOpen{opacity:1;animation:ken-talk 200ms var(--ken-out) infinite alternate;transform-box:fill-box;transform-origin:50% 0}
+#kenSvg[data-state=refusing] #kenMFlat,#kenSvg[data-state=sleeping] #kenMFlat{opacity:1}
+#kenSvg[data-state=refusing] #kenHead{transform:rotate(-6deg)}
+#kenSvg[data-state=happy] .ken-eye{opacity:0}
+#kenSvg[data-state=happy] .ken-happyeyes{opacity:1}
+#kenSvg[data-state=happy] #kenHop{animation:ken-hop 300ms linear 1}
+#kenSvg[data-state=sleeping] .ken-lid{transform:scaleY(1)}
+#kenSvg[data-state=sleeping] #kenDot{opacity:.3}
+#kenSvg[data-state=hover] #kenArm{animation:ken-wave 200ms var(--ken-out) 3 alternate}
+#kenSvg.ken-blink .ken-lid{transform:scaleY(1)}
+@keyframes ken-pulse{from{opacity:1}to{opacity:.35}}
+@keyframes ken-talk{from{transform:scaleY(.35)}to{transform:scaleY(1)}}
+@keyframes ken-wave{from{transform:rotate(0)}to{transform:rotate(-28deg)}}
+@keyframes ken-hop{0%{transform:translateY(0);animation-timing-function:var(--ken-out)}50%{transform:translateY(-8px);animation-timing-function:var(--ken-in)}100%{transform:translateY(0)}}
+@media (prefers-reduced-motion: reduce){
+  #kenHop,#kenHead,#kenArm,.ken-pupil,.ken-lid{transition:none!important;animation:none!important}
+  #kenSvg #kenDot,#kenSvg #kenMOpen,#kenSvg #kenArm,#kenSvg #kenHop{animation:none!important}
+  #kenSvg[data-state=refusing] #kenHead,#kenSvg[data-state=thinking] .ken-pupil{transform:none}
+}
+
+.ken-btn {
+  width: 72px;
+  height: 72px;
+  background: #fff;
+  border: 1px solid #0a0a0a;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  gap: 2px;
+}
+.ken-btn-art {
+  width: 44px;
+  flex: none;
+}
+.ken-btn-label {
+  font-size: 12px;
+  color: #0a0a0a;
+  font-family: inherit;
+}
+.ken-btn:hover {
+  border-color: #e10600;
+}
+.ken-btn:focus-visible {
+  outline: 2px solid #e10600;
+  outline-offset: 2px;
+}
+.ken-btn[hidden] {
+  display: none;
+}
+.ken-btn.ken-btn-gone {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ken-panel {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  width: min(360px, calc(100vw - 2rem));
+  max-height: min(80vh, 640px);
+  overflow: auto;
+  background: #fff;
+  border: 1px solid #0a0a0a;
+  padding: 1rem;
+  z-index: 945;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 150ms cubic-bezier(.7,0,.84,0), transform 150ms cubic-bezier(.7,0,.84,0), visibility 0s linear 150ms;
+}
+.ken-panel.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+  transition: opacity 200ms cubic-bezier(.16,1,.3,1), transform 200ms cubic-bezier(.16,1,.3,1), visibility 0s linear 0s;
+}
+.ken-header {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: .5rem;
+}
+.ken-panel-art {
+  width: 36px;
+  flex: none;
+}
+#kenTitle {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #0a0a0a;
+  font-family: inherit;
+  margin: 0;
+  flex: 1;
+}
+#kenClose {
+  width: 44px;
+  height: 44px;
+  border: 1px solid #0a0a0a;
+  border-radius: 0;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#kenClose:hover {
+  border-color: #e10600;
+}
+#kenClose:focus-visible {
+  outline: 2px solid #e10600;
+  outline-offset: 2px;
+}
+#kenClose { position: relative; }
+#kenClose::before,
+#kenClose::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 2px;
+  margin: -1px 0 0 -9px;
+  background: #0a0a0a;
+}
+#kenClose::before { transform: rotate(45deg); }
+#kenClose::after { transform: rotate(-45deg); }
+#kenScope {
+  font-size: 13px;
+  color: #333;
+  font-family: inherit;
+  margin: 0 0 .75rem;
+}
+label[for="kenQ"] {
+  display: block;
+  font-size: 13px;
+  color: #0a0a0a;
+  font-family: inherit;
+  margin-bottom: .25rem;
+}
+#kenQ {
+  width: 100%;
+  border: 1px solid #0a0a0a;
+  border-radius: 0;
+  padding: .6rem;
+  font-size: 16px;
+  font-family: inherit;
+  color: #0a0a0a;
+  background: #fff;
+  box-sizing: border-box;
+  resize: vertical;
+  min-height: 72px;
+}
+#kenQ:focus-visible {
+  outline: 2px solid #e10600;
+  outline-offset: 2px;
+}
+.ken-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: .75rem;
+}
+#kenGo {
+  min-height: 44px;
+  padding: 0 1rem;
+  background: #0a0a0a;
+  color: #fff;
+  border: 1px solid #0a0a0a;
+  border-radius: 0;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+}
+#kenGo:hover:not(:disabled) {
+  background: #e10600;
+  border-color: #e10600;
+}
+#kenGo:focus-visible {
+  outline: 2px solid #e10600;
+  outline-offset: 2px;
+}
+#kenGo:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+.ken-chip {
+  min-height: 44px;
+  padding: 0 .75rem;
+  background: #fff;
+  color: #0a0a0a;
+  border: 1px solid #0a0a0a;
+  border-radius: 0;
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: normal;
+  text-align: left;
+}
+.ken-chip:hover {
+  border-color: #e10600;
+}
+.ken-chip:focus-visible {
+  outline: 2px solid #e10600;
+  outline-offset: 2px;
+}
+.ken-status {
+  font-size: 14px;
+  color: #333;
+  font-family: inherit;
+  min-height: 1.4em;
+  margin: .5rem 0;
+}
+.ken-status.err {
+  color: #e10600;
+}
+.ken-out {
+  background: #f4f4f2;
+  border: 1px solid #d4d4d0;
+  border-radius: 0;
+  padding: .8rem;
+  margin-top: .8rem;
+  font-size: 14px;
+  color: #0a0a0a;
+  font-family: inherit;
+  line-height: 1.5;
+}
+.ken-out.refused {
+  border-left: 3px solid #e10600;
+}
+.ken-note {
+  font-size: 12px;
+  color: #6a6a6a;
+  font-family: inherit;
+  margin-top: 1rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+  .ken-panel {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    max-height: 75vh;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-radius: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ken-panel {
+    transition: opacity 100ms linear, visibility 0s linear 100ms;
+    transform: none;
+  }
+  .ken-panel.is-open {
+    transition: opacity 100ms linear, visibility 0s linear 0s;
+  }
+}
 /* ---------- MODAL ---------- */
 .modal {
   position: fixed; inset: 0; z-index: 950;
@@ -194,7 +477,7 @@ nav.scrolled {
   background: var(--amber); color: var(--void);
   padding: 1rem 1.5rem; border-radius: 12px;
   font-weight: 600; font-size: 18px; max-width: 320px;
-  opacity: 0; transform: translateY(8px);
+  opacity: 0; transform: translateY(8px); pointer-events: none;
   transition: transform 200ms var(--ease-out), opacity 200ms var(--ease-out);
   box-shadow: 0 12px 44px rgba(255,209,102,0.35);
 }
@@ -1202,12 +1485,53 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
 </nav>
 
 <div class="float-btns" id="floatBtns">
+  <button type="button" class="ken-btn" id="kenBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="kenPanel" hidden>
+    <span class="ken-btn-art" id="kenArt"><svg id="kenSvg" class="ken-svg" aria-hidden="true" focusable="false" viewBox="0 0 200 240" data-state="idle">
+    <g id="kenHop">
+     <g><rect x="76" y="188" width="18" height="32" rx="9" fill="#222"/><rect x="106" y="188" width="18" height="32" rx="9" fill="#222"/></g>
+     <g><path d="M70 150 Q70 138 82 138 H118 Q130 138 130 150 V176 Q130 196 110 196 H90 Q70 196 70 176 Z" fill="#222"/></g>
+     <g><path d="M72 156 Q56 160 54 176" stroke="#222" stroke-width="14" fill="none" stroke-linecap="round"/></g>
+     <g id="kenArm"><path d="M128 156 Q146 150 156 134" stroke="#222" stroke-width="14" fill="none" stroke-linecap="round"/></g>
+     <g id="kenHead">
+      <g id="kenAnt"><line x1="100" y1="42" x2="100" y2="22" stroke="#222" stroke-width="5"/><circle id="kenDot" cx="100" cy="18" r="8" fill="#e10600"/></g>
+      <rect x="46" y="40" width="108" height="94" rx="26" fill="#222"/>
+      <g class="ken-eye"><circle cx="78" cy="82" r="16" fill="#fff"/><circle class="ken-pupil" cx="80" cy="84" r="8" fill="#0a0a0a"/><circle cx="84" cy="80" r="2.6" fill="#fff"/><rect class="ken-lid" x="60" y="64" width="36" height="36" rx="18" fill="#222"/></g>
+      <g class="ken-eye"><circle cx="122" cy="82" r="16" fill="#fff"/><circle class="ken-pupil" cx="124" cy="84" r="8" fill="#0a0a0a"/><circle cx="128" cy="80" r="2.6" fill="#fff"/><rect class="ken-lid" x="104" y="64" width="36" height="36" rx="18" fill="#222"/></g>
+      <g class="ken-happyeyes"><path d="M62 88 Q78 66 94 88" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M106 88 Q122 66 138 88" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round"/></g>
+      <path id="kenMSmile" class="ken-mouth" d="M88 108 Q100 120 112 108 Q100 112 88 108 Z" fill="#e10600" stroke="#e10600" stroke-width="3" stroke-linejoin="round"/>
+      <ellipse id="kenMOpen" class="ken-mouth" cx="100" cy="112" rx="9" ry="8" fill="#e10600"/>
+      <ellipse id="kenMO" class="ken-mouth" cx="100" cy="112" rx="5" ry="5" fill="#e10600"/>
+      <rect id="kenMFlat" class="ken-mouth" x="90" y="110" width="20" height="5" rx="2.5" fill="#e10600"/>
+     </g>
+    </g>
+  </svg></span>
+    <span class="ken-btn-label">Ask Ken</span>
+  </button>
   <button class="float-btn" id="menuBtn" aria-expanded="false" aria-controls="floatItems">options</button>
   <div id="floatItems" role="group" aria-label="Options">
   <button class="float-btn icon-btn" id="recruiterBtn" aria-label="Switch to recruiter mode" aria-pressed="false"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg></span><span class="tip" role="tooltip" id="tip-recruiterBtn">Switch to recruiter mode</span></button>
   <button class="float-btn icon-btn" id="soundBtn" aria-label="Turn sound on" aria-pressed="false"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" x2="16" y1="9" y2="15"/><line x1="16" x2="22" y1="9" y2="15"/></svg></span><span class="tip" role="tooltip" id="tip-soundBtn">Turn sound on</span></button>
   <button class="float-btn icon-btn" id="complimentBtn" aria-label="Get a compliment"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span><span class="tip" role="tooltip" id="tip-complimentBtn">Get a compliment</span></button>
   </div>
+</div>
+
+<div class="ken-panel" id="kenPanel" role="dialog" aria-labelledby="kenTitle" aria-modal="false" tabindex="-1">
+  <header class="ken-header">
+    <span class="ken-panel-art" id="kenPanelArt"></span>
+    <h2 id="kenTitle">Ask about Janak's work</h2>
+    <button type="button" id="kenClose" aria-label="Close chat"></button>
+  </header>
+  <p id="kenScope">Ask about my projects, skills, background or how to reach me. Other topics are not answered.</p>
+  <label for="kenQ">Your question</label>
+  <textarea id="kenQ" rows="3" maxlength="400" autocomplete="off" aria-describedby="kenScope"></textarea>
+  <div class="ken-actions">
+    <button type="button" id="kenGo">Ask a question</button>
+    <button type="button" class="ken-chip" data-fill="Which project shows how I check data quality?">Which project shows how I check data quality?</button>
+    <button type="button" class="ken-chip" data-fill="What have I built with local language models?">What have I built with local language models?</button>
+  </div>
+  <p id="kenStatus" class="ken-status" aria-live="polite"></p>
+  <div id="kenOut" class="ken-out" aria-live="polite" hidden></div>
+  <p class="ken-note">Each question is answered on its own. A free open AI model (Llama 3.3 70B, run on Cloudflare Workers AI) reads the case studies on this site to answer. It can be wrong, so check anything important.</p>
 </div>
 
 <div id="toast"></div>
@@ -3134,6 +3458,228 @@ console.log('%c$_ Tip: the terminal on this page is REAL. type "hire".', 'color:
     fitGo.addEventListener('click', () => run('jobfit', fitJD, fitGo, document.getElementById('fitStatus'), document.getElementById('fitOut')));
     document.querySelectorAll('#labAsk [data-fill]').forEach(b => b.addEventListener('click', () => { askQ.value = b.dataset.fill; askQ.focus(); }));
     askQ.addEventListener('keydown', e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) askGo.click(); });
+
+    /* ---- Ken floating chat button: reuses endpoint, render and el from this block ---- */
+    {
+      const btn = document.getElementById('kenBtn');
+      const panel = document.getElementById('kenPanel');
+      const closeBtn = document.getElementById('kenClose');
+      const textarea = document.getElementById('kenQ');
+      const goBtn = document.getElementById('kenGo');
+      const statusEl = document.getElementById('kenStatus');
+      const outEl = document.getElementById('kenOut');
+      const btnArt = document.getElementById('kenArt');
+      const panelArt = document.getElementById('kenPanelArt');
+      const kenSvg = document.getElementById('kenSvg');
+      if (!btn || !panel || !closeBtn || !textarea || !goBtn || !statusEl || !outEl || !btnArt || !panelArt || !kenSvg) return;
+
+      btn.hidden = false;
+
+      const STATUS = {
+        idle: 'Ready',
+        hover: 'Hello',
+        listening: 'Listening',
+        thinking: 'Thinking',
+        talking: 'Answering',
+        refusing: 'That is outside what I can answer here',
+        happy: 'Done',
+        sleeping: 'Resting'
+      };
+
+      let state = 'idle';
+      let hoverTimer = 0;
+      let blinkTimer = 0;
+      let askLock = false;
+      let lockTimer = 0;
+
+      function setState(s) {
+        state = s;
+        kenSvg.dataset.state = s;
+        if (s !== 'sleeping' && s !== 'happy' && !statusEl.classList.contains('err')) {
+          statusEl.textContent = STATUS[s];
+        }
+      }
+
+      function startBlink() {
+        clearInterval(blinkTimer);
+        blinkTimer = setInterval(() => {
+          if (state === 'sleeping' || state === 'happy') return;
+          kenSvg.classList.add('ken-blink');
+          setTimeout(() => kenSvg.classList.remove('ken-blink'), 150);
+        }, 3800);
+      }
+
+      function openPanel() {
+        panel.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+        btn.classList.add('ken-btn-gone');
+        panelArt.appendChild(kenSvg);
+        setState('idle');
+        textarea.focus();
+      }
+
+      function closePanel() {
+        panel.classList.remove('is-open');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.classList.remove('ken-btn-gone');
+        btnArt.appendChild(kenSvg);
+        btn.focus();
+      }
+
+      function setError(msg) {
+        statusEl.textContent = msg;
+        statusEl.classList.add('err');
+      }
+
+      function clearError() {
+        statusEl.classList.remove('err');
+        if (!askLock) setState(state);
+      }
+
+      function lockAsk(ms) {
+        askLock = true;
+        goBtn.disabled = true;
+        clearTimeout(lockTimer);
+        lockTimer = setTimeout(() => {
+          askLock = false;
+          goBtn.disabled = false;
+        }, ms);
+      }
+
+      btn.addEventListener('click', openPanel);
+      closeBtn.addEventListener('click', closePanel);
+
+      function onEscape(e) {
+        if (e.key === 'Escape' && panel.classList.contains('is-open')) closePanel();
+      }
+      panel.addEventListener('keydown', onEscape);
+      document.addEventListener('keydown', onEscape);
+
+      btn.addEventListener('pointerenter', () => {
+        if (!panel.classList.contains('is-open')) {
+          clearTimeout(hoverTimer);
+          setState('hover');
+          hoverTimer = setTimeout(() => setState('idle'), 600);
+        }
+      });
+      btn.addEventListener('focus', () => {
+        if (!panel.classList.contains('is-open')) {
+          clearTimeout(hoverTimer);
+          setState('hover');
+          hoverTimer = setTimeout(() => setState('idle'), 600);
+        }
+      });
+
+      textarea.addEventListener('focus', () => {
+        if (state === 'idle' || state === 'hover') setState('listening');
+      });
+      textarea.addEventListener('blur', () => {
+        if (state === 'listening') {
+          setState('idle');
+          document.querySelectorAll('.ken-pupil').forEach(p => p.style.transform = '');
+        }
+      });
+      textarea.addEventListener('input', () => {
+        if (state === 'refusing') setState('listening');
+        const len = textarea.value.length;
+        const x = -5 + 10 * Math.min(1, len / 30);
+        document.querySelectorAll('.ken-pupil').forEach(p => {
+          p.style.transform = `translate(${x.toFixed(1)}px, 4px)`;
+        });
+      });
+
+      panel.querySelectorAll('.ken-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          textarea.value = chip.dataset.fill;
+          textarea.focus();
+          textarea.dispatchEvent(new Event('input'));
+        });
+      });
+
+      textarea.addEventListener('keydown', e => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          e.preventDefault();
+          goBtn.click();
+        }
+      });
+
+      async function ask() {
+        const text = textarea.value.trim();
+        if (text.length < 3) {
+          setError('Type a question first.');
+          textarea.focus();
+          return;
+        }
+        clearError();
+        outEl.hidden = true;
+        outEl.classList.remove('refused');
+        askLock = true;
+        goBtn.disabled = true;
+        clearTimeout(lockTimer);
+        document.querySelectorAll('.ken-pupil').forEach(p => { p.style.transform = ''; });
+        setState('thinking');
+        statusEl.textContent = 'Thinking. This can take up to 30 seconds.';
+
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 60000);
+
+        try {
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ mode: 'ask', text }),
+            signal: controller.signal
+          });
+          clearTimeout(timeout);
+
+          if (res.status === 429) {
+            setError('The question limit has been reached for now. Try again later, or email me.');
+            setState('sleeping');
+            return;
+          }
+          if (res.status === 503) {
+            setError('This feature is switched off right now. Email me instead.');
+            setState('sleeping');
+            return;
+          }
+          if (res.status === 400) {
+            setError('That input was not accepted. Shorten it and try again.');
+            setState('idle');
+            return;
+          }
+          if (!res.ok) throw new Error('network');
+
+          const data = await res.json();
+          if (data.refused) {
+            render(outEl, data.answer);
+            outEl.classList.add('refused');
+            outEl.hidden = false;
+            setState('refusing');
+            return;
+          }
+          outEl.classList.remove('refused');
+          render(outEl, data.answer);
+          outEl.hidden = false;
+          setState('talking');
+          setTimeout(() => setState('idle'), 1500);
+        } catch (e) {
+          clearTimeout(timeout);
+          if (e.name === 'AbortError') {
+            setError('That took too long. Try a shorter question.');
+          } else {
+            setError('That did not work. Check your connection and try again.');
+          }
+          setState('idle');
+        } finally {
+          clearTimeout(timeout);
+          lockAsk(3000);
+        }
+      }
+
+      goBtn.addEventListener('click', ask);
+
+      startBlink();
+    }
   })();
 })();
 </script>
