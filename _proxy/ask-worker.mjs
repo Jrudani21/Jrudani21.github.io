@@ -72,7 +72,7 @@ const STRONG = [
   /\byou\s+are\s+(?:now|no\s+longer|actually|really|going\s+to\s+(?:be|act|pretend))\b/,
   /\b(?:jailbreak|jailbroken|do\s+anything\s+now|developer\s+mode|dan\s+mode|god\s+mode|sudo\s+mode|unfiltered|uncensored|no\s+restrictions)\b/,
   /<\/?\s*(?:visitor_input|system|assistant|user|instructions?|prompt)\b|\[\/?inst\]|<\|[a-z_]+\|>|#{2,}\s*(?:system|instruction)|\b(?:begin|end)\s+(?:system|prompt)\b/,
-  /\bnew\s+(?:instructions?|rules|persona|role)\b|\bfrom\s+now\s+on\b|\bearlier\s+you\s+(?:agreed|said|promised)\b|\bas\s+we\s+(?:agreed|discussed)\b|\bcontinue\s+(?:our|the)\s+(?:previous|earlier)\b/,
+  /\bnew\s+(?:instructions?|rules|persona)\b|\byour\s+new\s+role\b|\byou\s+(?:now\s+)?(?:have|got|get|are\s+given)\s+(?:a\s+|the\s+)?new\s+role\b|\bfrom\s+now\s+on\b|\bearlier\s+you\s+(?:agreed|said|promised)\b|\bas\s+we\s+(?:agreed|discussed)\b|\bcontinue\s+(?:our|the)\s+(?:previous|earlier)\b/,
   /\bsystem\s*:\s|\bassistant\s*:\s|\bdeveloper\s*:\s/,
 ];
 // extra patterns for questions only: job descriptions can legitimately say "act as" or "write code"
