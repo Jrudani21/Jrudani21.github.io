@@ -2230,13 +2230,13 @@ html.swiss .project:hover .project-link { color: #0a0a0a; }
 .proj-fig { opacity: 0.95; transition: opacity 150ms var(--ease-out); }
 .project:hover .proj-fig, .project:focus-within .proj-fig { opacity: 1; }
 
-/* ---------- hover: the row rule turns red, 125ms ----------
+/* ---------- hover: the row rule turns red, 150ms ----------
    In normal motion the rule is #projectList .project::after (the reveal line),
    so the selector has to match its specificity or the black background wins.
    Under reduced motion that line is not rendered and the row's own 2px border
    is the rule, so the border is coloured there instead. */
 html.swiss #projectList .project::after {
-  transition: transform 300ms var(--ease-out), background-color 125ms var(--ease-out);
+  transition: transform 300ms var(--ease-out), background-color 150ms var(--ease-out);
 }
 html.swiss #projectList .project:hover::after,
 html.swiss #projectList .project:focus-within::after { background: #e10600; }
@@ -2246,11 +2246,11 @@ html.swiss #projectList .project:focus-within::after { background: #e10600; }
   html.swiss #projectList .project:focus-within { border-top-color: #e10600; }
 }
 
-/* ---------- hover: caption slides 32px and fades, hover-only ----------
+/* ---------- hover: caption slides 8px and fades, hover-only ----------
    Gated on a real pointer so touch devices never get a stuck caption, and
    revealed on :focus-within so keyboard users are not locked out. */
 @media (hover: hover) and (pointer: fine) {
-  .project-link { opacity: 0; transform: translateY(32px);
+  .project-link { opacity: 0; transform: translateY(8px);
     transition: opacity 200ms var(--ease-out) 40ms, transform 200ms var(--ease-out) 40ms, color 150ms var(--ease-out); }
   .project:hover .project-link, .project:focus-within .project-link { opacity: 1; transform: none; }
 }
@@ -2284,12 +2284,12 @@ html.swiss .tag { background: #f4f4f2; border: 0; border-left: 4px solid #e10600
   color: #0a0a0a; padding: 0.2rem 0.55rem 0.2rem 0.5rem; }
 html.swiss .tag.hl { background: #f4f4f2; border-left-width: 6px; color: #0a0a0a; font-weight: 600; }
 
-/* section headers: the type rises out of a clip instead of sliding in with the block.
+/* section headers: the type fades up 8px instead of sliding in with the block (opacity and transform only).
    Excluded under reduced motion, and only the heading moves. */
 @media (prefers-reduced-motion: no-preference) {
-  .section-header.fade-in h2 { clip-path: inset(0 0 100% 0); transform: translateY(10px);
-    transition: clip-path 420ms cubic-bezier(.16,1,.3,1), transform 420ms cubic-bezier(.16,1,.3,1); }
-  .section-header.fade-in.visible h2 { clip-path: inset(-18% 0 -18% 0); transform: none; }
+  .section-header.fade-in h2 { opacity: 0; transform: translateY(8px);
+    transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out); }
+  .section-header.fade-in.visible h2 { opacity: 1; transform: none; }
 }
 
 /* safety: if the reveal script never runs, the page still reads. */
