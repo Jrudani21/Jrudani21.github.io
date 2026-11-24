@@ -159,7 +159,7 @@ export async function loadCorpus(env, now = Date.now()) {
   const vocab = new Set([...terms(projects.join(' ')), ...chunks.flatMap((c) => c.terms), ...META]);
   // distinctive portfolio terms: words from project titles and card tags, plus a few names. Common words
   // like "year" or "world" are in the vocabulary too, so an answer needs at least one of THESE to count as on-topic.
-  const entities = new Set([...terms(titles.join(' ')), ...terms(tags.join(' ')), 'janak', 'rudani', 'portfolio', 'manitoba', 'winnipeg', 'statistics', 'mathematics', 'bsc']);
+  const entities = new Set([...terms(titles.join(' ')), ...terms(tags.join(' ')), 'janak', 'rudani', 'portfolio', 'manitoba', 'winnipeg', 'statistics', 'mathematics', 'bsc', 'docker', 'certifications', 'visa', 'sponsorship', 'interview', 'relocate', 'libraries', 'pandas', 'numpy', 'fastapi']);
   const value = { index: projects.join('\n'), chunks, vocab, titles, entities };
   corpusCache = { at: now, value };
   return value;
