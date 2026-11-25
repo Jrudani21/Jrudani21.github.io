@@ -906,7 +906,9 @@ html.swiss #projectList { grid-template-columns: 1fr; }
 .contact-email {
   font-size: clamp(1rem, 4.4vw, 2.9rem);
   font-weight: 600; color: var(--accent); text-decoration: none;
-  white-space: nowrap; overflow-wrap: normal; max-width: 100%;
+  /* one unbreakable token: on a 320px phone the address is ~1.7px wider than the
+     section, so let it break there instead of widening the document */
+  white-space: normal; overflow-wrap: anywhere; max-width: 100%;
   letter-spacing: -0.01em; transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s, text-shadow 0.2s;
   border-bottom: 2px solid var(--accent); padding-bottom: 0.3rem;
   text-shadow: var(--glow);
@@ -923,7 +925,11 @@ html.swiss #projectList { grid-template-columns: 1fr; }
 .social-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
 
 /* ---------- FOOTER ---------- */
-footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: center; position: relative; z-index: 2; }
+/* overflow-x: clip: the soft halo under the console lines is drawn 5rem wider than the
+   text box on each side, which pushed the document 54px wider at every viewport. Clip at
+   the footer box only on the x axis (clip, not hidden: no scroll container, no sticky
+   damage); the halo is already at ~13% alpha where it gets trimmed. */
+footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: center; position: relative; z-index: 2; overflow-x: clip; }
 .console-line { font-family: 'VT323', monospace; font-size: 18px; color: var(--muted); line-height: 2; }
 /* The globe rises behind the close of the page. A soft dark halo keeps the footer copy
    legible over bright ocean, with no box, plate or hard edge anywhere near it. */
@@ -1479,7 +1485,25 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
 /* ---------- FLIGHT DECK: the space look only ----------
    Every rule here is scoped with html:not(.swiss); the Swiss rules above are untouched.
    The galaxy is the atmosphere, the cards are the instruments, the panel is the evidence. */
-html:not(.swiss) section#projects { max-width: 1240px; }
+html:not(.swiss) section#projects {
+  max-width: 1240px;
+  /* the grid moves out of the panel's way over the same 240ms ease-out as brief-in */
+  transition: padding-left 240ms var(--ease-out), padding-right 240ms var(--ease-out);
+}
+/* Desktop panel open: the project section gives up the right-hand 400px + a 16px gutter
+   instead of letting the panel cover the third column. 50% is the section's containing
+   block width (the viewport within the layout), so the inset tracks the panel exactly at
+   every width; the 416px cap keeps it at 400px + gutter on narrow desktops. */
+@media (min-width: 1000px) {
+  html:not(.swiss).brief-open section#projects {
+    padding-left: 0;
+    padding-right: min(416px, calc(1036px - 50%));
+  }
+  /* 3 columns while each card can still be 280px wide, 2 when it cannot */
+  html:not(.swiss).brief-open #projectList {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
 
 /* grid: 3 columns above 1000px, 2 from 650 to 1000, 1 below 650 */
 html:not(.swiss) #projectList {
@@ -1653,6 +1677,7 @@ html:not(.swiss) #briefPanel .brief-link:focus-visible { outline: 2px solid var(
 
 /* no lift, no slide under reduced motion (the global rule only cuts durations to 0.01ms) */
 @media (prefers-reduced-motion: reduce) {
+  html:not(.swiss) section#projects { transition: none !important; }
   html:not(.swiss) #projectList .project { transition: none !important; }
   html:not(.swiss) #projectList .project:hover,
   html:not(.swiss) #projectList .project:active { transform: none !important; }
@@ -4609,6 +4634,8 @@ document.querySelectorAll('.proj-fig[data-views]').forEach(fig => {
     fill(card);
     place();               // into the body on desktop, under the card below 1000px
     ui.p.hidden = false;
+    // desktop only: the projects section slides out from under the fixed panel
+    document.documentElement.classList.toggle('brief-open', wide.matches);
     ui.p.querySelector('.brief-close').focus();
   }
 
@@ -4624,6 +4651,7 @@ document.querySelectorAll('.proj-fig[data-views]').forEach(fig => {
     ui.p.remove();
     ui = null;
     selected = null;
+    document.documentElement.classList.remove('brief-open');
     if (restoreFocus && back && back.isConnected && back.matches('a[href], button, [tabindex]')) back.focus();
   }
 
@@ -4667,7 +4695,11 @@ document.querySelectorAll('.proj-fig[data-views]').forEach(fig => {
     list.dispatchEvent(new Event('projfilter'));
   }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
-  const onWide = () => { if (ui && selected) place(); };
+  const onWide = () => {
+    if (ui && selected) place();
+    // below 1000px the panel is inline, so the page must not stay shifted
+    document.documentElement.classList.toggle('brief-open', !!(ui && selected && wide.matches));
+  };
   if (wide.addEventListener) wide.addEventListener('change', onWide);
 
   if (space()) cards.forEach(c => c.setAttribute('aria-expanded', 'false'));
