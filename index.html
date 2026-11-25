@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <!-- Copyright (c) 2026 Janak Rudani. All rights reserved. Provenance: Jrudani21/Jrudani21.github.io/index.html 6029dddf8575e6e0 -->
-<html lang="en" class="swiss">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>try{if(localStorage.getItem('theme')==='swiss')document.documentElement.classList.add('swiss')}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="Janak Rudani">
 <title>Janak Rudani - Statistics, Data Science &amp; Automation</title>
 <meta name="description" content="Janak Rudani - data analyst with three years of healthcare claims experience and a BSc in Statistics and Mathematics (University of Manitoba). 14 projects in R, Python, SQL and JavaScript: churn and count-regression modelling, SARIMA forecasting, fraud detection, local LLM/RAG tooling and $0-budget automation fleets.">
 <link rel="canonical" href="https://jrudani21.github.io/">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#050508">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Janak Rudani">
 <meta property="og:url" content="https://jrudani21.github.io/">
@@ -88,6 +89,25 @@ a { color: inherit; }
   position: fixed; inset: 0; z-index: 0;
   pointer-events: none;
 }
+
+/* ---------- EARTH GLOBE (globe.gl, lazy) ---------- */
+/* Sits above the star canvas (z 0) and below page content (z 2).
+   Only transform and opacity animate; `top` is the resting position. */
+#earthGlobe {
+  position: fixed; left: -25vw; width: 150vw; height: 150vw;
+  top: 33vh; z-index: 1;
+  pointer-events: none; background: transparent;
+  opacity: 0; transform: translateY(100vh);
+  will-change: transform, opacity;
+}
+@media (max-width: 699px) {
+  /* keep the top 55% of the screen clear for the footer copy */
+  #earthGlobe { top: 55vh; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #earthGlobe { transform: none; transition: opacity 200ms ease; }
+}
+html.swiss #earthGlobe, html.recruiter #earthGlobe { display: none !important; }
 
 /* ---------- CURSOR RING ---------- */
 #cursor-ring {
@@ -905,6 +925,9 @@ html.swiss #projectList { grid-template-columns: 1fr; }
 /* ---------- FOOTER ---------- */
 footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: center; position: relative; z-index: 2; }
 .console-line { font-family: 'VT323', monospace; font-size: 18px; color: var(--muted); line-height: 2; }
+/* The globe rises behind the close of the page. A soft dark halo keeps the footer copy
+   legible over bright ocean, with no box, plate or hard edge anywhere near it. */
+footer .console-line { text-shadow: 0 0 10px rgba(0,0,0,.9), 0 0 24px rgba(0,0,0,.75); }
 .console-line .prompt { color: var(--accent); }
 .console-line .cmd { color: var(--dim); }
 .console-line .output { color: var(--amber); }
@@ -1463,6 +1486,7 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
 </div>
 
 <canvas id="particles"></canvas>
+<div id="earthGlobe" aria-hidden="true"></div>
 <div id="cursor-ring"></div>
 <div id="progress"></div>
 
@@ -1510,6 +1534,7 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
   <button class="float-btn" id="menuBtn" aria-expanded="false" aria-controls="floatItems">options</button>
   <div id="floatItems" role="group" aria-label="Options">
   <button class="float-btn icon-btn" id="recruiterBtn" aria-label="Switch to recruiter mode" aria-pressed="false"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg></span><span class="tip" role="tooltip" id="tip-recruiterBtn">Switch to recruiter mode</span></button>
+  <button class="float-btn icon-btn" id="themeBtn" aria-label="Switch to Swiss mode (jokes and games)" aria-pressed="false"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor" stroke="none"/></svg></span><span class="tip" role="tooltip" id="tip-themeBtn">Switch to Swiss mode (jokes and games)</span></button>
   <button class="float-btn icon-btn" id="soundBtn" aria-label="Turn sound on" aria-pressed="false"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" x2="16" y1="9" y2="15"/><line x1="16" x2="22" y1="9" y2="15"/></svg></span><span class="tip" role="tooltip" id="tip-soundBtn">Turn sound on</span></button>
   <button class="float-btn icon-btn" id="complimentBtn" aria-label="Get a compliment"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span><span class="tip" role="tooltip" id="tip-complimentBtn">Get a compliment</span></button>
   </div>
@@ -2435,71 +2460,433 @@ document.getElementById('bootSkip').addEventListener('click', finishBoot);
 bootEl.addEventListener('click', finishBoot);
 
 /* ================= PARTICLE FIELD ================= */
+/* galaxy to warp: four uneven arms spiral into a vanishing point as you scroll.
+   clearRect every frame, so the page background shows through. */
 const canvas = document.getElementById('particles');
-const ctx = canvas.getContext('2d');
-let particles = [];
-let mouse = { x: -9999, y: -9999 };
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-const PARTICLE_COUNT = Math.min(90, Math.floor(window.innerWidth / 14));
-for (let i = 0; i < PARTICLE_COUNT; i++) {
-  particles.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    vx: (Math.random() - 0.5) * 0.4,
-    vy: (Math.random() - 0.5) * 0.4,
-    r: Math.random() * 1.8 + 0.6,
-    hue: Math.random() > 0.75 ? '139,124,246' : '0,229,160'
-  });
-}
-window.addEventListener('mousemove', (e) => {
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
-});
-let rafId = null;
-function drawParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (const p of particles) {
-    p.x += p.vx;
-    p.y += p.vy;
-    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-    const dx = mouse.x - p.x;
-    const dy = mouse.y - p.y;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    if (dist < 140) {
-      p.x -= dx * 0.002;
-      p.y -= dy * 0.002;
-    }
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(' + p.hue + ',0.6)';
-    ctx.fill();
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+(function galaxyField() {
+  const ctx = canvas.getContext('2d');
+  if (!ctx) { canvas.remove(); return; }
+  const fieldRoot = document.documentElement;
+  /* swiss and recruiter both hide the canvas with CSS, so the field stops rather than
+     being torn down: the look can be switched back without losing the canvas. */
+  const off = () => fieldRoot.classList.contains('swiss') || fieldRoot.classList.contains('recruiter');
+  const phone = window.innerWidth < 700;
+  const DPR = Math.min(window.devicePixelRatio || 1, phone ? 1.5 : 2);
+  const N = phone ? 1100 : 1900;
+  const FAR_N = phone ? 160 : 320;
+  const ARM_W = [0.35, 0.30, 0.22, 0.13];
+  const COOL = [[0, 229, 160], [139, 124, 246]];
+  const WHITE = [238, 240, 255];
+  const GOLD = [255, 226, 170];
+  const CORE = '255,214,150';
+
+  let W = 0, H = 0;
+  let e = 0;           /* dispersal: 0 = galaxy at rest, 1 = warp */
+  let arr = 0;         /* end-of-page arrival: 1 at the footer, slows the warp */
+  let v = 0, vs = 0;   /* scroll distance this frame, then smoothed */
+  let lastY = window.scrollY;
+  let mx = -9999, my = -9999;
+  let raf = 0, lt = 0;
+  let rm = reduceMotion;
+  let rmTick = false;
+
+  let seed = 11;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const gauss = () => (rnd() + rnd() + rnd() + rnd() - 2) / 2;
+  const clamp = (a, b, t) => Math.max(0, Math.min(1, (t - a) / (b - a)));
+  const ss = (a, b, t) => { t = clamp(a, b, t); return t * t * (3 - 2 * t); };
+  const cio = t => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+  const ST = [], FAR = [];
+  for (let i = 0; i < N; i++) {
+    const u = rnd();
+    let arm = 0, acc = 0;
+    for (let a = 0; a < 4; a++) { acc += ARM_W[a]; if (u < acc) { arm = a; break; } }
+    const r = Math.pow(rnd(), 0.7);
+    const th = r * 5.4 + arm * 1.571 + gauss() * (0.25 + 0.7 * r);
+    const zz = gauss() * 0.06 * (1.1 - r);
+    const cls = rnd();
+    const layer = rnd() < 0.65 ? 0 : rnd() < 0.72 ? 1 : 2;
+    ST.push({
+      x: Math.cos(th) * r * 1.25, y: Math.sin(th) * r * 1.25, z: zz,
+      r: r, s: 0.6 + rnd() * 1.2, cls: cls, layer: layer,
+      ci: rnd() < 0.5 ? 0 : 1, wr: 0, wa: 0
+    });
   }
-  for (let i = 0; i < particles.length; i++) {
-    for (let j = i + 1; j < particles.length; j++) {
-      const a = particles[i], b = particles[j];
-      const dx = a.x - b.x, dy = a.y - b.y;
-      const d = Math.sqrt(dx * dx + dy * dy);
-      if (d < 110) {
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
-        ctx.strokeStyle = 'rgba(0,229,160,' + (0.12 * (1 - d / 110)) + ')';
-        ctx.lineWidth = 0.7;
-        ctx.stroke();
+  for (let i = 0; i < FAR_N; i++) {
+    FAR.push({ a: rnd() * 6.283, d: rnd(), s: 0.5 + rnd() * 0.7, l: rnd() < 0.8 ? 0 : 1 });
+  }
+
+  /* reading mask: text stays legible with no plate behind it. Rects of the page's
+     real text are read once per frame, off-screen ones skipped, capped at 60.
+     Inside a rect grown 22px across and 16px down the field drops to 0.08,
+     easing back to 1.0 at 50px out. */
+  const TEXT_EL = document.querySelectorAll(
+    'h1, h2, h3, h4, p, li, figcaption, blockquote, .hero-stat, .tag, .project-num, button'
+  );
+  const TR = [];
+  function readRects() {
+    TR.length = 0;
+    for (let i = 0; i < TEXT_EL.length && TR.length < 60; i++) {
+      const rs = TEXT_EL[i].getClientRects();
+      for (let j = 0; j < rs.length && TR.length < 60; j++) {
+        const r = rs[j];
+        if (r.width < 1 || r.bottom < -40 || r.top > H + 40) continue;
+        TR.push([r.left - 22, r.top - 16, r.right + 22, r.bottom + 16]);
       }
     }
   }
-  rafId = requestAnimationFrame(drawParticles);
-}
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-// the Swiss theme hides the canvas with CSS, so do not pay for 90 particles and 4000 pair checks a frame to draw nothing
-if (!reduceMotion && !document.documentElement.classList.contains('swiss')) { drawParticles(); } else { canvas.remove(); }
+  function dimAt(px, py) {
+    let m = 1;
+    for (let i = 0; i < TR.length; i++) {
+      const q = TR[i];
+      /* cheap reject before the distance: most stars are nowhere near text */
+      if (px < q[0] - 50 || px > q[2] + 50 || py < q[1] - 50 || py > q[3] + 50) continue;
+      const dx = Math.max(q[0] - px, 0, px - q[2]);
+      const dy = Math.max(q[1] - py, 0, py - q[3]);
+      const d = Math.hypot(dx, dy);
+      if (d < 50) {
+        const f = 0.08 + 0.92 * (d / 50);
+        if (f < m) m = f;
+      }
+    }
+    return m;
+  }
+
+  function size() {
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width = Math.max(1, Math.round(W * DPR));
+    canvas.height = Math.max(1, Math.round(H * DPR));
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+
+  function draw(t) {
+    const dt = Math.min(40, (t - lt) || 16) / 16.7;
+    lt = t;
+
+    /* scrollHeight - innerHeight can be 0 on a short page, so guard the span */
+    const span = H * 1.2 || 1;
+    const raw = clamp(0, 1, (window.scrollY - 150) / span);
+    const tgt = rm ? 0 : cio(raw);
+    e += (tgt - e) * 0.12;
+    if (Math.abs(tgt - e) < 0.001) e = tgt;
+    vs += (Math.min(v, 50) - vs) * 0.15;
+
+    /* p: whole-page progress. arr rises near the footer and slows the warp so the
+       Earth can arrive without the stars still sprinting past it. */
+    const spanY = document.documentElement.scrollHeight - H;
+    const p = spanY > 0 ? Math.min(1, Math.max(0, window.scrollY / spanY)) : 0;
+    const tArr = rm ? 0 : ss(0.78, 0.96, p);
+    arr += (tArr - arr) * 0.12;
+    if (Math.abs(tArr - arr) < 0.001) arr = tArr;
+
+    ctx.clearRect(0, 0, W, H);
+    readRects();
+
+    const par = rm ? 0 : 1;
+    const tx = mx < -9000 ? 0 : (mx / W - 0.5) * 2;
+    const ty = my < -9000 ? 0 : (my / H - 0.5) * 2;
+    const gx0 = W / 2 + tx * 22 * par * (1 - e);
+    const gy0 = H * 0.52 + ty * 14 * par * (1 - e);
+    const R = Math.hypot(W, H) / 2;
+    const f = Math.min(W, H) * (phone ? 1.15 : 1.05);
+    const vx = gx0 + W * 0.05 * e;
+    const vy = gy0;
+    const spin = rm ? 0 : t / 110000;
+    const pitch = 1.1, dist = 2.3;
+    const cp = Math.cos(pitch), sp = Math.sin(pitch);
+    const slow = 1 - arr * 0.88;
+    const base = 0.0009 * slow, drive = vs * 0.0005 * slow;
+
+    /* distant stars, streaking outward once the warp begins */
+    for (let i = 0; i < FAR.length; i++) {
+      const s = FAR[i];
+      if (e > 0.02) {
+        s.d += (base + drive) * (s.l ? 1.4 : 0.7) * dt * (s.d + 0.1) * (0.4 + e);
+        if (s.d > 1.1) { s.d = 0.02 + rnd() * 0.05; s.a = rnd() * 6.283; }
+      }
+      const ax = Math.cos(s.a), ay = Math.sin(s.a), r = R * s.d;
+      const x1 = vx + ax * r, y1 = vy + ay * r;
+      const len = e * vs * 0.012 * (s.l ? 1.6 : 0.7);
+      const c = 'rgba(255,255,255,' + ((s.l ? 0.55 : 0.32) * dimAt(x1, y1)).toFixed(3) + ')';
+      if (len > 0.015) {
+        ctx.strokeStyle = c;
+        ctx.lineWidth = s.s;
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x1 + ax * r * len, y1 + ay * r * len);
+        ctx.stroke();
+      } else {
+        ctx.fillStyle = c;
+        ctx.fillRect(x1, y1, s.s, s.s);
+      }
+    }
+
+    /* core glow, 15% of the smaller side, peak 0.35, leans toward the cursor */
+    if (e < 0.98) {
+      const gr = Math.min(W, H) * 0.15;
+      const ox = rm || mx < -9000 ? 0 : Math.max(-1, Math.min(1, (mx - gx0) / W)) * 10;
+      const g = ctx.createRadialGradient(gx0 + ox, gy0, 0, gx0 + ox, gy0, gr);
+      g.addColorStop(0, 'rgba(' + CORE + ',' + 0.35 * (1 - e) + ')');
+      g.addColorStop(0.4, 'rgba(' + CORE + ',' + 0.1 * (1 - e) + ')');
+      g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    ctx.lineCap = 'round';
+    const keep = 1 - 0.4 * ss(0.3, 0.9, e);
+    const LM = [0.25, 0.6, 1.4], SPD = [0.5, 1, 2.2], AL = [0.5, 0.8, 1], SZ = [1, 1.4, 2];
+
+    for (let i = 0; i < N; i++) {
+      const s = ST[i];
+      if (i / N > keep) continue;
+      const sh = spin + e * 1.4 * (1.15 - s.r);
+      const cs = Math.cos(sh), sn = Math.sin(sh);
+      const X = s.x * cs - s.y * sn, Y0 = s.x * sn + s.y * cs;
+      const Y = Y0 * sp + s.z * cp, Zc = dist + (Y0 * cp - s.z * sp);
+      if (Zc < 0.06) continue;
+      const sx = gx0 + X * f / Zc, sy = gy0 + Y * f / Zc;
+      const ox = sx - gx0, oy = sy - gy0;
+      const r0 = Math.hypot(ox, oy) / R;
+      if (e < 0.02) {
+        s.wr = r0;
+        s.wa = Math.atan2(oy, ox);
+      } else {
+        s.wr += (base + drive + 0.0016 * e * slow) * SPD[s.layer] * dt * (s.wr + 0.08);
+        if (s.wr > 1.1) {
+          if (e > 0.5) { s.wr = 0.02 + rnd() * 0.05; s.wa = rnd() * 6.283; }
+          else { s.wr = 1.1; }
+        }
+      }
+      const wx = vx + Math.cos(s.wa) * s.wr * R, wy = vy + Math.sin(s.wa) * s.wr * R;
+      const px = sx + (wx - sx) * e, py = sy + (wy - sy) * e;
+      if (px < -60 || px > W + 60 || py < -60 || py > H + 60) continue;
+      const near = Math.min(1, 1.4 / Zc);
+      const edge = Math.min(1, Math.hypot(px - vx, py - vy) / R * 1.4);
+      const gal = Math.min(1, 0.5 + near * 0.5 * (0.6 + s.s * 0.4));
+      const war = AL[s.layer] * (0.8 + edge * 0.4);
+      const a = Math.min(1, gal * (1 - e) + war * e);
+      const sz = s.s * 1.15 * near * (1 - e) + SZ[s.layer] * (0.6 + edge) * e + 0.35;
+      const cc = s.r < 0.2 && s.cls < 0.6 ? GOLD
+        : s.cls < 0.75 ? COOL[s.ci % COOL.length]
+        : s.cls < 0.9 ? WHITE : GOLD;
+      const c = 'rgba(' + cc.join(',') + ',' + (a * dimAt(px, py)).toFixed(3) + ')';
+      const len = e * vs * 0.02 * LM[s.layer] * slow;
+      if (len > 0.015 && e > 0.05) {
+        ctx.strokeStyle = c;
+        ctx.lineWidth = sz;
+        ctx.beginPath();
+        ctx.moveTo(px, py);
+        ctx.lineTo(px + (px - vx) * len, py + (py - vy) * len);
+        ctx.stroke();
+      } else {
+        ctx.fillStyle = c;
+        ctx.fillRect(px, py, sz, sz);
+      }
+    }
+  }
+
+  function frame(t) {
+    raf = 0;                       /* cleared first, so start() can never stack a second loop */
+    if (off()) return;             /* hidden look: no draw, no next frame */
+    draw(t);
+    v *= 0.9;
+    if (!rm && !document.hidden) raf = requestAnimationFrame(frame);
+  }
+  function start() {
+    if (off()) return;
+    if (!raf && !rm && !document.hidden) raf = requestAnimationFrame(frame);
+  }
+
+  window.addEventListener('scroll', () => {
+    v += Math.abs(window.scrollY - lastY);
+    lastY = window.scrollY;
+    /* reduced motion: no loop, so redraw once per frame only when the page moves */
+    if (rm && !rmTick && !off()) {
+      rmTick = true;
+      requestAnimationFrame(() => { rmTick = false; draw(0); });
+    }
+  }, { passive: true });
+
+  window.addEventListener('pointermove', (ev) => {
+    if (ev.pointerType === 'touch') return;
+    mx = ev.clientX;
+    my = ev.clientY;
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    size();
+    if (rm && !off()) draw(0);
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      cancelAnimationFrame(raf);
+      raf = 0;
+      v = 0;
+    } else {
+      start();
+    }
+  });
+
+  if (window.matchMedia) {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const onPref = (ev) => {
+      rm = ev.matches;
+      if (rm) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+        e = 0;
+        if (!off()) draw(0);
+      } else {
+        lt = 0;
+        start();
+      }
+    };
+    if (mq.addEventListener) mq.addEventListener('change', onPref);
+    else if (mq.addListener) mq.addListener(onPref);
+  }
+
+  /* the class can change at runtime (theme toggle, recruiter button): wake or park the field */
+  new MutationObserver(() => {
+    if (off()) {
+      cancelAnimationFrame(raf);
+      raf = 0;
+      v = 0;
+      return;
+    }
+    if (rm) draw(0); else start();
+  }).observe(fieldRoot, { attributes: true, attributeFilter: ['class'] });
+
+  size();
+  if (rm) { if (!off()) draw(0); } else start();
+})();
+
+/* ================= EARTH GLOBE (globe.gl) ================= */
+/* globe.gl v2.45.0 MIT, Earth texture NASA Blue Marble Next Generation (public domain, Reto Stockli, NASA Earth Observatory). */
+/* The vendor script is injected only once the reader is past half the page, and any
+   failure (no WebGL, 404, blocked) leaves the page exactly as it was: star field only.
+   The container starts 100vh below its resting `top` and is moved with transform only. */
+(function earthGlobe() {
+  const host = document.getElementById('earthGlobe');
+  if (!host) return;
+  const root = document.documentElement;
+  /* swiss and recruiter both hide the container with CSS; the globe is not built,
+     and once built it is only paused, so switching back can show it again. */
+  const off = () => root.classList.contains('swiss') || root.classList.contains('recruiter');
+
+  const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let rm = mq.matches;
+  let globe = null;
+  let loading = false;
+  /* file:// cannot hand a WebGL texture to THREE (CORS on the image), so the globe is
+     skipped there instead of throwing errors at the console. */
+  const fileProto = location.protocol === 'file:';
+
+  const ss = (a, b, t) => {
+    t = Math.max(0, Math.min(1, (t - a) / (b - a)));
+    return t * t * (3 - 2 * t);
+  };
+
+  function place() {
+    if (off()) return;
+    const span = document.documentElement.scrollHeight - window.innerHeight;
+    const p = span > 0 ? Math.min(1, Math.max(0, window.scrollY / span)) : 0;
+    const a = ss(0.76, 1, p);
+    if (rm) {
+      host.style.transform = 'none';
+      host.style.opacity = a > 0 ? '1' : '0';
+    } else {
+      host.style.transform = 'translateY(' + (100 * (1 - a)).toFixed(2) + 'vh)';
+      host.style.opacity = Math.min(1, a * 1.5).toFixed(3);
+    }
+    if (p > 0.5) load();
+  }
+
+  function load() {
+    if (globe || loading || fileProto || off()) return;
+    loading = true;
+    const s = document.createElement('script');
+    s.src = 'assets/vendor/globe.gl.min.js';
+    s.async = true;
+    s.onload = () => {
+      loading = false;
+      try { build(); } catch (err) { /* no WebGL: keep the page, drop the globe */ host.style.display = 'none'; }
+    };
+    s.onerror = () => { loading = false; host.style.display = 'none'; };
+    document.head.appendChild(s);
+  }
+
+  function build() {
+    if (off() || typeof window.Globe !== 'function') { host.style.display = 'none'; return; }
+    const g = window.Globe({ rendererConfig: { alpha: true, antialias: true } })(host)
+      .globeImageUrl('assets/earth-blue-marble.jpg')
+      .backgroundColor('rgba(0,0,0,0)')
+      .showAtmosphere(true)
+      .atmosphereColor('#6fb7ff')
+      .atmosphereAltitude(0.18)
+      .showGraticules(false)
+      .width(host.clientWidth || 1)
+      .height(host.clientHeight || 1);
+    g.pointOfView({ lat: -28, lng: 8, altitude: 1.8 }, 0);
+    const c = g.controls();
+    if (c) {
+      c.enableZoom = false;
+      c.enableRotate = false;
+      c.enablePan = false;
+      c.autoRotate = !rm;
+      c.autoRotateSpeed = 0.35;
+    }
+    globe = g;
+  }
+
+  let tick = false;
+  window.addEventListener('scroll', () => {
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(() => { tick = false; place(); });
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    if (!globe) return;
+    globe.width(host.clientWidth || 1).height(host.clientHeight || 1);
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (!globe) return;
+    try {
+      if (document.hidden) { if (globe.pauseAnimation) globe.pauseAnimation(); }
+      else if (globe.resumeAnimation) globe.resumeAnimation();
+    } catch (err) {}
+  });
+
+  if (mq.addEventListener) {
+    mq.addEventListener('change', (ev) => {
+      rm = ev.matches;
+      if (globe) {
+        const c = globe.controls();
+        if (c) c.autoRotate = !rm;
+      }
+      place();
+    });
+  }
+
+  /* the class can change at runtime: pause the globe while a hidden look is on and pick
+     it back up when the space look returns (place() also builds it if the reader is past half) */
+  new MutationObserver(() => {
+    if (off()) {
+      if (globe && globe.pauseAnimation) { try { globe.pauseAnimation(); } catch (err) {} }
+      return;
+    }
+    place();
+    if (globe && globe.resumeAnimation && !document.hidden) { try { globe.resumeAnimation(); } catch (err) {} }
+  }).observe(root, { attributes: true, attributeFilter: ['class'] });
+
+  place();
+})();
 
 /* ================= CURSOR RING ================= */
 const ring = document.getElementById('cursor-ring');
@@ -3830,6 +4217,19 @@ console.log('%c$_ Tip: the terminal on this page is REAL. type "hire".', 'color:
   const setRec = on => { root.classList.toggle('recruiter', on); const lbl = on ? 'Switch to full experience' : 'Switch to recruiter mode'; btn.setAttribute('aria-label', lbl); btn.setAttribute('aria-pressed', on); btn.querySelector('.tip').textContent = lbl; store.set('recruiter', on ? '1' : '0'); };
   setRec(store.get('recruiter') === '1');
   btn.addEventListener('click', () => setRec(!root.classList.contains('recruiter')));
+
+  /* two looks on one page: space (default) and Swiss. The <head> script applies the
+     stored class before first paint; here it is only labelled, stored and re-applied. */
+  const themeBtn = document.getElementById('themeBtn');
+  const metaTheme = document.querySelector('meta[name="theme-color"]');
+  const setTheme = on => { root.classList.toggle('swiss', on);
+    const lbl = on ? 'Switch to space mode' : 'Switch to Swiss mode (jokes and games)';
+    themeBtn.setAttribute('aria-label', lbl); themeBtn.setAttribute('aria-pressed', on);
+    themeBtn.querySelector('.tip').textContent = lbl;
+    if (metaTheme) metaTheme.setAttribute('content', on ? '#ffffff' : '#050508');
+    store.set('theme', on ? 'swiss' : 'space'); };
+  setTheme(store.get('theme') === 'swiss');
+  themeBtn.addEventListener('click', () => setTheme(!root.classList.contains('swiss')));
 
   const now = document.getElementById('nowPanel');
   fetch('https://api.github.com/users/Jrudani21/repos?sort=pushed&per_page=1')
