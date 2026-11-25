@@ -1475,6 +1475,190 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
 }
 @media (prefers-reduced-motion: reduce) { .lab-btn, .sx-chip { transition: none; } }
 </style>
+<style id="flight-deck">
+/* ---------- FLIGHT DECK: the space look only ----------
+   Every rule here is scoped with html:not(.swiss); the Swiss rules above are untouched.
+   The galaxy is the atmosphere, the cards are the instruments, the panel is the evidence. */
+html:not(.swiss) section#projects { max-width: 1240px; }
+
+/* grid: 3 columns above 1000px, 2 from 650 to 1000, 1 below 650 */
+html:not(.swiss) #projectList {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+@media (max-width: 1000px) { html:not(.swiss) #projectList { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 650px) { html:not(.swiss) #projectList { grid-template-columns: minmax(0, 1fr); } }
+
+/* the card */
+html:not(.swiss) #projectList .project {
+  grid-column: auto; /* a featured card is one instrument, not a whole row */
+  gap: 0.9rem;
+  padding: 22px;
+  border: 1px solid rgba(143,180,255,.18);
+  border-radius: 10px;
+  background: var(--surface);
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+html:not(.swiss) #projectList .project[data-featured] h3 { font-size: 1.15rem; letter-spacing: 0; }
+html:not(.swiss) #projectList .project:hover,
+html:not(.swiss) #projectList .project:focus-within {
+  transform: translateY(-3px);
+  border-color: rgba(143,180,255,.5);
+  box-shadow: none;
+  background: var(--surface);
+}
+html:not(.swiss) #projectList .project:active { transform: translateY(-1px); }
+html:not(.swiss) #projectList .project:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+html:not(.swiss) #projectList .project:hover .project-num { color: var(--muted); }
+
+/* selected: persistent accent border and one tone step up */
+html:not(.swiss) #projectList .project.is-selected,
+html:not(.swiss) #projectList .project.is-selected:hover {
+  border-color: rgba(143,180,255,.5);
+  background: var(--elevated);
+}
+
+/* meta line: category as text (never colour alone), then the mission id */
+html:not(.swiss) #projectList .project-num {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.6rem;
+  font-variant-numeric: tabular-nums;
+}
+html:not(.swiss) #projectList .project[data-cat="ai"] .project-num::before { content: 'AI and agents / '; }
+html:not(.swiss) #projectList .project[data-cat="stats"] .project-num::before { content: 'Statistics / '; }
+html:not(.swiss) #projectList .project[data-cat="apps"] .project-num::before { content: 'Data apps / '; }
+html:not(.swiss) #projectList .project[data-cat="auto"] .project-num::before { content: 'Automation / '; }
+
+/* title 2 lines, story 3 lines, at most 3 tags */
+html:not(.swiss) #projectList .project h3 {
+  font-size: 1.15rem; line-height: 1.28; letter-spacing: 0; margin-bottom: 0.5rem;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+html:not(.swiss) #projectList .project p.desc {
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  font-size: 0.9rem; line-height: 1.55; color: var(--dim); max-width: none;
+}
+html:not(.swiss) #projectList .project .tags { margin-top: 0.8rem; gap: 0.35rem; }
+html:not(.swiss) #projectList .project .tag { font-size: 12px; padding: 2px 8px; }
+html:not(.swiss) #projectList .project .tags .tag:nth-child(n+4) { display: none; }
+
+/* the chart figures belong to the case study, not to a 230px instrument */
+html:not(.swiss) #projectList .proj-fig { display: none; }
+
+/* headline result, then the way in */
+html:not(.swiss) #projectList .project-side { border-top: 1px solid var(--border); padding-top: 0.9rem; gap: 0.6rem; }
+html:not(.swiss) #projectList .project-score {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 28px; font-weight: 600; line-height: 1.1;
+  font-variant-numeric: tabular-nums; color: var(--accent);
+  text-shadow: none;
+}
+html:not(.swiss) #projectList .project-link {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 0; /* the real text ("case study →") stays for screen readers */
+  letter-spacing: 0; margin-top: 0; white-space: nowrap;
+  color: var(--accent);
+  opacity: 1; transform: none;
+}
+html:not(.swiss) #projectList .project-link::before {
+  content: 'View mission \2192';
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+}
+html:not(.swiss) #projectList .project.is-private { cursor: pointer; border-style: solid; }
+html:not(.swiss) #projectList .project.is-private .project-link::before { content: 'Private repo'; }
+
+/* plain English toggle: keep the same 3-line box, on the dark card */
+html:not(.swiss) #projectList.plain .project .desc { display: none; }
+html:not(.swiss) #projectList.plain .project .eli5 {
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  color: var(--dim); font-size: 0.9rem; line-height: 1.55; max-width: none;
+}
+
+/* the phone pager belongs to the Swiss carousel */
+html:not(.swiss) .proj-pager { display: none !important; }
+
+/* ---------- briefing panel ---------- */
+html:not(.swiss) #briefPanel {
+  position: fixed; top: 0; right: 0; bottom: 0; width: 400px; max-width: 100vw;
+  z-index: 90; /* above the page (z 2), below the nav (z 100) */
+  display: flex; flex-direction: column; gap: 0.9rem;
+  padding: 5.5rem 1.6rem 2rem;
+  background: var(--panel);
+  border-left: 1px solid rgba(143,180,255,.28);
+  overflow-y: auto;
+  animation: brief-in 240ms var(--ease-out) both;
+}
+html:not(.swiss) #briefPanel[hidden] { display: none; }
+@keyframes brief-in { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+
+/* inline under the selected card below 1000px: no modal */
+html:not(.swiss) #briefPanel.is-inline {
+  position: static; z-index: auto;
+  grid-column: 1 / -1;
+  width: auto; max-width: none;
+  padding: 1.3rem 1.3rem 1.5rem;
+  border: 1px solid rgba(143,180,255,.35);
+  border-radius: 10px;
+  background: var(--elevated);
+}
+html:not(.swiss) #projectList > #briefPanel { opacity: 1; transform: none; }
+
+html:not(.swiss) #briefPanel .brief-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+html:not(.swiss) #briefPanel .brief-cat {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--dim);
+}
+html:not(.swiss) #briefPanel .brief-close {
+  flex: none; width: 36px; height: 36px; padding: 0;
+  background: none; border: 1px solid var(--border); border-radius: 6px;
+  color: var(--dim); font: 400 20px/1 'Space Grotesk', system-ui, sans-serif; cursor: pointer;
+}
+html:not(.swiss) #briefPanel .brief-close:hover { color: var(--text); border-color: var(--accent); }
+html:not(.swiss) #briefPanel .brief-close:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+html:not(.swiss) #briefPanel.is-inline .brief-close { width: 44px; height: 44px; }
+html:not(.swiss) #briefPanel h2 {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 1.3rem; line-height: 1.25; font-weight: 600; color: var(--text);
+}
+html:not(.swiss) #briefPanel .brief-desc { color: var(--dim); font-size: 0.95rem; line-height: 1.6; }
+html:not(.swiss) #briefPanel .brief-eli5 {
+  color: var(--text); font-size: 0.95rem; line-height: 1.55;
+  background: var(--surface); border-left: 2px solid var(--accent);
+  padding: 0.7rem 0.9rem; border-radius: 0 6px 6px 0;
+}
+html:not(.swiss) #briefPanel .brief-eli5 b {
+  display: block; margin-bottom: 0.35rem;
+  font-size: 11px; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+}
+html:not(.swiss) #briefPanel .brief-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+html:not(.swiss) #briefPanel .brief-tags .tag { font-size: 13px; padding: 2px 9px; }
+html:not(.swiss) #briefPanel .brief-score {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 30px; font-weight: 600; line-height: 1.1;
+  font-variant-numeric: tabular-nums; color: var(--accent);
+}
+html:not(.swiss) #briefPanel .brief-score small {
+  display: block; margin-bottom: 0.3rem;
+  font-size: 11px; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+}
+html:not(.swiss) #briefPanel .brief-link {
+  align-self: flex-start; margin-top: 0.4rem;
+  padding: 0.6rem 0.9rem; border-radius: 6px;
+  background: var(--accent); color: var(--void);
+  font: 600 1rem/1.2 'Space Grotesk', system-ui, sans-serif; text-decoration: none;
+}
+html:not(.swiss) #briefPanel .brief-link:hover { background: var(--violet); }
+html:not(.swiss) #briefPanel .brief-link:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+
+/* no lift, no slide under reduced motion (the global rule only cuts durations to 0.01ms) */
+@media (prefers-reduced-motion: reduce) {
+  html:not(.swiss) #projectList .project { transition: none !important; }
+  html:not(.swiss) #projectList .project:hover,
+  html:not(.swiss) #projectList .project:active { transform: none !important; }
+  html:not(.swiss) #briefPanel { animation: none !important; transition: none !important; }
+}
+</style>
 </head>
 <body>
 <noscript><style>
@@ -4133,6 +4317,8 @@ console.log('%c$_ Tip: the terminal on this page is REAL. type "hire".', 'color:
   }
   function update() {
     const cards = shownCards(), n = cards.length;
+    // the pager drives the Swiss swipe carousel only; in the space look the deck is a grid
+    if (!document.documentElement.classList.contains('swiss')) { pager.hidden = true; list.style.height = ''; return; }
     pager.hidden = !mq.matches || n < 2;
     if (!mq.matches) { list.style.height = ''; return; }
     if (n === 0) return;
@@ -4297,6 +4483,195 @@ document.querySelectorAll('.proj-fig[data-views]').forEach(fig => {
   fig.insertBefore(out, fig.querySelector('figcaption'));
   set(views[0].id);
 });
+</script>
+<script>
+/* ================= FLIGHT DECK BRIEFING (space look only) =================
+   A plain left click or Enter/Space on a card opens a briefing instead of navigating:
+   a fixed right-hand panel at 1000px and wider, an inline expansion under the card below.
+   Middle click and ctrl/cmd/shift/alt click are left alone so the case study still opens. */
+(function () {
+  const list = document.getElementById('projectList');
+  if (!list) return;
+  const CATS = { ai: 'AI and agents', stats: 'Statistics', apps: 'Data apps', auto: 'Automation' };
+  const wide = window.matchMedia('(min-width: 1000px)');
+  const space = () => !document.documentElement.classList.contains('swiss') &&
+                      !document.documentElement.classList.contains('recruiter');
+  const el = (tag, cls, text) => {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  };
+  const cards = Array.from(list.querySelectorAll('.project'));
+  let ui = null;          // panel parts, null when removed or closed
+  let selected = null;    // the card whose briefing is open
+
+  function build() {
+    const p = el('aside');
+    p.id = 'briefPanel';
+    p.setAttribute('role', 'dialog');
+    p.setAttribute('aria-modal', 'false');
+    p.setAttribute('aria-labelledby', 'briefPanelTitle');
+    p.hidden = true;
+
+    const closeBtn = el('button', 'brief-close', '\u00d7');
+    closeBtn.type = 'button';
+    closeBtn.setAttribute('aria-label', 'Close briefing');
+
+    const bar = el('div', 'brief-bar');
+    const cat = el('span', 'brief-cat');
+    bar.append(cat, closeBtn);
+
+    const title = el('h2');
+    title.id = 'briefPanelTitle';
+    const desc = el('p', 'brief-desc');
+    const plain = el('div', 'brief-eli5');
+    const plainLabel = el('b', null, 'In plain English');
+    const plainText = el('span');
+    plain.append(plainLabel, plainText);
+    const tags = el('div', 'brief-tags');
+    const score = el('p', 'brief-score');
+    const scoreLabel = el('small', null, 'Headline result');
+    const scoreText = el('span');
+    score.append(scoreLabel, scoreText);
+    const link = el('a', 'brief-link', 'Open the case study \u2192');
+    link.removeAttribute('target');
+
+    p.append(bar, title, desc, plain, tags, score, link);
+    closeBtn.addEventListener('click', () => close(true));
+    return { p, cat, title, desc, plain, plainText, tags, score, scoreText, link };
+  }
+
+  function fill(card) {
+    const num = card.querySelector('.project-num');
+    const id = num ? num.textContent.trim() : '';
+    const cat = CATS[card.dataset.cat] || '';
+    ui.cat.textContent = (cat ? cat + ' / ' : '') + (id ? 'Mission ' + id : '');
+
+    const h = card.querySelector('h3');
+    ui.title.textContent = h ? h.textContent.trim() : '';
+
+    const d = card.querySelector('.desc');
+    ui.desc.textContent = d ? d.textContent.trim() : '';
+
+    const e = card.querySelector('.eli5');
+    if (e && e.textContent.trim()) {
+      ui.plainText.textContent = e.textContent.trim();
+      ui.plain.hidden = false;
+    } else {
+      ui.plain.hidden = true;
+    }
+
+    ui.tags.replaceChildren();
+    card.querySelectorAll('.tags .tag').forEach(t => ui.tags.appendChild(t.cloneNode(true)));
+    ui.tags.style.display = ui.tags.children.length ? '' : 'none';
+
+    const s = card.querySelector('.project-score');
+    const score = s ? s.textContent.trim() : '';
+    ui.score.hidden = !score;
+    ui.scoreText.textContent = score;
+
+    const href = (card.getAttribute('href') || '').trim();
+    const usable = href && href !== '#' && !/^javascript:/i.test(href);
+    ui.link.hidden = !usable;
+    if (usable) {
+      ui.link.href = href;
+      ui.link.removeAttribute('target');
+      ui.link.removeAttribute('rel');
+    } else {
+      ui.link.removeAttribute('href');
+    }
+  }
+
+  function place() {
+    if (!ui || !selected) return;
+    if (wide.matches) {
+      ui.p.classList.remove('is-inline');
+      if (ui.p.parentNode !== document.body) document.body.appendChild(ui.p);
+    } else {
+      ui.p.classList.add('is-inline');
+      if (selected.nextElementSibling !== ui.p) selected.after(ui.p);
+    }
+  }
+
+  function open(card) {
+    if (!space()) return;
+    if (!ui) ui = build();
+    if (selected && selected !== card) {
+      selected.classList.remove('is-selected');
+      selected.setAttribute('aria-expanded', 'false');
+      selected.removeAttribute('aria-controls');
+    }
+    selected = card;
+    card.classList.add('is-selected');
+    card.setAttribute('aria-expanded', 'true');
+    card.setAttribute('aria-controls', 'briefPanel');
+    fill(card);
+    place();               // into the body on desktop, under the card below 1000px
+    ui.p.hidden = false;
+    ui.p.querySelector('.brief-close').focus();
+  }
+
+  function close(restoreFocus) {
+    if (!ui) return;
+    const back = selected;
+    if (back) {
+      back.classList.remove('is-selected');
+      back.setAttribute('aria-expanded', 'false');
+      back.removeAttribute('aria-controls');
+    }
+    ui.p.hidden = true;
+    ui.p.remove();
+    ui = null;
+    selected = null;
+    if (restoreFocus && back && back.isConnected && back.matches('a[href], button, [tabindex]')) back.focus();
+  }
+
+  list.addEventListener('click', (e) => {
+    if (!space()) return;
+    const card = e.target.closest('.project');
+    if (!card || !list.contains(card)) return;
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if (e.target.closest('button, .seg, input')) return; // chart-view chips inside a card
+    e.preventDefault();
+    if (card === selected) close(true); else open(card);
+  });
+
+  list.addEventListener('keydown', (e) => {
+    if (!space()) return;
+    const card = e.target.closest('.project');
+    if (!card) return;
+    // Enter on a link already fires a click; Space does not, so only Space is handled here
+    if (e.key === ' ' || e.key === 'Spacebar') {
+      e.preventDefault();
+      if (card === selected) close(true); else open(card);
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && ui && !ui.p.hidden) close(true);
+  });
+
+  // a filtered-out card must not keep a briefing open
+  list.addEventListener('projfilter', () => {
+    if (selected && selected.classList.contains('filtered-out')) close(false);
+  });
+
+  // theme or recruiter switch: Swiss has no deck, so the panel closes and leaves the DOM
+  new MutationObserver(() => {
+    if (!space()) {
+      if (ui) close(false);
+      cards.forEach(c => { c.removeAttribute('aria-expanded'); c.removeAttribute('aria-controls'); });
+    }
+    // the phone pager measures the list; make it re-measure after a look switch
+    list.dispatchEvent(new Event('projfilter'));
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+  const onWide = () => { if (ui && selected) place(); };
+  if (wide.addEventListener) wide.addEventListener('change', onWide);
+
+  if (space()) cards.forEach(c => c.setAttribute('aria-expanded', 'false'));
+})();
 </script>
 </body>
 </html>
