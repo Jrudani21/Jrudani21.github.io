@@ -929,6 +929,8 @@ footer { padding: 3.5rem 2rem; border-top: 1px solid var(--border); text-align: 
    legible over bright ocean, with no box, plate or hard edge anywhere near it. */
 footer .console-line { text-shadow: 0 0 10px rgba(0,0,0,.9), 0 0 24px rgba(0,0,0,.75); }
 /* soft dark ellipse under the footer text so it stays readable over the globe: no edge, fades to nothing */
+/* phones: keep the last console line clear of the floating options and Ask Ken buttons */
+@media (max-width: 699px) { footer { padding-bottom: 8rem; } }
 html:not(.swiss) footer .console-line { position: relative; isolation: isolate; }
 html:not(.swiss) footer .console-line::before { content: ''; position: absolute; inset: -2.4rem -5rem; z-index: -1; pointer-events: none; background: radial-gradient(closest-side, rgba(3,4,10,.82), rgba(3,4,10,.55) 55%, rgba(3,4,10,0)); }
 .console-line .prompt { color: var(--accent); }
