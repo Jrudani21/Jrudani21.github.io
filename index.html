@@ -1062,7 +1062,8 @@ html.swiss {
 }
 html.swiss *, html.swiss *::before, html.swiss *::after { border-radius: 0 !important; }
 html.swiss ::selection { background: #e10600; color: #fff; }
-html.swiss #boot, html.swiss #particles, html.swiss #cursor-ring { display: none !important; }
+/* the star field runs in both looks; only the boot overlay and the cursor ring are space-only */
+html.swiss #boot, html.swiss #cursor-ring { display: none !important; }
 html.swiss #progress { background: #e10600; box-shadow: none; height: 4px; }
 html.swiss .hero-name, html.swiss .section-title { letter-spacing: -0.045em; }
 
@@ -1481,6 +1482,319 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
 }
 @media (prefers-reduced-motion: reduce) { .lab-btn, .sx-chip { transition: none; } }
 </style>
+<style id="labs-space">
+/* labs in the space look: the rules above carry Swiss colours, so they are remapped here to the space tokens. Swiss is untouched. */
+html:not(.swiss) .lab { border-top: 2px solid var(--text); }
+html:not(.swiss) .lab-num { color: var(--dim); }
+html:not(.swiss) .lab-ai { border: 1px solid var(--accent); color: var(--accent); }
+html:not(.swiss) .lab h3 { color: var(--text); }
+html:not(.swiss) .lab-lede { color: var(--dim); }
+html:not(.swiss) .lab-label { color: var(--text); }
+html:not(.swiss) .lab-ctl label { color: var(--text); }
+html:not(.swiss) .lab-ctl input[type=range] { accent-color: var(--accent); }
+html:not(.swiss) .lab-ctl output { color: var(--accent); }
+html:not(.swiss) .lab-btn { background: var(--surface); color: var(--text); border: 1px solid var(--text); }
+html:not(.swiss) .lab-btn:hover { border-color: var(--accent); color: var(--accent); }
+html:not(.swiss) .lab-btn--fill { background: var(--accent); border-color: var(--accent); color: var(--void); }
+html:not(.swiss) .lab-btn--fill:hover { background: var(--text); border-color: var(--text); color: var(--void); }
+html:not(.swiss) .lab-btn:focus-visible, html:not(.swiss) .lab-text:focus-visible, html:not(.swiss) .sx-chip:focus-visible, html:not(.swiss) .sx-cmd:focus-visible, html:not(.swiss) .lab-ctl input:focus-visible { outline: 2px solid var(--accent); }
+html:not(.swiss) .ov-chart { background: var(--surface); border: 1px solid rgba(255,255,255,.14); }
+html:not(.swiss) .ov-chart .band { fill: var(--accent-dim); }
+html:not(.swiss) .ov-chart .bar { fill: var(--text); }
+html:not(.swiss) .ov-chart .base { stroke: var(--text); }
+html:not(.swiss) .ov-axis { color: var(--dim); }
+html:not(.swiss) .ov-key { color: var(--dim); }
+html:not(.swiss) .ov-swatch { background: var(--accent-dim); border: 1px solid var(--accent); }
+html:not(.swiss) .lab-read { color: var(--text); }
+html:not(.swiss) .lab-source { color: var(--dim); }
+html:not(.swiss) .lab-source a { color: var(--text); }
+html:not(.swiss) .lab-text { color: var(--text); background: var(--surface); border: 1px solid var(--text); }
+html:not(.swiss) .lab-status { color: var(--dim); }
+html:not(.swiss) .lab-status.err { color: var(--accent); }
+html:not(.swiss) .ai-out { background: var(--surface); border-left: 3px solid var(--accent); color: var(--text); }
+html:not(.swiss) .lab-scope { color: var(--dim); }
+html:not(.swiss) .ai-out.refused { border-left-color: var(--muted); }
+html:not(.swiss) .ai-out p { color: var(--text); }
+html:not(.swiss) .ai-out a { text-decoration-color: var(--accent); }
+html:not(.swiss) .sx-chip { background: var(--surface); color: var(--text); border: 1px solid var(--text); }
+html:not(.swiss) .sx-chip:hover { border-color: var(--accent); color: var(--accent); }
+html:not(.swiss) .sx-chip.on { background: var(--accent); border-color: var(--accent); color: var(--void); }
+html:not(.swiss) .sx-list { background: var(--surface); border-top: 2px solid var(--text); }
+html:not(.swiss) .sx-cmd { color: var(--text); border-bottom: 1px solid rgba(255,255,255,.14); }
+html:not(.swiss) .sx-cmd:hover { background: var(--elevated); }
+html:not(.swiss) .sx-cmd.on { background: var(--text); color: var(--void); }
+html:not(.swiss) .sx-tag.impossible { background: var(--accent); border-color: var(--accent); color: var(--void); }
+html:not(.swiss) .sx-tag.hard { background: var(--text); border-color: var(--text); color: var(--void); }
+html:not(.swiss) .sx-cmd.on .sx-tag.hard { background: var(--void); color: var(--text); }
+html:not(.swiss) .sx-tag.easy { background: var(--surface); color: var(--text); border-color: var(--text); }
+html:not(.swiss) .sx-tag.quiet { color: var(--muted); border-color: var(--muted); }
+html:not(.swiss) .sx-card { background: var(--surface); border-top: 2px solid var(--text); }
+html:not(.swiss) .sx-pre { background: var(--panel); color: var(--text); }
+html:not(.swiss) .sx-row { border-top: 1px solid rgba(255,255,255,.14); }
+html:not(.swiss) .sx-row b { color: var(--muted); }
+html:not(.swiss) .sx-note { color: var(--dim); }
+/* cards in the space look: same navy panel, hairline and radius as the project cards */
+html:not(.swiss) .lab { background: var(--surface); border: 1px solid rgba(143,180,255,.18); border-radius: 10px; margin-bottom: 20px; }
+html:not(.swiss) .sx-list, html:not(.swiss) .sx-card, html:not(.swiss) .ai-out { border-radius: 8px; }
+html:not(.swiss) .sx-list { border: 1px solid rgba(143,180,255,.18); }
+html:not(.swiss) .sx-card { border: 1px solid rgba(143,180,255,.18); }
+html:not(.swiss) .lab-btn, html:not(.swiss) .sx-chip, html:not(.swiss) .lab-text { border-radius: 8px; }
+</style>
+<style id="ken-space">
+/* ---------- KEN CHAT: the space look only ----------
+   The Ken button and panel above carry the Swiss colours they were drawn for (#fff
+   surfaces, #0a0a0a ink, #e10600 red). Every rule here is scoped with html:not(.swiss),
+   so the Swiss rules stay byte-identical; every size, gap and position is untouched. */
+
+/* the button: one surface tile with the same accent hairline and 10px radius as a card */
+html:not(.swiss) .ken-btn { background: var(--surface); border: 1px solid rgba(143,180,255,.35); border-radius: 10px; }
+html:not(.swiss) .ken-btn:hover { border-color: var(--accent); }
+html:not(.swiss) .ken-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+html:not(.swiss) .ken-btn-label { color: var(--text); }
+
+/* the mascot is drawn in #222 ink for a white tile, which vanishes on a dark one:
+   the same shapes are drawn light, with dark eyes and an accent pupil and antenna. */
+html:not(.swiss) .ken-svg [fill="#222"] { fill: var(--text); }
+html:not(.swiss) .ken-svg [stroke="#222"] { stroke: var(--text); }
+html:not(.swiss) .ken-svg [fill="#fff"] { fill: var(--void); }
+html:not(.swiss) .ken-svg [stroke="#fff"] { stroke: var(--void); }
+html:not(.swiss) .ken-svg [fill="#0a0a0a"] { fill: var(--accent); }
+html:not(.swiss) .ken-svg .ken-mouth { fill: var(--void); stroke: var(--void); }
+html:not(.swiss) .ken-svg #kenDot { fill: var(--accent); }
+
+/* the panel: the lab-card surface, hairline border, 10px radius, accent scrollbar */
+html:not(.swiss) .ken-panel {
+  background: var(--surface);
+  border: 1px solid rgba(143,180,255,.18);
+  border-radius: 10px;
+  scrollbar-color: var(--accent) var(--void);
+}
+html:not(.swiss) .ken-panel::-webkit-scrollbar { width: 8px; }
+html:not(.swiss) .ken-panel::-webkit-scrollbar-track { background: var(--panel); }
+html:not(.swiss) .ken-panel::-webkit-scrollbar-thumb { background: rgba(143,180,255,.35); border-radius: 4px; }
+html:not(.swiss) #kenTitle { color: var(--text); }
+html:not(.swiss) #kenScope { color: var(--dim); }
+html:not(.swiss) label[for="kenQ"] { color: var(--text); }
+
+/* the reader's message box: elevated tone, the .lab-text border and radius */
+html:not(.swiss) #kenQ {
+  background: var(--elevated);
+  border: 1px solid rgba(143,180,255,.35);
+  border-radius: 8px;
+  color: var(--text);
+}
+html:not(.swiss) #kenQ::placeholder { color: var(--muted); }
+html:not(.swiss) #kenQ:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Ken's answer: the panel tone, the lab-card hairline */
+html:not(.swiss) .ken-out {
+  background: var(--panel);
+  border: 1px solid rgba(143,180,255,.18);
+  border-radius: 8px;
+  color: var(--text);
+}
+html:not(.swiss) .ken-out.refused { border-left: 3px solid var(--red); }
+html:not(.swiss) .ken-out a { color: var(--accent); }
+
+/* send button: .lab-btn--fill, accent fill with the page background as ink */
+html:not(.swiss) #kenGo {
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  color: var(--void);
+}
+html:not(.swiss) #kenGo:hover:not(:disabled) { background: var(--text); border-color: var(--text); color: var(--void); }
+html:not(.swiss) #kenGo:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* close: an outline tile, the drawn X in text ink */
+html:not(.swiss) #kenClose { background: var(--surface); border: 1px solid rgba(143,180,255,.35); border-radius: 8px; }
+html:not(.swiss) #kenClose:hover { border-color: var(--accent); }
+html:not(.swiss) #kenClose:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+html:not(.swiss) #kenClose::before, html:not(.swiss) #kenClose::after { background: var(--text); }
+
+/* example chips and the status line */
+html:not(.swiss) .ken-chip {
+  background: var(--surface);
+  border: 1px solid rgba(143,180,255,.35);
+  border-radius: 8px;
+  color: var(--text);
+}
+html:not(.swiss) .ken-chip:hover { border-color: var(--accent); color: var(--accent); }
+html:not(.swiss) .ken-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+html:not(.swiss) .ken-status { color: var(--dim); }
+html:not(.swiss) .ken-status.err { color: var(--red); }
+html:not(.swiss) .ken-note { color: var(--muted); }
+
+/* the phone sheet stays full-bleed on three sides, as the base rule makes it */
+@media (max-width: 600px) {
+  html:not(.swiss) .ken-panel { border-left: none; border-right: none; border-bottom: none; border-radius: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:not(.swiss) .ken-btn, html:not(.swiss) .ken-panel,
+  html:not(.swiss) #kenClose, html:not(.swiss) .ken-chip { transition: none; }
+}
+</style>
+<style id="ken-3d">
+/* ---------- KEN AS A CHARACTER (round 9) ----------
+   The box is gone. The old .ken-btn / .ken-btn-art / .ken-btn-label rules above are
+   untouched; every rule here is a later override scoped to #kenBtn or #kenSvg, plus a
+   new transparent, borderless, shadowless hit area. The round-8 ken-space block is not
+   edited: only its surface tile (background + border) is overridden, here, because the
+   character stands on the page instead of inside a card. */
+
+.ken-btn {
+  --ken-w: 96px;
+  position: fixed;
+  right: 1.5rem;
+  /* the same bottom-right corner, lifted clear of the options button, which takes the
+     button's old slot now that the button is out of the flex flow */
+  bottom: calc(1.5rem + 3.2rem);
+  left: auto;
+  top: auto;
+  width: calc(var(--ken-w) + 8px);
+  min-width: 72px;
+  min-height: 72px;
+  height: auto;
+  padding: 4px 4px 3px;
+  gap: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  z-index: 890; /* just under the options menu (900): a menu button always wins a click where the robot overlaps it */
+  touch-action: manipulation;
+  transform: translate3d(0, 0, 0);
+}
+html:not(.swiss) .ken-btn { background: transparent; border: 0; border-radius: 0; box-shadow: none; }
+/* while the options menu is open its buttons must win every click, even where the roaming robot is drawn over them */
+html:has(#floatBtns.open) .ken-btn { pointer-events: none; }
+.ken-btn > * { pointer-events: none; }
+
+/* the stage holds the perspective; the art inside it is what rotates (tilt, facing) */
+.ken-btn .ken-stage {
+  display: block;
+  position: relative;
+  z-index: 1;
+  width: var(--ken-w);
+  perspective: 700px;
+  transform-style: preserve-3d;
+  transform-origin: 50% 92%;
+  animation: ken-idle 6.4s ease-in-out infinite;
+}
+.ken-btn .ken-btn-art {
+  display: block;
+  width: 100%;
+  flex: none;
+  transform-style: preserve-3d;
+  transform-origin: 50% 88%;
+  transform: rotateY(0deg) rotateX(0deg);
+  transition: transform 260ms cubic-bezier(.16, 1, .3, 1);
+}
+/* the depth: a soft glow on the navy look, a plain grey shadow on the white one.
+   The filter sits on the static inner svg, never on the element that is moved. */
+.ken-btn #kenSvg { filter: drop-shadow(0 0 12px rgba(143, 180, 255, .35)); }
+html.swiss .ken-btn #kenSvg { filter: drop-shadow(0 6px 8px rgba(0, 0, 0, .25)); }
+
+/* contact shadow: separate from the robot, shrinks and fades as it bobs up */
+.ken-btn::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 13px;
+  width: calc(var(--ken-w) * .74);
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, .85), rgba(0, 0, 0, 0) 70%);
+  transform: translateX(-50%) scale(1);
+  opacity: .8;
+  z-index: 0;
+  animation: ken-shadow 6.4s ease-in-out infinite;
+}
+html.swiss .ken-btn::after { background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, .32), rgba(0, 0, 0, 0) 70%); }
+
+/* the caption: page ink, a halo in the page ground, no pill, no box */
+.ken-btn .ken-btn-label {
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin-top: 1px;
+  font-size: 11px;
+  line-height: 1.2;
+  letter-spacing: .02em;
+  white-space: nowrap;
+  color: var(--text);
+  text-shadow: 0 0 6px var(--void), 0 0 2px var(--void);
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+.ken-btn:hover .ken-btn-label,
+.ken-btn:focus-visible .ken-btn-label { opacity: 1; }
+
+/* 3D shading inside the drawing: light top-left, dark bottom-right, a darker rim.
+   Fills are set from CSS so the shapes keep their fill="#222" attributes and the
+   round-8 recolour still owns the panel copy. */
+#kenSvg {
+  --ken-hi: #4d4d4d; --ken-mid: #232323; --ken-lo: #0b0b0b;
+  --ken-shade: rgba(0, 0, 0, .62); --ken-sheen: rgba(255, 255, 255, .14);
+  --ken-rim: rgba(255, 255, 255, .12);
+}
+html:not(.swiss) #kenSvg {
+  --ken-hi: #ffffff; --ken-mid: #e9edf9; --ken-lo: #adbbd9;
+  --ken-shade: rgba(58, 78, 124, .5); --ken-sheen: rgba(255, 255, 255, .9);
+  --ken-rim: rgba(120, 142, 190, .55);
+}
+#kenSvg .ken-g-hi { stop-color: var(--ken-hi); }
+#kenSvg .ken-g-mid { stop-color: var(--ken-mid); }
+#kenSvg .ken-g-lo { stop-color: var(--ken-lo); }
+#kenSvg .ken-g-shade { stop-color: var(--ken-shade); }
+#kenSvg .ken-g-sheen { stop-color: var(--ken-sheen); }
+#kenSvg .ken-g-clear { stop-color: rgba(0, 0, 0, 0); }
+#kenSvg .ken-plate { fill: url(#kenPlateVec); }
+#kenSvg .ken-limb-box { fill: url(#kenPlateVec); }
+#kenSvg .ken-torso { fill: url(#kenTorsoVec); }
+#kenSvg .ken-limb { stroke: url(#kenLimbVec); }
+#kenSvg .ken-rim { stroke: var(--ken-rim); }
+/* the antenna dot keeps the one red accent in both looks */
+html:not(.swiss) #kenSvg #kenDot { fill: #e10600; }
+
+@keyframes ken-idle {
+  0% { transform: translateY(0) rotate(-2deg); }
+  25% { transform: translateY(-6px) rotate(0deg); }
+  50% { transform: translateY(-9px) rotate(2deg); }
+  75% { transform: translateY(-5px) rotate(0deg); }
+  100% { transform: translateY(0) rotate(-2deg); }
+}
+@keyframes ken-shadow {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: .8; }
+  50% { transform: translateX(-50%) scale(.68); opacity: .34; }
+}
+
+@media (max-width: 699px) {
+  .ken-btn { --ken-w: 72px; }
+}
+@media (max-width: 768px) {
+  .ken-btn { right: .75rem; bottom: calc(.75rem + 3.2rem); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ken-btn .ken-stage { animation: none !important; transform: none !important; }
+  .ken-btn::after { animation: none !important; transform: translateX(-50%) scale(1) !important; opacity: .7 !important; }
+  .ken-btn .ken-btn-art { transition: none !important; transform: none !important; }
+  .ken-btn .ken-btn-label { transition: none !important; }
+}
+html.recruiter .ken-btn .ken-stage,
+html.recruiter .ken-btn::after { animation: none !important; }
+</style>
+<style id="space-fixes">
+/* ---------- SPACE-LOOK LEFTOVERS ----------
+   Found by the round-8 sweep (1440x900, whole page in 600px steps): every visible
+   element whose computed background is white-ish, or whose text is near-black.
+   The sweep now reports none. Swiss rules are untouched. */
+
+/* the only white computed background left: the range input keeps the UA's white plate.
+   It painted no white pixels (accent-color draws the track), but the computed value was
+   wrong, so it is made explicit. */
+html:not(.swiss) .lab-ctl input[type=range] { background-color: transparent; }
+</style>
 <style id="flight-deck">
 /* ---------- FLIGHT DECK: the space look only ----------
    Every rule here is scoped with html:not(.swiss); the Swiss rules above are untouched.
@@ -1724,15 +2038,38 @@ html:not(.swiss) #briefPanel .brief-link:focus-visible { outline: 2px solid var(
 
 <div class="float-btns" id="floatBtns">
   <button type="button" class="ken-btn" id="kenBtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="kenPanel" hidden>
-    <span class="ken-btn-art" id="kenArt"><svg id="kenSvg" class="ken-svg" aria-hidden="true" focusable="false" viewBox="0 0 200 240" data-state="idle">
+    <span class="ken-stage"><span class="ken-btn-art" id="kenArt"><svg id="kenSvg" class="ken-svg" aria-hidden="true" focusable="false" viewBox="0 0 200 240" data-state="idle">
+    <defs>
+      <linearGradient id="kenPlateVec" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" class="ken-g-hi"/><stop offset=".52" class="ken-g-mid"/><stop offset="1" class="ken-g-lo"/>
+      </linearGradient>
+      <linearGradient id="kenTorsoVec" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" class="ken-g-hi"/><stop offset=".6" class="ken-g-mid"/><stop offset="1" class="ken-g-lo"/>
+      </linearGradient>
+      <linearGradient id="kenLimbVec" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" class="ken-g-hi"/><stop offset="1" class="ken-g-lo"/>
+      </linearGradient>
+      <linearGradient id="kenShadeVec" x1="0" y1="0" x2="1" y2="1">
+        <stop offset=".38" class="ken-g-clear"/><stop offset="1" class="ken-g-shade"/>
+      </linearGradient>
+      <radialGradient id="kenSheenVec" cx=".5" cy=".5" r=".5">
+        <stop offset="0" class="ken-g-sheen"/><stop offset="1" class="ken-g-clear"/>
+      </radialGradient>
+      <clipPath id="kenHeadClip"><rect x="46" y="40" width="108" height="94" rx="26"/></clipPath>
+    </defs>
     <g id="kenHop">
-     <g><rect x="76" y="188" width="18" height="32" rx="9" fill="#222"/><rect x="106" y="188" width="18" height="32" rx="9" fill="#222"/></g>
-     <g><path d="M70 150 Q70 138 82 138 H118 Q130 138 130 150 V176 Q130 196 110 196 H90 Q70 196 70 176 Z" fill="#222"/></g>
-     <g><path d="M72 156 Q56 160 54 176" stroke="#222" stroke-width="14" fill="none" stroke-linecap="round"/></g>
-     <g id="kenArm"><path d="M128 156 Q146 150 156 134" stroke="#222" stroke-width="14" fill="none" stroke-linecap="round"/></g>
+     <g><rect class="ken-limb-box" x="76" y="188" width="18" height="32" rx="9" fill="#222"/><rect class="ken-limb-box" x="106" y="188" width="18" height="32" rx="9" fill="#222"/></g>
+     <g><path class="ken-torso" d="M70 150 Q70 138 82 138 H118 Q130 138 130 150 V176 Q130 196 110 196 H90 Q70 196 70 176 Z" fill="#222"/></g>
+     <g><path class="ken-limb" d="M72 156 Q56 160 54 176" stroke="#222" stroke-width="14" fill="none" stroke-linecap="round"/></g>
+     <g id="kenArm"><path class="ken-limb" d="M128 156 Q146 150 156 134" stroke="#222" stroke-width="14" fill="none" stroke-linecap="round"/></g>
      <g id="kenHead">
       <g id="kenAnt"><line x1="100" y1="42" x2="100" y2="22" stroke="#222" stroke-width="5"/><circle id="kenDot" cx="100" cy="18" r="8" fill="#e10600"/></g>
-      <rect x="46" y="40" width="108" height="94" rx="26" fill="#222"/>
+      <rect class="ken-plate" x="46" y="40" width="108" height="94" rx="26" fill="#222"/>
+      <g class="ken-shade" clip-path="url(#kenHeadClip)" pointer-events="none">
+       <ellipse class="ken-gloss" cx="78" cy="58" rx="34" ry="15" transform="rotate(-16 78 58)" fill="url(#kenSheenVec)"/>
+       <rect x="46" y="40" width="108" height="94" fill="url(#kenShadeVec)"/>
+       <rect class="ken-rim" x="46.9" y="40.9" width="106.2" height="92.2" rx="25.1" fill="none" stroke-width="1.8"/>
+      </g>
       <g class="ken-eye"><circle cx="78" cy="82" r="16" fill="#fff"/><circle class="ken-pupil" cx="80" cy="84" r="8" fill="#0a0a0a"/><circle cx="84" cy="80" r="2.6" fill="#fff"/><rect class="ken-lid" x="60" y="64" width="36" height="36" rx="18" fill="#222"/></g>
       <g class="ken-eye"><circle cx="122" cy="82" r="16" fill="#fff"/><circle class="ken-pupil" cx="124" cy="84" r="8" fill="#0a0a0a"/><circle cx="128" cy="80" r="2.6" fill="#fff"/><rect class="ken-lid" x="104" y="64" width="36" height="36" rx="18" fill="#222"/></g>
       <g class="ken-happyeyes"><path d="M62 88 Q78 66 94 88" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M106 88 Q122 66 138 88" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round"/></g>
@@ -1742,7 +2079,7 @@ html:not(.swiss) #briefPanel .brief-link:focus-visible { outline: 2px solid var(
       <rect id="kenMFlat" class="ken-mouth" x="90" y="110" width="20" height="5" rx="2.5" fill="#e10600"/>
      </g>
     </g>
-  </svg></span>
+  </svg></span></span>
     <span class="ken-btn-label">Ask Ken</span>
   </button>
   <button class="float-btn" id="menuBtn" aria-expanded="false" aria-controls="floatItems">options</button>
@@ -2682,18 +3019,26 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
   const ctx = canvas.getContext('2d');
   if (!ctx) { canvas.remove(); return; }
   const fieldRoot = document.documentElement;
-  /* swiss and recruiter both hide the canvas with CSS, so the field stops rather than
-     being torn down: the look can be switched back without losing the canvas. */
-  const off = () => fieldRoot.classList.contains('swiss') || fieldRoot.classList.contains('recruiter');
+  /* recruiter hides the canvas with CSS, so the field stops rather than being torn
+     down: the mode can be switched back without losing the canvas. Swiss keeps the
+     field running, in its own ink-and-red palette. */
+  const off = () => fieldRoot.classList.contains('recruiter');
   const phone = window.innerWidth < 700;
   const DPR = Math.min(window.devicePixelRatio || 1, phone ? 1.5 : 2);
   const N = phone ? 1100 : 1900;
   const FAR_N = phone ? 160 : 320;
   const ARM_W = [0.35, 0.30, 0.22, 0.13];
-  const COOL = [[120, 150, 255], [167, 155, 255]];
-  const WHITE = [238, 240, 255];
-  const GOLD = [255, 226, 170];
-  const CORE = '255,214,150';
+  /* two palettes for one field. `farK` lifts the distant-star alpha on paper, `coreK`
+     scales the core glow; space keeps the original numbers exactly. */
+  const PAL = {
+    space: { cool: [[120, 150, 255], [167, 155, 255]], white: [238, 240, 255], gold: [255, 226, 170],
+             far: '255,255,255', farK: 1, core: '255,214,150', coreK: 1 },
+    swiss: { cool: [[10, 10, 10], [225, 6, 0]], white: [90, 90, 90], gold: [225, 6, 0],
+             far: '10,10,10', farK: 1.6, core: '225,6,0', coreK: 0.4 }
+  };
+  let P = PAL.space;
+  /* read on start and on every class change, because the look can flip at runtime */
+  const readLook = () => { P = fieldRoot.classList.contains('swiss') ? PAL.swiss : PAL.space; };
 
   let W = 0, H = 0;
   let e = 0;           /* dispersal: 0 = galaxy at rest, 1 = warp */
@@ -2824,7 +3169,7 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
       const ax = Math.cos(s.a), ay = Math.sin(s.a), r = R * s.d;
       const x1 = vx + ax * r, y1 = vy + ay * r;
       const len = e * vs * 0.012 * (s.l ? 1.6 : 0.7);
-      const c = 'rgba(255,255,255,' + ((s.l ? 0.55 : 0.32) * dimAt(x1, y1)).toFixed(3) + ')';
+      const c = 'rgba(' + P.far + ',' + Math.min(1, (s.l ? 0.55 : 0.32) * P.farK * dimAt(x1, y1)).toFixed(3) + ')';
       if (len > 0.015) {
         ctx.strokeStyle = c;
         ctx.lineWidth = s.s;
@@ -2843,8 +3188,8 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
       const gr = Math.min(W, H) * 0.15;
       const ox = rm || mx < -9000 ? 0 : Math.max(-1, Math.min(1, (mx - gx0) / W)) * 10;
       const g = ctx.createRadialGradient(gx0 + ox, gy0, 0, gx0 + ox, gy0, gr);
-      g.addColorStop(0, 'rgba(' + CORE + ',' + 0.35 * (1 - e) + ')');
-      g.addColorStop(0.4, 'rgba(' + CORE + ',' + 0.1 * (1 - e) + ')');
+      g.addColorStop(0, 'rgba(' + P.core + ',' + (0.35 * P.coreK * (1 - e)).toFixed(4) + ')');
+      g.addColorStop(0.4, 'rgba(' + P.core + ',' + (0.1 * P.coreK * (1 - e)).toFixed(4) + ')');
       g.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, W, H);
@@ -2884,9 +3229,9 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
       const war = AL[s.layer] * (0.8 + edge * 0.4);
       const a = Math.min(1, gal * (1 - e) + war * e);
       const sz = s.s * 1.15 * near * (1 - e) + SZ[s.layer] * (0.6 + edge) * e + 0.35;
-      const cc = s.r < 0.2 && s.cls < 0.6 ? GOLD
-        : s.cls < 0.75 ? COOL[s.ci % COOL.length]
-        : s.cls < 0.9 ? WHITE : GOLD;
+      const cc = s.r < 0.2 && s.cls < 0.6 ? P.gold
+        : s.cls < 0.75 ? P.cool[s.ci % P.cool.length]
+        : s.cls < 0.9 ? P.white : P.gold;
       const c = 'rgba(' + cc.join(',') + ',' + (a * dimAt(px, py)).toFixed(3) + ')';
       const len = e * vs * 0.02 * LM[s.layer] * slow;
       if (len > 0.015 && e > 0.05) {
@@ -2964,8 +3309,10 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
     else if (mq.addListener) mq.addListener(onPref);
   }
 
-  /* the class can change at runtime (theme toggle, recruiter button): wake or park the field */
+  /* the class can change at runtime (theme toggle, recruiter button): re-read the
+     palette, then wake, park or redraw the field */
   new MutationObserver(() => {
+    readLook();
     if (off()) {
       cancelAnimationFrame(raf);
       raf = 0;
@@ -2975,6 +3322,7 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
     if (rm) draw(0); else start();
   }).observe(fieldRoot, { attributes: true, attributeFilter: ['class'] });
 
+  readLook();
   size();
   if (rm) { if (!off()) draw(0); } else start();
 })();
@@ -4703,6 +5051,325 @@ document.querySelectorAll('.proj-fig[data-views]').forEach(fig => {
   if (wide.addEventListener) wide.addEventListener('change', onWide);
 
   if (space()) cards.forEach(c => c.setAttribute('aria-expanded', 'false'));
+})();
+</script>
+
+<script>
+/* ================= KEN ROAMS (round 9) =================
+   The button is fixed; this moves it with transform only, one rAF loop at a time and
+   only while a glide is running. It never touches the chat panel, the states or the
+   aria: the existing Ken block above still owns open/close and the 8-state machine.
+   No globals. */
+(function () {
+  const btn = document.getElementById('kenBtn');
+  const art = document.getElementById('kenArt');
+  const svg = document.getElementById('kenSvg');
+  const panel = document.getElementById('kenPanel');
+  if (!btn || !art || !svg || !panel) return;
+
+  const root = document.documentElement;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const phone = window.matchMedia('(max-width: 699px)');
+  /* touch devices get no pointer tilt: a finger has no "near the pointer" */
+  const touch = window.matchMedia('(hover: none), (pointer: coarse)');
+
+  const EDGE = 12;                 // safe margin to every viewport edge
+  const WALK_MIN = 2500;           // 2.5 s
+  const WALK_MAX = 4000;           // 4 s
+  const WAIT_MIN = 7000;           // 7 s
+  const WAIT_MAX = 14000;          // 14 s
+  const TILT_MAX = 18;             // degrees, pointer tilt
+  const TILT_RANGE = 400;          // px
+  const FACE = 25;                 // degrees, turned toward the direction of travel
+
+  let home = { x: 0, y: 0, w: 0, h: 0 };
+  let pos = null;                  // the button's logical top-left, in viewport px
+  let tx = 0, ty = 0;              // translate currently applied
+  let glide = null;
+  let raf = 0;                     // at most one loop
+  let wait = 0;
+  let wave = 0;
+  let startRz = 0;
+  let hovering = false;
+  let focused = false;
+  let pointer = null;              // the last known pointer position
+  let lastMove = 0;
+  let started = false;
+
+  const clamp = (v, a, b) => (v < a ? a : (v > b ? b : v));
+
+  function measure() {
+    const prev = btn.style.transform;
+    btn.style.transform = 'none';
+    const r = btn.getBoundingClientRect();
+    btn.style.transform = prev;
+    if (!r.width) return false;
+    home = { x: r.left, y: r.top, w: r.width, h: r.height };
+    if (!pos) pos = { x: home.x, y: home.y };
+    pos.x = clamp(pos.x, EDGE, Math.max(EDGE, window.innerWidth - EDGE - home.w));
+    pos.y = clamp(pos.y, EDGE, Math.max(EDGE, window.innerHeight - EDGE - home.h));
+    sync();
+    return true;
+  }
+
+  function sync() {
+    tx = pos.x - home.x;
+    ty = pos.y - home.y;
+    btn.style.transform = 'translate3d(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px,0)';
+  }
+
+  function setPos(x, y) {
+    pos.x = x;
+    pos.y = y;
+    sync();
+  }
+
+  function typing() {
+    const a = document.activeElement;
+    if (!a) return false;
+    const t = a.tagName;
+    return t === 'INPUT' || t === 'TEXTAREA' || t === 'SELECT' || a.isContentEditable;
+  }
+
+  function panelOpen() {
+    return panel.classList.contains('is-open') || btn.getAttribute('aria-expanded') === 'true';
+  }
+
+  function blocked() {
+    return panelOpen() || hovering || focused || typing() || reduce.matches ||
+      root.classList.contains('recruiter') || document.hidden;
+  }
+
+  function stopGlide() {
+    if (raf) cancelAnimationFrame(raf);
+    raf = 0;
+    glide = null;
+    btn.style.willChange = '';
+  }
+
+  function clearWait() {
+    clearTimeout(wait);
+    wait = 0;
+  }
+
+  function park() {
+    stopGlide();
+    clearWait();
+  }
+
+  function homeNow() {
+    if (!home.w) return;
+    stopGlide();
+    art.style.transform = '';
+    setPos(home.x, home.y);
+  }
+
+  function walk(x, y, dur) {
+    if (reduce.matches) { setPos(x, y); return; }
+    const dx = x - pos.x;
+    glide = { x0: pos.x, y0: pos.y, x1: x, y1: y, t0: performance.now(), dur: Math.max(220, dur) };
+    art.style.transform = 'rotateY(' + (dx >= 0 ? FACE : -FACE) + 'deg)';   // face the way it walks
+    btn.style.willChange = 'transform';
+    if (!raf) raf = requestAnimationFrame(kenRoamFrame);
+  }
+
+  function kenRoamFrame(t) {
+    if (!glide) {
+      raf = 0;
+      btn.style.willChange = '';
+      return;
+    }
+    const k = Math.min(1, (t - glide.t0) / glide.dur);
+    const e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;   // ease-in-out
+    setPos(glide.x0 + (glide.x1 - glide.x0) * e, glide.y0 + (glide.y1 - glide.y0) * e);
+    if (k >= 1) {
+      glide = null;
+      raf = 0;
+      btn.style.willChange = '';
+      arrive();
+      return;
+    }
+    raf = requestAnimationFrame(kenRoamFrame);
+  }
+
+  function arrive() {
+    // the wave the hover state already owns, borrowed for a moment on arrival
+    if (!hovering && !focused && !panelOpen() && svg.dataset.state === 'idle' && !reduce.matches) {
+      svg.dataset.state = 'hover';
+      clearTimeout(wave);
+      wave = setTimeout(() => {
+        if (svg.dataset.state === 'hover' && !hovering && !focused) svg.dataset.state = 'idle';
+      }, 700);
+    }
+    // settle out of the walk-facing turn: back to the pointer, or to neutral
+    if (pointer && !reduce.matches && !touch.matches) tiltFrom(pointer.x, pointer.y);
+    else art.style.transform = 'rotateY(0deg) rotateX(0deg)';
+    schedule();
+  }
+
+  function schedule(delay) {
+    clearWait();
+    if (!started) return;
+    wait = setTimeout(roam, delay != null ? delay : WAIT_MIN + Math.random() * (WAIT_MAX - WAIT_MIN));
+  }
+
+  function boxOf(id) {
+    const el = document.getElementById(id);
+    if (!el) return null;
+    const r = el.getBoundingClientRect();
+    if (!r.width && !r.height) return null;
+    return { x: r.left - 10, y: r.top - 10, w: r.width + 20, h: r.height + 20 };
+  }
+
+  function hits(a, b) {
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+  }
+
+  function pick() {
+    if (!home.w) return null;
+    const vw = window.innerWidth, vh = window.innerHeight, W = home.w, H = home.h;
+    const maxX = Math.max(EDGE, vw - EDGE - W);
+    const maxY = Math.max(EDGE, vh - EDGE - H);
+    const nav = document.getElementById('nav');
+    const topLimit = Math.max(EDGE, (nav ? nav.getBoundingClientRect().bottom : 64) + 10);
+    const avoid = [boxOf('floatBtns'), boxOf('menuBtn')].filter(Boolean);
+
+    // the bottom 55% (bottom 40% on a phone), never under the fixed nav
+    const yLo = Math.min(Math.max(Math.round(vh * (phone.matches ? 0.6 : 0.45)), topLimit), maxY);
+    const yHi = maxY;
+
+    // the outer margins: left 90px, right 130px (right 80px on a phone), or anywhere
+    // along the bottom band; on a phone only the right 80px column
+    const spots = [];
+    if (phone.matches) {
+      spots.push([Math.max(EDGE, vw - 92), maxX]);
+    } else {
+      spots.push([EDGE, Math.min(90, maxX)]);
+      spots.push([Math.max(EDGE, vw - 130), maxX]);
+      spots.push([EDGE, maxX]);
+    }
+
+    let best = null, bestD = -1;
+    for (let i = 0; i < 40; i++) {
+      const spot = spots[Math.floor(Math.random() * spots.length)];
+      const lo = Math.min(spot[0], spot[1]), hi = Math.max(spot[0], spot[1]);
+      const x = clamp(lo + Math.random() * (hi - lo), EDGE, maxX);
+      const y = clamp(yLo + Math.random() * (yHi - yLo), yLo, maxY);
+      const r = { x: x, y: y, w: W, h: H };
+      if (avoid.some(b => hits(r, b))) continue;
+      const d = Math.hypot(x - pos.x, y - pos.y);
+      if (d > bestD) { bestD = d; best = { x: x, y: y }; }
+      if (d > 90) return { x: x, y: y };
+    }
+    return bestD > 40 ? best : null;
+  }
+
+  function roam() {
+    wait = 0;
+    if (blocked() || glide) { if (!glide) schedule(2000); return; }
+    const t = pick();
+    if (!t) { schedule(3000); return; }
+    const dur = (WALK_MIN + Math.random() * (WALK_MAX - WALK_MIN)) * (phone.matches ? 2 : 1);
+    walk(t.x, t.y, dur);
+  }
+
+  /* pointer tilt: within about 400px, up to 18 degrees, back to neutral further away */
+  function tiltFrom(cx, cy) {
+    const r = btn.getBoundingClientRect();
+    if (!r.width) return;
+    const ox = cx - (r.left + r.width / 2), oy = cy - (r.top + r.height * 0.45);
+    const d = Math.hypot(ox, oy);
+    if (d > TILT_RANGE) {
+      art.style.transform = 'rotateY(0deg) rotateX(0deg)';
+      return;
+    }
+    const k = 1 - d / TILT_RANGE;
+    const ry = clamp(ox / 200, -1, 1) * TILT_MAX * k;
+    const rx = clamp(-oy / 200, -1, 1) * TILT_MAX * k;
+    art.style.transform = 'rotateY(' + ry.toFixed(1) + 'deg) rotateX(' + rx.toFixed(1) + 'deg)';
+  }
+
+  function onPointer(e) {
+    pointer = { x: e.clientX, y: e.clientY };
+    if (!started || reduce.matches || touch.matches || glide) return;
+    const now = performance.now();
+    if (now - lastMove < 16) return;
+    lastMove = now;
+    tiltFrom(pointer.x, pointer.y);
+  }
+
+  function start() {
+    if (started) return;
+    started = true;
+    if (!measure()) { started = false; return; }
+    homeNow();
+    if (reduce.matches || root.classList.contains('recruiter')) return;
+    schedule(1200);
+  }
+
+  btn.addEventListener('pointerenter', () => { hovering = true; park(); });
+  btn.addEventListener('pointerleave', () => { hovering = false; schedule(2500); });
+  btn.addEventListener('focus', () => { focused = true; park(); });
+  btn.addEventListener('blur', () => { focused = false; schedule(2500); });
+  document.addEventListener('pointermove', onPointer, { passive: true });
+
+  document.addEventListener('focusin', e => {
+    const t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) park();
+  });
+  document.addEventListener('focusout', () => { if (!typing()) schedule(2000); });
+
+  /* scrolling mid-glide: stop where it is, it is fixed, so the viewport position holds */
+  window.addEventListener('scroll', () => {
+    if (!started) return;
+    if (glide) stopGlide();
+    clearWait();
+    schedule(1500);
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    clearTimeout(startRz);
+    startRz = setTimeout(() => {
+      stopGlide();
+      measure();
+      schedule(2000);
+    }, 150);
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { park(); return; }
+    measure();
+    schedule(1500);
+  });
+
+  if ('MutationObserver' in window) {
+    new MutationObserver(() => {
+      if (panelOpen()) { park(); walk(home.x, home.y, 420); }
+      else schedule(2000);
+    }).observe(panel, { attributes: true, attributeFilter: ['class'] });
+
+    new MutationObserver(() => {
+      if (root.classList.contains('recruiter')) { park(); homeNow(); }
+      else schedule(2000);
+    }).observe(root, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  const onRM = () => {
+    if (reduce.matches) { park(); homeNow(); }
+    else schedule(1500);
+  };
+  if (reduce.addEventListener) reduce.addEventListener('change', onRM);
+  else if (reduce.addListener) reduce.addListener(onRM);
+
+  /* the button only exists once the endpoint is valid: wait for it to be shown */
+  if (btn.hidden) {
+    const mo = new MutationObserver(() => {
+      if (!btn.hidden) { mo.disconnect(); start(); }
+    });
+    mo.observe(btn, { attributes: true, attributeFilter: ['hidden'] });
+  } else {
+    start();
+  }
 })();
 </script>
 </body>
