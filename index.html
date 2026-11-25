@@ -36,21 +36,21 @@
    A terminal that got feelings. A data scientist with jokes.
    ===================================================================== */
 :root {
-  --void: #05050a;
-  --panel: #0a0a12;
-  --surface: #100f16;
-  --elevated: #181624;
-  --text: #f2f2f5;
-  --dim: #9a9aa8;
-  --muted: #565664;
-  --accent: #ff3131;
-  --accent-dim: rgba(255,49,49,0.12);
-  --violet: #59d9ff;
-  --amber: #f5c518;
-  --red: #ff3131;
+  --void: #03040a;
+  --panel: #070914;
+  --surface: #0a0d1a;
+  --elevated: #121628;
+  --text: #f3f1ea;
+  --dim: #b3b6c6;
+  --muted: #6c7088;
+  --accent: #8fb4ff;
+  --accent-dim: rgba(143,180,255,0.12);
+  --violet: #a79bff;
+  --amber: #ffe2aa;
+  --red: #ff8a6b;
   --border: rgba(255,255,255,0.07);
-  --ring: rgba(255,49,49,0.18);
-  --glow: 0 0 24px rgba(255,49,49,0.3);
+  --ring: rgba(143,180,255,0.18);
+  --glow: 0 0 24px rgba(143,180,255,0.3);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -941,7 +941,7 @@ html:not(.swiss) footer .console-line::before { content: ''; position: absolute;
   font-family: 'Unbounded', 'Space Grotesk', sans-serif; font-weight: 600;
   font-size: clamp(3rem, 14.5vw, 13rem); line-height: 0.85; letter-spacing: -0.04em;
   text-transform: uppercase; margin: 0 0 2.5rem; user-select: none;
-  color: rgba(255,49,49,0.16);
+  color: rgba(143,180,255,0.16);
   transition: color 0.3s;
 }
 .footer-mark:hover { color: var(--accent); }
@@ -1050,7 +1050,7 @@ html:not(.swiss) footer .console-line::before { content: ''; position: absolute;
 html.swiss {
   --void: #ffffff; --panel: #f4f4f2; --surface: #ffffff; --elevated: #ffffff;
   --text: #0a0a0a; --dim: #333333; --muted: #6a6a6a;
-  --accent: #e10600; --accent-dim: #fde7e5; --violet: #0a0a0a; --amber: #e10600;
+  --accent: #e10600; --accent-dim: #fde7e5; --violet: #0a0a0a; --amber: #e10600; --red: #ff3131;
   --border: #d4d4d0; --ring: rgba(0,0,0,0); --glow: 0 0 0 rgba(0,0,0,0);
   scrollbar-color: #e10600 #ffffff;
 }
@@ -1062,7 +1062,7 @@ html.swiss .hero-name, html.swiss .section-title { letter-spacing: -0.045em; }
 
 /* dark islands keep their own palette */
 html.swiss .terminal-widget, html.swiss .circuit-board, html.swiss .game-arena {
-  --text: #f2f2f5; --dim: #b8b8c6; --muted: #8a8a9a; --border: rgba(255,255,255,0.22); --void: #05050a;
+  --text: #f3f1ea; --dim: #b8bbc9; --muted: #8a8ea4; --border: rgba(255,255,255,0.22); --void: #03040a;
 }
 html.swiss .terminal-widget, html.swiss .circuit-board { box-shadow: none; border: 1px solid #0a0a0a; }
 
@@ -1646,7 +1646,7 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
   line-height: 1;
   white-space: nowrap;
   padding: 0.2em 0.3em;
-  color: rgba(255,49,49,0.16);
+  color: rgba(143,180,255,0.16);
   transition: color 0.3s ease;
 }
 .stack-marquee__item:hover {
@@ -2199,7 +2199,7 @@ html.swiss .client-cards .project-score { font-family: 'Unbounded', sans-serif; 
 .proc-list{list-style:none;margin:0;padding:0;max-width:60rem}
 .proc-step{display:grid;grid-template-columns:minmax(6rem,11rem) 1fr;gap:2rem;align-items:center;padding:1.75rem 0;border-top:1px solid var(--border)}
 .proc-step:last-child{border-bottom:1px solid var(--border)}
-.proc-num{font-family:'Unbounded',sans-serif;font-weight:600;font-size:clamp(3.5rem,9vw,7rem);line-height:1.1;color:rgba(255,49,49,.16);transition:color 200ms}
+.proc-num{font-family:'Unbounded',sans-serif;font-weight:600;font-size:clamp(3.5rem,9vw,7rem);line-height:1.1;color:rgba(143,180,255,.16);transition:color 200ms}
 .proc-step:hover .proc-num{color:var(--accent)}
 .proc-name{font-family:'Unbounded',sans-serif;font-size:clamp(1.2rem,2.4vw,1.7rem);color:var(--text);margin:0 0 .4rem}
 .proc-desc{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;line-height:1.55;color:var(--dim);margin:0;max-width:34rem}
@@ -2481,7 +2481,7 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
   const N = phone ? 1100 : 1900;
   const FAR_N = phone ? 160 : 320;
   const ARM_W = [0.35, 0.30, 0.22, 0.13];
-  const COOL = [[0, 229, 160], [139, 124, 246]];
+  const COOL = [[120, 150, 255], [167, 155, 255]];
   const WHITE = [238, 240, 255];
   const GOLD = [255, 226, 170];
   const CORE = '255,214,150';
