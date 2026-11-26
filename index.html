@@ -1752,6 +1752,7 @@ html:not(.swiss) #kenSvg {
 #kenSvg .ken-plate { fill: url(#kenPlateVec); }
 #kenSvg .ken-limb-box { fill: url(#kenPlateVec); }
 #kenSvg .ken-torso { fill: url(#kenTorsoVec); }
+#kenSvg .ken-ball { fill: url(#kenBallVec); }
 #kenSvg .ken-limb { stroke: url(#kenLimbVec); }
 #kenSvg .ken-rim { stroke: var(--ken-rim); }
 /* the antenna dot keeps the one red accent in both looks */
@@ -2046,6 +2047,9 @@ html:not(.swiss) #briefPanel .brief-link:focus-visible { outline: 2px solid var(
       <linearGradient id="kenTorsoVec" x1="0" y1="0" x2="1" y2="0">
         <stop offset="0" class="ken-g-mid"/><stop offset=".28" class="ken-g-hi"/><stop offset=".62" class="ken-g-mid"/><stop offset="1" class="ken-g-lo"/>
       </linearGradient>
+      <radialGradient id="kenBallVec" cx=".36" cy=".3" r=".85">
+        <stop offset="0" class="ken-g-hi"/><stop offset=".55" class="ken-g-mid"/><stop offset="1" class="ken-g-lo"/>
+      </radialGradient>
       <linearGradient id="kenLimbVec" x1="0" y1="0" x2="1" y2="1">
         <stop offset="0" class="ken-g-hi"/><stop offset="1" class="ken-g-lo"/>
       </linearGradient>
@@ -2055,44 +2059,45 @@ html:not(.swiss) #briefPanel .brief-link:focus-visible { outline: 2px solid var(
       <radialGradient id="kenSheenVec" cx=".5" cy=".5" r=".5">
         <stop offset="0" class="ken-g-sheen"/><stop offset="1" class="ken-g-clear"/>
       </radialGradient>
-      <clipPath id="kenHeadClip"><path d="M48 104 A52 52 0 0 1 152 104 Z"/></clipPath>
+      <clipPath id="kenHeadClip"><path d="M64 100 A36 36 0 0 1 136 100 Z"/></clipPath>
+      <clipPath id="kenBallClip"><circle cx="100" cy="158" r="62"/></clipPath>
     </defs>
     <g id="kenHop">
      <g>
-      <rect class="ken-limb-box" x="26" y="108" width="28" height="86" rx="13" fill="#222"/><rect class="ken-limb-box" x="146" y="108" width="28" height="86" rx="13" fill="#222"/>
-      <rect x="31" y="126" width="18" height="6" rx="3" fill="#0a0a0a"/><rect x="151" y="126" width="18" height="6" rx="3" fill="#0a0a0a"/>
-      <rect class="ken-limb-box" x="18" y="188" width="46" height="20" rx="10" fill="#222"/><rect class="ken-limb-box" x="136" y="188" width="46" height="20" rx="10" fill="#222"/>
-      <path class="ken-limb-box" d="M84 192 H116 L124 212 H76 Z" fill="#222"/>
-     </g>
-     <g>
-      <path class="ken-torso" d="M56 110 Q100 100 144 110 V190 Q100 202 56 190 Z" fill="#222"/>
-      <path d="M56 130 Q100 140 144 130" stroke="#fff" stroke-opacity=".35" stroke-width="1.6" fill="none"/>
-      <path d="M56 176 Q100 186 144 176" stroke="#fff" stroke-opacity=".35" stroke-width="1.6" fill="none"/>
-      <rect x="62" y="140" width="16" height="30" rx="3" fill="#0a0a0a"/><rect x="122" y="140" width="16" height="30" rx="3" fill="#0a0a0a"/>
-      <rect x="84" y="142" width="32" height="22" rx="3" fill="#0a0a0a"/><circle cx="92" cy="153" r="3.2" fill="#e10600"/><circle cx="101" cy="153" r="3.2" fill="#fff"/><circle cx="110" cy="153" r="3.2" fill="#fff"/>
-      <rect x="84" y="169" width="32" height="9" rx="2" fill="#0a0a0a"/><path d="M90 171 V176 M96 171 V176 M102 171 V176 M108 171 V176" stroke="#fff" stroke-opacity=".5" stroke-width="1.5"/>
-     </g>
-     <g id="kenArm"><path class="ken-limb" d="M146 134 Q168 136 170 112" stroke="#222" stroke-width="9" fill="none" stroke-linecap="round"/><rect x="164" y="102" width="12" height="14" rx="3" fill="#0a0a0a"/></g>
-     <g id="kenHead">
-      <g id="kenAnt"><line x1="122" y1="58" x2="122" y2="38" stroke="#222" stroke-width="6"/><circle id="kenDot" cx="122" cy="33" r="7" fill="#e10600"/></g>
-      <path class="ken-plate" d="M48 104 A52 52 0 0 1 152 104 Z" fill="#222"/>
-      <rect class="ken-plate" x="44" y="100" width="112" height="10" rx="4" fill="#222"/>
-      <g class="ken-shade" clip-path="url(#kenHeadClip)" pointer-events="none">
-       <ellipse class="ken-gloss" cx="76" cy="62" rx="32" ry="13" transform="rotate(-26 76 62)" fill="url(#kenSheenVec)"/>
-       <rect x="48" y="48" width="104" height="56" fill="url(#kenShadeVec)"/>
+      <circle class="ken-ball" cx="100" cy="158" r="62" fill="#222"/>
+      <g clip-path="url(#kenBallClip)">
+       <path d="M30 138 Q100 118 170 146" stroke="#fff" stroke-opacity=".3" stroke-width="1.6" fill="none"/>
+       <path d="M36 186 Q100 206 166 178" stroke="#fff" stroke-opacity=".3" stroke-width="1.6" fill="none"/>
+       <circle cx="124" cy="152" r="32" fill="#0a0a0a"/><circle cx="124" cy="152" r="24" fill="#fff"/>
+       <path d="M124 152 V132 A20 20 0 0 1 142 142 Z" fill="#0a0a0a"/><path d="M124 152 L106 160 A20 20 0 0 0 118 172 Z" fill="#0a0a0a"/><circle cx="124" cy="152" r="6" fill="#0a0a0a"/>
+       <circle cx="58" cy="156" r="28" fill="#0a0a0a"/><circle cx="58" cy="156" r="20" fill="#fff"/><path d="M58 156 V138 A18 18 0 0 1 72 146 Z" fill="#0a0a0a"/>
+       <circle cx="100" cy="218" r="24" fill="#0a0a0a"/><circle cx="100" cy="218" r="17" fill="#fff"/><circle cx="100" cy="218" r="6" fill="#0a0a0a"/>
       </g>
-      <path d="M100 52 V70 M62 96 Q66 70 84 58 M138 96 Q134 70 116 58" stroke="#fff" stroke-opacity=".35" stroke-width="1.6" fill="none"/>
-      <rect x="52" y="86" width="14" height="8" rx="2" fill="#0a0a0a"/><rect x="134" y="86" width="14" height="8" rx="2" fill="#0a0a0a"/><rect x="92" y="50" width="16" height="6" rx="2" fill="#0a0a0a"/>
-      <circle cx="132" cy="72" r="6" fill="#0a0a0a"/><circle cx="132" cy="72" r="2.6" fill="#fff"/>
-      <circle cx="100" cy="80" r="21" fill="#0a0a0a"/>
-      <g class="ken-eye"><circle cx="100" cy="80" r="16" fill="#fff"/><circle class="ken-pupil" cx="100" cy="80" r="9" fill="#0a0a0a"/><circle cx="105" cy="75" r="3" fill="#fff"/><rect class="ken-lid" x="79" y="59" width="42" height="42" fill="#222"/></g>
-      <circle cx="70" cy="94" r="10" fill="#0a0a0a"/>
-      <g class="ken-eye"><circle cx="70" cy="94" r="7" fill="#fff"/><circle class="ken-pupil" cx="70" cy="94" r="3.6" fill="#0a0a0a"/><rect class="ken-lid" x="59" y="83" width="22" height="22" fill="#222"/></g>
-      <g class="ken-happyeyes"><path d="M82 86 Q100 62 118 86" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round"/></g>
-      <path id="kenMSmile" class="ken-mouth" d="M90 118 Q100 126 110 118 Q100 121 90 118 Z" fill="#e10600" stroke="#e10600" stroke-width="3" stroke-linejoin="round"/>
-      <ellipse id="kenMOpen" class="ken-mouth" cx="100" cy="120" rx="8" ry="6" fill="#e10600"/>
-      <ellipse id="kenMO" class="ken-mouth" cx="100" cy="120" rx="4.5" ry="4.5" fill="#e10600"/>
-      <rect id="kenMFlat" class="ken-mouth" x="92" y="118" width="16" height="4" rx="2" fill="#e10600"/>
+      <g class="ken-shade" clip-path="url(#kenBallClip)" pointer-events="none">
+       <ellipse class="ken-gloss" cx="76" cy="124" rx="28" ry="14" transform="rotate(-32 76 124)" fill="url(#kenSheenVec)"/>
+       <rect x="38" y="96" width="124" height="124" fill="url(#kenShadeVec)"/>
+      </g>
+     </g>
+     <g id="kenArm"><path class="ken-limb" d="M160 150 Q178 148 180 130" stroke="#222" stroke-width="7" fill="none" stroke-linecap="round"/><circle cx="180" cy="125" r="5.5" fill="#0a0a0a"/></g>
+     <g id="kenHead">
+      <g id="kenAnt"><line x1="112" y1="66" x2="112" y2="46" stroke="#222" stroke-width="5"/><circle id="kenDot" cx="112" cy="41" r="6" fill="#e10600"/><line x1="102" y1="66" x2="97" y2="38" stroke="#222" stroke-width="2.4"/></g>
+      <path class="ken-plate" d="M64 100 A36 36 0 0 1 136 100 Z" fill="#222"/>
+      <rect class="ken-plate" x="60" y="96" width="80" height="9" rx="4" fill="#222"/>
+      <g class="ken-shade" clip-path="url(#kenHeadClip)" pointer-events="none">
+       <ellipse class="ken-gloss" cx="82" cy="76" rx="22" ry="10" transform="rotate(-26 82 76)" fill="url(#kenSheenVec)"/>
+       <rect x="64" y="60" width="72" height="42" fill="url(#kenShadeVec)"/>
+      </g>
+      <path d="M66 90 Q100 80 134 90" stroke="#0a0a0a" stroke-width="4" fill="none"/>
+      <path d="M100 64 V74" stroke="#fff" stroke-opacity=".4" stroke-width="1.6"/>
+      <circle cx="126" cy="86" r="8" fill="#0a0a0a"/>
+      <circle cx="92" cy="84" r="15" fill="#0a0a0a"/>
+      <g class="ken-eye"><circle cx="92" cy="84" r="11" fill="#fff"/><circle class="ken-pupil" cx="92" cy="84" r="6.4" fill="#0a0a0a"/><circle cx="95" cy="81" r="2.2" fill="#fff"/><rect class="ken-lid" x="77" y="69" width="30" height="30" fill="#222"/></g>
+      <g class="ken-eye"><circle cx="126" cy="86" r="5.4" fill="#fff"/><circle class="ken-pupil" cx="126" cy="86" r="2.8" fill="#0a0a0a"/><rect class="ken-lid" x="119" y="79" width="14" height="14" fill="#222"/></g>
+      <g class="ken-happyeyes"><path d="M80 90 Q92 70 104 90" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/></g>
+      <path id="kenMSmile" class="ken-mouth" d="M90 120 Q100 128 110 120 Q100 123 90 120 Z" fill="#e10600" stroke="#e10600" stroke-width="3" stroke-linejoin="round"/>
+      <ellipse id="kenMOpen" class="ken-mouth" cx="100" cy="122" rx="8" ry="6" fill="#e10600"/>
+      <ellipse id="kenMO" class="ken-mouth" cx="100" cy="122" rx="4.5" ry="4.5" fill="#e10600"/>
+      <rect id="kenMFlat" class="ken-mouth" x="92" y="120" width="16" height="4" rx="2" fill="#e10600"/>
      </g>
     </g>
   </svg></span></span>
